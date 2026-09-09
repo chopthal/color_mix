@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="색깔 섞기">
+  <title>색깔 섞기</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-touch-callout: none;
+      user-select: none;
+      touch-action: manipulation;
+    }
+
+    html, body {
+      height: 100%;
+      height: 100dvh;
+      overflow: hidden;
+    }
+
+    body {
+      font-family: "Malgun Gothic", "Apple SD Gothic Neo", sans-serif;
+      background: #fff8e7;
+      color: #3a2a1a;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 100%;
+      height: 100dvh;
+      padding: max(12px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(20px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+    }
+
+    button {
+      touch-action: manipulation;
+      -webkit-user-select: none;
+    }
+
+    h1 {
+      font-size: clamp(26px, 5.5vw, 44px);
+      text-align: center;
+      margin-top: 4px;
+    }
+
+    .result-bar {
+      flex-shrink: 0;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: #fff8e7;
+      z-index: 10;
+      padding-bottom: 8px;
+      box-shadow: 0 8px 16px rgba(255, 248, 231, 0.95);
+    }
+
+    .mix-area {
+      width: min(92vw, 640px);
+      min-height: 140px;
+      height: min(26vh, 200px);
+      margin: 8px 0 0;
+      border-radius: 40px;
+      background: #ffffff;
+      border: 8px dashed #d8c4a0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      gap: 10px;
+      padding: 12px 16px;
+      transition: background 0.35s ease, border-color 0.35s ease;
+    }
+
+    .mix-area.filled {
+      border-style: solid;
+      border-color: rgba(255, 255, 255, 0.55);
+    }
+
+    .ingredients {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      min-height: 32px;
+    }
+
+    .ingredient-dot {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 3px solid rgba(255, 255, 255, 0.8);
+      box-shadow: 0 2px 0 rgba(0, 0, 0, 0.15);
+    }
+
+    .mix-label {
+      font-size: clamp(20px, 5vw, 40px);
+      font-weight: 800;
+      line-height: 1.25;
+      padding: 4px 8px;
+      max-width: 92%;
+    }
+
+    .mix-area.empty .mix-label {
+      color: #c0a57a;
+    }
+
+    .palette-scroll {
+      flex: 1;
+      min-height: 0;
+      width: 100%;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      touch-action: pan-y;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 4px 0 12px;
+    }
+
+    .palette {
+      width: min(96vw, 760px);
+      margin-top: 6px;
+    }
+
+    .palette-title {
+      font-size: clamp(18px, 4vw, 24px);
+      font-weight: 800;
+      text-align: center;
+      margin-bottom: 8px;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 10px 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .paint-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      flex: 0 0 auto;
+    }
+
+    .made-buttons {
+      justify-content: center;
+      padding: 4px 0 8px;
+    }
+
+    .color-btn {
+      width: min(18vw, 100px);
+      height: min(18vw, 100px);
+      min-width: 70px;
+      min-height: 70px;
+      border: 5px solid rgba(0, 0, 0, 0.12);
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: clamp(14px, 3.2vw, 20px);
+      font-weight: 800;
+      color: #fff;
+      flex: 0 0 auto;
+      text-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+      box-shadow: 0 6px 0 rgba(0, 0, 0, 0.15);
+      transition: transform 0.12s ease, box-shadow 0.12s ease;
+    }
+
+    .color-btn:active {
+      transform: translateY(5px);
+      box-shadow: 0 2px 0 rgba(0, 0, 0, 0.15);
+    }
+
+    .color-btn span {
+      color: #fff;
+      display: block;
+      pointer-events: none;
+      line-height: 1.15;
+      padding: 0 4px;
+    }
+
+    .color-btn.dark-label span {
+      color: #5a4300;
+      text-shadow: none;
+    }
+
+    .color-btn.white-paint {
+      border-color: #c4b8a0;
+    }
+
+    .color-btn.new-paint {
+      animation: pop-in 0.35s ease;
+    }
+
+    @keyframes pop-in {
+      from { transform: scale(0.6); }
+      to { transform: scale(1); }
+    }
+
+    .again-btn {
+      margin-top: 10px;
+      min-width: 220px;
+      min-height: 56px;
+      padding: 12px 28px;
+      border: none;
+      border-radius: 40px;
+      background: #8d6e4a;
+      color: #fff;
+      font-size: 26px;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 6px 0 #6b5136;
+    }
+
+    .again-btn:active {
+      transform: translateY(4px);
+      box-shadow: 0 2px 0 #6b5136;
+    }
+
+    .again-btn[hidden] {
+      display: none;
+    }
+
+    .speak-color-btn {
+      width: 44px;
+      height: 44px;
+      border: none;
+      border-radius: 50%;
+      background: #ffffff;
+      font-size: 22px;
+      line-height: 1;
+      cursor: pointer;
+      box-shadow: 0 3px 0 rgba(0, 0, 0, 0.14);
+    }
+
+    .speak-color-btn:active {
+      transform: translateY(2px);
+      box-shadow: 0 1px 0 rgba(0, 0, 0, 0.14);
+    }
+
+    .palette[hidden] {
+      display: none;
+    }
+
+    @media (min-width: 768px) {
+      .mix-area {
+        min-height: 180px;
+        height: min(24vh, 220px);
+      }
+
+      .color-btn {
+        width: min(16vw, 120px);
+        height: min(16vw, 120px);
+        min-width: 92px;
+        min-height: 92px;
+        font-size: clamp(18px, 2.4vw, 24px);
+      }
+
+      .speak-color-btn {
+        width: 52px;
+        height: 52px;
+        font-size: 26px;
+      }
+
+      .again-btn {
+        min-width: 260px;
+        min-height: 72px;
+        font-size: 30px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="result-bar">
+    <h1>색깔 섞기</h1>
+
+    <div id="mixArea" class="mix-area empty" aria-live="polite">
+      <div id="ingredients" class="ingredients"></div>
+      <p id="mixLabel" class="mix-label">색깔을 눌러<br>섞어 보세요!</p>
+    </div>
+
+    <button id="againBtn" class="again-btn" type="button" hidden>다시!</button>
+  </div>
+
+  <div class="palette-scroll">
+  <div class="palette">
+    <p class="palette-title">물감</p>
+    <div class="buttons" id="paintButtons">
+      <div class="paint-item">
+        <button class="color-btn" style="background:#ff3b3b" data-name="빨강" data-ryb="1,0,0" data-white="0" data-black="0" type="button"><span>빨강</span></button>
+        <button class="speak-color-btn" type="button" aria-label="빨강 듣기">🔊</button>
+      </div>
+      <div class="paint-item">
+        <button class="color-btn dark-label" style="background:#ff8a00" data-name="주황" data-ryb="1,1,0" data-white="0" data-black="0" type="button"><span>주황</span></button>
+        <button class="speak-color-btn" type="button" aria-label="주황 듣기">🔊</button>
+      </div>
+      <div class="paint-item">
+        <button class="color-btn dark-label" style="background:#ffd400" data-name="노랑" data-ryb="0,1,0" data-white="0" data-black="0" type="button"><span>노랑</span></button>
+        <button class="speak-color-btn" type="button" aria-label="노랑 듣기">🔊</button>
+      </div>
+      <div class="paint-item">
+        <button class="color-btn dark-label" style="background:#9ccd2a" data-name="연두" data-ryb="0,1,0.45" data-white="0" data-black="0" type="button"><span>연두</span></button>
+        <button class="speak-color-btn" type="button" aria-label="연두 듣기">🔊</button>
+      </div>
+      <div class="paint-item">
+        <button class="color-btn dark-label" style="background:#22c55e" data-name="초록" data-ryb="0,1,1" data-white="0" data-black="0" type="button"><span>초록</span></button>
+        <button class="speak-color-btn" type="button" aria-label="초록 듣기">🔊</button>
+      </div>
+      <div class="paint-item">
+        <button class="color-btn" style="background:#299db7" data-name="청록" data-ryb="0,0.45,1" data-white="0" data-black="0" type="button"><span>청록</span></button>
+        <button class="speak-color-btn" type="button" aria-label="청록 듣기">🔊</button>
+      </div>
+      <div class="paint-item">
+        <button class="color-btn" style="background:#2f7dff" data-name="파랑" data-ryb="0,0,1" data-white="0" data-black="0" type="button"><span>파랑</span></button>
+        <button class="speak-color-btn" type="button" aria-label="파랑 듣기">🔊</button>
+      </div>
+      <div class="paint-item">
+        <button class="color-btn" style="background:#2c5297" data-name="남색" data-ryb="0,0,1" data-white="0" data-black="0.85" type="button"><span>남색</span></button>
+        <button class="speak-color-btn" type="button" aria-label="남색 듣기">🔊</button>
+      </div>
+      <div class="paint-item">
+        <button class="color-btn" style="background:#9b4dff" data-name="보라" data-ryb="1,0,1" data-white="0" data-black="0" type="button"><span>보라</span></button>
+        <button class="speak-color-btn" type="button" aria-label="보라 듣기">🔊</button>
+      </div>
+      <div class="paint-item">
+        <button class="color-btn" style="background:#d24393" data-name="자주" data-ryb="1,0,0.45" data-white="0" data-black="0" type="button"><span>자주</span></button>
+        <button class="speak-color-btn" type="button" aria-label="자주 듣기">🔊</button>
+      </div>
+      <div class="paint-item">
+        <button class="color-btn dark-label white-paint" style="background:#ffffff" data-name="하얀색" data-ryb="0,0,0" data-white="1" data-black="0" type="button"><span>하얀색</span></button>
+        <button class="speak-color-btn" type="button" aria-label="하얀색 듣기">🔊</button>
+      </div>
+      <div class="paint-item">
+        <button class="color-btn" style="background:#28201c" data-name="까만색" data-ryb="0,0,0" data-white="0" data-black="1" type="button"><span>까만색</span></button>
+        <button class="speak-color-btn" type="button" aria-label="까만색 듣기">🔊</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="palette" id="madePalette" hidden>
+    <p class="palette-title">내가 만든 색</p>
+    <div class="buttons made-buttons" id="madeButtons"></div>
+  </div>
+
+  </div>
+
+  <script>
+    const RYB_CUBE = {
+      white:  [255, 255, 255],
+      red:    [255, 59, 59],
+      yellow: [255, 212, 0],
+      blue:   [47, 125, 255],
+      orange: [255, 138, 0],
+      green:  [34, 197, 94],
+      purple: [155, 77, 255],
+      brown:  [89, 56, 36]
+    };
+
+    const WHITE_RGB = [255, 255, 255];
+    const BLACK_RGB = [40, 32, 28];
+
+    // 섞인 색 이름은 이 목록에서 RGB가 가장 가까운 항목으로 붙입니다.
+    // 색을 더 넣으려면 { name, rgb: [r, g, b] } 한 줄만 추가하면 됩니다.
+    const colorPalette = [
+      { name: "빨강", rgb: [255, 0, 0] },
+      { name: "노랑", rgb: [255, 255, 0] },
+      { name: "파랑", rgb: [0, 0, 255] },
+      { name: "초록", rgb: [0, 128, 0] },
+      { name: "주황", rgb: [255, 165, 0] },
+      { name: "보라", rgb: [128, 0, 128] },
+      { name: "분홍", rgb: [255, 192, 203] },
+      { name: "연분홍 (벚꽃색)", rgb: [255, 228, 225] },
+      { name: "진분홍 (진달래색)", rgb: [255, 20, 147] },
+      { name: "하늘색", rgb: [135, 206, 235] },
+      { name: "바다색", rgb: [0, 105, 148] },
+      { name: "남색", rgb: [0, 0, 128] },
+      { name: "개나리색", rgb: [253, 219, 39] },
+      { name: "연두색 (새싹색)", rgb: [154, 205, 50] },
+      { name: "청록색", rgb: [0, 139, 139] },
+      { name: "살구색", rgb: [255, 218, 185] },
+      { name: "자두색", rgb: [221, 160, 221] },
+      { name: "하얀색", rgb: [255, 255, 255] },
+      { name: "까만색", rgb: [0, 0, 0] },
+      { name: "갈색", rgb: [139, 69, 19] },
+      { name: "밤색 (초콜릿색)", rgb: [90, 56, 37] },
+      { name: "회색", rgb: [128, 128, 128] },
+      { name: "연회색", rgb: [192, 192, 192] },
+      { name: "카키색", rgb: [158, 151, 33] },
+      { name: "자주색", rgb: [160, 40, 140] },
+      { name: "레몬색", rgb: [255, 247, 0] },
+      { name: "귤색", rgb: [255, 140, 0] },
+      { name: "당근색", rgb: [237, 109, 0] },
+      { name: "금색", rgb: [218, 165, 32] },
+      { name: "크림색", rgb: [255, 253, 208] },
+      { name: "베이지색", rgb: [245, 245, 220] },
+      { name: "민트색", rgb: [152, 255, 152] },
+      { name: "잔디색", rgb: [124, 179, 66] },
+      { name: "연보라 (라벤더색)", rgb: [200, 162, 200] },
+      { name: "포도색", rgb: [108, 70, 117] },
+      { name: "장미색", rgb: [255, 99, 132] },
+      { name: "황토색", rgb: [196, 120, 40] }
+    ];
+
+    const mixArea = document.getElementById("mixArea");
+    const mixLabel = document.getElementById("mixLabel");
+    const ingredients = document.getElementById("ingredients");
+    const againBtn = document.getElementById("againBtn");
+    const madePalette = document.getElementById("madePalette");
+    const madeButtons = document.getElementById("madeButtons");
+
+    let bowlPaints = [];
+    let madePaints = [];
+    let nextMadeId = 1;
+
+    function spokenColorName(name) {
+      return name.replace(/\s*\(([^)]+)\)\s*/g, ", $1");
+    }
+
+    function pickKoreanVoice() {
+      if (!window.speechSynthesis) {
+        return null;
+      }
+
+      const koreanVoices = speechSynthesis.getVoices().filter((voice) => {
+        return voice.lang.toLowerCase().startsWith("ko");
+      });
+      const preferredVoice = koreanVoices.find((voice) => {
+        return /heami|sunhi|yuna|minji|sanna|hajun|유나|산나|하준|female|neural/i.test(voice.name);
+      });
+
+      return preferredVoice || koreanVoices[0] || null;
+    }
+
+    function speakText(text) {
+      if (!window.speechSynthesis || !text) {
+        return;
+      }
+
+      speechSynthesis.cancel();
+
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = "ko-KR";
+      utterance.rate = 0.85;
+      utterance.pitch = 1.08;
+
+      const koreanVoice = pickKoreanVoice();
+      if (koreanVoice) {
+        utterance.voice = koreanVoice;
+      }
+
+      const isAppleTouch = /iPad|iPhone|iPod/.test(navigator.userAgent)
+        || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+
+      if (isAppleTouch) {
+        window.setTimeout(function () {
+          speechSynthesis.speak(utterance);
+        }, 50);
+      } else {
+        speechSynthesis.speak(utterance);
+      }
+    }
+
+    function speakColorName(name) {
+      speakText(spokenColorName(name));
+    }
+
+    function bindPaintItem(paintItem) {
+      const colorButton = paintItem.querySelector(".color-btn");
+      const speakButton = paintItem.querySelector(".speak-color-btn");
+
+      colorButton.addEventListener("click", () => {
+        addPaintToBowl(paintFromButton(colorButton));
+      });
+
+      speakButton.addEventListener("click", (event) => {
+        event.stopPropagation();
+        speakColorName(colorButton.dataset.name);
+      });
+    }
+
+    function lerp(start, end, amount) {
+      return start + (end - start) * amount;
+    }
+
+    function lerpRgb(startRgb, endRgb, amount) {
+      return [
+        lerp(startRgb[0], endRgb[0], amount),
+        lerp(startRgb[1], endRgb[1], amount),
+        lerp(startRgb[2], endRgb[2], amount)
+      ];
+    }
+
+    function rybToRgb(redPaint, yellowPaint, bluePaint) {
+      const c00 = lerpRgb(RYB_CUBE.white, RYB_CUBE.red, redPaint);
+      const c01 = lerpRgb(RYB_CUBE.blue, RYB_CUBE.purple, redPaint);
+      const c10 = lerpRgb(RYB_CUBE.yellow, RYB_CUBE.orange, redPaint);
+      const c11 = lerpRgb(RYB_CUBE.green, RYB_CUBE.brown, redPaint);
+      const c0 = lerpRgb(c00, c10, yellowPaint);
+      const c1 = lerpRgb(c01, c11, yellowPaint);
+      return lerpRgb(c0, c1, bluePaint);
+    }
+
+    function paintToRgb(paint) {
+      const chromaMass = paint.r + paint.y + paint.b;
+      const totalMass = chromaMass + paint.w + paint.k;
+
+      if (totalMass <= 0) {
+        return WHITE_RGB.slice();
+      }
+
+      let hueRgb = WHITE_RGB.slice();
+      if (chromaMass > 0) {
+        const strongest = Math.max(paint.r, paint.y, paint.b);
+        hueRgb = rybToRgb(paint.r / strongest, paint.y / strongest, paint.b / strongest);
+      }
+
+      return [
+        (hueRgb[0] * chromaMass + WHITE_RGB[0] * paint.w + BLACK_RGB[0] * paint.k) / totalMass,
+        (hueRgb[1] * chromaMass + WHITE_RGB[1] * paint.w + BLACK_RGB[1] * paint.k) / totalMass,
+        (hueRgb[2] * chromaMass + WHITE_RGB[2] * paint.w + BLACK_RGB[2] * paint.k) / totalMass
+      ];
+    }
+
+    function mixPaintMasses(paints) {
+      const mixedPaint = { r: 0, y: 0, b: 0, w: 0, k: 0 };
+
+      paints.forEach((paint) => {
+        mixedPaint.r += paint.r;
+        mixedPaint.y += paint.y;
+        mixedPaint.b += paint.b;
+        mixedPaint.w += paint.w;
+        mixedPaint.k += paint.k;
+      });
+
+      return mixedPaint;
+    }
+
+    function rgbToHex(rgb) {
+      return "#" + rgb.map((value) => {
+        return Math.round(value).toString(16).padStart(2, "0");
+      }).join("");
+    }
+
+    function colorDistance(rgbA, rgbB) {
+      const dR = rgbA[0] - rgbB[0];
+      const dG = rgbA[1] - rgbB[1];
+      const dB = rgbA[2] - rgbB[2];
+      return Math.sqrt(dR * dR + dG * dG + dB * dB);
+    }
+
+    function namingColorList() {
+      const starterColors = Array.from(document.querySelectorAll("#paintButtons .color-btn")).map((button) => {
+        const paint = paintFromButton(button);
+        return { name: paint.name, rgb: paint.rgb };
+      });
+
+      return colorPalette.concat(starterColors);
+    }
+
+    function findNearestNamedColor(rgb) {
+      let closestColor = colorPalette[0];
+      let closestDistance = Infinity;
+
+      namingColorList().forEach((namedColor) => {
+        const distance = colorDistance(rgb, namedColor.rgb);
+        if (distance < closestDistance) {
+          closestDistance = distance;
+          closestColor = namedColor;
+        }
+      });
+
+      return closestColor;
+    }
+
+    function nearestColorName(rgb) {
+      return findNearestNamedColor(rgb).name;
+    }
+
+    function needsDarkLabel(rgb) {
+      const red = rgb[0] / 255;
+      const green = rgb[1] / 255;
+      const blue = rgb[2] / 255;
+      const luminance = 0.2126 * red + 0.7152 * green + 0.0722 * blue;
+      return luminance > 0.54;
+    }
+
+    function parseRyb(value) {
+      const parts = value.split(",");
+      return {
+        r: Number(parts[0]),
+        y: Number(parts[1]),
+        b: Number(parts[2])
+      };
+    }
+
+    function paintFromButton(button) {
+      const ryb = parseRyb(button.dataset.ryb);
+      const paint = {
+        name: button.dataset.name,
+        r: ryb.r,
+        y: ryb.y,
+        b: ryb.b,
+        w: Number(button.dataset.white || "0"),
+        k: Number(button.dataset.black || "0")
+      };
+      paint.rgb = paintToRgb(paint);
+      paint.hex = rgbToHex(paint.rgb);
+      return paint;
+    }
+
+    function allKnownPaints() {
+      const starterPaints = Array.from(document.querySelectorAll("#paintButtons .color-btn")).map(paintFromButton);
+      return starterPaints.concat(madePaints);
+    }
+
+    function isSimilarToKnownPaint(rgb) {
+      return allKnownPaints().some((paint) => colorDistance(paint.rgb, rgb) < 22);
+    }
+
+    function mixBowl() {
+      const mixedPaint = mixPaintMasses(bowlPaints);
+      mixedPaint.rgb = paintToRgb(mixedPaint);
+      mixedPaint.hex = rgbToHex(mixedPaint.rgb);
+      mixedPaint.name = nearestColorName(mixedPaint.rgb);
+      return mixedPaint;
+    }
+
+    function updateBowlView() {
+      ingredients.innerHTML = "";
+
+      if (bowlPaints.length === 0) {
+        mixArea.classList.add("empty");
+        mixArea.classList.remove("filled");
+        mixArea.style.background = "";
+        mixLabel.style.color = "";
+        mixLabel.innerHTML = "색깔을 눌러<br>섞어 보세요!";
+        againBtn.hidden = true;
+        return;
+      }
+
+      bowlPaints.forEach((paint) => {
+        const dot = document.createElement("span");
+        dot.className = "ingredient-dot";
+        dot.style.background = paint.hex;
+        ingredients.appendChild(dot);
+      });
+
+      const mixedPaint = mixBowl();
+      mixArea.classList.remove("empty");
+      mixArea.classList.add("filled");
+      mixArea.style.background = mixedPaint.hex;
+      mixLabel.style.color = needsDarkLabel(mixedPaint.rgb) ? "#5a4300" : "#ffffff";
+
+      if (bowlPaints.length === 1) {
+        mixLabel.innerHTML = bowlPaints[0].name + "<br>또 눌러서 섞어요!";
+      } else {
+        const ingredientNames = bowlPaints.map((paint) => paint.name);
+        const recipe = ingredientNames.length <= 4
+          ? ingredientNames.join(" + ")
+          : ingredientNames.length + "가지 색깔";
+        mixLabel.textContent = recipe + " = " + mixedPaint.name;
+      }
+
+      againBtn.hidden = false;
+    }
+
+    function saveMixedPaintIfNew() {
+      if (bowlPaints.length < 2) {
+        return;
+      }
+
+      const mixedPaint = mixBowl();
+      if (isSimilarToKnownPaint(mixedPaint.rgb)) {
+        return;
+      }
+
+      mixedPaint.id = nextMadeId;
+      nextMadeId += 1;
+      madePaints.push(mixedPaint);
+      renderMadePaints(mixedPaint.id);
+    }
+
+    function renderMadePaints(newPaintId) {
+      madePalette.hidden = madePaints.length === 0;
+      madeButtons.innerHTML = "";
+
+      madePaints.forEach((paint) => {
+        const paintItem = document.createElement("div");
+        paintItem.className = "paint-item";
+
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "color-btn";
+        if (needsDarkLabel(paint.rgb)) {
+          button.classList.add("dark-label");
+        }
+        if (paint.id === newPaintId) {
+          button.classList.add("new-paint");
+        }
+        button.style.background = paint.hex;
+        button.dataset.name = paint.name;
+        button.dataset.ryb = paint.r + "," + paint.y + "," + paint.b;
+        button.dataset.white = String(paint.w);
+        button.dataset.black = String(paint.k);
+        button.innerHTML = "<span>" + paint.name + "</span>";
+
+        const speakButton = document.createElement("button");
+        speakButton.type = "button";
+        speakButton.className = "speak-color-btn";
+        speakButton.setAttribute("aria-label", paint.name + " 듣기");
+        speakButton.textContent = "🔊";
+
+        paintItem.appendChild(button);
+        paintItem.appendChild(speakButton);
+        madeButtons.appendChild(paintItem);
+        bindPaintItem(paintItem);
+      });
+    }
+
+    function addPaintToBowl(paint) {
+      bowlPaints.push(paint);
+      updateBowlView();
+      saveMixedPaintIfNew();
+    }
+
+    function emptyBowl() {
+      bowlPaints = [];
+      updateBowlView();
+    }
+
+    document.querySelectorAll("#paintButtons .paint-item").forEach(bindPaintItem);
+
+    againBtn.addEventListener("click", emptyBowl);
+
+    document.addEventListener("touchstart", function () {}, { passive: true });
+
+    function unlockSpeechOnFirstTouch() {
+      if (!window.speechSynthesis) {
+        return;
+      }
+
+      const silentUtterance = new SpeechSynthesisUtterance(" ");
+      silentUtterance.volume = 0;
+      silentUtterance.lang = "ko-KR";
+      speechSynthesis.speak(silentUtterance);
+      speechSynthesis.cancel();
+    }
+
+    document.addEventListener("pointerdown", unlockSpeechOnFirstTouch, { once: true });
+
+    if (window.speechSynthesis) {
+      speechSynthesis.getVoices();
+      speechSynthesis.onvoiceschanged = pickKoreanVoice;
+    }
+  </script>
+</body>
+</html>
