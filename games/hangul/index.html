@@ -117,7 +117,7 @@
       font-size: 12px;
     }
 
-    /* 진행도 바 (기본 ➔ 단어1 ➔ 단어2 ➔ 받침) */
+    /* 진행도 바 (기본 ➔ 단어1 ➔ 단어2 ➔ 3단계) */
     .step-header {
       flex-shrink: 0;
       display: flex;
@@ -276,7 +276,6 @@
       text-shadow: 0 4px 0 #fed7aa;
     }
 
-    /* 상하 결합 시 아래 모음 */
     .huge-vowel-bottom {
       font-size: clamp(44px, 12vw, 76px);
       font-weight: 800;
@@ -286,7 +285,6 @@
       margin-top: -4px;
     }
 
-    /* 받침 위 완성 글자 (예: '수', '그', '바', '오') */
     .huge-char-top {
       font-size: clamp(44px, 12vw, 76px);
       font-weight: 800;
@@ -319,7 +317,6 @@
       height: clamp(95px, 22vw, 135px);
     }
 
-    /* 받침 전용 컴팩트 슬롯 */
     .road-slot-box.size-final-bottom {
       width: clamp(110px, 25vw, 150px);
       height: clamp(80px, 19vw, 115px);
@@ -356,11 +353,24 @@
       z-index: 30;
       animation: car-bounce 1.5s infinite ease-in-out;
       pointer-events: auto;
+      transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
     .car-handle:active {
       cursor: grabbing;
       transform: translate(-50%, -50%) scale(1.18);
+    }
+
+    /* 다음 획으로 뿅! 점프할 때 애니메이션 */
+    .car-handle.hopping {
+      animation: car-hop 0.4s ease-out !important;
+    }
+
+    @keyframes car-hop {
+      0% { transform: translate(-50%, -50%) scale(1); }
+      40% { transform: translate(-50%, -75%) scale(1.35) rotate(-10deg); }
+      70% { transform: translate(-50%, -45%) scale(0.9) rotate(5deg); }
+      100% { transform: translate(-50%, -50%) scale(1) rotate(0deg); }
     }
 
     @keyframes car-bounce {
@@ -457,7 +467,7 @@
       <span class="step-pill active" id="pill0">기본 글자</span>
       <span class="step-pill" id="pill1">단어 1</span>
       <span class="step-pill" id="pill2">단어 2</span>
-      <span class="step-pill" id="pill3">받침 도전</span>
+      <span class="step-pill" id="pill3">3단계</span>
     </div>
     <div class="guide-prompt">
       <span id="guidePromptText">자동차로 길을 따라가요!</span>
@@ -482,33 +492,113 @@
 
   <script>
     // ==========================================
-    // 1. 자음 및 4단계 코스 전면 정비 데이터
+    // 1. 원형 궤도 생성 헬퍼 (반시계 정통 획순 완벽한 원)
+    // ==========================================
+    function createCirclePoints(cx, cy, r, count = 16) {
+      const pts = [];
+      for (let i = 0; i <= count; i++) {
+        // -90도(12시 방향)에서 시작해 반시계 방향으로 회전
+        const angle = -Math.PI / 2 - (i / count) * Math.PI * 2;
+        pts.push({
+          x: Math.round(cx + Math.cos(angle) * r),
+          y: Math.round(cy + Math.sin(angle) * r)
+        });
+      }
+      return pts;
+    }
+
+    // ==========================================
+    // 2. 정통 획순(Strokes) 자음 데이터 (ㄱ ~ ㅎ)
     // ==========================================
     const HANGUL_LIST = ['ㄱ', 'ㄴ', 'ㄷ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅅ', 'ㅇ', 'ㅈ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ'];
 
-    const CHAR_PATHS = {
-      'ㄱ': [{ x: 45, y: 50 }, { x: 155, y: 50 }, { x: 155, y: 155 }],
-      'ㄴ': [{ x: 50, y: 45 }, { x: 50, y: 155 }, { x: 155, y: 155 }],
-      'ㄷ': [{ x: 150, y: 45 }, { x: 50, y: 45 }, { x: 50, y: 155 }, { x: 155, y: 155 }],
-      'ㄹ': [{ x: 45, y: 40 }, { x: 150, y: 40 }, { x: 150, y: 95 }, { x: 45, y: 95 }, { x: 45, y: 155 }, { x: 150, y: 155 }],
-      'ㅁ': [{ x: 50, y: 45 }, { x: 150, y: 45 }, { x: 150, y: 155 }, { x: 50, y: 155 }, { x: 50, y: 45 }],
-      'ㅂ': [{ x: 50, y: 40 }, { x: 50, y: 155 }, { x: 150, y: 155 }, { x: 150, y: 40 }, { x: 150, y: 100 }, { x: 50, y: 100 }],
-      'ㅅ': [{ x: 100, y: 45 }, { x: 50, y: 155 }, { x: 100, y: 95 }, { x: 150, y: 155 }],
-      'ㅇ': [{ x: 100, y: 40 }, { x: 155, y: 100 }, { x: 100, y: 160 }, { x: 45, y: 100 }, { x: 100, y: 40 }],
-      'ㅈ': [{ x: 50, y: 45 }, { x: 150, y: 45 }, { x: 100, y: 45 }, { x: 50, y: 155 }, { x: 100, y: 95 }, { x: 150, y: 155 }],
-      'ㅊ': [{ x: 100, y: 30 }, { x: 100, y: 50 }, { x: 50, y: 50 }, { x: 150, y: 50 }, { x: 100, y: 50 }, { x: 50, y: 155 }, { x: 100, y: 100 }, { x: 150, y: 155 }],
-      'ㅋ': [{ x: 45, y: 45 }, { x: 150, y: 45 }, { x: 150, y: 100 }, { x: 45, y: 100 }, { x: 150, y: 100 }, { x: 150, y: 155 }],
-      'ㅌ': [{ x: 150, y: 40 }, { x: 50, y: 40 }, { x: 50, y: 100 }, { x: 145, y: 100 }, { x: 50, y: 100 }, { x: 50, y: 155 }, { x: 150, y: 155 }],
-      'ㅍ': [{ x: 45, y: 45 }, { x: 155, y: 45 }, { x: 80, y: 45 }, { x: 80, y: 155 }, { x: 120, y: 155 }, { x: 120, y: 45 }, { x: 45, y: 155 }, { x: 155, y: 155 }],
-      'ㅎ': [{ x: 100, y: 30 }, { x: 100, y: 45 }, { x: 55, y: 45 }, { x: 145, y: 45 }, { x: 100, y: 80 }, { x: 140, y: 120 }, { x: 100, y: 160 }, { x: 60, y: 120 }, { x: 100, y: 80 }]
+    const CHAR_STROKES = {
+      // ㄱ: 1획 (가로 ➔ 세로)
+      'ㄱ': [
+        [{ x: 45, y: 50 }, { x: 155, y: 50 }, { x: 155, y: 155 }]
+      ],
+      // ㄴ: 1획 (세로 ➔ 가로)
+      'ㄴ': [
+        [{ x: 50, y: 45 }, { x: 50, y: 155 }, { x: 155, y: 155 }]
+      ],
+      // ㄷ: 2획 (1: 위 가로 ➡️, 2: 세로 ⬇️ ➔ 아래 가로 ➡️)
+      'ㄷ': [
+        [{ x: 50, y: 50 }, { x: 150, y: 50 }],
+        [{ x: 50, y: 50 }, { x: 50, y: 155 }, { x: 150, y: 155 }]
+      ],
+      // ㄹ: 3획 (1: ㄱ형태 ➡️ ⬇️, 2: 가운데 가로 ➡️, 3: ㄴ형태 ⬇️ ➡️)
+      'ㄹ': [
+        [{ x: 50, y: 45 }, { x: 150, y: 45 }, { x: 150, y: 95 }],
+        [{ x: 50, y: 95 }, { x: 150, y: 95 }],
+        [{ x: 50, y: 95 }, { x: 50, y: 155 }, { x: 150, y: 155 }]
+      ],
+      // ㅁ: 3획 (정통 획순 완벽 반영!) ⭐
+      // 1획: 왼쪽 기둥 (위 ➔ 아래 ⬇️)
+      // 2획: 위 가로 ➡️ 꺾어서 오른쪽 기둥 ⬇️
+      // 3획: 바닥 가로선 닫기 ➡️
+      'ㅁ': [
+        [{ x: 50, y: 45 }, { x: 50, y: 155 }],
+        [{ x: 50, y: 45 }, { x: 150, y: 45 }, { x: 150, y: 155 }],
+        [{ x: 50, y: 155 }, { x: 150, y: 155 }]
+      ],
+      // ㅂ: 4획 (정통 획순 완벽 반영!) ⭐
+      // 1획: 왼쪽 기둥 (위 ➔ 아래 ⬇️)
+      // 2획: 오른쪽 기둥 (위 ➔ 아래 ⬇️)
+      // 3획: 가운데 가로선 (왼 ➔ 오른 ➡️)
+      // 4획: 바닥 가로선 (왼 ➔ 오른 ➡️)
+      'ㅂ': [
+        [{ x: 50, y: 40 }, { x: 50, y: 155 }],
+        [{ x: 150, y: 40 }, { x: 150, y: 155 }],
+        [{ x: 50, y: 95 }, { x: 150, y: 95 }],
+        [{ x: 50, y: 155 }, { x: 150, y: 155 }]
+      ],
+      // ㅅ: 2획 (1: 왼쪽 빗금 ↙️, 2: 오른쪽 빗금 ↘️)
+      'ㅅ': [
+        [{ x: 100, y: 45 }, { x: 45, y: 155 }],
+        [{ x: 100, y: 85 }, { x: 155, y: 155 }]
+      ],
+      // ㅇ: 1획 (12시부터 반시계 완벽한 동그라미 ⭕) ⭐
+      'ㅇ': [
+        createCirclePoints(100, 100, 55, 16)
+      ],
+      // ㅈ: 2획 (1: 가로 ➡️ 꺾어 왼쪽 빗금 ↙️, 2: 오른쪽 빗금 ↘️)
+      'ㅈ': [
+        [{ x: 50, y: 45 }, { x: 150, y: 45 }, { x: 100, y: 45 }, { x: 45, y: 155 }],
+        [{ x: 95, y: 95 }, { x: 155, y: 155 }]
+      ],
+      // ㅊ: 3획 (1: 꼭지 점/선, 2: 가로 ➡️ 꺾어 왼쪽 빗금 ↙️, 3: 오른쪽 빗금 ↘️)
+      'ㅊ': [
+        [{ x: 100, y: 25 }, { x: 100, y: 48 }],
+        [{ x: 50, y: 50 }, { x: 150, y: 50 }, { x: 100, y: 50 }, { x: 45, y: 155 }],
+        [{ x: 95, y: 100 }, { x: 155, y: 155 }]
+      ],
+      // ㅋ: 2획 (1: ㄱ형태 ➡️ ⬇️, 2: 가운데 가로 ➡️)
+      'ㅋ': [
+        [{ x: 45, y: 45 }, { x: 155, y: 45 }, { x: 155, y: 155 }],
+        [{ x: 45, y: 100 }, { x: 155, y: 100 }]
+      ],
+      // ㅌ: 3획 (1: 위 가로 ➡️, 2: 가운데 가로 ➡️, 3: ㄴ형태 ⬇️ ➡️)
+      'ㅌ': [
+        [{ x: 50, y: 45 }, { x: 150, y: 45 }],
+        [{ x: 50, y: 100 }, { x: 145, y: 100 }],
+        [{ x: 50, y: 45 }, { x: 50, y: 155 }, { x: 150, y: 155 }]
+      ],
+      // ㅍ: 4획 (1: 위 가로 ➡️, 2: 왼쪽 기둥 ⬇️, 3: 오른쪽 기둥 ⬇️, 4: 바닥 가로 ➡️)
+      'ㅍ': [
+        [{ x: 45, y: 45 }, { x: 155, y: 45 }],
+        [{ x: 80, y: 45 }, { x: 80, y: 155 }],
+        [{ x: 120, y: 45 }, { x: 120, y: 155 }],
+        [{ x: 45, y: 155 }, { x: 155, y: 155 }]
+      ],
+      // ㅎ: 3획 (1: 꼭지 ⬇️, 2: 가로선 ➡️, 3: 아래 완벽한 동그라미 ⭕) ⭐
+      'ㅎ': [
+        [{ x: 100, y: 24 }, { x: 100, y: 46 }],
+        [{ x: 55, y: 48 }, { x: 145, y: 48 }],
+        createCirclePoints(100, 118, 38, 14)
+      ]
     };
 
-    // 정비된 코스 데이터
-    // layout 종류:
-    // 1. 'single': 단독 자음
-    // 2. 'initial-h': 초성 + 세로모음 (좌우 결합) -> vowel, nextChars, firstChar
-    // 3. 'initial-v': 초성 + 가로모음 (상하 결합) -> vowel, nextChars, firstChar
-    // 4. 'final': 받침 글자 -> firstChar, baseChar (위에 놓일 완성 글자), nextChars
+    // 14개 자음 전체 4단계 코스 (전수 검증 완료)
     const HANGUL_COURSES = {
       'ㄱ': {
         name: '기역',
@@ -543,14 +633,14 @@
           { layout: 'single', emoji: '🚀', prompt: "'리을'을 먼저 써보아요!", word: '리을', speak: '리을! 슝슝 로켓의 리을!' },
           { layout: 'initial-h', emoji: '📻', prompt: "라디오의 'ㄹ'을 채워주세요!", word: '라디오', vowel: 'ㅏ', nextChars: '디오', speak: '라디오의 리을! 라디오 완성!' },
           { layout: 'initial-v', emoji: '🚀', prompt: "로켓의 'ㄹ'을 채워주세요!", word: '로켓', vowel: 'ㅗ', nextChars: '켓', speak: '로켓의 리을! 로켓 완성!' },
-          { layout: 'final', emoji: '☁️', prompt: "구름의 받침 'ㄹ'을 채워주세요!", word: '구름', firstChar: '구', baseChar: '르', nextChars: 'ㅁ', speak: '구름의 받침 리을! 구름 완성!' }
+          { layout: 'final', emoji: '🌙', prompt: "달님의 받침 'ㄹ'을 채워주세요!", word: '달님', firstChar: '', baseChar: '다', nextChars: '님', speak: '달님의 받침 리을! 달님 완성!' }
         ]
       },
       'ㅁ': {
         name: '미음',
         steps: [
           { layout: 'single', emoji: '👒', prompt: "'미음'을 먼저 써보아요!", word: '미음', speak: '미음! 멋진 모자의 미음!' },
-          { layout: 'initial-v', emoji: '🌳', prompt: "나무의 'ㅁ'을 채워주세요!", word: '나무', firstChar: '나', vowel: 'ㅜ', nextChars: '', speak: '나무의 미음! 나무 완성!' },
+          { layout: 'initial-h', emoji: '🐴', prompt: "마차의 'ㅁ'을 채워주세요!", word: '마차', vowel: 'ㅏ', nextChars: '차', speak: '마차의 미음! 마차 완성!' },
           { layout: 'initial-v', emoji: '👒', prompt: "모자의 'ㅁ'을 채워주세요!", word: '모자', vowel: 'ㅗ', nextChars: '자', speak: '모자의 미음! 모자 완성!' },
           { layout: 'final', emoji: '💨', prompt: "바람의 받침 'ㅁ'을 채워주세요!", word: '바람', firstChar: '바', baseChar: '라', nextChars: '', speak: '바람의 받침 미음! 바람 완성!' }
         ]
@@ -606,7 +696,7 @@
           { layout: 'single', emoji: '📷', prompt: "'키읔'을 먼저 써보아요!", word: '키읔', speak: '키읔! 찰칵 카메라의 키읔!' },
           { layout: 'initial-h', emoji: '📷', prompt: "카메라의 'ㅋ'을 채워주세요!", word: '카메라', vowel: 'ㅏ', nextChars: '메라', speak: '카메라의 키읔! 카메라 완성!' },
           { layout: 'initial-v', emoji: '🐘', prompt: "코끼리의 'ㅋ'을 채워주세요!", word: '코끼리', vowel: 'ㅗ', nextChars: '끼리', speak: '코끼리의 키읔! 코끼리 완성!' },
-          { layout: 'initial-v', emoji: '🥛', prompt: "밀크의 'ㅋ'을 채워주세요!", word: '밀크', firstChar: '밀', vowel: 'ㅡ', nextChars: '', speak: '밀크의 키읔! 밀크 완성!' }
+          { layout: 'final', emoji: '🍳', prompt: "부엌의 받침 'ㅋ'을 채워주세요!", word: '부엌', firstChar: '부', baseChar: '어', nextChars: '', speak: '부엌의 받침 키읔! 부엌 완성!' }
         ]
       },
       'ㅌ': {
@@ -639,7 +729,7 @@
     };
 
     // ==========================================
-    // 2. 오디오 & 햅틱
+    // 3. 오디오 & 햅틱
     // ==========================================
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     function resumeAudio() {
@@ -651,6 +741,7 @@
       try {
         if (type === 'light') navigator.vibrate(15);
         else if (type === 'step') navigator.vibrate(25);
+        else if (type === 'hop') navigator.vibrate([20, 30, 40]);
         else if (type === 'success') navigator.vibrate([35, 45, 55, 75]);
       } catch (e) {}
     }
@@ -669,6 +760,25 @@
       gain.connect(audioCtx.destination);
       osc.start();
       osc.stop(audioCtx.currentTime + 0.22);
+    }
+
+    // 획 끝날 때 "뾰로롱!" 점프 사운드
+    function playHopSound() {
+      resumeAudio();
+      const notes = [659.25, 880.00];
+      notes.forEach((f, i) => {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        const t = audioCtx.currentTime + i * 0.08;
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(f, t);
+        gain.gain.setValueAtTime(0.25, t);
+        gain.gain.exponentialRampToValueAtTime(0.01, t + 0.12);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(t);
+        osc.stop(t + 0.14);
+      });
     }
 
     function playVictorySound() {
@@ -704,11 +814,12 @@
     }
 
     // ==========================================
-    // 3. 상태 관리
+    // 4. 상태 관리
     // ==========================================
     let currentChar = 'ㄱ';
     let currentStepIdx = 0;
-    let currentWaypointIdx = 0;
+    let currentStrokeIdx = 0;   // 현재 진행 중인 획 번호 (0 ~ strokes.length - 1)
+    let currentWaypointIdx = 0; // 현재 획 내의 웨이포인트 번호
     let isDragging = false;
 
     const letterTabs = document.getElementById('letterTabs');
@@ -752,9 +863,10 @@
     }
 
     // ==========================================
-    // 4. 모음 방향 및 받침 구조 완벽 분리 렌더링
+    // 5. 무대 렌더링 & 정통 다중 획순 트랙 세팅
     // ==========================================
     function renderStep() {
+      currentStrokeIdx = 0;
       currentWaypointIdx = 0;
       transformLayer.classList.remove('active');
 
@@ -774,19 +886,19 @@
       wordLettersStage.innerHTML = '';
 
       if (step.layout === 'single') {
-        // [1] 단독 자음 도로
+        // [단독 자음]
         wordLettersStage.innerHTML = `
           <div class="road-slot-box size-standard" id="activeRoadSlot">
             <svg class="track-svg" id="trackSvg" viewBox="0 0 200 200">
-              <path id="baseRoad" fill="none" stroke="#e2e8f0" stroke-width="38" stroke-linecap="round" stroke-linejoin="round" />
-              <path id="centerDashes" fill="none" stroke="#cbd5e1" stroke-width="3" stroke-dasharray="10,10" stroke-linecap="round" stroke-linejoin="round" />
-              <path id="paintedRoad" fill="none" stroke="#f59e0b" stroke-width="38" stroke-linecap="round" stroke-linejoin="round" />
+              <g id="baseRoadGroup"></g>
+              <g id="centerDashesGroup"></g>
+              <g id="paintedRoadGroup"></g>
             </svg>
             <div class="car-handle" id="carHandle">🚗</div>
           </div>
         `;
       } else if (step.layout === 'initial-h') {
-        // [2] 세로 모음: 좌-우 결합 (예: [ㄱ] ㅏ  위)
+        // [세로 모음: 좌-우]
         const firstPrefix = step.firstChar ? `<span class="huge-char-text">${step.firstChar}</span>` : '';
         const nextSuffix = step.nextChars ? `<span class="huge-char-text">${step.nextChars}</span>` : '';
         wordLettersStage.innerHTML = `
@@ -794,9 +906,9 @@
           <div class="syllable-horizontal">
             <div class="road-slot-box size-standard" id="activeRoadSlot">
               <svg class="track-svg" id="trackSvg" viewBox="0 0 200 200">
-                <path id="baseRoad" fill="none" stroke="#e2e8f0" stroke-width="38" stroke-linecap="round" stroke-linejoin="round" />
-                <path id="centerDashes" fill="none" stroke="#cbd5e1" stroke-width="3" stroke-dasharray="10,10" stroke-linecap="round" stroke-linejoin="round" />
-                <path id="paintedRoad" fill="none" stroke="#f59e0b" stroke-width="38" stroke-linecap="round" stroke-linejoin="round" />
+                <g id="baseRoadGroup"></g>
+                <g id="centerDashesGroup"></g>
+                <g id="paintedRoadGroup"></g>
               </svg>
               <div class="car-handle" id="carHandle">🚗</div>
             </div>
@@ -805,7 +917,7 @@
           ${nextSuffix}
         `;
       } else if (step.layout === 'initial-v') {
-        // [3] 가로 모음: 상-하 결합 (예: 상 [ㄴ], 하 [ㅗ]  오른쪽 [래])
+        // [가로 모음: 상-하]
         const firstPrefix = step.firstChar ? `<span class="huge-char-text" style="margin-right: 8px;">${step.firstChar}</span>` : '';
         const nextSuffix = step.nextChars ? `<span class="huge-char-text" style="margin-left: 8px;">${step.nextChars}</span>` : '';
         wordLettersStage.innerHTML = `
@@ -813,9 +925,9 @@
           <div class="syllable-vertical">
             <div class="road-slot-box size-vertical-top" id="activeRoadSlot">
               <svg class="track-svg" id="trackSvg" viewBox="0 0 200 200">
-                <path id="baseRoad" fill="none" stroke="#e2e8f0" stroke-width="38" stroke-linecap="round" stroke-linejoin="round" />
-                <path id="centerDashes" fill="none" stroke="#cbd5e1" stroke-width="3" stroke-dasharray="10,10" stroke-linecap="round" stroke-linejoin="round" />
-                <path id="paintedRoad" fill="none" stroke="#f59e0b" stroke-width="38" stroke-linecap="round" stroke-linejoin="round" />
+                <g id="baseRoadGroup"></g>
+                <g id="centerDashesGroup"></g>
+                <g id="paintedRoadGroup"></g>
               </svg>
               <div class="car-handle" id="carHandle">🚗</div>
             </div>
@@ -824,7 +936,7 @@
           ${nextSuffix}
         `;
       } else if (step.layout === 'final') {
-        // [4] 받침 결합 (위에 완성형 글자 '바', '수', '그' + 아래에 받침 도로!) ⭐
+        // [받침: 위에 완성 글자 + 아래에 도로]
         const firstPrefix = step.firstChar ? `<span class="huge-char-text" style="margin-right: 12px;">${step.firstChar}</span>` : '';
         const nextSuffix = step.nextChars ? `<span class="huge-char-text" style="margin-left: 12px;">${step.nextChars}</span>` : '';
         wordLettersStage.innerHTML = `
@@ -833,9 +945,9 @@
             <span class="huge-char-top">${step.baseChar}</span>
             <div class="road-slot-box size-final-bottom" id="activeRoadSlot">
               <svg class="track-svg" id="trackSvg" viewBox="0 0 200 200">
-                <path id="baseRoad" fill="none" stroke="#e2e8f0" stroke-width="38" stroke-linecap="round" stroke-linejoin="round" />
-                <path id="centerDashes" fill="none" stroke="#cbd5e1" stroke-width="3" stroke-dasharray="10,10" stroke-linecap="round" stroke-linejoin="round" />
-                <path id="paintedRoad" fill="none" stroke="#f59e0b" stroke-width="38" stroke-linecap="round" stroke-linejoin="round" />
+                <g id="baseRoadGroup"></g>
+                <g id="centerDashesGroup"></g>
+                <g id="paintedRoadGroup"></g>
               </svg>
               <div class="car-handle" id="carHandle">🚗</div>
             </div>
@@ -844,28 +956,58 @@
         `;
       }
 
-      setupRoadTrack();
+      setupMultiStrokeTracks();
 
       setTimeout(() => {
         speakText(step.prompt);
       }, 350);
     }
 
-    function setupRoadTrack() {
-      const baseRoad = document.getElementById('baseRoad');
-      const centerDashes = document.getElementById('centerDashes');
-      const paintedRoad = document.getElementById('paintedRoad');
+    // 다중 획 트랙 초기화 및 렌더링
+    function setupMultiStrokeTracks() {
+      const baseRoadGroup = document.getElementById('baseRoadGroup');
+      const centerDashesGroup = document.getElementById('centerDashesGroup');
+      const paintedRoadGroup = document.getElementById('paintedRoadGroup');
       const carHandle = document.getElementById('carHandle');
       const activeRoadSlot = document.getElementById('activeRoadSlot');
 
-      const points = CHAR_PATHS[currentChar];
-      const fullPath = generatePathD(points);
-      baseRoad.setAttribute('d', fullPath);
-      centerDashes.setAttribute('d', fullPath);
-      paintedRoad.setAttribute('d', '');
+      baseRoadGroup.innerHTML = '';
+      centerDashesGroup.innerHTML = '';
+      paintedRoadGroup.innerHTML = '';
 
-      updateCarPos(points[0].x, points[0].y);
+      const strokes = CHAR_STROKES[currentChar];
 
+      // 모든 획의 기본 회색 아스팔트 + 점선 미리 그리기
+      strokes.forEach(strokePoints => {
+        const d = generatePathD(strokePoints);
+
+        const baseP = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        baseP.setAttribute('d', d);
+        baseP.setAttribute('fill', 'none');
+        baseP.setAttribute('stroke', '#e2e8f0');
+        baseP.setAttribute('stroke-width', '38');
+        baseP.setAttribute('stroke-linecap', 'round');
+        baseP.setAttribute('stroke-linejoin', 'round');
+        baseRoadGroup.appendChild(baseP);
+
+        const dashP = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        dashP.setAttribute('d', d);
+        dashP.setAttribute('fill', 'none');
+        dashP.setAttribute('stroke', '#cbd5e1');
+        dashP.setAttribute('stroke-width', '3');
+        dashP.setAttribute('stroke-dasharray', '10,10');
+        dashP.setAttribute('stroke-linecap', 'round');
+        dashP.setAttribute('stroke-linejoin', 'round');
+        centerDashesGroup.appendChild(dashP);
+      });
+
+      // 1번째 획의 주황색 도로 패스 엘리먼트 생성
+      createActivePaintedPath();
+
+      // 자동차를 1번째 획의 시작점에 배치
+      updateCarPos(strokes[0][0].x, strokes[0][0].y);
+
+      // 드래그 이벤트 연결
       carHandle.addEventListener('pointerdown', (e) => {
         e.preventDefault();
         isDragging = true;
@@ -890,6 +1032,19 @@
       });
     }
 
+    function createActivePaintedPath() {
+      const paintedRoadGroup = document.getElementById('paintedRoadGroup');
+      const activeP = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      activeP.id = `paintedPath_${currentStrokeIdx}`;
+      activeP.setAttribute('d', '');
+      activeP.setAttribute('fill', 'none');
+      activeP.setAttribute('stroke', '#f59e0b');
+      activeP.setAttribute('stroke-width', '38');
+      activeP.setAttribute('stroke-linecap', 'round');
+      activeP.setAttribute('stroke-linejoin', 'round');
+      paintedRoadGroup.appendChild(activeP);
+    }
+
     function updateCarPos(svgX, svgY) {
       const activeRoadSlot = document.getElementById('activeRoadSlot');
       const carHandle = document.getElementById('carHandle');
@@ -904,15 +1059,15 @@
 
     function onDragMove(clientX, clientY) {
       const activeRoadSlot = document.getElementById('activeRoadSlot');
-      const paintedRoad = document.getElementById('paintedRoad');
-      if (!activeRoadSlot || !paintedRoad) return;
+      if (!activeRoadSlot) return;
 
       const rect = activeRoadSlot.getBoundingClientRect();
       const svgX = ((clientX - rect.left) / rect.width) * 200;
       const svgY = ((clientY - rect.top) / rect.height) * 200;
 
-      const points = CHAR_PATHS[currentChar];
-      const nextTarget = points[currentWaypointIdx + 1];
+      const strokes = CHAR_STROKES[currentChar];
+      const currentStrokePoints = strokes[currentStrokeIdx];
+      const nextTarget = currentStrokePoints[currentWaypointIdx + 1];
       if (!nextTarget) return;
 
       const dist = Math.hypot(svgX - nextTarget.x, svgY - nextTarget.y);
@@ -922,17 +1077,53 @@
         playChimeNote(currentWaypointIdx);
         spawnStars(clientX, clientY);
 
-        const visited = points.slice(0, currentWaypointIdx + 1);
-        paintedRoad.setAttribute('d', generatePathD(visited));
+        // 현재 획 칠하기 업데이트
+        const visited = currentStrokePoints.slice(0, currentWaypointIdx + 1);
+        const currP = document.getElementById(`paintedPath_${currentStrokeIdx}`);
+        if (currP) currP.setAttribute('d', generatePathD(visited));
+
         updateCarPos(nextTarget.x, nextTarget.y);
 
-        if (currentWaypointIdx >= points.length - 1) {
+        // 현재 획 완료 검사!
+        if (currentWaypointIdx >= currentStrokePoints.length - 1) {
           isDragging = false;
-          onStepComplete();
+          // 다음 획이 남아있는지 확인
+          if (currentStrokeIdx < strokes.length - 1) {
+            hopToNextStroke();
+          } else {
+            // 모든 획 최종 완료!
+            onStepComplete();
+          }
         }
       } else {
         updateCarPos(svgX, svgY);
       }
+    }
+
+    // 다음 획으로 뿅! 점프 이동 애니메이션
+    function hopToNextStroke() {
+      currentStrokeIdx++;
+      currentWaypointIdx = 0;
+
+      playHopSound();
+      triggerHaptic('hop');
+
+      const carHandle = document.getElementById('carHandle');
+      carHandle.classList.remove('hopping');
+      void carHandle.offsetWidth;
+      carHandle.classList.add('hopping');
+
+      // 새 획을 위한 패스 엘리먼트 생성
+      createActivePaintedPath();
+
+      // 다음 획의 시작점으로 자동차 뿅! 이동
+      const strokes = CHAR_STROKES[currentChar];
+      const nextStartPoint = strokes[currentStrokeIdx][0];
+      updateCarPos(nextStartPoint.x, nextStartPoint.y);
+
+      // 반짝이 파티클 점프 효과
+      const rect = carHandle.getBoundingClientRect();
+      spawnStars(rect.left + rect.width / 2, rect.top + rect.height / 2);
     }
 
     function spawnStars(x, y) {
@@ -994,9 +1185,9 @@
     });
 
     window.addEventListener('resize', () => {
-      const points = CHAR_PATHS[currentChar];
-      if (points) {
-        const pt = points[currentWaypointIdx] || points[0];
+      const strokes = CHAR_STROKES[currentChar];
+      if (strokes && strokes[currentStrokeIdx]) {
+        const pt = strokes[currentStrokeIdx][currentWaypointIdx] || strokes[currentStrokeIdx][0];
         updateCarPos(pt.x, pt.y);
       }
     });
