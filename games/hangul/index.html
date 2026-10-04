@@ -192,7 +192,7 @@
       position: relative;
     }
 
-    /* 큼직한 글자판 칠판 */
+    /* 칠판 무대 */
     .board-stage {
       position: relative;
       width: min(94vw, 540px);
@@ -220,7 +220,6 @@
       background-size: 40px 40px;
     }
 
-    /* 상단 이모지 */
     .board-emoji {
       font-size: clamp(44px, 11vw, 68px);
       margin-bottom: 4px;
@@ -238,7 +237,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: clamp(8px, 2.5vw, 20px);
+      gap: clamp(10px, 3vw, 24px);
       z-index: 10;
       width: 100%;
     }
@@ -260,19 +259,12 @@
       gap: 2px;
     }
 
-    /* 3. 받침 결합형 */
-    .syllable-final-wrap {
+    /* 3. 받침 결합형 (위에 완성 글자 + 아래에 받침 도로) */
+    .syllable-with-final {
       display: inline-flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-    }
-
-    .final-top-row {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
     }
 
     /* 큼직한 한글 글씨 */
@@ -284,7 +276,7 @@
       text-shadow: 0 4px 0 #fed7aa;
     }
 
-    /* 상하 결합 시 아래 모음 크기 */
+    /* 상하 결합 시 아래 모음 */
     .huge-vowel-bottom {
       font-size: clamp(44px, 12vw, 76px);
       font-weight: 800;
@@ -292,6 +284,16 @@
       line-height: 0.9;
       text-shadow: 0 4px 0 #fed7aa;
       margin-top: -4px;
+    }
+
+    /* 받침 위 완성 글자 (예: '수', '그', '바', '오') */
+    .huge-char-top {
+      font-size: clamp(44px, 12vw, 76px);
+      font-weight: 800;
+      color: #9a3412;
+      line-height: 1;
+      text-shadow: 0 4px 0 #fed7aa;
+      margin-bottom: 2px;
     }
 
     /* 도로 트랙 빈칸 슬롯 */
@@ -307,23 +309,20 @@
       animation: slot-pulse 2s infinite ease-in-out;
     }
 
-    /* 크기 변형: 단독 및 좌우형 */
     .road-slot-box.size-standard {
       width: clamp(120px, 28vw, 175px);
       height: clamp(120px, 28vw, 175px);
     }
 
-    /* 크기 변형: 상하형 (자음이 위쪽에 가므로 적당한 높이) */
     .road-slot-box.size-vertical-top {
       width: clamp(110px, 26vw, 155px);
       height: clamp(95px, 22vw, 135px);
     }
 
-    /* 크기 변형: 받침형 (아래쪽에 가므로 컴팩트) */
+    /* 받침 전용 컴팩트 슬롯 */
     .road-slot-box.size-final-bottom {
-      width: clamp(115px, 26vw, 155px);
+      width: clamp(110px, 25vw, 150px);
       height: clamp(80px, 19vw, 115px);
-      margin-top: 4px;
     }
 
     @keyframes slot-pulse {
@@ -448,13 +447,11 @@
   </style>
 </head>
 <body>
-  <!-- 상단 자음 탭 (ㄱ ~ ㅎ) -->
   <header class="top-bar">
     <a href="../../index.html" class="home-btn" title="놀이터 홈으로">🏠 놀이터</a>
     <div class="letter-tabs" id="letterTabs"></div>
   </header>
 
-  <!-- 단계 인디케이터 & 가이드 -->
   <div class="step-header">
     <div class="step-badges">
       <span class="step-pill active" id="pill0">기본 글자</span>
@@ -468,18 +465,12 @@
     </div>
   </div>
 
-  <!-- 메인 칠판 무대 -->
   <main class="main-board-container">
     <div class="board-stage" id="boardStage">
       <div class="board-grid-pattern"></div>
-
-      <!-- 단어 이모지 -->
       <div class="board-emoji" id="boardEmoji">✂️</div>
-
-      <!-- 거대한 단어 글자판 (상하/좌우/받침 결합 레이아웃) -->
       <div class="word-letters-stage" id="wordLettersStage"></div>
 
-      <!-- 완성 축하 팝업 -->
       <div class="transform-container" id="transformLayer">
         <div class="transform-emoji" id="transformEmoji">✂️</div>
         <h2 class="transform-title" id="transformTitle">가위 완성!</h2>
@@ -491,11 +482,10 @@
 
   <script>
     // ==========================================
-    // 1. 자음 및 4단계 코스 데이터 (세로모음: horizontal / 가로모음: vertical / 받침: final)
+    // 1. 자음 및 4단계 코스 전면 정비 데이터
     // ==========================================
     const HANGUL_LIST = ['ㄱ', 'ㄴ', 'ㄷ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅅ', 'ㅇ', 'ㅈ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ'];
 
-    // 도로 트랙 좌표 (200x200 viewBox 기준)
     const CHAR_PATHS = {
       'ㄱ': [{ x: 45, y: 50 }, { x: 155, y: 50 }, { x: 155, y: 155 }],
       'ㄴ': [{ x: 50, y: 45 }, { x: 50, y: 155 }, { x: 155, y: 155 }],
@@ -513,133 +503,137 @@
       'ㅎ': [{ x: 100, y: 30 }, { x: 100, y: 45 }, { x: 55, y: 45 }, { x: 145, y: 45 }, { x: 100, y: 80 }, { x: 140, y: 120 }, { x: 100, y: 160 }, { x: 60, y: 120 }, { x: 100, y: 80 }]
     };
 
-    // 14개 자음별 4단계 세트
-    // layout: 'single' | 'horizontal' (세로모음: 좌-우) | 'vertical' (가로모음: 상-하) | 'final' (받침)
+    // 정비된 코스 데이터
+    // layout 종류:
+    // 1. 'single': 단독 자음
+    // 2. 'initial-h': 초성 + 세로모음 (좌우 결합) -> vowel, nextChars, firstChar
+    // 3. 'initial-v': 초성 + 가로모음 (상하 결합) -> vowel, nextChars, firstChar
+    // 4. 'final': 받침 글자 -> firstChar, baseChar (위에 놓일 완성 글자), nextChars
     const HANGUL_COURSES = {
       'ㄱ': {
         name: '기역',
         steps: [
           { layout: 'single', emoji: '🚂', prompt: "'기역'을 먼저 써보아요!", word: '기역', speak: '기역! 칙칙폭폭 기차의 기역!' },
-          { layout: 'horizontal', emoji: '✂️', prompt: "가위의 'ㄱ'을 채워주세요!", word: '가위', vowel: 'ㅏ', nextChars: '위', speak: '가위의 기역! 가위 완성!' },
-          { layout: 'vertical', emoji: '🐳', prompt: "고래의 'ㄱ'을 채워주세요!", word: '고래', vowel: 'ㅗ', nextChars: '래', speak: '고래의 기역! 고래 완성!' },
-          { layout: 'final', emoji: '🍉', prompt: "수박의 받침 'ㄱ'을 채워주세요!", word: '수박', firstChar: '수', initial: 'ㅂ', vowel: 'ㅏ', speak: '수박의 받침 기역! 수박 완성!' }
+          { layout: 'initial-h', emoji: '✂️', prompt: "가위의 'ㄱ'을 채워주세요!", word: '가위', vowel: 'ㅏ', nextChars: '위', speak: '가위의 기역! 가위 완성!' },
+          { layout: 'initial-v', emoji: '🐳', prompt: "고래의 'ㄱ'을 채워주세요!", word: '고래', vowel: 'ㅗ', nextChars: '래', speak: '고래의 기역! 고래 완성!' },
+          { layout: 'final', emoji: '🍉', prompt: "수박의 받침 'ㄱ'을 채워주세요!", word: '수박', firstChar: '수', baseChar: '바', nextChars: '', speak: '수박의 받침 기역! 수박 완성!' }
         ]
       },
       'ㄴ': {
         name: '니은',
         steps: [
           { layout: 'single', emoji: '🦋', prompt: "'니은'을 먼저 써보아요!", word: '니은', speak: '니은! 팔랑팔랑 나비의 니은!' },
-          { layout: 'horizontal', emoji: '🦋', prompt: "나비의 'ㄴ'을 채워주세요!", word: '나비', vowel: 'ㅏ', nextChars: '비', speak: '나비의 니은! 나비 완성!' },
-          { layout: 'vertical', emoji: '🎵', prompt: "노래의 'ㄴ'을 채워주세요!", word: '노래', vowel: 'ㅗ', nextChars: '래', speak: '노래의 니은! 노래 완성!' },
-          { layout: 'final', emoji: '🥕', prompt: "당근의 받침 'ㄴ'을 채워주세요!", word: '당근', firstChar: '당', initial: 'ㄱ', vowel: 'ㅡ', speak: '당근의 받침 니은! 당근 완성!' }
+          { layout: 'initial-h', emoji: '🦋', prompt: "나비의 'ㄴ'을 채워주세요!", word: '나비', vowel: 'ㅏ', nextChars: '비', speak: '나비의 니은! 나비 완성!' },
+          { layout: 'initial-v', emoji: '🎵', prompt: "노래의 'ㄴ'을 채워주세요!", word: '노래', vowel: 'ㅗ', nextChars: '래', speak: '노래의 니은! 노래 완성!' },
+          { layout: 'final', emoji: '🥕', prompt: "당근의 받침 'ㄴ'을 채워주세요!", word: '당근', firstChar: '당', baseChar: '그', nextChars: '', speak: '당근의 받침 니은! 당근 완성!' }
         ]
       },
       'ㄷ': {
         name: '디귿',
         steps: [
           { layout: 'single', emoji: '🐿️', prompt: "'디귿'을 먼저 써보아요!", word: '디귿', speak: '디귿! 귀여운 다람쥐의 디귿!' },
-          { layout: 'horizontal', emoji: '🐿️', prompt: "다람쥐의 'ㄷ'을 채워주세요!", word: '다람쥐', vowel: 'ㅏ', nextChars: '람쥐', speak: '다람쥐의 디귿! 다람쥐 완성!' },
-          { layout: 'vertical', emoji: '🍱', prompt: "도시락의 'ㄷ'을 채워주세요!", word: '도시락', vowel: 'ㅗ', nextChars: '시락', speak: '도시락의 디귿! 도시락 완성!' },
-          { layout: 'final', emoji: '🥄', prompt: "숟가락의 받침 'ㄷ'을 채워주세요!", word: '숟가락', firstChar: '', initial: 'ㅅ', vowel: 'ㅜ', nextChars: '가락', speak: '숟가락의 받침 디귿! 숟가락 완성!' }
+          { layout: 'initial-h', emoji: '🐿️', prompt: "다람쥐의 'ㄷ'을 채워주세요!", word: '다람쥐', vowel: 'ㅏ', nextChars: '람쥐', speak: '다람쥐의 디귿! 다람쥐 완성!' },
+          { layout: 'initial-v', emoji: '🍱', prompt: "도시락의 'ㄷ'을 채워주세요!", word: '도시락', vowel: 'ㅗ', nextChars: '시락', speak: '도시락의 디귿! 도시락 완성!' },
+          { layout: 'final', emoji: '🥄', prompt: "숟가락의 받침 'ㄷ'을 채워주세요!", word: '숟가락', firstChar: '', baseChar: '수', nextChars: '가락', speak: '숟가락의 받침 디귿! 숟가락 완성!' }
         ]
       },
       'ㄹ': {
         name: '리을',
         steps: [
           { layout: 'single', emoji: '🚀', prompt: "'리을'을 먼저 써보아요!", word: '리을', speak: '리을! 슝슝 로켓의 리을!' },
-          { layout: 'horizontal', emoji: '📻', prompt: "라디오의 'ㄹ'을 채워주세요!", word: '라디오', vowel: 'ㅏ', nextChars: '디오', speak: '라디오의 리을! 라디오 완성!' },
-          { layout: 'vertical', emoji: '🚀', prompt: "로켓의 'ㄹ'을 채워주세요!", word: '로켓', vowel: 'ㅗ', nextChars: '켓', speak: '로켓의 리을! 로켓 완성!' },
-          { layout: 'final', emoji: '☁️', prompt: "구름의 받침 'ㄹ'을 채워주세요!", word: '구름', firstChar: '구', initial: '', vowel: 'ㅡ', speak: '구름의 받침 리을! 구름 완성!' }
+          { layout: 'initial-h', emoji: '📻', prompt: "라디오의 'ㄹ'을 채워주세요!", word: '라디오', vowel: 'ㅏ', nextChars: '디오', speak: '라디오의 리을! 라디오 완성!' },
+          { layout: 'initial-v', emoji: '🚀', prompt: "로켓의 'ㄹ'을 채워주세요!", word: '로켓', vowel: 'ㅗ', nextChars: '켓', speak: '로켓의 리을! 로켓 완성!' },
+          { layout: 'final', emoji: '☁️', prompt: "구름의 받침 'ㄹ'을 채워주세요!", word: '구름', firstChar: '구', baseChar: '르', nextChars: 'ㅁ', speak: '구름의 받침 리을! 구름 완성!' }
         ]
       },
       'ㅁ': {
         name: '미음',
         steps: [
           { layout: 'single', emoji: '👒', prompt: "'미음'을 먼저 써보아요!", word: '미음', speak: '미음! 멋진 모자의 미음!' },
-          { layout: 'horizontal', emoji: '🌳', prompt: "나무의 'ㅁ'을 채워주세요!", word: '나무', firstChar: '나', vowel: 'ㅜ', nextChars: '', speak: '나무의 미음! 나무 완성!' },
-          { layout: 'vertical', emoji: '👒', prompt: "모자의 'ㅁ'을 채워주세요!", word: '모자', vowel: 'ㅗ', nextChars: '자', speak: '모자의 미음! 모자 완성!' },
-          { layout: 'final', emoji: '💨', prompt: "바람의 받침 'ㅁ'을 채워주세요!", word: '바람', firstChar: '바', initial: 'ㄹ', vowel: 'ㅏ', speak: '바람의 받침 미음! 바람 완성!' }
+          { layout: 'initial-v', emoji: '🌳', prompt: "나무의 'ㅁ'을 채워주세요!", word: '나무', firstChar: '나', vowel: 'ㅜ', nextChars: '', speak: '나무의 미음! 나무 완성!' },
+          { layout: 'initial-v', emoji: '👒', prompt: "모자의 'ㅁ'을 채워주세요!", word: '모자', vowel: 'ㅗ', nextChars: '자', speak: '모자의 미음! 모자 완성!' },
+          { layout: 'final', emoji: '💨', prompt: "바람의 받침 'ㅁ'을 채워주세요!", word: '바람', firstChar: '바', baseChar: '라', nextChars: '', speak: '바람의 받침 미음! 바람 완성!' }
         ]
       },
       'ㅂ': {
         name: '비읍',
         steps: [
           { layout: 'single', emoji: '🚌', prompt: "'비읍'을 먼저 써보아요!", word: '비읍', speak: '비읍! 붕붕 버스의 비읍!' },
-          { layout: 'horizontal', emoji: '🚌', prompt: "버스의 'ㅂ'을 채워주세요!", word: '버스', vowel: 'ㅓ', nextChars: '스', speak: '버스의 비읍! 버스 완성!' },
-          { layout: 'vertical', emoji: '🚤', prompt: "보트의 'ㅂ'을 채워주세요!", word: '보트', vowel: 'ㅗ', nextChars: '트', speak: '보트의 비읍! 보트 완성!' },
-          { layout: 'final', emoji: '🍚', prompt: "밥의 받침 'ㅂ'을 채워주세요!", word: '밥', firstChar: '', initial: 'ㅂ', vowel: 'ㅏ', speak: '밥의 받침 비읍! 밥 완성!' }
+          { layout: 'initial-h', emoji: '🚌', prompt: "버스의 'ㅂ'을 채워주세요!", word: '버스', vowel: 'ㅓ', nextChars: '스', speak: '버스의 비읍! 버스 완성!' },
+          { layout: 'initial-v', emoji: '🚤', prompt: "보트의 'ㅂ'을 채워주세요!", word: '보트', vowel: 'ㅗ', nextChars: '트', speak: '보트의 비읍! 보트 완성!' },
+          { layout: 'final', emoji: '🍚', prompt: "밥의 받침 'ㅂ'을 채워주세요!", word: '밥', firstChar: '', baseChar: '바', nextChars: '', speak: '밥의 받침 비읍! 밥 완성!' }
         ]
       },
       'ㅅ': {
         name: '시옷',
         steps: [
           { layout: 'single', emoji: '🦁', prompt: "'시옷'을 먼저 써보아요!", word: '시옷', speak: '시옷! 어흥 사자의 시옷!' },
-          { layout: 'horizontal', emoji: '🦁', prompt: "사자의 'ㅅ'을 채워주세요!", word: '사자', vowel: 'ㅏ', nextChars: '자', speak: '사자의 시옷! 사자 완성!' },
-          { layout: 'vertical', emoji: '🐮', prompt: "소의 'ㅅ'을 채워주세요!", word: '소', vowel: 'ㅗ', nextChars: '', speak: '음메 소의 시옷! 소 완성!' },
-          { layout: 'final', emoji: '👗', prompt: "옷의 받침 'ㅅ'을 채워주세요!", word: '옷', firstChar: '', initial: 'ㅇ', vowel: 'ㅗ', speak: '옷의 받침 시옷! 옷 완성!' }
+          { layout: 'initial-h', emoji: '🦁', prompt: "사자의 'ㅅ'을 채워주세요!", word: '사자', vowel: 'ㅏ', nextChars: '자', speak: '사자의 시옷! 사자 완성!' },
+          { layout: 'initial-v', emoji: '🐮', prompt: "소의 'ㅅ'을 채워주세요!", word: '소', vowel: 'ㅗ', nextChars: '', speak: '음메 소의 시옷! 소 완성!' },
+          { layout: 'final', emoji: '👗', prompt: "옷의 받침 'ㅅ'을 채워주세요!", word: '옷', firstChar: '', baseChar: '오', nextChars: '', speak: '옷의 받침 시옷! 옷 완성!' }
         ]
       },
       'ㅇ': {
         name: '이응',
         steps: [
           { layout: 'single', emoji: '🦆', prompt: "'이응'을 먼저 써보아요!", word: '이응', speak: '이응! 꽥꽥 오리의 이응!' },
-          { layout: 'horizontal', emoji: '👶', prompt: "아기의 'ㅇ'을 채워주세요!", word: '아기', vowel: 'ㅏ', nextChars: '기', speak: '아기의 이응! 아기 완성!' },
-          { layout: 'vertical', emoji: '🦆', prompt: "오리의 'ㅇ'을 채워주세요!", word: '오리', vowel: 'ㅗ', nextChars: '리', speak: '오리의 이응! 오리 완성!' },
-          { layout: 'final', emoji: '🎒', prompt: "가방의 받침 'ㅇ'을 채워주세요!", word: '가방', firstChar: '가', initial: 'ㅂ', vowel: 'ㅏ', speak: '가방의 받침 이응! 가방 완성!' }
+          { layout: 'initial-h', emoji: '👶', prompt: "아기의 'ㅇ'을 채워주세요!", word: '아기', vowel: 'ㅏ', nextChars: '기', speak: '아기의 이응! 아기 완성!' },
+          { layout: 'initial-v', emoji: '🦆', prompt: "오리의 'ㅇ'을 채워주세요!", word: '오리', vowel: 'ㅗ', nextChars: '리', speak: '오리의 이응! 오리 완성!' },
+          { layout: 'final', emoji: '🎒', prompt: "가방의 받침 'ㅇ'을 채워주세요!", word: '가방', firstChar: '가', baseChar: '바', nextChars: '', speak: '가방의 받침 이응! 가방 완성!' }
         ]
       },
       'ㅈ': {
         name: '지읒',
         steps: [
           { layout: 'single', emoji: '🚗', prompt: "'지읒'을 먼저 써보아요!", word: '지읒', speak: '지읒! 부릉부릉 자동차의 지읒!' },
-          { layout: 'horizontal', emoji: '🚗', prompt: "자동차의 'ㅈ'을 채워주세요!", word: '자동차', vowel: 'ㅏ', nextChars: '동차', speak: '자동차의 지읒! 자동차 완성!' },
-          { layout: 'vertical', emoji: '🐚', prompt: "조개의 'ㅈ'을 채워주세요!", word: '조개', vowel: 'ㅗ', nextChars: '개', speak: '조개의 지읒! 조개 완성!' },
-          { layout: 'final', emoji: '☀️', prompt: "낮의 받침 'ㅈ'을 채워주세요!", word: '낮', firstChar: '', initial: 'ㄴ', vowel: 'ㅏ', speak: '낮의 받침 지읒! 낮 완성!' }
+          { layout: 'initial-h', emoji: '🚗', prompt: "자동차의 'ㅈ'을 채워주세요!", word: '자동차', vowel: 'ㅏ', nextChars: '동차', speak: '자동차의 지읒! 자동차 완성!' },
+          { layout: 'initial-v', emoji: '🐚', prompt: "조개의 'ㅈ'을 채워주세요!", word: '조개', vowel: 'ㅗ', nextChars: '개', speak: '조개의 지읒! 조개 완성!' },
+          { layout: 'final', emoji: '☀️', prompt: "낮의 받침 'ㅈ'을 채워주세요!", word: '낮', firstChar: '', baseChar: '나', nextChars: '', speak: '낮의 받침 지읒! 낮 완성!' }
         ]
       },
       'ㅊ': {
         name: '치읓',
         steps: [
           { layout: 'single', emoji: '🧀', prompt: "'치읓'을 먼저 써보아요!", word: '치읓', speak: '치읓! 냠냠 치즈의 치읓!' },
-          { layout: 'horizontal', emoji: '🧀', prompt: "치즈의 'ㅊ'을 채워주세요!", word: '치즈', vowel: 'ㅣ', nextChars: '즈', speak: '치즈의 치읓! 치즈 완성!' },
-          { layout: 'vertical', emoji: '🍫', prompt: "초코의 'ㅊ'을 채워주세요!", word: '초코', vowel: 'ㅗ', nextChars: '코', speak: '초코의 치읓! 초코 완성!' },
-          { layout: 'final', emoji: '🌺', prompt: "꽃의 받침 'ㅊ'을 채워주세요!", word: '꽃', firstChar: '', initial: 'ㄲ', vowel: 'ㅗ', speak: '꽃의 받침 치읓! 꽃 완성!' }
+          { layout: 'initial-h', emoji: '🧀', prompt: "치즈의 'ㅊ'을 채워주세요!", word: '치즈', vowel: 'ㅣ', nextChars: '즈', speak: '치즈의 치읓! 치즈 완성!' },
+          { layout: 'initial-v', emoji: '🍫', prompt: "초코의 'ㅊ'을 채워주세요!", word: '초코', vowel: 'ㅗ', nextChars: '코', speak: '초코의 치읓! 초코 완성!' },
+          { layout: 'final', emoji: '🌺', prompt: "꽃의 받침 'ㅊ'을 채워주세요!", word: '꽃', firstChar: '', baseChar: '꼬', nextChars: '', speak: '꽃의 받침 치읓! 꽃 완성!' }
         ]
       },
       'ㅋ': {
         name: '키읔',
         steps: [
           { layout: 'single', emoji: '📷', prompt: "'키읔'을 먼저 써보아요!", word: '키읔', speak: '키읔! 찰칵 카메라의 키읔!' },
-          { layout: 'horizontal', emoji: '📷', prompt: "카메라의 'ㅋ'을 채워주세요!", word: '카메라', vowel: 'ㅏ', nextChars: '메라', speak: '카메라의 키읔! 카메라 완성!' },
-          { layout: 'vertical', emoji: '🐘', prompt: "코끼리의 'ㅋ'을 채워주세요!", word: '코끼리', vowel: 'ㅗ', nextChars: '끼리', speak: '코끼리의 키읔! 코끼리 완성!' },
-          { layout: 'vertical', emoji: '🥛', prompt: "밀크의 'ㅋ'을 채워주세요!", word: '밀크', firstChar: '밀', vowel: 'ㅡ', nextChars: '', speak: '밀크의 키읔! 밀크 완성!' }
+          { layout: 'initial-h', emoji: '📷', prompt: "카메라의 'ㅋ'을 채워주세요!", word: '카메라', vowel: 'ㅏ', nextChars: '메라', speak: '카메라의 키읔! 카메라 완성!' },
+          { layout: 'initial-v', emoji: '🐘', prompt: "코끼리의 'ㅋ'을 채워주세요!", word: '코끼리', vowel: 'ㅗ', nextChars: '끼리', speak: '코끼리의 키읔! 코끼리 완성!' },
+          { layout: 'initial-v', emoji: '🥛', prompt: "밀크의 'ㅋ'을 채워주세요!", word: '밀크', firstChar: '밀', vowel: 'ㅡ', nextChars: '', speak: '밀크의 키읔! 밀크 완성!' }
         ]
       },
       'ㅌ': {
         name: '티읕',
         steps: [
           { layout: 'single', emoji: '🍅', prompt: "'티읕'을 먼저 써보아요!", word: '티읕', speak: '티읕! 탱글탱글 토마토의 티읕!' },
-          { layout: 'horizontal', emoji: '🪶', prompt: "타조의 'ㅌ'을 채워주세요!", word: '타조', vowel: 'ㅏ', nextChars: '조', speak: '타조의 티읕! 타조 완성!' },
-          { layout: 'vertical', emoji: '🍅', prompt: "토마토의 'ㅌ'을 채워주세요!", word: '토마토', vowel: 'ㅗ', nextChars: '마토', speak: '토마토의 티읕! 토마토 완성!' },
-          { layout: 'final', emoji: '🍲', prompt: "솥의 받침 'ㅌ'을 채워주세요!", word: '솥', firstChar: '', initial: 'ㅅ', vowel: 'ㅗ', speak: '솥의 받침 티읕! 솥 완성!' }
+          { layout: 'initial-h', emoji: '🪶', prompt: "타조의 'ㅌ'을 채워주세요!", word: '타조', vowel: 'ㅏ', nextChars: '조', speak: '타조의 티읕! 타조 완성!' },
+          { layout: 'initial-v', emoji: '🍅', prompt: "토마토의 'ㅌ'을 채워주세요!", word: '토마토', vowel: 'ㅗ', nextChars: '마토', speak: '토마토의 티읕! 토마토 완성!' },
+          { layout: 'final', emoji: '🍲', prompt: "솥의 받침 'ㅌ'을 채워주세요!", word: '솥', firstChar: '', baseChar: '소', nextChars: '', speak: '솥의 받침 티읕! 솥 완성!' }
         ]
       },
       'ㅍ': {
         name: '피읖',
         steps: [
           { layout: 'single', emoji: '🍕', prompt: "'피읖'을 먼저 써보아요!", word: '피읖', speak: '피읖! 냠냠 피자의 피읖!' },
-          { layout: 'horizontal', emoji: '🍕', prompt: "피자의 'ㅍ'을 채워주세요!", word: '피자', vowel: 'ㅣ', nextChars: '자', speak: '피자의 피읖! 피자 완성!' },
-          { layout: 'vertical', emoji: '🍇', prompt: "포도의 'ㅍ'을 채워주세요!", word: '포도', vowel: 'ㅗ', nextChars: '도', speak: '포도의 피읖! 포도 완성!' },
-          { layout: 'final', emoji: '🌲', prompt: "숲의 받침 'ㅍ'을 채워주세요!", word: '숲', firstChar: '', initial: 'ㅅ', vowel: 'ㅜ', speak: '숲의 받침 피읖! 숲 완성!' }
+          { layout: 'initial-h', emoji: '🍕', prompt: "피자의 'ㅍ'을 채워주세요!", word: '피자', vowel: 'ㅣ', nextChars: '자', speak: '피자의 피읖! 피자 완성!' },
+          { layout: 'initial-v', emoji: '🍇', prompt: "포도의 'ㅍ'을 채워주세요!", word: '포도', vowel: 'ㅗ', nextChars: '도', speak: '포도의 피읖! 포도 완성!' },
+          { layout: 'final', emoji: '🌲', prompt: "숲의 받침 'ㅍ'을 채워주세요!", word: '숲', firstChar: '', baseChar: '수', nextChars: '', speak: '숲의 받침 피읖! 숲 완성!' }
         ]
       },
       'ㅎ': {
         name: '히읗',
         steps: [
           { layout: 'single', emoji: '🦛', prompt: "'히읗'을 먼저 써보아요!", word: '히읗', speak: '히읗! 큰 입 하마의 히읗!' },
-          { layout: 'horizontal', emoji: '🦛', prompt: "하마의 'ㅎ'을 채워주세요!", word: '하마', vowel: 'ㅏ', nextChars: '마', speak: '하마의 히읗! 하마 완성!' },
-          { layout: 'vertical', emoji: '🐯', prompt: "호랑이의 'ㅎ'을 채워주세요!", word: '호랑이', vowel: 'ㅗ', nextChars: '랑이', speak: '호랑이의 히읗! 호랑이 완성!' },
-          { layout: 'horizontal', emoji: '☁️', prompt: "하늘의 'ㅎ'을 채워주세요!", word: '하늘', vowel: 'ㅏ', nextChars: '늘', speak: '하늘의 히읗! 하늘 완성!' }
+          { layout: 'initial-h', emoji: '🦛', prompt: "하마의 'ㅎ'을 채워주세요!", word: '하마', vowel: 'ㅏ', nextChars: '마', speak: '하마의 히읗! 하마 완성!' },
+          { layout: 'initial-v', emoji: '🐯', prompt: "호랑이의 'ㅎ'을 채워주세요!", word: '호랑이', vowel: 'ㅗ', nextChars: '랑이', speak: '호랑이의 히읗! 호랑이 완성!' },
+          { layout: 'initial-h', emoji: '☁️', prompt: "하늘의 'ㅎ'을 채워주세요!", word: '하늘', vowel: 'ㅏ', nextChars: '늘', speak: '하늘의 히읗! 하늘 완성!' }
         ]
       }
     };
@@ -758,7 +752,7 @@
     }
 
     // ==========================================
-    // 4. 모음 방향에 따른 정밀 렌더링
+    // 4. 모음 방향 및 받침 구조 완벽 분리 렌더링
     // ==========================================
     function renderStep() {
       currentWaypointIdx = 0;
@@ -780,7 +774,7 @@
       wordLettersStage.innerHTML = '';
 
       if (step.layout === 'single') {
-        // [단독 자음 도로]
+        // [1] 단독 자음 도로
         wordLettersStage.innerHTML = `
           <div class="road-slot-box size-standard" id="activeRoadSlot">
             <svg class="track-svg" id="trackSvg" viewBox="0 0 200 200">
@@ -791,8 +785,8 @@
             <div class="car-handle" id="carHandle">🚗</div>
           </div>
         `;
-      } else if (step.layout === 'horizontal') {
-        // [세로 모음: 좌-우 결합 (예: [ㄱ] ㅏ  위)]
+      } else if (step.layout === 'initial-h') {
+        // [2] 세로 모음: 좌-우 결합 (예: [ㄱ] ㅏ  위)
         const firstPrefix = step.firstChar ? `<span class="huge-char-text">${step.firstChar}</span>` : '';
         const nextSuffix = step.nextChars ? `<span class="huge-char-text">${step.nextChars}</span>` : '';
         wordLettersStage.innerHTML = `
@@ -810,8 +804,8 @@
           </div>
           ${nextSuffix}
         `;
-      } else if (step.layout === 'vertical') {
-        // [가로 모음: 상-하 결합 (예: 상 [ㄴ], 하 [ㅗ]  오른쪽 [래])] ⭐
+      } else if (step.layout === 'initial-v') {
+        // [3] 가로 모음: 상-하 결합 (예: 상 [ㄴ], 하 [ㅗ]  오른쪽 [래])
         const firstPrefix = step.firstChar ? `<span class="huge-char-text" style="margin-right: 8px;">${step.firstChar}</span>` : '';
         const nextSuffix = step.nextChars ? `<span class="huge-char-text" style="margin-left: 8px;">${step.nextChars}</span>` : '';
         wordLettersStage.innerHTML = `
@@ -830,16 +824,13 @@
           ${nextSuffix}
         `;
       } else if (step.layout === 'final') {
-        // [받침 결합 (초중성 아래에 도로)]
-        const firstPrefix = step.firstChar ? `<span class="huge-char-text" style="margin-right: 14px;">${step.firstChar}</span>` : '';
-        const nextSuffix = step.nextChars ? `<span class="huge-char-text" style="margin-left: 14px;">${step.nextChars}</span>` : '';
+        // [4] 받침 결합 (위에 완성형 글자 '바', '수', '그' + 아래에 받침 도로!) ⭐
+        const firstPrefix = step.firstChar ? `<span class="huge-char-text" style="margin-right: 12px;">${step.firstChar}</span>` : '';
+        const nextSuffix = step.nextChars ? `<span class="huge-char-text" style="margin-left: 12px;">${step.nextChars}</span>` : '';
         wordLettersStage.innerHTML = `
           ${firstPrefix}
-          <div class="syllable-final-wrap">
-            <div class="final-top-row">
-              <span class="huge-char-text">${step.initial}</span>
-              <span class="huge-char-text">${step.vowel}</span>
-            </div>
+          <div class="syllable-with-final">
+            <span class="huge-char-top">${step.baseChar}</span>
             <div class="road-slot-box size-final-bottom" id="activeRoadSlot">
               <svg class="track-svg" id="trackSvg" viewBox="0 0 200 200">
                 <path id="baseRoad" fill="none" stroke="#e2e8f0" stroke-width="38" stroke-linecap="round" stroke-linejoin="round" />
