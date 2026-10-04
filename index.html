@@ -237,7 +237,30 @@
       border: 4px solid #bce1ff;
     }
 
-    /* 카드 3: 커밍순 */
+    /* 카드 3: 한글 쓰기 놀이 */
+    .card-hangul {
+      border-color: #fed7aa;
+      color: #ea580c;
+    }
+    .card-hangul:hover {
+      border-color: #f97316;
+    }
+    .card-hangul .card-icon-wrap {
+      background: radial-gradient(circle, #fff7ed 0%, #ffedd5 100%);
+      border: 4px solid #fed7aa;
+    }
+
+    .card-hangul .play-btn {
+      background: #f97316;
+      color: #ffffff;
+      box-shadow: 0 5px 0 #c2410c;
+    }
+    .card-hangul .play-btn:active {
+      transform: translateY(3px);
+      box-shadow: 0 2px 0 #c2410c;
+    }
+
+    /* 카드: 커밍순 */
     .card-coming {
       border-color: #e9ecef;
       color: #8c9ba5;
@@ -422,18 +445,18 @@
         </button>
       </a>
 
-      <!-- 3. 커밍순 슬롯 -->
-      <div class="game-card card-coming" id="cardComingSoon">
-        <span class="card-badge badge-soon">준비 중</span>
+      <!-- 3. 마법의 한글 쓰기 놀이 -->
+      <a href="games/hangul/index.html" class="game-card card-hangul" id="cardHangul">
+        <span class="card-badge badge-new">세 번째 놀이</span>
         <div class="card-icon-wrap">
-          <span>🧩</span>
+          <span>🚗</span>
         </div>
-        <h2 class="card-title">새로운 놀이</h2>
-        <p class="card-desc">더 재미있고 신나는 놀이가<br>곧 찾아올 예정이에요!</p>
-        <button class="play-btn" type="button" disabled>
-          <span>기대해 주세요!</span>
+        <h2 class="card-title">마법 한글 쓰기</h2>
+        <p class="card-desc">자동차를 타고 길을 따라가요!<br>글자가 동물 친구로 변신해요!</p>
+        <button class="play-btn" type="button" tabindex="-1">
+          <span>글씨 쓰러 가기!</span> <span>✏️</span>
         </button>
-      </div>
+      </a>
     </main>
 
     <footer>

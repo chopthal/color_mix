@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="한글 쓰기">
+  <title>✏️ 신나는 마법 한글 쓰기</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+      touch-action: manipulation;
+    }
+
+    body {
+      font-family: "Jua", "Malgun Gothic", sans-serif;
+      height: 100vh;
+      height: 100dvh;
+      overflow: hidden;
+      background: linear-gradient(180deg, #fff3d6 0%, #fff9ec 50%, #f0fdf4 100%);
+      color: #3b2c1a;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    /* 상단 헤더 */
+    .top-bar {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: max(8px, env(safe-area-inset-top)) 12px 8px;
+      background: rgba(255, 255, 255, 0.95);
+      border-bottom: 4px solid #fed7aa;
+      box-shadow: 0 4px 14px rgba(180, 83, 9, 0.08);
+      z-index: 50;
+    }
+
+    .home-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: #fef3c7;
+      color: #92400e;
+      text-decoration: none;
+      font-size: clamp(14px, 3.2vw, 17px);
+      font-weight: 700;
+      padding: 8px 14px;
+      border-radius: 20px;
+      border: 2px solid #fde68a;
+      box-shadow: 0 3px 0 #fcd34d;
+      transition: transform 0.1s, box-shadow 0.1s;
+    }
+    .home-btn:active {
+      transform: translateY(2px);
+      box-shadow: 0 1px 0 #fcd34d;
+    }
+
+    /* 글자 선택 탭 */
+    .letter-tabs {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding: 2px 4px;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .letter-tab-btn {
+      min-width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      border: 3px solid #fed7aa;
+      background: #ffffff;
+      color: #78350f;
+      font-size: 22px;
+      font-family: inherit;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 3px 0 #fde68a;
+      transition: transform 0.12s, background 0.12s;
+    }
+
+    .letter-tab-btn.active {
+      background: #f97316;
+      color: #ffffff;
+      border-color: #ea580c;
+      box-shadow: 0 3px 0 #c2410c;
+      transform: translateY(-2px);
+    }
+
+    .letter-tab-btn.cleared::after {
+      content: '⭐';
+      position: absolute;
+      top: -6px;
+      right: -6px;
+      font-size: 14px;
+    }
+
+    /* 상단 안내 바 */
+    .guide-banner {
+      flex-shrink: 0;
+      text-align: center;
+      padding: 8px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .guide-text {
+      font-size: clamp(18px, 4vw, 26px);
+      color: #9a3412;
+      font-weight: 800;
+    }
+
+    .speak-guide-btn {
+      background: #ffffff;
+      border: 2px solid #fed7aa;
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      cursor: pointer;
+      box-shadow: 0 2px 0 #fdba74;
+    }
+    .speak-guide-btn:active {
+      transform: translateY(2px);
+      box-shadow: none;
+    }
+
+    /* 메인 그리기 보드 영역 */
+    .board-container {
+      flex: 1;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px;
+      touch-action: none;
+    }
+
+    .drawing-stage {
+      position: relative;
+      width: min(86vw, 420px);
+      height: min(86vw, 420px);
+      background: #ffffff;
+      border-radius: 40px;
+      border: 6px solid #ffedd5;
+      box-shadow: 0 16px 36px rgba(180, 83, 9, 0.12);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* 배경 격자선(아이들 글씨장 느낌) */
+    .stage-grid {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background-image: 
+        linear-gradient(to right, rgba(254, 215, 170, 0.35) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(254, 215, 170, 0.35) 1px, transparent 1px);
+      background-size: 50% 50%;
+    }
+
+    /* SVG 도로 트랙 */
+    .track-svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+      touch-action: none;
+    }
+
+    /* 꼬마 자동차 (드래그 핸들) */
+    .car-handle {
+      position: absolute;
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #ffedd5 0%, #fed7aa 100%);
+      border: 4px solid #f97316;
+      box-shadow: 0 6px 14px rgba(234, 88, 12, 0.4), inset 0 2px 4px #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      transform: translate(-50%, -50%);
+      cursor: grab;
+      touch-action: none;
+      z-index: 30;
+      animation: car-bounce 1.5s infinite ease-in-out;
+      pointer-events: auto;
+    }
+
+    .car-handle:active {
+      cursor: grabbing;
+      transform: translate(-50%, -50%) scale(1.18);
+      box-shadow: 0 10px 20px rgba(234, 88, 12, 0.5);
+    }
+
+    @keyframes car-bounce {
+      0%, 100% { transform: translate(-50%, -50%) scale(1); }
+      50% { transform: translate(-50%, -50%) scale(1.12); }
+    }
+
+    /* 완성 시 캐릭터 변신 연출 */
+    .transform-container {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.96);
+      z-index: 40;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      padding: 16px;
+      text-align: center;
+    }
+
+    .transform-container.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .transform-character {
+      width: 160px;
+      height: 160px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 12px;
+      animation: char-pop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .transform-character svg {
+      width: 100%;
+      height: 100%;
+      filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.15));
+    }
+
+    @keyframes char-pop {
+      0% { transform: scale(0.2) rotate(-15deg); }
+      70% { transform: scale(1.2) rotate(8deg); }
+      100% { transform: scale(1) rotate(0deg); }
+    }
+
+    .transform-title {
+      font-size: clamp(26px, 6vw, 36px);
+      color: #ea580c;
+      margin-bottom: 6px;
+    }
+
+    .transform-desc {
+      font-size: clamp(17px, 4vw, 22px);
+      color: #7c2d12;
+      margin-bottom: 20px;
+    }
+
+    .next-btn {
+      font-family: inherit;
+      font-size: 20px;
+      font-weight: 800;
+      padding: 14px 28px;
+      border-radius: 30px;
+      border: none;
+      background: #10b981;
+      color: #ffffff;
+      box-shadow: 0 5px 0 #059669;
+      cursor: pointer;
+      transition: all 0.1s ease;
+    }
+    .next-btn:active {
+      transform: translateY(3px);
+      box-shadow: 0 2px 0 #059669;
+    }
+
+    /* 파티클 효과 */
+    .particle {
+      position: absolute;
+      pointer-events: none;
+      font-size: 24px;
+      z-index: 80;
+      animation: particle-pop 0.7s forwards ease-out;
+    }
+
+    @keyframes particle-pop {
+      0% { transform: translate(0, 0) scale(0.5); opacity: 1; }
+      100% { transform: translate(var(--dx), var(--dy)) scale(1.4); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+  <!-- 상단 바 -->
+  <header class="top-bar">
+    <a href="../../index.html" class="home-btn" title="놀이터 홈으로">🏠 놀이터</a>
+
+    <!-- 글자 선택 탭 (ㄱ, ㄴ, ㄷ, ㄹ, ㅁ) -->
+    <div class="letter-tabs" id="letterTabs">
+      <button type="button" class="letter-tab-btn active" data-char="ㄱ">ㄱ</button>
+      <button type="button" class="letter-tab-btn" data-char="ㄴ">ㄴ</button>
+      <button type="button" class="letter-tab-btn" data-char="ㄷ">ㄷ</button>
+      <button type="button" class="letter-tab-btn" data-char="ㄹ">ㄹ</button>
+      <button type="button" class="letter-tab-btn" data-char="ㅁ">ㅁ</button>
+    </div>
+  </header>
+
+  <!-- 가이드 안내 문구 -->
+  <div class="guide-banner">
+    <span class="guide-text" id="guideText">🚗 자동차를 따라 '기역'을 그려요!</span>
+    <button type="button" class="speak-guide-btn" id="speakGuideBtn" title="안내 듣기">🔊</button>
+  </div>
+
+  <!-- 메인 그리기 무대 -->
+  <main class="board-container">
+    <div class="drawing-stage" id="drawingStage">
+      <div class="stage-grid"></div>
+
+      <!-- 도로 트랙 SVG -->
+      <svg class="track-svg" id="trackSvg" viewBox="0 0 400 400">
+        <!-- 1. 기본 도로 (회색 아스팔트) -->
+        <path id="baseRoad" d="" fill="none" stroke="#e2e8f0" stroke-width="56" stroke-linecap="round" stroke-linejoin="round" />
+        <!-- 2. 도로 중앙 점선 -->
+        <path id="centerDashes" d="" fill="none" stroke="#cbd5e1" stroke-width="4" stroke-dasharray="14,14" stroke-linecap="round" stroke-linejoin="round" />
+        <!-- 3. 주행 완료된 무지개/노란 아스팔트 길 -->
+        <path id="paintedRoad" d="" fill="none" stroke="#f59e0b" stroke-width="56" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+
+      <!-- 꼬마 자동차 핸들 -->
+      <div class="car-handle" id="carHandle" style="left: 0px; top: 0px;">🚗</div>
+
+      <!-- 마법 변신 결과 레이어 -->
+      <div class="transform-container" id="transformLayer">
+        <div class="transform-character" id="transformCharGraphic"></div>
+        <h2 class="transform-title" id="transformTitle">기역! 기차로 변신!</h2>
+        <p class="transform-desc" id="transformDesc">칙칙폭폭 기차가 달릴 준비를 해요!</p>
+        <button type="button" class="next-btn" id="nextLetterBtn">다음 글자 쓰기! ➜</button>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // ==========================================
+    // 1. 진동 및 Web Audio 사운드
+    // ==========================================
+    function triggerHaptic(type = 'light') {
+      if (!('vibrate' in navigator)) return;
+      try {
+        if (type === 'light') navigator.vibrate(15);
+        else if (type === 'waypoint') navigator.vibrate(25);
+        else if (type === 'success') navigator.vibrate([40, 50, 60, 80]);
+      } catch (e) {}
+    }
+
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    function resumeAudio() {
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+    }
+
+    // 도로 따라갈 때 맑은 실로폰 멜로디
+    const PITCH_SCALE = [261.63, 293.66, 329.63, 349.23, 392.00, 440.00, 493.88, 523.25];
+    function playChimeNote(index) {
+      resumeAudio();
+      const freq = PITCH_SCALE[index % PITCH_SCALE.length];
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+      gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.2);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.22);
+    }
+
+    // 완성 팡파레
+    function playVictorySound() {
+      resumeAudio();
+      const notes = [
+        { f: 523.25, d: 0.12 }, { f: 659.25, d: 0.12 }, { f: 783.99, d: 0.15 },
+        { f: 1046.50, d: 0.4 }
+      ];
+      let t = audioCtx.currentTime;
+      notes.forEach(n => {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(n.f, t);
+        gain.gain.setValueAtTime(0.3, t);
+        gain.gain.exponentialRampToValueAtTime(0.01, t + n.d);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(t);
+        osc.stop(t + n.d + 0.05);
+        t += n.d;
+      });
+    }
+
+    // TTS 음성 안내
+    function speakText(text) {
+      if (!('speechSynthesis' in window)) return;
+      window.speechSynthesis.cancel();
+      const utter = new SpeechSynthesisUtterance(text);
+      utter.lang = 'ko-KR';
+      utter.rate = 0.95;
+      utter.pitch = 1.3;
+      window.speechSynthesis.speak(utter);
+    }
+
+    // ==========================================
+    // 2. 한글 글자 트랙 데이터 (웨이포인트 & 변신 캐릭터)
+    // ==========================================
+    const HANGUL_DATA = {
+      'ㄱ': {
+        name: '기역',
+        guide: '🚗 자동차를 따라 \'기역\'을 그려요!',
+        speak: '기역! 칙칙폭폭 기차의 기역!',
+        title: '기역! 칙칙폭폭 기차로 변신! 🚂',
+        desc: '길을 완성했더니 멋진 기차가 나타났어요!',
+        // 도로 웨이포인트 경로 (400x400)
+        points: [
+          { x: 90, y: 100 },
+          { x: 195, y: 100 },
+          { x: 300, y: 100 },
+          { x: 300, y: 205 },
+          { x: 300, y: 310 }
+        ],
+        svgChar: `
+          <svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
+            <!-- 칙칙폭폭 기차 -->
+            <rect x="25" y="60" width="110" height="60" rx="14" fill="#3b82f6" />
+            <rect x="90" y="35" width="45" height="50" rx="8" fill="#1d4ed8" />
+            <rect x="100" y="45" width="25" height="25" rx="4" fill="#93c5fd" />
+            <circle cx="112" cy="57" r="5" fill="#ffffff" />
+            <!-- 바퀴 -->
+            <circle cx="50" cy="125" r="18" fill="#374151" stroke="#9ca3af" stroke-width="4" />
+            <circle cx="110" cy="125" r="18" fill="#374151" stroke="#9ca3af" stroke-width="4" />
+            <circle cx="50" cy="125" r="6" fill="#f59e0b" />
+            <circle cx="110" cy="125" r="6" fill="#f59e0b" />
+            <!-- 연기 굴뚝 -->
+            <rect x="40" y="42" width="16" height="20" rx="4" fill="#ef4444" />
+            <circle cx="48" cy="24" r="8" fill="#e5e7eb" opacity="0.8" />
+            <circle cx="40" cy="12" r="12" fill="#e5e7eb" opacity="0.6" />
+          </svg>
+        `
+      },
+      'ㄴ': {
+        name: '니은',
+        guide: '🚗 위에서 아래로, 오른쪽으로 \'니은\'을 그려요!',
+        speak: '니은! 팔랑팔랑 나비의 니은!',
+        title: '니은! 팔랑팔랑 나비로 변신! 🦋',
+        desc: '길을 완성했더니 예쁜 나비가 날아왔어요!',
+        points: [
+          { x: 100, y: 90 },
+          { x: 100, y: 200 },
+          { x: 100, y: 310 },
+          { x: 205, y: 310 },
+          { x: 310, y: 310 }
+        ],
+        svgChar: `
+          <svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
+            <!-- 팔랑팔랑 나비 -->
+            <path d="M80 80 Q30 20 20 65 Q20 110 80 85 Z" fill="#ec4899" />
+            <path d="M80 80 Q130 20 140 65 Q140 110 80 85 Z" fill="#ec4899" />
+            <path d="M80 85 Q35 100 35 130 Q55 150 80 95 Z" fill="#f472b6" />
+            <path d="M80 85 Q125 100 125 130 Q105 150 80 95 Z" fill="#f472b6" />
+            <!-- 몸통 -->
+            <ellipse cx="80" cy="85" rx="8" ry="32" fill="#831843" />
+            <!-- 더듬이 -->
+            <path d="M76 56 Q65 40 58 42" stroke="#831843" stroke-width="3" fill="none" stroke-linecap="round" />
+            <path d="M84 56 Q95 40 102 42" stroke="#831843" stroke-width="3" fill="none" stroke-linecap="round" />
+            <circle cx="58" cy="42" r="3" fill="#f59e0b" />
+            <circle cx="102" cy="42" r="3" fill="#f59e0b" />
+          </svg>
+        `
+      },
+      'ㄷ': {
+        name: '디귿',
+        guide: '🚗 꺾어서 꺾어서 \'디귿\'을 그려요!',
+        speak: '디귿! 도토리 다람쥐의 디귿!',
+        title: '디귿! 귀여운 다람쥐로 변신! 🐿️',
+        desc: '다람쥐가 도토리를 안고 기뻐해요!',
+        points: [
+          { x: 300, y: 90 },
+          { x: 195, y: 90 },
+          { x: 100, y: 90 },
+          { x: 100, y: 200 },
+          { x: 100, y: 310 },
+          { x: 205, y: 310 },
+          { x: 310, y: 310 }
+        ],
+        svgChar: `
+          <svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
+            <!-- 다람쥐 -->
+            <path d="M95 125 Q145 110 140 50 Q110 30 100 70 Z" fill="#d97706" />
+            <ellipse cx="75" cy="95" rx="36" ry="42" fill="#b45309" />
+            <ellipse cx="68" cy="100" rx="22" ry="28" fill="#fef3c7" />
+            <!-- 귀 -->
+            <circle cx="55" cy="55" r="10" fill="#b45309" />
+            <circle cx="55" cy="55" r="5" fill="#fef3c7" />
+            <!-- 눈/코 -->
+            <circle cx="58" cy="80" r="5" fill="#1c1917" />
+            <circle cx="56" cy="78" r="1.5" fill="#ffffff" />
+            <circle cx="46" cy="86" r="3.5" fill="#1c1917" />
+            <!-- 볼터치 -->
+            <circle cx="64" cy="92" r="6" fill="#fca5a5" opacity="0.8" />
+            <!-- 도토리 -->
+            <ellipse cx="88" cy="105" rx="10" ry="14" fill="#78350f" transform="rotate(20 88 105)" />
+            <path d="M80 94 Q88 90 96 98 Z" fill="#451a03" />
+          </svg>
+        `
+      },
+      'ㄹ': {
+        name: '리을',
+        guide: '🚗 지그재그 꼬불꼬불 \'리을\'을 그려요!',
+        speak: '리을! 슝슝 날아가는 로켓의 리을!',
+        title: '리을! 우주 로켓으로 변신! 🚀',
+        desc: '우주로 슝슝 날아갈 준비 완료!',
+        points: [
+          { x: 90, y: 80 },
+          { x: 300, y: 80 },
+          { x: 300, y: 195 },
+          { x: 90, y: 195 },
+          { x: 90, y: 310 },
+          { x: 300, y: 310 }
+        ],
+        svgChar: `
+          <svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
+            <!-- 우주 로켓 -->
+            <path d="M80 18 Q115 50 115 110 L45 110 Q45 50 80 18 Z" fill="#ef4444" />
+            <path d="M80 18 Q95 40 95 110 L65 110 Q65 40 80 18 Z" fill="#ffffff" />
+            <circle cx="80" cy="65" r="14" fill="#38bdf8" stroke="#0284c7" stroke-width="3" />
+            <!-- 날개 -->
+            <path d="M45 90 L20 120 L45 115 Z" fill="#b91c1c" />
+            <path d="M115 90 L140 120 L115 115 Z" fill="#b91c1c" />
+            <!-- 불꽃 -->
+            <polygon points="65,115 80,148 95,115" fill="#f59e0b" />
+            <polygon points="72,115 80,138 88,115" fill="#fef08a" />
+          </svg>
+        `
+      },
+      'ㅁ': {
+        name: '미음',
+        guide: '🚗 네모네모 길을 돌아 \'미음\'을 완성해요!',
+        speak: '미음! 멋진 모자의 미음!',
+        title: '미음! 알록달록 모자로 변신! 👒',
+        desc: '머리에 쏙! 예쁜 모자가 완성되었어요!',
+        points: [
+          { x: 100, y: 90 },
+          { x: 300, y: 90 },
+          { x: 300, y: 300 },
+          { x: 100, y: 300 },
+          { x: 100, y: 90 }
+        ],
+        svgChar: `
+          <svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
+            <!-- 모자 -->
+            <ellipse cx="80" cy="110" rx="65" ry="20" fill="#f59e0b" />
+            <path d="M45 105 Q48 45 80 45 Q112 45 115 105 Z" fill="#fbbf24" />
+            <rect x="44" y="94" width="72" height="12" fill="#ec4899" rx="3" />
+            <!-- 리본 장식 -->
+            <circle cx="80" cy="100" r="7" fill="#ffffff" />
+            <polygon points="70,100 60,94 60,106" fill="#ffffff" />
+            <polygon points="90,100 100,94 100,106" fill="#ffffff" />
+          </svg>
+        `
+      }
+    };
+
+    // ==========================================
+    // 3. 게임 상태 및 DOM
+    // ==========================================
+    let currentChar = 'ㄱ';
+    let currentWaypointIdx = 0;
+    let isDragging = false;
+
+    const baseRoad = document.getElementById('baseRoad');
+    const centerDashes = document.getElementById('centerDashes');
+    const paintedRoad = document.getElementById('paintedRoad');
+    const carHandle = document.getElementById('carHandle');
+    const guideText = document.getElementById('guideText');
+    const speakGuideBtn = document.getElementById('speakGuideBtn');
+    const drawingStage = document.getElementById('drawingStage');
+    const transformLayer = document.getElementById('transformLayer');
+    const transformCharGraphic = document.getElementById('transformCharGraphic');
+    const transformTitle = document.getElementById('transformTitle');
+    const transformDesc = document.getElementById('transformDesc');
+    const nextLetterBtn = document.getElementById('nextLetterBtn');
+    const letterTabButtons = document.querySelectorAll('.letter-tab-btn');
+
+    // 포인트 배열 -> SVG Path d 문자열 생성
+    function generatePathD(points) {
+      if (!points || points.length === 0) return '';
+      return points.map((p, idx) => (idx === 0 ? `M ${p.x} ${p.y}` : `L ${p.x} ${p.y}`)).join(' ');
+    }
+
+    // ==========================================
+    // 4. 글자 로드 및 세팅
+    // ==========================================
+    function loadLetter(char) {
+      currentChar = char;
+      const data = HANGUL_DATA[char];
+      if (!data) return;
+
+      currentWaypointIdx = 0;
+      transformLayer.classList.remove('active');
+
+      // 탭 활성화 UI
+      letterTabButtons.forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.char === char);
+      });
+
+      // 안내 문구
+      guideText.textContent = data.guide;
+
+      // 도로 패스 갱신
+      const fullPathD = generatePathD(data.points);
+      baseRoad.setAttribute('d', fullPathD);
+      centerDashes.setAttribute('d', fullPathD);
+      paintedRoad.setAttribute('d', ''); // 칠해진 길 초기화
+
+      // 자동차를 시작점에 배치
+      updateCarPosition(data.points[0].x, data.points[0].y);
+
+      setTimeout(() => {
+        speakText(`${data.name}을 써보아요! ${data.guide}`);
+      }, 400);
+    }
+
+    function updateCarPosition(svgX, svgY) {
+      // 400x400 viewBox를 drawingStage의 실제 픽셀 비율로 변환
+      const stageRect = drawingStage.getBoundingClientRect();
+      const scaleX = stageRect.width / 400;
+      const scaleY = stageRect.height / 400;
+
+      carHandle.style.left = `${svgX * scaleX}px`;
+      carHandle.style.top = `${svgY * scaleY}px`;
+    }
+
+    // ==========================================
+    // 5. 드래그 & 트랙 주행 제어
+    // ==========================================
+    carHandle.addEventListener('pointerdown', (e) => {
+      e.preventDefault();
+      isDragging = true;
+      carHandle.setPointerCapture(e.pointerId);
+      resumeAudio();
+      triggerHaptic('light');
+    });
+
+    carHandle.addEventListener('pointermove', (e) => {
+      if (!isDragging) return;
+      handlePointerMove(e.clientX, e.clientY);
+    });
+
+    carHandle.addEventListener('pointerup', (e) => {
+      isDragging = false;
+      try { carHandle.releasePointerCapture(e.pointerId); } catch (err) {}
+    });
+
+    carHandle.addEventListener('pointercancel', () => {
+      isDragging = false;
+    });
+
+    // 보드 전체에서도 포인터 이동 감지 (손가락이 자동차보다 살짝 벗어나도 스무스하게 동작)
+    drawingStage.addEventListener('pointermove', (e) => {
+      if (!isDragging) return;
+      handlePointerMove(e.clientX, e.clientY);
+    });
+
+    function handlePointerMove(clientX, clientY) {
+      const stageRect = drawingStage.getBoundingClientRect();
+      // SVG 좌표계(0~400)로 역변환
+      const svgX = ((clientX - stageRect.left) / stageRect.width) * 400;
+      const svgY = ((clientY - stageRect.top) / stageRect.height) * 400;
+
+      const data = HANGUL_DATA[currentChar];
+      const points = data.points;
+
+      // 다음 목표 웨이포인트 검사
+      const nextTarget = points[currentWaypointIdx + 1];
+      if (!nextTarget) return;
+
+      // 현재 목표점과의 거리 계산
+      const dist = Math.hypot(svgX - nextTarget.x, svgY - nextTarget.y);
+
+      // 목표점 근처(약 36px)에 도달하면 다음 단계로 진입!
+      if (dist < 38) {
+        currentWaypointIdx++;
+        triggerHaptic('waypoint');
+        playChimeNote(currentWaypointIdx);
+        spawnStars(clientX, clientY);
+
+        // 칠해진 길 업데이트
+        const visitedPoints = points.slice(0, currentWaypointIdx + 1);
+        paintedRoad.setAttribute('d', generatePathD(visitedPoints));
+
+        // 자동차 위치 고정 및 갱신
+        updateCarPosition(nextTarget.x, nextTarget.y);
+
+        // 모든 웨이포인트 완주 완료 체크!
+        if (currentWaypointIdx >= points.length - 1) {
+          isDragging = false;
+          completeLetter();
+        }
+      } else {
+        // 목표점으로 향하는 도중 자동차 부드럽게 추종
+        updateCarPosition(svgX, svgY);
+      }
+    }
+
+    function spawnStars(x, y) {
+      const symbols = ['⭐', '✨', '🌟', '💖'];
+      for (let i = 0; i < 4; i++) {
+        const p = document.createElement('div');
+        p.className = 'particle';
+        p.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+        p.style.left = `${x}px`;
+        p.style.top = `${y}px`;
+        const angle = (Math.PI * 2 / 4) * i + Math.random() * 0.5;
+        p.style.setProperty('--dx', `${Math.cos(angle) * 40}px`);
+        p.style.setProperty('--dy', `${Math.sin(angle) * 40}px`);
+        document.body.appendChild(p);
+        setTimeout(() => p.remove(), 600);
+      }
+    }
+
+    // ==========================================
+    // 6. 글자 완성 및 변신 연출
+    // ==========================================
+    function completeLetter() {
+      const data = HANGUL_DATA[currentChar];
+      playVictorySound();
+      triggerHaptic('success');
+
+      // 탭에 클리어 별표 부여
+      const currentTab = Array.from(letterTabButtons).find(btn => btn.dataset.char === currentChar);
+      if (currentTab) currentTab.classList.add('cleared');
+
+      // 변신 모달 세팅
+      transformCharGraphic.innerHTML = data.svgChar;
+      transformTitle.textContent = data.title;
+      transformDesc.textContent = data.desc;
+      transformLayer.classList.add('active');
+
+      speakText(data.speak);
+    }
+
+    // 다음 글자 버튼
+    nextLetterBtn.addEventListener('click', () => {
+      const charKeys = Object.keys(HANGUL_DATA);
+      const currIdx = charKeys.indexOf(currentChar);
+      const nextChar = charKeys[(currIdx + 1) % charKeys.length];
+      loadLetter(nextChar);
+    });
+
+    // 탭 버튼 클릭
+    letterTabButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        loadLetter(btn.dataset.char);
+      });
+    });
+
+    speakGuideBtn.addEventListener('click', () => {
+      const data = HANGUL_DATA[currentChar];
+      speakText(`${data.name}! ${data.guide}`);
+    });
+
+    // 창 크기 변경 시 자동차 위치 보정
+    window.addEventListener('resize', () => {
+      const data = HANGUL_DATA[currentChar];
+      if (data && data.points) {
+        const pt = data.points[currentWaypointIdx] || data.points[0];
+        updateCarPosition(pt.x, pt.y);
+      }
+    });
+
+    // 시작
+    loadLetter('ㄱ');
+  </script>
+</body>
+</html>
