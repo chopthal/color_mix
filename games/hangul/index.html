@@ -378,6 +378,28 @@
       50% { transform: translate(-50%, -50%) scale(1.12); }
     }
 
+    /* 목표 도착점(끝점) 통통 튀는 반짝이 가이드 링 */
+    .goal-ping-ring {
+      transform-origin: center;
+      transform-box: fill-box;
+      animation: goal-ping 1.3s infinite ease-in-out;
+      pointer-events: none;
+    }
+    @keyframes goal-ping {
+      0%, 100% { transform: scale(0.8); stroke-opacity: 0.95; fill-opacity: 0.35; }
+      50% { transform: scale(1.45); stroke-opacity: 0.25; fill-opacity: 0.05; }
+    }
+    .goal-center-dot {
+      transform-origin: center;
+      transform-box: fill-box;
+      animation: goal-dot-bounce 0.65s infinite alternate ease-in-out;
+      pointer-events: none;
+    }
+    @keyframes goal-dot-bounce {
+      0% { transform: scale(0.85); }
+      100% { transform: scale(1.25); }
+    }
+
     /* 완성 합체 축하 팝업 */
     .transform-container {
       position: absolute;
@@ -566,11 +588,11 @@
         [{ x: 50, y: 45 }, { x: 150, y: 45 }, { x: 55, y: 155 }],
         [{ x: 105, y: 100 }, { x: 155, y: 155 }]
       ],
-      // ㅊ: 3획 (자연스러운 손글씨 필순: 1: 꼭지 ⬇️, 2: 가로 ➡️ 코너 꺾어 좌하향 ↙️, 3: 우하향 빗금 ↘️) ⭐
+      // ㅊ: 3획 (꼭지 ⬇️ 42px 대폭 확장, 가로 ➡️ 코너 꺾어 좌하향 ↙️, 우하향 빗금 ↘️) ⭐
       'ㅊ': [
-        [{ x: 100, y: 22 }, { x: 100, y: 46 }],
-        [{ x: 50, y: 50 }, { x: 150, y: 50 }, { x: 55, y: 155 }],
-        [{ x: 105, y: 102 }, { x: 155, y: 155 }]
+        [{ x: 100, y: 16 }, { x: 100, y: 58 }],
+        [{ x: 45, y: 64 }, { x: 155, y: 64 }, { x: 55, y: 165 }],
+        [{ x: 105, y: 114 }, { x: 155, y: 165 }]
       ],
       // ㅋ: 2획 (1: ㄱ형태 ➡️ ⬇️, 2: 가운데 가로 ➡️)
       'ㅋ': [
@@ -590,11 +612,11 @@
         [{ x: 120, y: 45 }, { x: 120, y: 155 }],
         [{ x: 45, y: 155 }, { x: 155, y: 155 }]
       ],
-      // ㅎ: 3획 (1: 꼭지 ⬇️, 2: 가로선 ➡️, 3: 아래 완벽한 동그라미 ⭕) ⭐
+      // ㅎ: 3획 (꼭지 ⬇️ 42px 대폭 확장, 가로선 ➡️, 아래 완벽한 동그라미 ⭕) ⭐
       'ㅎ': [
-        [{ x: 100, y: 24 }, { x: 100, y: 46 }],
-        [{ x: 55, y: 48 }, { x: 145, y: 48 }],
-        createCirclePoints(100, 118, 38, 14)
+        [{ x: 100, y: 16 }, { x: 100, y: 58 }],
+        [{ x: 45, y: 64 }, { x: 155, y: 64 }],
+        createCirclePoints(100, 126, 38, 14)
       ]
     };
 
@@ -892,6 +914,7 @@
             <svg class="track-svg" id="trackSvg" viewBox="0 0 200 200">
               <g id="baseRoadGroup"></g>
               <g id="centerDashesGroup"></g>
+              <g id="goalIndicatorGroup"></g>
               <g id="paintedRoadGroup"></g>
             </svg>
             <div class="car-handle" id="carHandle">🚗</div>
@@ -908,6 +931,7 @@
               <svg class="track-svg" id="trackSvg" viewBox="0 0 200 200">
                 <g id="baseRoadGroup"></g>
                 <g id="centerDashesGroup"></g>
+                <g id="goalIndicatorGroup"></g>
                 <g id="paintedRoadGroup"></g>
               </svg>
               <div class="car-handle" id="carHandle">🚗</div>
@@ -927,6 +951,7 @@
               <svg class="track-svg" id="trackSvg" viewBox="0 0 200 200">
                 <g id="baseRoadGroup"></g>
                 <g id="centerDashesGroup"></g>
+                <g id="goalIndicatorGroup"></g>
                 <g id="paintedRoadGroup"></g>
               </svg>
               <div class="car-handle" id="carHandle">🚗</div>
@@ -947,6 +972,7 @@
               <svg class="track-svg" id="trackSvg" viewBox="0 0 200 200">
                 <g id="baseRoadGroup"></g>
                 <g id="centerDashesGroup"></g>
+                <g id="goalIndicatorGroup"></g>
                 <g id="paintedRoadGroup"></g>
               </svg>
               <div class="car-handle" id="carHandle">🚗</div>
@@ -1003,6 +1029,9 @@
 
       // 1번째 획의 주황색 도로 패스 엘리먼트 생성
       createActivePaintedPath();
+
+      // 목표 도착점(끝점) 펄스 마커 표시 ⭐
+      updateGoalIndicator();
 
       // 자동차를 1번째 획의 시작점에 배치
       updateCarPos(strokes[0][0].x, strokes[0][0].y);
@@ -1116,6 +1145,9 @@
       // 새 획을 위한 패스 엘리먼트 생성
       createActivePaintedPath();
 
+      // 다음 획의 목표 도착점(끝점) 펄스 마커 갱신 ⭐
+      updateGoalIndicator();
+
       // 다음 획의 시작점으로 자동차 뿅! 이동
       const strokes = CHAR_STROKES[currentChar];
       const nextStartPoint = strokes[currentStrokeIdx][0];
@@ -1124,6 +1156,41 @@
       // 반짝이 파티클 점프 효과
       const rect = carHandle.getBoundingClientRect();
       spawnStars(rect.left + rect.width / 2, rect.top + rect.height / 2);
+    }
+
+    // 목표 도착점(끝점) 가이드 펄스 링 표시 함수 ⭐
+    function updateGoalIndicator() {
+      const goalGroup = document.getElementById('goalIndicatorGroup');
+      if (!goalGroup) return;
+      goalGroup.innerHTML = '';
+
+      const strokes = CHAR_STROKES[currentChar];
+      if (!strokes || currentStrokeIdx >= strokes.length) return;
+
+      const currentStrokePoints = strokes[currentStrokeIdx];
+      const endPoint = currentStrokePoints[currentStrokePoints.length - 1];
+      if (!endPoint) return;
+
+      // 통통 튀는 외곽 펄스 링 (Ping Ring)
+      const pingCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      pingCircle.setAttribute('class', 'goal-ping-ring');
+      pingCircle.setAttribute('cx', endPoint.x);
+      pingCircle.setAttribute('cy', endPoint.y);
+      pingCircle.setAttribute('r', '17');
+      pingCircle.setAttribute('fill', '#f97316');
+      pingCircle.setAttribute('stroke', '#ea580c');
+      pingCircle.setAttribute('stroke-width', '2.5');
+
+      // 중심 강조 점 (Center Dot)
+      const centerDot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      centerDot.setAttribute('class', 'goal-center-dot');
+      centerDot.setAttribute('cx', endPoint.x);
+      centerDot.setAttribute('cy', endPoint.y);
+      centerDot.setAttribute('r', '6');
+      centerDot.setAttribute('fill', '#ea580c');
+
+      goalGroup.appendChild(pingCircle);
+      goalGroup.appendChild(centerDot);
     }
 
     function spawnStars(x, y) {
@@ -1143,6 +1210,9 @@
     }
 
     function onStepComplete() {
+      const goalGroup = document.getElementById('goalIndicatorGroup');
+      if (goalGroup) goalGroup.innerHTML = '';
+
       const course = HANGUL_COURSES[currentChar];
       const step = course.steps[currentStepIdx];
 
