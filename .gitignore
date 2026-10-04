@@ -1,1 +1,4 @@
 .vercel
+dev_log.md
+*.log
+_desktop.png
