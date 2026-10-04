@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="바다 낚시">
+  <title>🎣 두근두근 바다 낚시 놀이</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+      touch-action: manipulation;
+    }
+
+    body {
+      font-family: "Jua", "Malgun Gothic", sans-serif;
+      height: 100vh;
+      height: 100dvh;
+      overflow: hidden;
+      background: linear-gradient(180deg, #3aa8f7 0%, #1572c8 50%, #0a4382 100%);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    /* 상단 네비게이션 & 미션 바 (HUD) */
+    .hud-bar {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: max(8px, env(safe-area-inset-top)) 12px 8px;
+      background: rgba(255, 255, 255, 0.94);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+      border-bottom: 4px solid #bce1ff;
+      z-index: 50;
+      color: #244163;
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .home-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: #f0f6fc;
+      color: #2b5c8f;
+      text-decoration: none;
+      font-size: clamp(14px, 3.2vw, 17px);
+      font-weight: 700;
+      padding: 8px 14px;
+      border-radius: 20px;
+      border: 2px solid #c9e0f7;
+      box-shadow: 0 3px 0 #b0d2f3;
+      transition: transform 0.1s, box-shadow 0.1s;
+    }
+
+    .home-btn:active {
+      transform: translateY(2px);
+      box-shadow: 0 1px 0 #b0d2f3;
+    }
+
+    /* 타겟 물고기 미션 카드 */
+    .mission-box {
+      flex: 1;
+      max-width: 460px;
+      margin: 0 auto;
+      background: #eff7ff;
+      border: 3px solid #6cbcf8;
+      border-radius: 24px;
+      padding: 6px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.04);
+    }
+
+    .mission-text-wrap {
+      text-align: left;
+    }
+
+    .mission-sub {
+      font-size: clamp(11px, 2.4vw, 13px);
+      color: #0284c7;
+      font-weight: 700;
+    }
+
+    .mission-name {
+      font-size: clamp(17px, 3.8vw, 24px);
+      color: #1e3a5f;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .speak-mission-btn {
+      background: #ffffff;
+      border: 2px solid #bae6fd;
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      cursor: pointer;
+      box-shadow: 0 2px 0 #93c5fd;
+    }
+
+    .speak-mission-btn:active {
+      transform: translateY(2px);
+      box-shadow: none;
+    }
+
+    .mission-target-fish {
+      width: clamp(52px, 12vw, 72px);
+      height: clamp(38px, 9vw, 52px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.15));
+      animation: target-bob 2s infinite ease-in-out;
+    }
+
+    @keyframes target-bob {
+      0%, 100% { transform: scale(1) translateY(0); }
+      50% { transform: scale(1.08) translateY(-3px); }
+    }
+
+    /* 진행도 (잡은 물고기 수) */
+    .score-badge {
+      background: #fffae0;
+      border: 2px solid #ffd43b;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: clamp(15px, 3.4vw, 20px);
+      font-weight: 800;
+      color: #e67700;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 3px 0 #fcc419;
+      white-space: nowrap;
+    }
+
+    /* 바닷속 수조 영역 */
+    .sea-container {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      touch-action: none;
+    }
+
+    /* 바다 배경 빛내림 & 해초 */
+    .sun-rays {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 65%;
+      background: repeating-linear-gradient(
+        75deg,
+        rgba(255, 255, 255, 0.08) 0px,
+        rgba(255, 255, 255, 0.08) 40px,
+        transparent 40px,
+        transparent 90px
+      );
+      pointer-events: none;
+    }
+
+    .sea-floor {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 70px;
+      background: linear-gradient(180deg, #d4a373 0%, #bc8a5f 100%);
+      border-top: 6px solid #e9c46a;
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    /* 공기 방울 */
+    .bubble {
+      position: absolute;
+      bottom: 10px;
+      background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.2));
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      border-radius: 50%;
+      pointer-events: none;
+      animation: rise-bubble linear infinite;
+    }
+
+    @keyframes rise-bubble {
+      0% {
+        transform: translateY(0) scale(0.6);
+        opacity: 0;
+      }
+      20% { opacity: 0.8; }
+      90% { opacity: 0.8; }
+      100% {
+        transform: translateY(-90vh) scale(1.2);
+        opacity: 0;
+      }
+    }
+
+    /* 수영하는 물고기 공통 */
+    .fish-swimmer {
+      position: absolute;
+      cursor: pointer;
+      z-index: 10;
+      user-select: none;
+      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+      transition: filter 0.15s ease;
+      touch-action: manipulation;
+    }
+
+    .fish-swimmer:active {
+      transform: scale(0.92);
+    }
+
+    .fish-swimmer svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+      pointer-events: none;
+    }
+
+    /* 성공 파티클 효과 */
+    .particle {
+      position: absolute;
+      pointer-events: none;
+      font-size: 24px;
+      z-index: 80;
+      animation: particle-pop 0.7s forwards ease-out;
+    }
+
+    @keyframes particle-pop {
+      0% { transform: translate(0, 0) scale(0.5); opacity: 1; }
+      100% { transform: translate(var(--dx), var(--dy)) scale(1.4); opacity: 0; }
+    }
+
+    /* 낚아 올리기 애니메이션 */
+    .caught-up {
+      animation: catch-lift 0.6s forwards cubic-bezier(0.18, 0.89, 0.32, 1.28) !important;
+      pointer-events: none;
+    }
+
+    @keyframes catch-lift {
+      0% { transform: scale(1) translateY(0); opacity: 1; }
+      40% { transform: scale(1.3) translateY(-40px); }
+      100% { transform: scale(0.2) translateY(-300px); opacity: 0; }
+    }
+
+    /* 오답 흔들림 애니메이션 */
+    .wrong-wiggle {
+      animation: wrong-shake 0.4s ease-in-out;
+    }
+
+    @keyframes wrong-shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-14px) rotate(-8deg); }
+      40%, 80% { transform: translateX(14px) rotate(8deg); }
+    }
+
+    /* 성공 모달 */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(8, 28, 52, 0.75);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      padding: 16px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-card {
+      background: #ffffff;
+      border-radius: 36px;
+      border: 6px solid #ffd43b;
+      padding: 32px 24px;
+      max-width: 420px;
+      width: 100%;
+      text-align: center;
+      color: #2b4365;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      transform: scale(0.8);
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .modal-overlay.active .modal-card {
+      transform: scale(1);
+    }
+
+    .modal-emoji {
+      font-size: 64px;
+      margin-bottom: 12px;
+      animation: celebration-bounce 1s infinite alternate ease-in-out;
+    }
+
+    @keyframes celebration-bounce {
+      0% { transform: scale(1) translateY(0); }
+      100% { transform: scale(1.15) translateY(-10px); }
+    }
+
+    .modal-title {
+      font-size: clamp(26px, 5vw, 34px);
+      margin-bottom: 8px;
+      color: #1e3a5f;
+    }
+
+    .modal-desc {
+      font-size: 18px;
+      color: #5c7493;
+      margin-bottom: 24px;
+    }
+
+    .modal-btn-group {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .btn-action {
+      font-family: inherit;
+      font-size: 20px;
+      font-weight: 800;
+      padding: 14px 24px;
+      border-radius: 28px;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 5px 0 rgba(0, 0, 0, 0.15);
+      transition: all 0.12s ease;
+    }
+
+    .btn-next {
+      background: #10b981;
+      color: #ffffff;
+      box-shadow: 0 5px 0 #059669;
+    }
+    .btn-next:active {
+      transform: translateY(3px);
+      box-shadow: 0 2px 0 #059669;
+    }
+
+    .btn-lobby {
+      background: #e2e8f0;
+      color: #475569;
+      box-shadow: 0 4px 0 #cbd5e1;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .btn-lobby:active {
+      transform: translateY(2px);
+      box-shadow: 0 2px 0 #cbd5e1;
+    }
+  </style>
+</head>
+<body>
+  <!-- 상단 HUD 바 -->
+  <header class="hud-bar">
+    <div class="nav-left">
+      <a href="../../index.html" class="home-btn" title="놀이터 홈으로">🏠 놀이터</a>
+    </div>
+
+    <!-- 미션 타겟 -->
+    <div class="mission-box" id="missionBox">
+      <div class="mission-target-fish" id="targetFishGraphic"></div>
+      <div class="mission-text-wrap">
+        <div class="mission-sub">이 물고기를 찾아보세요!</div>
+        <div class="mission-name">
+          <span id="targetFishName">주황 줄무늬 물고기</span>
+          <button type="button" class="speak-mission-btn" id="speakMissionBtn" title="이름 듣기">🔊</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 점수 / 진행 -->
+    <div class="score-badge" id="scoreBadge">
+      <span>⭐</span>
+      <span id="scoreText">0 / 3</span>
+    </div>
+  </header>
+
+  <!-- 바닷속 플레이 공간 -->
+  <main class="sea-container" id="seaArea">
+    <div class="sun-rays"></div>
+    <div class="sea-floor"></div>
+    <!-- 거품과 물고기들이 JS로 동적 생성됨 -->
+  </main>
+
+  <!-- 스테이지 완료 모달 -->
+  <div class="modal-overlay" id="successModal">
+    <div class="modal-card">
+      <div class="modal-emoji">🎉 🏆 🐠</div>
+      <h2 class="modal-title">우와! 다 잡았어요!</h2>
+      <p class="modal-desc">정말 멋지게 찾았어요! 최고예요!</p>
+      <div class="modal-btn-group">
+        <button type="button" class="btn-action btn-next" id="btnNextRound">다른 물고기 잡기! 🎣</button>
+        <a href="../../index.html" class="btn-action btn-lobby">놀이터로 가기 🏠</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // 1. 물고기 종류 데이터 (SVG 그래픽 & 한글 이름 & TTS 텍스트)
+    const FISH_SPECIES = [
+      {
+        id: 'clownfish',
+        name: '주황 줄무늬 물고기',
+        speak: '주황색 줄무늬 물고기',
+        width: 90,
+        height: 56,
+        svg: `
+          <svg viewBox="0 0 100 65" xmlns="http://www.w3.org/2000/svg">
+            <!-- 꼬리 -->
+            <path d="M78 32 L98 12 Q90 32 98 52 Z" fill="#ff7043" stroke="#e64a19" stroke-width="2.5" />
+            <path d="M86 24 L94 18 M86 40 L94 46" stroke="#ffffff" stroke-width="3" stroke-linecap="round" />
+            <!-- 등지느러미 -->
+            <path d="M30 18 Q50 4 65 18 Z" fill="#ff7043" stroke="#e64a19" stroke-width="2.5" />
+            <!-- 몸통 -->
+            <ellipse cx="48" cy="32" rx="36" ry="24" fill="#ff7043" stroke="#e64a19" stroke-width="2.5" />
+            <!-- 흰 줄무늬 1 -->
+            <path d="M38 12 Q44 32 38 52 Q33 32 38 12" fill="#ffffff" stroke="#263238" stroke-width="1.5" />
+            <!-- 흰 줄무늬 2 -->
+            <path d="M58 14 Q64 32 58 50 Q54 32 58 14" fill="#ffffff" stroke="#263238" stroke-width="1.5" />
+            <!-- 눈 -->
+            <circle cx="25" cy="28" r="6" fill="#ffffff" stroke="#263238" stroke-width="1.5" />
+            <circle cx="23" cy="28" r="3" fill="#263238" />
+            <circle cx="22" cy="26" r="1.2" fill="#ffffff" />
+            <!-- 배 지느러미 -->
+            <path d="M42 48 Q48 58 54 48 Z" fill="#e64a19" />
+          </svg>
+        `
+      },
+      {
+        id: 'bluetang',
+        name: '파란 동글 물고기',
+        speak: '파란색 동글이 물고기',
+        width: 86,
+        height: 54,
+        svg: `
+          <svg viewBox="0 0 100 65" xmlns="http://www.w3.org/2000/svg">
+            <!-- 꼬리 -->
+            <path d="M75 32 L96 15 Q88 32 96 49 Z" fill="#ffd600" stroke="#f57f17" stroke-width="2" />
+            <!-- 등/배 지느러미 -->
+            <path d="M32 16 Q52 6 70 16 Z" fill="#002171" />
+            <path d="M35 48 Q52 58 68 48 Z" fill="#002171" />
+            <!-- 몸통 -->
+            <ellipse cx="46" cy="32" rx="34" ry="22" fill="#2979ff" stroke="#1c54b2" stroke-width="2.5" />
+            <!-- 노란 무늬 -->
+            <path d="M52 26 L80 18 L76 34 L80 46 L52 38 Z" fill="#ffd600" opacity="0.9" />
+            <!-- 눈 -->
+            <circle cx="24" cy="27" r="6" fill="#ffffff" stroke="#1c54b2" stroke-width="1.5" />
+            <circle cx="22" cy="27" r="3.2" fill="#1c54b2" />
+            <circle cx="21" cy="25" r="1.2" fill="#ffffff" />
+          </svg>
+        `
+      },
+      {
+        id: 'puffer',
+        name: '노란 통통 복어',
+        speak: '노란색 통통 복어',
+        width: 80,
+        height: 64,
+        svg: `
+          <svg viewBox="0 0 100 75" xmlns="http://www.w3.org/2000/svg">
+            <!-- 꼬리 -->
+            <path d="M78 38 L95 24 Q89 38 95 52 Z" fill="#ffca28" stroke="#f57f17" stroke-width="2" />
+            <!-- 몸통 동그라미 -->
+            <circle cx="48" cy="38" r="30" fill="#fff176" stroke="#fbc02d" stroke-width="3" />
+            <!-- 배 부분 -->
+            <path d="M22 44 Q48 70 74 44" fill="#ffffff" opacity="0.75" />
+            <!-- 가시 점들 -->
+            <circle cx="36" cy="22" r="2.5" fill="#f57f17" />
+            <circle cx="50" cy="18" r="2.5" fill="#f57f17" />
+            <circle cx="64" cy="24" r="2.5" fill="#f57f17" />
+            <circle cx="40" cy="54" r="2.5" fill="#f57f17" />
+            <circle cx="58" cy="54" r="2.5" fill="#f57f17" />
+            <!-- 눈 -->
+            <circle cx="26" cy="30" r="7.5" fill="#ffffff" stroke="#5d4037" stroke-width="2" />
+            <circle cx="24" cy="30" r="4" fill="#424242" />
+            <circle cx="22" cy="28" r="1.5" fill="#ffffff" />
+            <!-- 지느러미 -->
+            <path d="M48 38 Q58 36 56 46 Z" fill="#ffd54f" stroke="#f57f17" stroke-width="1.5" />
+          </svg>
+        `
+      },
+      {
+        id: 'angelfish',
+        name: '분홍 날개 엔젤피쉬',
+        speak: '분홍색 날개 엔젤피쉬',
+        width: 76,
+        height: 76,
+        svg: `
+          <svg viewBox="0 0 100 95" xmlns="http://www.w3.org/2000/svg">
+            <!-- 긴 위아래 지느러미 -->
+            <path d="M38 46 L58 4 L48 46 Z" fill="#f06292" stroke="#c2185b" stroke-width="2" />
+            <path d="M38 52 L54 90 L46 52 Z" fill="#f06292" stroke="#c2185b" stroke-width="2" />
+            <!-- 꼬리 -->
+            <path d="M70 48 L94 30 Q86 48 94 66 Z" fill="#f48fb1" stroke="#c2185b" stroke-width="2" />
+            <!-- 다이아몬드형 몸통 -->
+            <polygon points="20,48 50,26 70,48 50,70" fill="#f8bbd0" stroke="#c2185b" stroke-width="2.5" />
+            <!-- 줄무늬 -->
+            <path d="M42 32 L42 64 M54 30 L54 66" stroke="#ad1457" stroke-width="3" stroke-linecap="round" />
+            <!-- 눈 -->
+            <circle cx="30" cy="46" r="5" fill="#ffffff" stroke="#263238" stroke-width="1.5" />
+            <circle cx="28" cy="46" r="2.8" fill="#c2185b" />
+          </svg>
+        `
+      },
+      {
+        id: 'greenfish',
+        name: '초록 줄무늬 물고기',
+        speak: '초록색 줄무늬 물고기',
+        width: 88,
+        height: 52,
+        svg: `
+          <svg viewBox="0 0 100 65" xmlns="http://www.w3.org/2000/svg">
+            <path d="M76 32 L96 14 Q88 32 96 50 Z" fill="#69f0ae" stroke="#00b248" stroke-width="2" />
+            <ellipse cx="48" cy="32" rx="35" ry="21" fill="#4caf50" stroke="#1b5e20" stroke-width="2.5" />
+            <path d="M36 14 Q42 32 36 50" stroke="#b9f6ca" stroke-width="4" fill="none" stroke-linecap="round" />
+            <path d="M52 14 Q58 32 52 50" stroke="#b9f6ca" stroke-width="4" fill="none" stroke-linecap="round" />
+            <circle cx="24" cy="27" r="6" fill="#ffffff" stroke="#1b5e20" stroke-width="1.5" />
+            <circle cx="22" cy="27" r="3.2" fill="#1b5e20" />
+            <circle cx="21" cy="25" r="1.2" fill="#ffffff" />
+          </svg>
+        `
+      }
+    ];
+
+    // 2. 효과음 오디오 엔진 (Web Audio API)
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    
+    function playChime() {
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+      const notes = [523.25, 659.25, 783.99, 1046.50]; // 도, 미, 솔, 높은도
+      notes.forEach((freq, idx) => {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        const start = audioCtx.currentTime + idx * 0.08;
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(freq, start);
+        gain.gain.setValueAtTime(0.2, start);
+        gain.gain.exponentialRampToValueAtTime(0.001, start + 0.3);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(start);
+        osc.stop(start + 0.32);
+      });
+    }
+
+    function playWrongSound() {
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(260, audioCtx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(160, audioCtx.currentTime + 0.2);
+      gain.gain.setValueAtTime(0.25, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.2);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.22);
+    }
+
+    function playFanfare() {
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+      const melody = [
+        { f: 523.25, d: 0.15 }, { f: 659.25, d: 0.15 }, { f: 783.99, d: 0.18 },
+        { f: 1046.50, d: 0.4 }
+      ];
+      let t = audioCtx.currentTime;
+      melody.forEach(item => {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(item.f, t);
+        gain.gain.setValueAtTime(0.3, t);
+        gain.gain.exponentialRampToValueAtTime(0.01, t + item.d);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(t);
+        osc.stop(t + item.d + 0.05);
+        t += item.d;
+      });
+    }
+
+    // 3. 상태 관리
+    let currentTarget = null;
+    let targetGoal = 3;
+    let currentScore = 0;
+    let activeFishList = [];
+    let animationFrameId = null;
+
+    const seaArea = document.getElementById('seaArea');
+    const targetFishGraphic = document.getElementById('targetFishGraphic');
+    const targetFishName = document.getElementById('targetFishName');
+    const scoreText = document.getElementById('scoreText');
+    const successModal = document.getElementById('successModal');
+    const btnNextRound = document.getElementById('btnNextRound');
+    const speakMissionBtn = document.getElementById('speakMissionBtn');
+
+    // 음성 읽어주기 (Speech Synthesis)
+    function speakText(text) {
+      if (!('speechSynthesis' in window)) return;
+      window.speechSynthesis.cancel();
+      const utter = new SpeechSynthesisUtterance(text);
+      utter.lang = 'ko-KR';
+      utter.rate = 0.95;
+      utter.pitch = 1.2;
+      window.speechSynthesis.speak(utter);
+    }
+
+    speakMissionBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (currentTarget) speakText(currentTarget.speak + '를 잡아보세요!');
+    });
+
+    // 4. 배경 기포 생성
+    function createBubbles() {
+      for (let i = 0; i < 16; i++) {
+        const b = document.createElement('div');
+        b.className = 'bubble';
+        const size = Math.random() * 18 + 10;
+        b.style.width = `${size}px`;
+        b.style.height = `${size}px`;
+        b.style.left = `${Math.random() * 95}%`;
+        b.style.animationDuration = `${Math.random() * 5 + 4}s`;
+        b.style.animationDelay = `${Math.random() * 6}s`;
+        seaArea.appendChild(b);
+      }
+    }
+
+    // 5. 물고기 객체 생성 및 루프
+    class Swimmer {
+      constructor(species, isTarget) {
+        this.species = species;
+        this.isTarget = isTarget;
+        this.width = species.width * (Math.random() * 0.2 + 0.9);
+        this.height = species.height * (Math.random() * 0.2 + 0.9);
+
+        // 이동 방향: 1 = 오른쪽, -1 = 왼쪽
+        this.dir = Math.random() > 0.5 ? 1 : -1;
+        this.speed = (Math.random() * 1.2 + 1.1) * this.dir;
+
+        const bounds = seaArea.getBoundingClientRect();
+        this.x = this.dir === 1 ? -this.width - 20 : bounds.width + 20;
+        this.y = Math.random() * (bounds.height - 180) + 20;
+        this.waveOffset = Math.random() * Math.PI * 2;
+        this.waveSpeed = Math.random() * 0.03 + 0.02;
+
+        this.el = document.createElement('div');
+        this.el.className = 'fish-swimmer';
+        this.el.style.width = `${this.width}px`;
+        this.el.style.height = `${this.height}px`;
+        this.el.innerHTML = species.svg;
+
+        this.el.addEventListener('pointerdown', (e) => this.onCatch(e));
+        seaArea.appendChild(this.el);
+      }
+
+      update(width, height) {
+        this.x += this.speed;
+        this.waveOffset += this.waveSpeed;
+        const currentY = this.y + Math.sin(this.waveOffset) * 12;
+
+        const flip = this.dir === -1 ? 'scaleX(-1)' : 'scaleX(1)';
+        this.el.style.transform = `translate3d(${this.x}px, ${currentY}px, 0) ${flip}`;
+
+        // 화면 밖으로 완전히 벗어남 체크
+        if (this.dir === 1 && this.x > width + 50) return false;
+        if (this.dir === -1 && this.x < -this.width - 50) return false;
+        return true;
+      }
+
+      onCatch(e) {
+        e.stopPropagation();
+        if (this.caught) return;
+
+        if (this.isTarget) {
+          this.caught = true;
+          this.el.classList.add('caught-up');
+          playChime();
+          spawnParticles(e.clientX, e.clientY);
+
+          currentScore++;
+          updateScoreDisplay();
+
+          setTimeout(() => {
+            this.destroy();
+            // 타겟 물고기가 잡혔으면 새로 보충
+            spawnFish(true);
+          }, 550);
+
+          if (currentScore >= targetGoal) {
+            setTimeout(showVictory, 400);
+          }
+        } else {
+          playWrongSound();
+          this.el.classList.remove('wrong-wiggle');
+          void this.el.offsetWidth;
+          this.el.classList.add('wrong-wiggle');
+          // 살짝 도망치듯 가속
+          this.speed *= 1.4;
+        }
+      }
+
+      destroy() {
+        if (this.el && this.el.parentNode) {
+          this.el.parentNode.removeChild(this.el);
+        }
+        const idx = activeFishList.indexOf(this);
+        if (idx !== -1) activeFishList.splice(idx, 1);
+      }
+    }
+
+    function spawnParticles(x, y) {
+      const items = ['✨', '⭐', '🫧', '🌟'];
+      for (let i = 0; i < 7; i++) {
+        const p = document.createElement('div');
+        p.className = 'particle';
+        p.textContent = items[Math.floor(Math.random() * items.length)];
+        p.style.left = `${x}px`;
+        p.style.top = `${y}px`;
+        const angle = (Math.PI * 2 / 7) * i;
+        const dist = Math.random() * 60 + 40;
+        p.style.setProperty('--dx', `${Math.cos(angle) * dist}px`);
+        p.style.setProperty('--dy', `${Math.sin(angle) * dist}px`);
+        document.body.appendChild(p);
+        setTimeout(() => p.remove(), 700);
+      }
+    }
+
+    function updateScoreDisplay() {
+      scoreText.textContent = `${currentScore} / ${targetGoal}`;
+    }
+
+    function spawnFish(forceTarget = false) {
+      const isTarget = forceTarget || (Math.random() < 0.4);
+      let species;
+      if (isTarget) {
+        species = currentTarget;
+      } else {
+        const others = FISH_SPECIES.filter(s => s.id !== currentTarget.id);
+        species = others[Math.floor(Math.random() * others.length)];
+      }
+      const fish = new Swimmer(species, isTarget);
+      activeFishList.push(fish);
+    }
+
+    function gameLoop() {
+      const bounds = seaArea.getBoundingClientRect();
+      for (let i = activeFishList.length - 1; i >= 0; i--) {
+        const fish = activeFishList[i];
+        if (!fish.caught) {
+          const alive = fish.update(bounds.width, bounds.height);
+          if (!alive) {
+            fish.destroy();
+            // 화면 밖으로 나가면 새로운 물고기 스폰
+            spawnFish();
+          }
+        }
+      }
+
+      // 수조 안에 물고기 수 유지 (화면 너비에 따라 6~10마리)
+      const maxFish = Math.min(10, Math.max(6, Math.floor(bounds.width / 120)));
+      if (activeFishList.length < maxFish) {
+        spawnFish();
+      }
+
+      animationFrameId = requestAnimationFrame(gameLoop);
+    }
+
+    // 6. 라운드 시작
+    function startRound() {
+      successModal.classList.remove('active');
+      currentScore = 0;
+      updateScoreDisplay();
+
+      // 이전 물고기 정리
+      activeFishList.forEach(f => {
+        if (f.el && f.el.parentNode) f.el.parentNode.removeChild(f.el);
+      });
+      activeFishList = [];
+
+      // 랜덤 타겟 선정 (이전과 가급적 다른 종류)
+      const prevId = currentTarget ? currentTarget.id : null;
+      const candidates = FISH_SPECIES.filter(s => s.id !== prevId);
+      currentTarget = candidates[Math.floor(Math.random() * candidates.length)];
+
+      // 타겟 HUD 갱신
+      targetFishGraphic.innerHTML = currentTarget.svg;
+      targetFishName.textContent = currentTarget.name;
+
+      // 음성 자동 안내
+      setTimeout(() => {
+        speakText(`${currentTarget.speak}를 찾아보세요!`);
+      }, 500);
+
+      // 초기 물고기 생성
+      const bounds = seaArea.getBoundingClientRect();
+      const initialCount = Math.min(8, Math.max(5, Math.floor(bounds.width / 130)));
+      for (let i = 0; i < initialCount; i++) {
+        const isTarget = i < 2; // 처음 2마리는 반드시 타겟 포함
+        const species = isTarget ? currentTarget : FISH_SPECIES[Math.floor(Math.random() * FISH_SPECIES.length)];
+        const fish = new Swimmer(species, species.id === currentTarget.id);
+        // 화면 안 임의의 위치에 미리 배치
+        fish.x = Math.random() * (bounds.width - fish.width);
+        activeFishList.push(fish);
+      }
+    }
+
+    function showVictory() {
+      playFanfare();
+      successModal.classList.add('active');
+      speakText('우와! 다 잡았어요! 정말 최고예요!');
+    }
+
+    btnNextRound.addEventListener('click', () => {
+      startRound();
+    });
+
+    // 초기화
+    createBubbles();
+    startRound();
+    gameLoop();
+  </script>
+</body>
+</html>
