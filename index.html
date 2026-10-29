@@ -260,6 +260,31 @@
       box-shadow: 0 2px 0 #c2410c;
     }
 
+    /* 카드 4: 숨바꼭질 공룡 친구들 */
+    .card-dino {
+      border-color: #c9f0d8;
+      color: #1f9d5b;
+    }
+    .card-dino:hover {
+      border-color: #35b56a;
+    }
+    .card-dino .card-icon-wrap {
+      background: radial-gradient(circle, #effff6 0%, #cef3dd 100%);
+      border: 4px solid #a8e9c0;
+    }
+    .card-dino .card-icon-wrap span {
+      animation: wiggle 2.6s infinite ease-in-out;
+    }
+    .card-dino .play-btn {
+      background: #35b56a;
+      color: #ffffff;
+      box-shadow: 0 5px 0 #238a4e;
+    }
+    .card-dino .play-btn:active {
+      transform: translateY(3px);
+      box-shadow: 0 2px 0 #238a4e;
+    }
+
     /* 카드: 커밍순 */
     .card-coming {
       border-color: #e9ecef;
@@ -455,6 +480,19 @@
         <p class="card-desc">자동차를 타고 길을 따라가요!<br>글자가 동물 친구로 변신해요!</p>
         <button class="play-btn" type="button" tabindex="-1">
           <span>글씨 쓰러 가기!</span> <span>✏️</span>
+        </button>
+      </a>
+
+      <!-- 4. 숨바꼭질 공룡 친구들 -->
+      <a href="games/dino-hide-seek/index.html" class="game-card card-dino" id="cardDino">
+        <span class="card-badge badge-new">새 놀이</span>
+        <div class="card-icon-wrap">
+          <span>🦕</span>
+        </div>
+        <h2 class="card-title">숨바꼭질 공룡 친구들</h2>
+        <p class="card-desc">숲·초원·호수에 숨은 공룡 30종을<br>찾아서 먹이고 돌봐주세요!</p>
+        <button class="play-btn" type="button" tabindex="-1">
+          <span>공룡 찾으러 가기!</span> <span>🌿</span>
         </button>
       </a>
     </main>
