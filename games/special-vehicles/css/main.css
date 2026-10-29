@@ -1,0 +1,165 @@
+/* 글로벌 및 기본 레이아웃 스타일 */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  touch-action: manipulation;
+}
+
+:root {
+  --font-main: "Jua", "Malgun Gothic", "Apple SD Gothic Neo", sans-serif;
+  --bg-gradient: linear-gradient(180deg, #dbeafe 0%, #eff6ff 40%, #f0fdf4 100%);
+  --color-primary: #2563eb;
+  --color-danger: #ef4444;
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --shadow-card: 0 10px 24px rgba(30, 58, 138, 0.12);
+  --shadow-btn: 0 6px 0 rgba(0, 0, 0, 0.16);
+  --radius-lg: 24px;
+  --radius-md: 16px;
+}
+
+body {
+  font-family: var(--font-main);
+  background: var(--bg-gradient);
+  color: #1e293b;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  padding: max(12px, env(safe-area-inset-top)) max(12px, env(safe-area-inset-right)) max(16px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left));
+}
+
+button {
+  font-family: inherit;
+  border: none;
+  cursor: pointer;
+  outline: none;
+}
+
+/* 상단 메인 네비게이션 바 */
+.top-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1100px;
+  width: 100%;
+  margin: 0 auto 12px;
+  gap: 8px;
+}
+
+.nav-left, .nav-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-nav-home {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #ffffff;
+  color: #3b82f6;
+  text-decoration: none;
+  padding: 8px 16px;
+  border-radius: 30px;
+  font-size: 16px;
+  font-weight: 700;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  transition: transform 0.1s ease;
+}
+
+.btn-nav-home:active {
+  transform: scale(0.95);
+}
+
+.app-title-badge {
+  font-size: clamp(18px, 4vw, 26px);
+  color: #1e3a8a;
+  text-shadow: 0 2px 0 #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-top-action {
+  background: #ffffff;
+  font-size: 20px;
+  padding: 8px 14px;
+  border-radius: 50%;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+.btn-dispatch-call {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: #ffffff;
+  font-size: clamp(15px, 3.2vw, 19px);
+  padding: 10px 22px;
+  border-radius: 30px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 6px 0 #991b1b, 0 8px 16px rgba(220, 38, 38, 0.35);
+  animation: pulse-siren 1.5s infinite;
+}
+
+.btn-dispatch-call:active {
+  transform: translateY(4px);
+  box-shadow: 0 2px 0 #991b1b;
+}
+
+/* 화면 전환 컨테이너 */
+.screen-view {
+  display: none;
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  flex: 1;
+}
+
+.screen-view.active {
+  display: flex;
+  flex-direction: column;
+}
+
+/* 모달 기본 스타일 */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.65);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.modal-backdrop.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* 유틸리티 애니메이션 */
+@keyframes pulse-siren {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.04); }
+}
+
+@keyframes bounce-subtle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+@keyframes wiggle {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-6deg); }
+  75% { transform: rotate(6deg); }
+}

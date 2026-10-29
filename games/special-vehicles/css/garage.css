@@ -1,0 +1,411 @@
+/* 대형 차고지, 6대 본부 탭, 도감 카드 및 스티커 꾸미기 스타일 */
+
+/* 6대 본부 탭 바 */
+.hq-tab-bar {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 6px 2px 14px;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.hq-tab-bar::-webkit-scrollbar {
+  display: none;
+}
+
+.hq-tab {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 20px;
+  background: #ffffff;
+  color: #475569;
+  font-size: 15px;
+  font-weight: 700;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+  transition: all 0.2s ease;
+}
+
+.hq-tab.active {
+  background: #2563eb;
+  color: #ffffff;
+  box-shadow: 0 6px 14px rgba(37, 99, 235, 0.35);
+  transform: translateY(-2px);
+}
+
+.tab-icon {
+  font-size: 18px;
+}
+
+/* 차고지 카드 그리드 */
+.garage-grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
+  padding-bottom: 30px;
+}
+
+.vehicle-card {
+  background: #ffffff;
+  border-radius: var(--radius-lg);
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: var(--shadow-card);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border: 3px solid transparent;
+}
+
+.vehicle-card.unlocked:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 28px rgba(30, 58, 138, 0.18);
+  border-color: #93c5fd;
+}
+
+.vehicle-card.unlocked:active {
+  transform: scale(0.98);
+}
+
+.card-badge-row {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.hq-mini-tag {
+  font-size: 14px;
+  font-weight: 700;
+  color: #334155;
+  background: #f1f5f9;
+  padding: 4px 10px;
+  border-radius: 12px;
+}
+
+.star-badge {
+  font-size: 15px;
+  letter-spacing: 2px;
+}
+
+/* 차량 미리보기 및 스티커 레이어 */
+.vehicle-preview-wrap {
+  width: 100%;
+  height: 125px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin: 6px 0;
+}
+
+.stickers-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.placed-sticker {
+  position: absolute;
+  font-size: 18px;
+  transform: translate(-50%, -50%);
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+}
+
+/* 카드 하단 액션 버튼 바 */
+.card-action-bar {
+  width: 100%;
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.btn-voice-talk, .btn-inspect {
+  flex: 1;
+  padding: 8px 10px;
+  border-radius: 16px;
+  font-size: 13px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.btn-voice-talk {
+  background: #f0fdf4;
+  color: #166534;
+  border: 1px solid #bbf7d0;
+}
+
+.btn-inspect {
+  background: #eff6ff;
+  color: #1e40af;
+  border: 1px solid #bfdbfe;
+}
+
+/* 잠긴 카드 스타일 */
+.vehicle-card.locked {
+  background: #f8fafc;
+  opacity: 0.85;
+}
+
+.locked-silhouette svg {
+  filter: grayscale(100%) brightness(0.6) opacity(0.35);
+}
+
+.lock-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(241, 245, 249, 0.45);
+  backdrop-filter: blur(1px);
+}
+
+.lock-icon {
+  font-size: 38px;
+  animation: bounce-subtle 2s infinite ease-in-out;
+}
+
+.lock-text {
+  font-size: 13px;
+  font-weight: 700;
+  color: #64748b;
+  margin-top: 4px;
+}
+
+.card-title-locked {
+  font-size: 14px;
+  color: #94a3b8;
+  font-weight: 700;
+}
+
+/* 스티커 꾸미기 모달 */
+.inspect-modal-box {
+  background: #ffffff;
+  border-radius: var(--radius-lg);
+  max-width: 480px;
+  width: 100%;
+  padding: 22px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+  text-align: center;
+  position: relative;
+}
+
+.inspect-header {
+  margin-bottom: 12px;
+}
+
+.inspect-title {
+  font-size: 24px;
+  color: #1e293b;
+}
+
+.inspect-desc {
+  font-size: 15px;
+  color: #64748b;
+  margin-top: 4px;
+}
+
+.inspect-vehicle-canvas {
+  width: 100%;
+  height: 220px;
+  background: linear-gradient(180deg, #e0f2fe 0%, #f0fdf4 100%);
+  border-radius: var(--radius-md);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  margin: 12px 0;
+  border: 2px dashed #93c5fd;
+}
+
+.inspect-svg-stage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sticker-interactive-overlay {
+  position: absolute;
+  inset: 0;
+  cursor: crosshair;
+}
+
+.placed-sticker-lg {
+  position: absolute;
+  font-size: 32px;
+  transform: translate(-50%, -50%);
+  filter: drop-shadow(0 3px 6px rgba(0,0,0,0.3));
+  pointer-events: none;
+}
+
+/* 스티커 팔레트 */
+.sticker-palette-wrap {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 12px 0;
+  overflow-x: auto;
+  padding: 4px;
+}
+
+.sticker-item-btn {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: #f1f5f9;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.15s ease, background-color 0.15s ease;
+  border: 2px solid transparent;
+}
+
+.sticker-item-btn.selected {
+  background: #fef08a;
+  border-color: #eab308;
+  transform: scale(1.18);
+  box-shadow: 0 4px 10px rgba(234, 179, 8, 0.4);
+}
+
+.inspect-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.btn-clear-stickers {
+  flex: 1;
+  background: #f1f5f9;
+  color: #64748b;
+  padding: 10px;
+  border-radius: 16px;
+  font-weight: 700;
+}
+
+.btn-close-inspect {
+  flex: 2;
+  background: #2563eb;
+  color: #ffffff;
+  padding: 10px;
+  border-radius: 16px;
+  font-weight: 700;
+  box-shadow: 0 4px 0 #1d4ed8;
+}
+
+/* 서프라이즈 언박싱 모달 */
+.unboxing-box-container {
+  background: #ffffff;
+  border-radius: var(--radius-lg);
+  max-width: 450px;
+  width: 100%;
+  padding: 28px 20px;
+  text-align: center;
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.3);
+}
+
+.unboxing-title {
+  font-size: 24px;
+  color: #1e3a8a;
+}
+
+.unboxing-desc {
+  font-size: 16px;
+  color: #64748b;
+  margin: 8px 0 16px;
+}
+
+.crate-box {
+  width: 180px;
+  height: 180px;
+  margin: 16px auto;
+  background: #fef3c7;
+  border: 5px solid #d97706;
+  border-radius: 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 12px 24px rgba(217, 119, 6, 0.25);
+  position: relative;
+  transition: transform 0.15s ease;
+}
+
+.crate-box:active {
+  transform: scale(0.92);
+}
+
+.crate-emoji {
+  font-size: 80px;
+}
+
+.tap-counter-bubble {
+  position: absolute;
+  bottom: -12px;
+  background: #ef4444;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 4px 14px;
+  border-radius: 20px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+}
+
+.crate-shake {
+  animation: wiggle 0.25s infinite ease-in-out;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.reveal-firework {
+  font-size: 40px;
+  margin-bottom: 8px;
+  animation: bounce-subtle 1.2s infinite ease-in-out;
+}
+
+.reveal-name {
+  font-size: 26px;
+  color: #1e293b;
+  margin: 10px 0 6px;
+}
+
+.reveal-desc {
+  font-size: 15px;
+  color: #475569;
+  line-height: 1.4;
+  margin-bottom: 16px;
+}
+
+.btn-confirm-unbox {
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 700;
+  padding: 12px 30px;
+  border-radius: 30px;
+  box-shadow: 0 6px 0 #047857;
+}
+
+.btn-confirm-unbox:active {
+  transform: translateY(3px);
+  box-shadow: 0 3px 0 #047857;
+}
