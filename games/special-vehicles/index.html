@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="특수차량 본부">
+  <title>🚒 출동! 슈퍼 특수차량 본부 🚓</title>
+
+  <!-- 웹 폰트 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+
+  <!-- 스타일시트 -->
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/garage.css">
+  <link rel="stylesheet" href="css/mission.css">
+  <link rel="stylesheet" href="css/wash.css">
+</head>
+<body>
+
+  <!-- 상단 네비게이션 헤더 -->
+  <header class="top-nav">
+    <div class="nav-left">
+      <a href="../../index.html" class="btn-nav-home" id="btnBackHome">
+        <span>🏠</span>
+        <span>놀이터</span>
+      </a>
+      <h1 class="app-title-badge">
+        <span>🚒</span> 출동! 슈퍼 특수차량
+      </h1>
+    </div>
+
+    <div class="nav-right">
+      <button class="btn-dispatch-call" id="btnOpenDispatch">
+        <span>🚨</span>
+        <span>출동 지령!</span>
+      </button>
+      <button class="btn-top-action" id="btnToggleMute" title="소리 켜기/끄기">🔊</button>
+    </div>
+  </header>
+
+  <!-- 메인 뷰 1: 대형 차고지 (도감 및 스티커) -->
+  <main class="screen-view active" id="garageView">
+    <!-- 6대 본부 탭 바 -->
+    <nav class="hq-tab-bar" id="hqTabs"></nav>
+
+    <!-- 52종 차량 카드 그리드 -->
+    <section class="garage-grid-container" id="garageGrid"></section>
+  </main>
+
+  <!-- 메인 뷰 2: 복합 출동 미션 -->
+  <section class="screen-view" id="missionScreen"></section>
+
+  <!-- 메인 뷰 3: 세차 및 정비소 -->
+  <section class="screen-view" id="washScreen"></section>
+
+  <!-- 모달 1: 상황실 출동 지령 선택 -->
+  <div class="modal-backdrop" id="dispatchModal"></div>
+
+  <!-- 모달 2: 차량 스티커 꾸미기 & 음성 도감 -->
+  <div class="modal-backdrop" id="inspectModal">
+    <div class="inspect-modal-box">
+      <div class="inspect-header">
+        <h2 class="inspect-title" id="inspectTitle">특수차량</h2>
+        <p class="inspect-desc" id="inspectDesc">설명</p>
+      </div>
+
+      <div class="inspect-vehicle-canvas" id="inspectVehicleCanvas"></div>
+
+      <p style="font-size: 13px; color: #64748b; font-weight: 700;">스티커를 고르고 차를 터치해 붙여보세요! ✨</p>
+      <div class="sticker-palette-wrap" id="stickerPalette"></div>
+
+      <div class="inspect-actions">
+        <button class="btn-clear-stickers" id="btnClearStickers">스티커 지우기</button>
+        <button class="btn-close-inspect" id="btnCloseInspect">완료! 👍</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 모달 3: 미션 완료 승리 축하 -->
+  <div class="modal-backdrop" id="victoryModal"></div>
+
+  <!-- 모달 4: 서프라이즈 선물상자 언박싱 -->
+  <div class="modal-backdrop" id="unboxingModal"></div>
+
+  <!-- 스크립트 모듈 로드 -->
+  <script src="js/vehicles-data.js"></script>
+  <script src="js/sound-manager.js"></script>
+  <script src="js/storage-manager.js"></script>
+  <script src="js/vehicle-renderer.js"></script>
+  <script src="js/garage.js"></script>
+  <script src="js/mission.js"></script>
+  <script src="js/wash.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
