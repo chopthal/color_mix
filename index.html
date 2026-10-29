@@ -260,6 +260,28 @@
       box-shadow: 0 2px 0 #c2410c;
     }
 
+        /* 카드 4: 슈퍼 특수차량 본부 */
+    .card-vehicles {
+      border-color: #fecaca;
+      color: #dc2626;
+    }
+    .card-vehicles:hover {
+      border-color: #ef4444;
+    }
+    .card-vehicles .card-icon-wrap {
+      background: radial-gradient(circle, #fef2f2 0%, #fee2e2 100%);
+      border: 4px solid #fca5a5;
+    }
+    .card-vehicles .play-btn {
+      background: #ef4444;
+      color: #ffffff;
+      box-shadow: 0 5px 0 #b91c1c;
+    }
+    .card-vehicles .play-btn:active {
+      transform: translateY(3px);
+      box-shadow: 0 2px 0 #b91c1c;
+    }
+
     /* 카드: 커밍순 */
     .card-coming {
       border-color: #e9ecef;
@@ -455,6 +477,18 @@
         <p class="card-desc">자동차를 타고 길을 따라가요!<br>글자가 동물 친구로 변신해요!</p>
         <button class="play-btn" type="button" tabindex="-1">
           <span>글씨 쓰러 가기!</span> <span>✏️</span>
+        </button>
+      </a>
+          <!-- 4. 출동! 슈퍼 특수차량 -->
+      <a href="games/special-vehicles/index.html" class="game-card card-vehicles" id="cardVehicles">
+        <span class="card-badge badge-hot">대규모 신작!</span>
+        <div class="card-icon-wrap">
+          <span>🚒</span>
+        </div>
+        <h2 class="card-title">슈퍼 특수차량 본부</h2>
+        <p class="card-desc">52종 특수차량 출동 & 세차!<br>사다리 펴고 물 쏘며 사건 해결!</p>
+        <button class="play-btn" type="button" tabindex="-1">
+          <span>출동하러 가기!</span> <span>🚨</span>
         </button>
       </a>
     </main>
