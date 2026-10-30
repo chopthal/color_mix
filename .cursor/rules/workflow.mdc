@@ -1,0 +1,13 @@
+---
+description: 작업 리듬 — 논의→합의→구현, 커밋은 요청 시만
+alwaysApply: true
+---
+
+작업 리듬
+• 응답은 짧게. 모호하면 코드 전에 선택지.
+• 비효율·비표준은 착수 전 Best Practice 역제안 후 합의.
+• 구현 전 [난이도 / 추천 모델] 게이트 (AGENTS.md SSOT).
+• .env는 사용자만. commit/push/deploy는 사용자 명시 전 금지.
+• 핸드오프: STATUS / PROGRESS / ASSUMPTIONS. 작업은 STATUS「다음」만.
+• 완료 = 증거. 템플릿: docs/agent-prompt-templates.md.
+• 키즈 UX·인게임 가드레일: docs/PROJECT.md. 상세 운영은 루트 AGENTS.md.
