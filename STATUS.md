@@ -1,12 +1,13 @@
 # STATUS
 
-• 기준본: main (최신)
+• 기준본: main
+• 피처 브랜치: chopthal/feature-pumpkin-train-candy (PR #4 생성됨)
 • 담당: 호박 특장차와 사탕 미로 대모험 (games/pumpkin-train)
 • 갱신: 2026-10-30
 
 ## 지금
 
-`games/pumpkin-train/` 2차 고도화(마녀 모자 워프 터널 + 호박 차고 파츠 꾸미기) 구현 및 검증 완료.
+호박 특장차 신규 게임 구현 및 PR 생성 완료 (https://github.com/chopthal/color_mix/pull/4).
 
 ## 막힘
 
@@ -14,9 +15,9 @@
 
 ## 다음 할 일
 
-(비움 — 사용자가 다음 1개를 지정하거나 커밋/푸시 요청)
+(비움 — PR 리뷰/머지 후 다음 게임 선정 또는 기능 확장)
 
 ## 사용자 액션
 
-• 브라우저에서 직접 테스트: `npx --yes serve . -p 4173` 후 `http://localhost:4173/games/pumpkin-train/index.html` 접속
-• 작업 단위 커밋/푸시 여부 지시
+• GitHub PR #4 리뷰 및 머지 (Merge Pull Request)
+• 머지 후 다음 작업 방향 지시
