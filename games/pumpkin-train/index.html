@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="호박 특장차">
+  <title>🎃 칙칙폭폭 호박 특장차와 사탕 미로 대모험</title>
+
+  <!-- 웹 폰트 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+
+  <!-- 스타일시트 -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- 밤하늘 별 배경 -->
+  <div class="stars-sky"></div>
+
+  <!-- 상단 네비게이션 -->
+  <header class="top-nav">
+    <div class="nav-left">
+      <a href="../../index.html" class="btn-home" id="btnBackHome">
+        <span>🏠</span>
+        <span>놀이터</span>
+      </a>
+      <h1 class="title-badge">
+        <span>🎃</span>
+        <span>호박 특장차</span>
+      </h1>
+    </div>
+
+    <div class="nav-right">
+      <button class="btn-nav-action" id="btnOpenGarage" title="내 차고 열기">
+        <span>🚗</span>
+        <span>차고</span>
+      </button>
+      <button class="btn-sound-toggle" id="btnSound" title="소리 켜기/끄기">🔊</button>
+    </div>
+  </header>
+
+  <!-- 메인 앱 컨테이너 -->
+  <main class="app-container">
+
+    <!-- 선택 바 (스테이지 & 차량) -->
+    <section class="selection-bar">
+      <div class="stage-selector">
+        <span class="selector-label">모험:</span>
+        <div id="stageTabs" style="display: flex; gap: 4px;">
+          <button class="stage-tab-btn active" data-index="0">1단계</button>
+          <button class="stage-tab-btn" data-index="1">2단계</button>
+          <button class="stage-tab-btn" data-index="2">3단계</button>
+          <button class="stage-tab-btn" data-index="3">4단계 🎩</button>
+        </div>
+      </div>
+
+      <div class="vehicle-selector">
+        <span class="selector-label">특장차:</span>
+        <div id="vehicleTabs" style="display: flex; gap: 4px;">
+          <button class="vehicle-tab-btn active" data-vehicle="bulldozer">
+            <span>🚜</span> <span>불도저</span>
+          </button>
+          <button class="vehicle-tab-btn" data-vehicle="sprayer">
+            <span>💦</span> <span>물총차</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 친절한 안내 말풍선 -->
+    <div class="hint-bubble-wrap">
+      <div class="hint-bubble" id="hintBubble">
+        <span>🌟</span>
+        <span id="hintText">블록을 콕 눌러 기차 레일을 완성해봐요!</span>
+      </div>
+    </div>
+
+    <!-- 상단: 5x5 사탕 마을 미로 맵 -->
+    <section class="maze-section">
+      <div class="maze-grid" id="mazeBoard"></div>
+    </section>
+
+    <!-- 하단: 기차 레일 코딩 보드 -->
+    <section class="coding-section">
+      <!-- 기차 레일 슬롯 -->
+      <div class="rail-container-wrap">
+        <div class="rail-track" id="railTrack"></div>
+      </div>
+
+      <!-- 팔레트 & 조작 버튼 -->
+      <div class="palette-and-controls">
+        <!-- 방향 및 특수 액션 블록 팔레트 (탭해서 레일에 추가) -->
+        <div class="palette-wrap" id="paletteWrap">
+          <button class="block-btn" data-block="up" title="위로">
+            <span class="block-icon">⬆️</span>
+            <span class="block-label">위로</span>
+          </button>
+          <button class="block-btn" data-block="down" title="아래로">
+            <span class="block-icon">⬇️</span>
+            <span class="block-label">아래로</span>
+          </button>
+          <button class="block-btn" data-block="left" title="왼쪽">
+            <span class="block-icon">⬅️</span>
+            <span class="block-label">왼쪽</span>
+          </button>
+          <button class="block-btn" data-block="right" title="오른쪽">
+            <span class="block-icon">➡️</span>
+            <span class="block-label">오른쪽</span>
+          </button>
+          <button class="block-btn block-btn-action" data-block="action" title="특수 액션">
+            <span class="block-icon">🚜</span>
+            <span class="block-label">영차 밀기</span>
+          </button>
+        </div>
+
+        <!-- 제어 버튼 (지우기, 출발선으로, 출발) -->
+        <div class="control-actions">
+          <button class="btn-ctrl btn-clear" id="btnClear" title="레일 비우기">
+            <span>🔄</span> <span>비우기</span>
+          </button>
+          <button class="btn-ctrl btn-reset-pos" id="btnResetPosition" title="처음 출발선으로">
+            <span>🏁</span> <span>처음으로</span>
+          </button>
+          <button class="btn-ctrl btn-start" id="btnStart" title="주행 시작">
+            <span>▶️</span> <span>출발!</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 숨은 스테이지 정보 텍스트 (접근성) -->
+    <div style="display: none;">
+      <span id="stageTitle">1. 사탕 길 산책</span>
+      <span id="stageDesc">사탕을 모아 파티장으로 가요!</span>
+    </div>
+  </main>
+
+  <!-- 모달 1: 파티장 골인 승리 축하 -->
+  <div class="modal-backdrop" id="victoryModal">
+    <div class="victory-modal-box">
+      <div style="font-size: 54px; animation: bounce-subtle 1.5s infinite ease-in-out;">🎪🎃</div>
+      <h2 class="victory-title">달콤 파티장 도착!</h2>
+      <p class="victory-desc" id="victoryCandyCount">3칸의 사탕 기차 완성! 🚂🍬</p>
+
+      <div class="victory-trailers-wrap" id="victoryTrailersWrap"></div>
+
+      <!-- 새 파츠 해금 안내 배지 -->
+      <div class="new-part-badge" id="newPartBadge" style="display: none;">
+        <span class="part-sparkle">✨</span>
+        <span id="newPartText">새 파츠 획득!</span>
+        <span class="part-sparkle">✨</span>
+      </div>
+
+      <div class="victory-actions">
+        <button class="btn-modal-action btn-replay" id="btnReplay">다시 하기 🔁</button>
+        <button class="btn-modal-action btn-next" id="btnNextStage">다음 모험 🚀</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 모달 2: 호박 차고 & 파츠 꾸미기 모달 -->
+  <div class="modal-backdrop" id="garageModal">
+    <div class="garage-modal-box">
+      <div class="garage-header">
+        <h2 class="garage-title">🎃 내 호박 차고</h2>
+        <button class="btn-close-modal" id="btnCloseGarage">✕</button>
+      </div>
+
+      <p class="garage-desc">원하는 파츠를 톡 눌러 차를 멋지게 꾸며봐요!</p>
+
+      <!-- 차고 차량 미리보기 뷰 -->
+      <div class="garage-car-display">
+        <div class="garage-car-wrap" id="garageCarWrap">
+          <div class="pumpkin-car preview-large" id="garageCarPreview"></div>
+        </div>
+      </div>
+
+      <!-- 4종 파츠 목록 그리드 -->
+      <div class="parts-grid" id="garagePartsGrid"></div>
+
+      <div class="garage-footer">
+        <button class="btn-modal-action btn-next" id="btnConfirmGarage">완료! 멋져 👍</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 스크립트 모듈 로드 -->
+  <script src="js/audio.js"></script>
+  <script src="js/game.js"></script>
+</body>
+</html>

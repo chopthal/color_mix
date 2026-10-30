@@ -331,6 +331,30 @@
       transform: translateY(3px);
       box-shadow: 0 2px 0 #238a4e;
     }
+    /* 카드 7: 호박 특장차와 사탕 미로 */
+    .card-pumpkin {
+      border-color: #fed7aa;
+      color: #ea580c;
+    }
+    .card-pumpkin:hover {
+      border-color: #f97316;
+    }
+    .card-pumpkin .card-icon-wrap {
+      background: radial-gradient(circle, #fff7ed 0%, #ffedd5 100%);
+      border: 4px solid #fed7aa;
+    }
+    .card-pumpkin .card-icon-wrap span {
+      animation: wiggle 2.4s infinite ease-in-out;
+    }
+    .card-pumpkin .play-btn {
+      background: #f97316;
+      color: #ffffff;
+      box-shadow: 0 5px 0 #c2410c;
+    }
+    .card-pumpkin .play-btn:active {
+      transform: translateY(3px);
+      box-shadow: 0 2px 0 #c2410c;
+    }
 
     /* 카드: 커밍순 */
     .card-coming {
@@ -565,6 +589,19 @@
         <p class="card-desc">숲·초원·호수에 숨은 공룡 30종을<br>찾아서 먹이고 돌봐주세요!</p>
         <button class="play-btn" type="button" tabindex="-1">
           <span>공룡 찾으러 가기!</span> <span>🌿</span>
+        </button>
+      </a>
+
+      <!-- 7. 칙칙폭폭 호박 특장차와 사탕 미로 대모험 -->
+      <a href="games/pumpkin-train/index.html" class="game-card card-pumpkin" id="cardPumpkinTrain">
+        <span class="card-badge badge-new">블록 코딩 신작!</span>
+        <div class="card-icon-wrap">
+          <span>🎃</span>
+        </div>
+        <h2 class="card-title">호박 특장차 사탕 미로</h2>
+        <p class="card-desc">블록을 콕콕 눌러 레일을 놓아요!<br>사탕을 모아 꼬리 기차로 변신!</p>
+        <button class="play-btn" type="button" tabindex="-1">
+          <span>미로 달리기!</span> <span>🚂</span>
         </button>
       </a>
     </main>
