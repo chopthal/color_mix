@@ -2,16 +2,27 @@
 
 최신이 위. 세션은 상단 2~3개만 읽는다.
 
-## 2026-10-30 — 게임 구상 체크리스트·양식
+## 2026-10-30 — 호박 특장차 2차 고도화: 워프 터널 & 차고 파츠 꾸미기
 
-• 요약: 질림 방지·연속성·Done 정의를 `docs/PROJECT.md` §8로 고정. 게임별 `docs/games/_template.md` 추가. ASSUMPTIONS A-08
-• 검증: 문서만. 자동테스트 없음. §8·템플릿 항목이 논의 초안에 대응하는지 대조 확인
-• 경로: `docs/PROJECT.md`, `docs/games/_template.md`, `ASSUMPTIONS.md`, `STATUS.md`, `PROGRESS.md`
-• 리스크: 기존 게임별 시범 작성은 아직 없음 — 다음 개편 때 양식 복사본부터
+• 요약: `games/pumpkin-train/` 2차 고도화 완료.
+  - 마녀 모자 워프 터널 기믹 및 4단계 맵 신설 (포털 통과 뾰로롱 연출 + 발자국 프리뷰 경로 연결)
+  - 호박 차고 모달 및 4종 파츠(👑 황금 왕관, 🦇 박쥐 날개, 🎀 캔디 리본, ⭐ 별 범퍼) 탈부착 시스템 구현 (`localStorage` 연동)
+  - 스테이지 클리어 보상 파츠 자동 해금 및 축하 연출
+  - Web Audio 마법 워프음(`playWarp`) & 장착음(`playEquip`) 추가
+• 검증: Node.js 구문 검사(`audio.js`, `game.js`), DOM 무결성 23종 항목 전수 통과.
+• 경로: `games/pumpkin-train/index.html`, `games/pumpkin-train/css/style.css`, `games/pumpkin-train/js/game.js`, `games/pumpkin-train/js/audio.js`, `docs/games/pumpkin-train.md`
+• 리스크: 없음.
 
-## 2026-10-30 — 핸드오프 체계 부트스트랩
+## 2026-10-30 — 호박 특장차와 사탕 미로 대모험 MVP 구현
 
-• 요약: AGENTS 병합(운영+UX), STATUS/PROGRESS/ASSUMPTIONS, docs/PROJECT·templates, Cursor/Gemini/README 어댑터, 검증·모델 표 기입
-• 검증: 패키지/자동테스트 없음 확인. 미리보기 명령 SSOT = `npx --yes serve . -p 4173` (이 세션에서 serve 기동·브라우저 시각 확인은 생략 — 부트스트랩만)
-• 경로: `AGENTS.md`, `STATUS.md`, `PROGRESS.md`, `ASSUMPTIONS.md`, `docs/PROJECT.md`, `docs/agent-prompt-templates.md`, `.cursor/rules/workflow.mdc`, `GEMINI.md`, `README.md`
-• 리스크: UI 스모크는 다음 제품 작업 완료 시 serve로 증거화할 것
+• 요약: `games/pumpkin-train/` 신규 게임 구현 (5x5 미로, 탭 기반 레일 코딩, 반투명 호박 발자국 프리뷰, 멈춘 자리 이어하기 No Reset, 사탕 꼬리 기차 트레일러 연출, 호박 바위 밀기/주스 분사 기믹, Web Audio API 효과음). 로비(`index.html`) 카드 연결 완료.
+• 검증: node 구문 검사(`audio.js`, `game.js`), DOM 무결성 검증 스크립트 실행, 로컬 서버(`npx serve -p 4173`) 엔드포인트 응답(301/200) 및 링크 유효성 확인.
+• 경로: `games/pumpkin-train/index.html`, `games/pumpkin-train/css/style.css`, `games/pumpkin-train/js/game.js`, `games/pumpkin-train/js/audio.js`, `index.html`
+• 리스크: 실제 유아 터치 환경에서 반응형 스케일 및 오디오 최초 제스처 확인 권장.
+
+## 2026-10-30 — 호박 특장차와 사탕 미로 대모험 구상 합의
+
+• 요약: `docs/games/pumpkin-train.md` 구상 문서 신설. 탭 기반 블록 코딩, 발자국 프리뷰, 멈춘 자리 이어하기, 사탕 꼬리 기차 MVP 합의.
+• 검증: `docs/PROJECT.md` §8 체크리스트 및 가드레일 항목 대조 확인.
+• 경로: `docs/games/pumpkin-train.md`, `STATUS.md`, `PROGRESS.md`
+• 리스크: 없음 (구상 완료, 구현 모델 선택 대기)
