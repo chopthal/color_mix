@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="색칠 놀이터">
+  <meta name="theme-color" content="#bfe3fc">
+  <title>알록달록 색칠 놀이터</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div id="app">
+
+    <!-- 도감: 무엇을 색칠할까? -->
+    <section id="pickerScreen" class="screen">
+      <header class="picker-head">
+        <a href="../../index.html" class="icon-btn" title="놀이터 홈으로">🏠</a>
+        <h1 class="picker-title">무엇을 색칠할까요?</h1>
+        <div class="progress-pill"><span id="progressCount">0</span> / 50</div>
+      </header>
+      <div class="cat-tabs" id="catTabs"></div>
+      <div class="object-grid" id="objectGrid"></div>
+    </section>
+
+    <!-- 색칠 화면 -->
+    <section id="colorScreen" class="screen hidden">
+      <header class="color-head">
+        <button id="backBtn" class="icon-btn" type="button" aria-label="도감으로">←</button>
+        <div class="color-title">
+          <span id="objEmoji">🎨</span>
+          <span class="name" id="objName">색칠</span>
+        </div>
+        <div class="head-actions">
+          <button id="undoBtn" class="icon-btn" type="button" aria-label="되돌리기">↩️</button>
+          <button id="themeBtn" class="icon-btn" type="button" aria-label="배경 바꾸기">🌈</button>
+          <button id="saveBtn" class="icon-btn" type="button" aria-label="작품 저장">💾</button>
+          <button id="galleryBtn" class="icon-btn" type="button" aria-label="내 작품">🖼️</button>
+          <button id="resetBtn" class="icon-btn" type="button" aria-label="전체 지우기">🗑️</button>
+        </div>
+      </header>
+
+      <div class="stage-wrap">
+        <div id="stage" class="stage theme-day">
+          <div class="stage-decor">
+            <span class="deco sun">☀️</span>
+            <span class="deco moon">🌙</span>
+            <span class="deco star s1">⭐</span>
+            <span class="deco star s2">✨</span>
+            <span class="deco star s3">⭐</span>
+            <span class="deco star s4">✨</span>
+            <span class="deco rainbow">🌈</span>
+            <span class="deco cloud c1">☁️</span>
+            <span class="deco cloud c2">☁️</span>
+          </div>
+          <div id="objectHost" class="object-host"></div>
+          <div id="stickerLayer" class="sticker-layer"></div>
+          <div id="celebrateLayer" class="celebrate-layer"></div>
+        </div>
+      </div>
+
+      <div class="bottom-panel">
+        <div class="tool-tabs" id="toolTabs">
+          <button type="button" data-tab="paint" class="active">🎨 물감</button>
+          <button type="button" data-tab="pattern">✨ 무늬</button>
+          <button type="button" data-tab="sticker">🌟 스티커</button>
+        </div>
+
+        <div id="paintPanel" class="tool-panel">
+          <div class="panel-row">
+            <button id="mixBtn" class="mix-btn" type="button">🎨 색 섞기</button>
+            <button id="magicBtn" class="magic-btn" type="button" aria-label="마법의 붓">🪄</button>
+            <div class="brush-preview">
+              <span id="brushSwatch" class="brush-swatch"></span>
+              <span id="brushLabel" class="label">빨강</span>
+            </div>
+          </div>
+          <div id="baseColors" class="swatches"></div>
+          <div id="madeWrap" class="made-wrap hidden">
+            <div class="made-title">내가 만든 색</div>
+            <div id="madeColors" class="swatches"></div>
+          </div>
+        </div>
+
+        <div id="patternPanel" class="tool-panel hidden">
+          <div class="pattern-row" id="patternRow"></div>
+          <p class="panel-hint">무늬를 고르고 물체를 콕 눌러요!</p>
+        </div>
+
+        <div id="stickerPanel" class="tool-panel hidden">
+          <div class="sticker-row" id="stickerRow"></div>
+          <p class="panel-hint">스티커를 고르고 무대를 눌러 붙여요!</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- 색 섞기 모달 -->
+  <div id="mixModal" class="modal hidden" role="dialog" aria-modal="true" aria-label="색 섞기">
+    <div class="modal-card">
+      <div class="modal-head">
+        <h2>🎨 색 섞기</h2>
+        <button class="modal-close" type="button" data-close="mixModal" aria-label="닫기">✕</button>
+      </div>
+
+      <div id="mixArea" class="mix-area empty" aria-live="polite">
+        <div id="mixIngredients" class="ingredients"></div>
+        <p id="mixLabel" class="mix-label">색깔을 눌러<br>섞어 보세요!</p>
+      </div>
+
+      <div id="mission" class="mission"></div>
+
+      <div class="mix-scroll">
+        <p class="panel-title">물감</p>
+        <div id="mixPaints" class="swatches"></div>
+        <div id="mixMadeWrap" class="hidden">
+          <p class="panel-title">내가 만든 색</p>
+          <div id="mixMade" class="swatches"></div>
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button id="mixAgain" class="btn-ghost" type="button">다시</button>
+        <button id="useMixed" class="btn-primary" type="button" disabled>이 색으로 칠하기</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 내 작품 갤러리 -->
+  <div id="galleryModal" class="modal hidden" role="dialog" aria-modal="true" aria-label="내 작품">
+    <div class="modal-card">
+      <div class="modal-head">
+        <h2>🖼️ 내 작품</h2>
+        <button class="modal-close" type="button" data-close="galleryModal" aria-label="닫기">✕</button>
+      </div>
+      <div id="galleryGrid" class="gallery-grid"></div>
+      <p id="galleryEmpty" class="gallery-empty hidden">아직 저장한 작품이 없어요.<br>멋진 작품을 만들어 저장해 보세요!</p>
+    </div>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="js/art-core.js"></script>
+  <script src="js/art-vehicle.js"></script>
+  <script src="js/art-dino.js"></script>
+  <script src="js/art-animal.js"></script>
+  <script src="js/art-food.js"></script>
+  <script src="js/art-fantasy.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
