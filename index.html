@@ -332,6 +332,31 @@
       box-shadow: 0 2px 0 #238a4e;
     }
 
+    /* 카드 7: 브릭 특장차 차고 */
+    .card-brick {
+      border-color: #fde68a;
+      color: #d97706;
+    }
+    .card-brick:hover {
+      border-color: #f59e0b;
+    }
+    .card-brick .card-icon-wrap {
+      background: radial-gradient(circle, #fffbeb 0%, #fef3c7 100%);
+      border: 4px solid #fcd34d;
+    }
+    .card-brick .card-icon-wrap span {
+      animation: bounce 2.4s infinite ease-in-out;
+    }
+    .card-brick .play-btn {
+      background: #f59e0b;
+      color: #ffffff;
+      box-shadow: 0 5px 0 #b45309;
+    }
+    .card-brick .play-btn:active {
+      transform: translateY(3px);
+      box-shadow: 0 2px 0 #b45309;
+    }
+
     /* 카드: 커밍순 */
     .card-coming {
       border-color: #e9ecef;
@@ -555,7 +580,20 @@
         </button>
       </a>
 
-      <!-- 6. 숨바꼭질 공룡 친구들 -->
+      <!-- 6. 철컥철컥! 브릭 특장차 차고 -->
+      <a href="games/brick-garage/index.html" class="game-card card-brick" id="cardBrick">
+        <span class="card-badge badge-new">새 놀이</span>
+        <div class="card-icon-wrap">
+          <span>🧱</span>
+        </div>
+        <h2 class="card-title">브릭 특장차 차고</h2>
+        <p class="card-desc">블록을 철컥철컥 끼워 특장차를 만들고<br>블록 도시를 시원하게 부숴요!</p>
+        <button class="play-btn" type="button" tabindex="-1">
+          <span>조립하러 가기!</span> <span>🔧</span>
+        </button>
+      </a>
+
+      <!-- 7. 숨바꼭질 공룡 친구들 -->
       <a href="games/dino-hide-seek/index.html" class="game-card card-dino" id="cardDino">
         <span class="card-badge badge-new">새 놀이</span>
         <div class="card-icon-wrap">
