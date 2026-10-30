@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="브릭 특장차 차고">
+  <title>🧱 철컥철컥! 브릭 특장차 차고</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <header class="top-bar">
+    <a class="nav-home" href="../../index.html" aria-label="놀이터로 돌아가기">
+      <span class="nav-home__icon">🏠</span>
+      <span class="nav-home__label">놀이터</span>
+    </a>
+    <h1 class="app-title">
+      <span>🧱</span> 브릭 특장차 차고
+    </h1>
+    <button class="btn-icon" id="btnSound" aria-label="소리 켜기/끄기">🔊</button>
+  </header>
+
+  <main class="stage">
+
+    <!-- 1. 설계도 고르기 -->
+    <section class="screen is-active" id="screenPicker">
+      <nav class="cat-tabs" id="catTabs"></nav>
+      <div class="picker-grid" id="vehicleGrid"></div>
+      <div class="picker-actions">
+        <button class="free-btn" id="btnFree" type="button">
+          <span class="free-btn__icon">🧩</span>
+          <span>자유 조립</span>
+        </button>
+        <button class="shelf-btn" id="btnShelf" type="button">
+          <span class="shelf-btn__icon">🏅</span>
+          <span class="shelf-btn__label">내 선반</span>
+          <span class="shelf-btn__count" id="shelfCount">0</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- 2. 철컥철컥 조립 -->
+    <section class="screen" id="screenBuild">
+      <div class="build-head">
+        <button class="btn-round" id="btnBuildBack" type="button" aria-label="뒤로">←</button>
+        <div class="build-title" id="buildTitle"></div>
+        <div class="dots" id="progressDots"></div>
+      </div>
+
+      <div class="build-wrap">
+        <div class="board" id="buildBoard"></div>
+        <div class="hint-hand" id="buildHint" aria-hidden="true">👆</div>
+      </div>
+
+      <div class="conveyor" id="conveyor">
+        <div class="conveyor__belt" id="tray"></div>
+      </div>
+
+      <button class="dispatch-btn" id="btnDispatch" type="button" hidden>
+        출동! <span>🚨</span>
+      </button>
+    </section>
+
+    <!-- 2-B. 자유 조립 -->
+    <section class="screen" id="screenFree">
+      <div class="build-head">
+        <button class="btn-round" id="btnFreeBack" type="button" aria-label="뒤로">←</button>
+        <div class="build-title">자유 조립 🧩</div>
+        <div class="dots"></div>
+      </div>
+
+      <div class="build-wrap">
+        <div class="board" id="freeBoard"></div>
+        <div class="hint-hand" id="freeHint" aria-hidden="true">👆</div>
+      </div>
+
+      <div class="paint-strip" id="paintStrip"></div>
+
+      <div class="free-actions">
+        <button class="btn-pill btn-pill--sun" id="btnShuffle" type="button">섞기 🎲</button>
+        <button class="btn-pill btn-pill--go" id="btnFreeDispatch" type="button">출동 🚨</button>
+        <button class="btn-pill btn-pill--sky" id="btnSaveFree" type="button">저장! 🏅</button>
+      </div>
+    </section>
+
+    <!-- 3. 블록 시티 출동 -->
+    <section class="screen" id="screenDrive">
+      <div class="city" id="city">
+        <div class="city__sun"></div>
+        <div class="city__buildings" id="cityBuildings"></div>
+        <div class="road"></div>
+        <div class="drive-car" id="driveCar"></div>
+        <div class="rock" id="rock"></div>
+        <div class="mission" id="missionLayer"></div>
+        <div class="unlock-card" id="unlockCard" hidden></div>
+        <div class="hint-hand hint-hand--drive" id="driveHint" aria-hidden="true">👆</div>
+      </div>
+
+      <div class="drive-actions" id="driveActions" hidden>
+        <button class="btn-pill btn-pill--sun" id="btnDriveAgain" type="button">또! 🔁</button>
+        <button class="btn-pill btn-pill--sky" id="btnDriveHome" type="button">차고로 🏠</button>
+      </div>
+    </section>
+
+    <!-- 4. 내 선반 -->
+    <section class="screen" id="screenShelf">
+      <div class="build-head">
+        <button class="btn-round" id="btnShelfBack" type="button" aria-label="뒤로">←</button>
+        <div class="build-title">내 선반 🏅</div>
+        <div class="dots"></div>
+      </div>
+
+      <div class="shelf" id="shelfGrid"></div>
+      <div class="shelf-empty" id="shelfEmpty">아직 만든 차가 없어요 🧱</div>
+    </section>
+
+  </main>
+
+  <div class="toast" id="toast" aria-live="polite"></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/roster.js"></script>
+  <script src="js/sound.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
