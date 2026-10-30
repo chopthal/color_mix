@@ -224,6 +224,31 @@
       border: 4px solid #ffccd4;
     }
 
+    /* 카드: 알록달록 색칠 놀이터 */
+    .card-coloring {
+      border-color: #ddd6fe;
+      color: #7c3aed;
+    }
+    .card-coloring:hover {
+      border-color: #8b5cf6;
+    }
+    .card-coloring .card-icon-wrap {
+      background: radial-gradient(circle, #f5f3ff 0%, #ede9fe 100%);
+      border: 4px solid #ddd6fe;
+    }
+    .card-coloring .card-icon-wrap span {
+      animation: wiggle 2.4s infinite ease-in-out;
+    }
+    .card-coloring .play-btn {
+      background: #8b5cf6;
+      color: #ffffff;
+      box-shadow: 0 5px 0 #6d28d9;
+    }
+    .card-coloring .play-btn:active {
+      transform: translateY(3px);
+      box-shadow: 0 2px 0 #6d28d9;
+    }
+
     /* 카드 2: 낚시 놀이 */
     .card-fishing {
       border-color: #cbe9ff;
@@ -479,7 +504,20 @@
         </button>
       </a>
 
-      <!-- 2. 바다 낚시 놀이 -->
+      <!-- 2. 색칠 놀이터 -->
+      <a href="games/color-coloring/index.html" class="game-card card-coloring" id="cardColoring">
+        <span class="card-badge badge-new">새 놀이</span>
+        <div class="card-icon-wrap">
+          <span>🖍️</span>
+        </div>
+        <h2 class="card-title">알록달록 색칠 놀이터</h2>
+        <p class="card-desc">내가 만든 색으로 자동차·공룡·동물 50종을<br>구획마다 콕콕 칠해요!</p>
+        <button class="play-btn" type="button" tabindex="-1">
+          <span>색칠하러 가기!</span> <span>🎨</span>
+        </button>
+      </a>
+
+      <!-- 3. 바다 낚시 놀이 -->
       <a href="games/fishing/index.html" class="game-card card-fishing" id="cardFishing">
         <span class="card-badge badge-new">두 번째 놀이</span>
         <div class="card-icon-wrap">
@@ -492,7 +530,7 @@
         </button>
       </a>
 
-      <!-- 3. 마법의 한글 쓰기 놀이 -->
+      <!-- 4. 마법의 한글 쓰기 놀이 -->
       <a href="games/hangul/index.html" class="game-card card-hangul" id="cardHangul">
         <span class="card-badge badge-new">세 번째 놀이</span>
         <div class="card-icon-wrap">
@@ -504,7 +542,7 @@
           <span>글씨 쓰러 가기!</span> <span>✏️</span>
         </button>
       </a>
-      <!-- 4. 출동! 슈퍼 특수차량 -->
+      <!-- 5. 출동! 슈퍼 특수차량 -->
       <a href="games/special-vehicles/index.html" class="game-card card-vehicles" id="cardVehicles">
         <span class="card-badge badge-hot">대규모 신작!</span>
         <div class="card-icon-wrap">
@@ -517,7 +555,7 @@
         </button>
       </a>
 
-      <!-- 5. 숨바꼭질 공룡 친구들 -->
+      <!-- 6. 숨바꼭질 공룡 친구들 -->
       <a href="games/dino-hide-seek/index.html" class="game-card card-dino" id="cardDino">
         <span class="card-badge badge-new">새 놀이</span>
         <div class="card-icon-wrap">
@@ -570,3 +608,4 @@
   </script>
 </body>
 </html>
+
