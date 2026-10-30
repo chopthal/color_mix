@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="바닷속 까꿍">
+  <meta name="theme-color" content="#3aa8d8">
+  <title>🌊 바닷속 까꿍 & 허그</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #1f4a63;
+      --soft: #4a7a94;
+      --foam: #e8f8ff;
+      --sea-top: #7fd0f0;
+      --sea-mid: #3aa8d8;
+      --sea-bot: #1f7fb3;
+      --coral: #ff8fab;
+      --kelp: #3cb88a;
+      --sand: #f6e2b3;
+      --font: "Jua", "Malgun Gothic", "Apple SD Gothic Neo", sans-serif;
+      --safe-top: max(10px, env(safe-area-inset-top));
+      --safe-bottom: max(12px, env(safe-area-inset-bottom));
+      --safe-left: max(10px, env(safe-area-inset-left));
+      --safe-right: max(10px, env(safe-area-inset-right));
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: manipulation;
+    }
+
+    html, body {
+      height: 100%;
+      overflow: hidden;
+      overscroll-behavior: none;
+    }
+
+    body {
+      font-family: var(--font);
+      color: var(--ink);
+      background: var(--sea-mid);
+      -webkit-text-size-adjust: 100%;
+    }
+
+    button {
+      font-family: inherit;
+      color: inherit;
+      border: 0;
+      background: none;
+      cursor: pointer;
+    }
+
+    button:focus-visible,
+    a:focus-visible {
+      outline: 4px solid #ffbe0b;
+      outline-offset: 3px;
+    }
+
+    #app {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      height: 100dvh;
+      overflow: hidden;
+    }
+
+    /* ===== HUD ===== */
+    .hud {
+      position: absolute;
+      z-index: 30;
+      top: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 8px;
+      padding: var(--safe-top) var(--safe-right) 0 var(--safe-left);
+      pointer-events: none;
+    }
+
+    .hud > * {
+      pointer-events: auto;
+    }
+
+    .icon-btn {
+      width: 52px;
+      height: 52px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.92);
+      border: 3px solid #d7eef8;
+      box-shadow: 0 4px 0 rgba(31, 74, 99, 0.12);
+      font-size: 24px;
+      display: grid;
+      place-items: center;
+    }
+
+    .icon-btn:active {
+      transform: translateY(2px);
+      box-shadow: 0 2px 0 rgba(31, 74, 99, 0.12);
+    }
+
+    .progress-board {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.9);
+      border: 3px solid #d7eef8;
+      border-radius: 22px;
+      padding: 8px 12px;
+      box-shadow: 0 4px 0 rgba(31, 74, 99, 0.1);
+      min-width: 148px;
+    }
+
+    .progress-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .progress-row .label {
+      font-size: 18px;
+      width: 28px;
+      text-align: center;
+    }
+
+    .pips {
+      display: flex;
+      gap: 4px;
+    }
+
+    .pip {
+      font-size: 18px;
+      line-height: 1;
+      transition: transform 0.2s ease;
+    }
+
+    .pip.filled {
+      transform: scale(1.15);
+    }
+
+    /* ===== SEA ===== */
+    .sea {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, var(--sea-top) 0%, var(--sea-mid) 48%, var(--sea-bot) 100%);
+      overflow: hidden;
+      transition: background 1.8s ease, filter 1.8s ease;
+    }
+
+    .sea.sunset {
+      background: linear-gradient(180deg, #f7b267 0%, #c77dff 42%, #5b4b8a 100%);
+      filter: saturate(1.05);
+    }
+
+    .light-rays {
+      position: absolute;
+      inset: -10% 0 auto 0;
+      height: 55%;
+      background:
+        linear-gradient(105deg, transparent 0 38%, rgba(255, 255, 255, 0.14) 42%, transparent 46%),
+        linear-gradient(120deg, transparent 0 55%, rgba(255, 255, 255, 0.1) 58%, transparent 62%);
+      animation: ray-drift 12s ease-in-out infinite alternate;
+      pointer-events: none;
+    }
+
+    @keyframes ray-drift {
+      from { transform: translateX(-3%); opacity: 0.7; }
+      to { transform: translateX(4%); opacity: 1; }
+    }
+
+    .sand-bed {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 18%;
+      background: linear-gradient(180deg, transparent 0%, var(--sand) 28%, #efd39a 100%);
+      border-radius: 40% 40% 0 0 / 28% 28% 0 0;
+      pointer-events: none;
+    }
+
+    .sea.sunset .sand-bed {
+      background: linear-gradient(180deg, transparent 0%, #e8c48a 28%, #c9a06a 100%);
+    }
+
+    .floaty {
+      position: absolute;
+      pointer-events: none;
+      opacity: 0.55;
+      animation: float-y 7s ease-in-out infinite;
+    }
+
+    .floaty.f1 { left: 12%; top: 22%; font-size: 22px; animation-delay: 0s; }
+    .floaty.f2 { left: 78%; top: 18%; font-size: 18px; animation-delay: 1.2s; }
+    .floaty.f3 { left: 64%; top: 36%; font-size: 16px; animation-delay: 2.1s; }
+
+    @keyframes float-y {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-12px); }
+    }
+
+    /* ===== HIDE SPOTS ===== */
+    .hide-spot {
+      position: absolute;
+      z-index: 12;
+      min-width: 88px;
+      min-height: 96px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      cursor: pointer;
+      filter: drop-shadow(0 6px 0 rgba(20, 60, 80, 0.12));
+    }
+
+    .hide-spot:active {
+      transform: scale(0.96);
+    }
+
+    .hide-spot.occupied .spot-glow {
+      opacity: 1;
+    }
+
+    .spot-glow {
+      position: absolute;
+      inset: 10% 8% 5%;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255, 255, 200, 0.45), transparent 70%);
+      opacity: 0;
+      transition: opacity 0.25s ease;
+      pointer-events: none;
+    }
+
+    .spot-kelp { left: 6%; bottom: 16%; width: 22%; }
+    .spot-coral { left: 38%; bottom: 12%; width: 24%; }
+    .spot-rock { right: 6%; bottom: 15%; width: 22%; }
+
+    .spot-art {
+      width: 100%;
+      height: auto;
+      display: block;
+      pointer-events: none;
+    }
+
+    .spot-hint {
+      margin-top: 2px;
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.85);
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+      pointer-events: none;
+    }
+
+    /* ===== CHARACTERS ===== */
+    .actor {
+      position: absolute;
+      z-index: 16;
+      width: 120px;
+      height: 100px;
+      display: none;
+      pointer-events: none;
+    }
+
+    .actor.show {
+      display: block;
+    }
+
+    #whale {
+      pointer-events: auto;
+      cursor: pointer;
+      width: min(42vw, 200px);
+      height: auto;
+      min-height: 110px;
+      z-index: 18;
+      top: 38%;
+    }
+
+    #whale.from-left {
+      left: -30%;
+      animation: swim-in-left 1.1s ease-out forwards;
+    }
+
+    #whale.from-right {
+      right: -30%;
+      left: auto;
+      animation: swim-in-right 1.1s ease-out forwards;
+    }
+
+    #whale.hug {
+      animation: whale-dance 0.85s ease-in-out;
+    }
+
+    #whale.wave {
+      animation: swim-out 1.2s ease-in forwards;
+    }
+
+    #shark {
+      width: min(38vw, 180px);
+      height: auto;
+      min-height: 90px;
+      top: 34%;
+    }
+
+    #shark.from-left {
+      left: -28%;
+      animation: shark-pass-left 4.4s linear forwards;
+    }
+
+    #shark.from-right {
+      right: -28%;
+      left: auto;
+      animation: shark-pass-right 4.4s linear forwards;
+    }
+
+    #shark.miss-hello {
+      animation: shark-wiggle 0.8s ease-in-out;
+    }
+
+    #shark.pass-by {
+      filter: brightness(1.05);
+    }
+
+    @keyframes swim-in-left {
+      to { left: 28%; }
+    }
+    @keyframes swim-in-right {
+      to { right: 28%; }
+    }
+    @keyframes swim-out {
+      to { transform: translateX(120%) scale(0.9); opacity: 0.7; }
+    }
+    @keyframes whale-dance {
+      0%, 100% { transform: rotate(0) scale(1); }
+      25% { transform: rotate(-8deg) scale(1.08); }
+      50% { transform: rotate(8deg) scale(1.12); }
+      75% { transform: rotate(-4deg) scale(1.06); }
+    }
+    @keyframes shark-pass-left {
+      0% { left: -28%; }
+      100% { left: 110%; }
+    }
+    @keyframes shark-pass-right {
+      0% { right: -28%; }
+      100% { right: 110%; }
+    }
+    @keyframes shark-wiggle {
+      0%, 100% { transform: rotate(0); }
+      30% { transform: rotate(-10deg) translateY(-6px); }
+      60% { transform: rotate(8deg); }
+    }
+
+    .char-svg {
+      width: 100%;
+      height: auto;
+      display: block;
+      overflow: visible;
+      filter: drop-shadow(0 8px 0 rgba(20, 60, 80, 0.15));
+    }
+
+    #diver {
+      position: absolute;
+      z-index: 14;
+      width: 78px;
+      left: 50%;
+      bottom: 28%;
+      transform: translateX(-50%);
+      transition: left 0.35s cubic-bezier(0.34, 1.4, 0.64, 1), bottom 0.35s cubic-bezier(0.34, 1.4, 0.64, 1), transform 0.35s ease;
+      pointer-events: none;
+    }
+
+    #diver.pop {
+      animation: diver-pop 0.35s ease;
+    }
+
+    #diver.hidden-pose {
+      opacity: 0.92;
+    }
+
+    @keyframes diver-pop {
+      0% { transform: translateX(-50%) scale(0.7); }
+      60% { transform: translateX(-50%) scale(1.08); }
+      100% { transform: translateX(-50%) scale(0.85); }
+    }
+
+    #turtle {
+      position: absolute;
+      z-index: 20;
+      left: var(--safe-left);
+      bottom: calc(var(--safe-bottom) + 8px);
+      width: 92px;
+      pointer-events: none;
+    }
+
+    .speech {
+      position: absolute;
+      z-index: 22;
+      left: calc(var(--safe-left) + 88px);
+      bottom: calc(var(--safe-bottom) + 56px);
+      max-width: min(68vw, 320px);
+      background: rgba(255, 255, 255, 0.95);
+      border: 3px solid #cfeaf7;
+      border-radius: 22px;
+      padding: 12px 14px;
+      font-size: clamp(15px, 3.6vw, 18px);
+      line-height: 1.35;
+      color: var(--ink);
+      box-shadow: 0 6px 0 rgba(31, 74, 99, 0.1);
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 0.25s ease, transform 0.25s ease;
+      pointer-events: none;
+    }
+
+    .speech.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .speech::after {
+      content: '';
+      position: absolute;
+      left: -10px;
+      bottom: 18px;
+      border: 8px solid transparent;
+      border-right-color: #fff;
+      filter: drop-shadow(-2px 0 0 #cfeaf7);
+    }
+
+    /* ===== TELEGRAPH HINTS ===== */
+    #bubbleHint {
+      position: absolute;
+      z-index: 10;
+      left: 0;
+      right: 0;
+      bottom: 8%;
+      height: 55%;
+      display: none;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    #bubbleHint.show {
+      display: block;
+    }
+
+    .rbubble {
+      position: absolute;
+      bottom: -20px;
+      border-radius: 50%;
+      animation: rise 2.8s linear infinite;
+      opacity: 0.85;
+    }
+
+    @keyframes rise {
+      to { transform: translateY(-120vh); opacity: 0.2; }
+    }
+
+    #finHint {
+      position: absolute;
+      z-index: 11;
+      bottom: 22%;
+      width: 54px;
+      height: 28px;
+      display: none;
+      pointer-events: none;
+    }
+
+    #finHint.show {
+      display: block;
+      animation: fin-crawl 3s linear forwards;
+    }
+
+    @keyframes fin-crawl {
+      from { left: -10%; }
+      to { left: 28%; }
+    }
+
+    #fxLayer {
+      position: absolute;
+      inset: 0;
+      z-index: 19;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .fx-heart {
+      position: absolute;
+      font-size: 28px;
+      animation: heart-up 1s ease-out forwards;
+    }
+
+    @keyframes heart-up {
+      0% { transform: translateY(0) scale(0.6); opacity: 0; }
+      20% { opacity: 1; }
+      100% { transform: translateY(-80px) scale(1.2); opacity: 0; }
+    }
+
+    /* ===== OVERLAYS ===== */
+    .overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 40;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: var(--safe-top) var(--safe-right) var(--safe-bottom) var(--safe-left);
+      background: rgba(20, 70, 100, 0.28);
+      backdrop-filter: blur(2px);
+    }
+
+    .overlay.show {
+      display: flex;
+    }
+
+    .panel {
+      width: min(92vw, 400px);
+      background: linear-gradient(180deg, #ffffff 0%, #eaf7ff 100%);
+      border-radius: 32px;
+      border: 5px solid #bfe6f8;
+      box-shadow: 0 16px 0 rgba(31, 74, 99, 0.12);
+      padding: 28px 22px 24px;
+      text-align: center;
+    }
+
+    .panel h1 {
+      font-size: clamp(26px, 7vw, 34px);
+      margin-bottom: 8px;
+      color: #1f6f96;
+    }
+
+    .panel p {
+      font-size: clamp(16px, 4vw, 18px);
+      color: var(--soft);
+      line-height: 1.4;
+      margin-bottom: 18px;
+    }
+
+    .hero-row {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      font-size: 42px;
+      margin-bottom: 14px;
+    }
+
+    .primary-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 56px;
+      min-width: 180px;
+      padding: 12px 22px;
+      border-radius: 999px;
+      background: #3ec4a0;
+      color: #fff;
+      font-size: 22px;
+      box-shadow: 0 6px 0 #2a9a7c;
+      margin: 6px;
+    }
+
+    .primary-btn:active {
+      transform: translateY(3px);
+      box-shadow: 0 3px 0 #2a9a7c;
+    }
+
+    .ghost-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      min-width: 140px;
+      padding: 10px 18px;
+      border-radius: 999px;
+      background: #fff;
+      color: #1f6f96;
+      font-size: 18px;
+      border: 3px solid #bfe6f8;
+      margin: 6px;
+    }
+
+    .end-panel {
+      background: linear-gradient(180deg, #fff7eb 0%, #f0e1ff 100%);
+      border-color: #e0c4ff;
+    }
+
+    @media (orientation: landscape) and (max-height: 500px) {
+      #diver { width: 64px; }
+      #turtle { width: 72px; }
+      .speech { font-size: 14px; bottom: calc(var(--safe-bottom) + 40px); }
+      .hide-spot { min-height: 72px; }
+      .spot-hint { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div class="hud">
+      <a class="icon-btn" id="btnLobby" href="../../index.html" aria-label="놀이터로">🏠</a>
+      <div class="progress-board" aria-label="놀이 진행">
+        <div class="progress-row">
+          <span class="label" aria-hidden="true">🐋</span>
+          <div class="pips" id="whaleProgress"></div>
+        </div>
+        <div class="progress-row">
+          <span class="label" aria-hidden="true">🦈</span>
+          <div class="pips" id="sharkProgress"></div>
+        </div>
+      </div>
+      <button type="button" class="icon-btn" id="btnMute" aria-label="소리 끄기">🔊</button>
+    </div>
+
+    <div class="sea" id="sea">
+      <div class="light-rays" aria-hidden="true"></div>
+      <span class="floaty f1" aria-hidden="true">🐠</span>
+      <span class="floaty f2" aria-hidden="true">✨</span>
+      <span class="floaty f3" aria-hidden="true">🐟</span>
+      <div class="sand-bed" aria-hidden="true"></div>
+
+      <div id="bubbleHint" aria-hidden="true"></div>
+      <div id="finHint" aria-hidden="true">
+        <svg class="char-svg" viewBox="0 0 64 32" aria-hidden="true">
+          <path d="M4 24 C18 4, 40 4, 58 22 L48 26 C34 12, 20 14, 8 26 Z" fill="#7eb6d4"/>
+          <circle cx="20" cy="18" r="2.2" fill="#2a5f7a" opacity="0.35"/>
+        </svg>
+      </div>
+
+      <!-- Hide spots -->
+      <button type="button" class="hide-spot spot-kelp" data-spot="kelp" aria-label="미역 뒤에 숨기">
+        <span class="spot-glow"></span>
+        <svg class="spot-art" viewBox="0 0 120 140" aria-hidden="true">
+          <path d="M40 130 C28 90, 18 70, 30 40 C36 24, 48 30, 46 48 C44 70, 52 100, 58 130 Z" fill="#2faa78"/>
+          <path d="M62 132 C58 96, 70 68, 78 42 C84 26, 96 34, 90 52 C82 78, 84 104, 88 132 Z" fill="#3cb88a"/>
+          <path d="M88 130 C92 100, 104 76, 108 52 C112 34, 100 28, 98 46 C94 72, 102 102, 104 130 Z" fill="#57d0a0"/>
+        </svg>
+        <span class="spot-hint">미역</span>
+      </button>
+
+      <button type="button" class="hide-spot spot-coral" data-spot="coral" aria-label="산호 뒤에 숨기">
+        <span class="spot-glow"></span>
+        <svg class="spot-art" viewBox="0 0 140 130" aria-hidden="true">
+          <path d="M70 120 V70" stroke="#ff7a9a" stroke-width="14" stroke-linecap="round"/>
+          <path d="M70 88 C40 70, 28 48, 34 28" stroke="#ff9bb4" stroke-width="12" stroke-linecap="round" fill="none"/>
+          <path d="M70 80 C98 64, 112 44, 108 24" stroke="#ff8fab" stroke-width="12" stroke-linecap="round" fill="none"/>
+          <circle cx="34" cy="26" r="10" fill="#ffb3c6"/>
+          <circle cx="108" cy="22" r="10" fill="#ffb3c6"/>
+          <circle cx="70" cy="66" r="9" fill="#ffc2d1"/>
+        </svg>
+        <span class="spot-hint">산호</span>
+      </button>
+
+      <button type="button" class="hide-spot spot-rock" data-spot="rock" aria-label="바위 뒤에 숨기">
+        <span class="spot-glow"></span>
+        <svg class="spot-art" viewBox="0 0 130 110" aria-hidden="true">
+          <path d="M16 86 C22 48, 48 28, 72 34 C96 22, 118 48, 116 86 C90 96, 40 98, 16 86 Z" fill="#9bb0c4"/>
+          <path d="M28 84 C34 58, 54 46, 70 50 C86 42, 104 58, 104 82 C82 90, 48 92, 28 84 Z" fill="#b7c7d6"/>
+          <circle cx="48" cy="70" r="4" fill="#7f93a8" opacity="0.5"/>
+          <circle cx="78" cy="66" r="3" fill="#7f93a8" opacity="0.45"/>
+        </svg>
+        <span class="spot-hint">바위</span>
+      </button>
+
+      <!-- Diver -->
+      <div id="diver" aria-hidden="true">
+        <svg class="char-svg" viewBox="0 0 90 110">
+          <ellipse cx="45" cy="98" rx="22" ry="6" fill="rgba(20,60,80,0.15)"/>
+          <rect x="30" y="48" width="30" height="34" rx="12" fill="#2ec4b6"/>
+          <circle cx="45" cy="34" r="16" fill="#ffd7b5"/>
+          <path d="M29 30 h32 v10 a16 16 0 0 1 -32 0 z" fill="#4cc9f0"/>
+          <circle cx="45" cy="34" r="11" fill="#a8e6ff" opacity="0.85"/>
+          <circle cx="39" cy="34" r="2" fill="#1f4a63"/>
+          <circle cx="51" cy="34" r="2" fill="#1f4a63"/>
+          <path d="M40 40 q5 3 10 0" stroke="#e0897a" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+          <rect x="18" y="54" width="12" height="10" rx="4" fill="#2ec4b6"/>
+          <rect x="60" y="54" width="12" height="10" rx="4" fill="#2ec4b6"/>
+          <rect x="34" y="80" width="8" height="14" rx="4" fill="#1f7a72"/>
+          <rect x="48" y="80" width="8" height="14" rx="4" fill="#1f7a72"/>
+          <circle cx="62" cy="58" r="7" fill="#7bdff2" stroke="#3aa8d8" stroke-width="2"/>
+          <path d="M62 51 v-8" stroke="#3aa8d8" stroke-width="2"/>
+        </svg>
+      </div>
+
+      <!-- Whale -->
+      <div id="whale" class="actor" role="button" aria-label="고래 안아주기" tabindex="-1">
+        <svg class="char-svg" viewBox="0 0 200 120">
+          <ellipse cx="100" cy="70" rx="70" ry="34" fill="#8ecae6"/>
+          <ellipse cx="100" cy="78" rx="48" ry="18" fill="#caf0f8"/>
+          <path d="M30 68 C10 50, 8 88, 28 82" fill="#8ecae6"/>
+          <path d="M168 62 C196 40, 198 92, 166 78" fill="#8ecae6"/>
+          <circle cx="68" cy="62" r="5" fill="#1f4a63"/>
+          <circle cx="69.5" cy="60.5" r="1.6" fill="#fff"/>
+          <path d="M52 74 q10 8 22 0" stroke="#e0897a" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+          <path d="M110 40 C118 18, 140 18, 136 40" fill="#219ebc"/>
+          <circle cx="88" cy="48" r="4" fill="#fff" opacity="0.7"/>
+          <circle cx="102" cy="42" r="3" fill="#fff" opacity="0.55"/>
+        </svg>
+      </div>
+
+      <!-- Sleepy shark -->
+      <div id="shark" class="actor" aria-hidden="true">
+        <svg class="char-svg" viewBox="0 0 200 110">
+          <ellipse cx="105" cy="62" rx="62" ry="28" fill="#90a8c0"/>
+          <ellipse cx="100" cy="70" rx="40" ry="14" fill="#d5e0ec"/>
+          <path d="M40 62 L12 42 L18 68 L12 86 Z" fill="#90a8c0"/>
+          <path d="M105 34 L118 8 L128 36" fill="#7f93a8"/>
+          <path d="M150 70 C176 58, 178 90, 148 82" fill="#90a8c0"/>
+          <path d="M78 56 q6 -2 12 0" stroke="#1f4a63" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+          <path d="M96 56 q6 -2 12 0" stroke="#1f4a63" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+          <circle cx="72" cy="72" r="2" fill="#e0897a" opacity="0.5"/>
+          <path d="M86 78 q10 4 20 0" stroke="#c97b6e" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <path d="M60 48 q4 -10 2 -16" stroke="#90a8c0" stroke-width="3" stroke-linecap="round"/>
+          <text x="52" y="28" font-size="14" fill="#7f93a8">z</text>
+          <text x="62" y="18" font-size="18" fill="#7f93a8">z</text>
+        </svg>
+      </div>
+
+      <div id="fxLayer"></div>
+
+      <!-- Turtle helper -->
+      <div id="turtle" aria-hidden="true">
+        <svg class="char-svg" viewBox="0 0 110 100">
+          <ellipse cx="55" cy="58" rx="28" ry="22" fill="#6fcf97"/>
+          <ellipse cx="55" cy="58" rx="20" ry="15" fill="#27ae60"/>
+          <path d="M55 43 L55 73 M40 58 H70" stroke="#1e8449" stroke-width="3" opacity="0.35"/>
+          <circle cx="30" cy="48" r="10" fill="#82e0aa"/>
+          <circle cx="80" cy="48" r="10" fill="#82e0aa"/>
+          <circle cx="38" cy="78" r="8" fill="#82e0aa"/>
+          <circle cx="72" cy="78" r="8" fill="#82e0aa"/>
+          <circle cx="22" cy="40" r="12" fill="#82e0aa"/>
+          <circle cx="18" cy="37" r="2.2" fill="#1f4a63"/>
+          <circle cx="26" cy="37" r="2.2" fill="#1f4a63"/>
+          <path d="M16 44 q6 4 12 0" stroke="#e0897a" stroke-width="1.6" fill="none"/>
+          <circle cx="14" cy="42" r="2" fill="#ff8fab"/>
+        </svg>
+      </div>
+
+      <div class="speech" id="speech" role="status" aria-live="polite"></div>
+    </div>
+
+    <!-- Title -->
+    <div class="overlay show" id="titleScreen">
+      <div class="panel">
+        <div class="hero-row" aria-hidden="true">🤿 🦈 🐋</div>
+        <h1>바닷속 까꿍 &amp; 허그</h1>
+        <p>졸린 상어가 오면 미역 뒤에 쏙!<br>아기 고래가 오면 톡! 하고 안아 줘요.</p>
+        <button type="button" class="primary-btn" id="btnStart">놀이 시작 ▶</button>
+        <div>
+          <a class="ghost-btn" href="../../index.html">놀이터로</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Soft ending -->
+    <div class="overlay" id="endOverlay">
+      <div class="panel end-panel">
+        <div class="hero-row" aria-hidden="true">🌅 💜</div>
+        <h1>코 잘 시간이야</h1>
+        <p>고래랑 상어도 쉬러 가요.<br>물 밖으로 나가 엄마·아빠랑 이야기해 볼까?</p>
+        <button type="button" class="primary-btn" id="btnAgain">한 번 더!</button>
+        <div>
+          <a class="ghost-btn" id="btnLobbyEnd" href="../../index.html">놀이터로</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/audio.js"></script>
+  <script src="js/game.js"></script>
+  <script>
+    (function () {
+      var layer = document.getElementById('bubbleHint');
+      var colors = ['#ff6b6b', '#ffd93d', '#6bcB77', '#4d96ff', '#c77dff', '#ff8fab'];
+      var i;
+      for (i = 0; i < 14; i++) {
+        var b = document.createElement('span');
+        b.className = 'rbubble';
+        var size = 10 + Math.random() * 18;
+        b.style.width = size + 'px';
+        b.style.height = size + 'px';
+        b.style.left = (8 + Math.random() * 84) + '%';
+        b.style.background = colors[i % colors.length];
+        b.style.animationDuration = (2.2 + Math.random() * 1.6) + 's';
+        b.style.animationDelay = (Math.random() * 1.8) + 's';
+        layer.appendChild(b);
+      }
+    })();
+  </script>
+</body>
+</html>

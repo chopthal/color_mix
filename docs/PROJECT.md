@@ -32,6 +32,7 @@
   - `/games/fishing/`
   - `/games/hangul/`
   - `/games/special-vehicles/`
+  - `/games/ocean-peekaboo/`
 
 ## 4. 데이터·스키마
 

@@ -356,6 +356,31 @@
       box-shadow: 0 2px 0 #c2410c;
     }
 
+    /* 카드: 바닷속 까꿍 & 허그 */
+    .card-ocean {
+      border-color: #a5d8ff;
+      color: #1c7ed6;
+    }
+    .card-ocean:hover {
+      border-color: #339af0;
+    }
+    .card-ocean .card-icon-wrap {
+      background: radial-gradient(circle, #e7f5ff 0%, #c5e8ff 100%);
+      border: 4px solid #a5d8ff;
+    }
+    .card-ocean .card-icon-wrap span {
+      animation: bounce 2.5s infinite ease-in-out;
+    }
+    .card-ocean .play-btn {
+      background: #339af0;
+      color: #ffffff;
+      box-shadow: 0 5px 0 #1c7ed6;
+    }
+    .card-ocean .play-btn:active {
+      transform: translateY(3px);
+      box-shadow: 0 2px 0 #1c7ed6;
+    }
+
     /* 카드 7: 브릭 특장차 차고 */
     .card-brick {
       border-color: #fde68a;
@@ -640,6 +665,19 @@
         <p class="card-desc">블록을 콕콕 눌러 레일을 놓아요!<br>사탕을 모아 꼬리 기차로 변신!</p>
         <button class="play-btn" type="button" tabindex="-1">
           <span>미로 달리기!</span> <span>🚂</span>
+        </button>
+      </a>
+
+      <!-- 8. 바닷속 까꿍 & 허그 -->
+      <a href="games/ocean-peekaboo/index.html" class="game-card card-ocean" id="cardOceanPeekaboo">
+        <span class="card-badge badge-new">새 놀이</span>
+        <div class="card-icon-wrap">
+          <span>🤿</span>
+        </div>
+        <h2 class="card-title">바닷속 까꿍 &amp; 허그</h2>
+        <p class="card-desc">졸린 상어엔 쏙 숨고,<br>아기 고래는 톡! 하고 안아 줘요</p>
+        <button class="play-btn" type="button" tabindex="-1">
+          <span>바닷속으로!</span> <span>🌊</span>
         </button>
       </a>
     </main>
