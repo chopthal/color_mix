@@ -1,0 +1,377 @@
+:root {
+  --ink: #4a3f52;
+  --font-main: "Jua", "Malgun Gothic", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  font-family: var(--font-main);
+  color: var(--ink);
+  background: #fff2f7;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  height: 100dvh;
+}
+
+/* ---------------- 상단 바 ---------------- */
+
+.top-bar {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: max(8px, env(safe-area-inset-top)) 12px 8px;
+  background: linear-gradient(180deg, #ffffff, #fff5fa);
+  border-bottom: 3px solid #ffe0ee;
+  z-index: 5;
+}
+
+.nav-home {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex: 0 0 auto;
+  text-decoration: none;
+  color: #c2255c;
+  background: #ffe3ef;
+  padding: 8px 12px;
+  border-radius: 16px;
+  font-size: 16px;
+  white-space: nowrap;
+}
+
+.app-title {
+  flex: 1 1 auto;
+  min-width: 0;
+  text-align: center;
+  font-size: clamp(15px, 4.6vw, 24px);
+  color: #7a2c4e;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.top-right {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-icon {
+  border: none;
+  background: #ffe3ef;
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
+  font-size: 20px;
+  cursor: pointer;
+  color: inherit;
+}
+
+/* ---------------- 무대 ---------------- */
+
+.stage {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+  background: #ffe9f1;
+}
+
+#gameCanvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+  touch-action: none;
+}
+
+/* ---------------- 선택 화면 ---------------- */
+
+.select-screen {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  display: none;
+  flex-direction: column;
+  padding: 14px 14px max(16px, env(safe-area-inset-bottom));
+  background: radial-gradient(circle at 50% 0%, #fffdf6 0%, #fff0f6 55%, #ffe2ee 100%);
+  overflow: hidden;
+}
+
+.select-screen.is-on {
+  display: flex;
+}
+
+.select-head {
+  flex: 0 0 auto;
+  text-align: center;
+  margin: 6px 0 18px;
+}
+
+.select-head h2 {
+  font-size: clamp(22px, 6vw, 32px);
+  color: #7a2c4e;
+}
+
+.select-head p {
+  margin-top: 4px;
+  font-size: clamp(13px, 3.4vw, 16px);
+  color: #b07a94;
+}
+
+.fairy-row {
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 0;
+  padding: 4px;
+}
+
+.fairy-card {
+  position: relative;
+  flex: 0 1 160px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 14px 8px 12px;
+  background: #ffffff;
+  border: 3px solid #ffe0ee;
+  border-radius: 26px;
+  font-family: inherit;
+  font-size: 15px;
+  color: var(--ink);
+  cursor: pointer;
+  transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.fairy-card:active {
+  transform: scale(0.97);
+}
+
+.fairy-card.is-selected {
+  border-color: var(--fairy, #ff8fc4);
+  box-shadow: 0 0 0 4px rgba(255, 143, 196, 0.24), 0 12px 22px rgba(150, 90, 120, 0.16);
+  transform: translateY(-3px);
+}
+
+.fairy-card.is-selected::after {
+  content: "✓";
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--fairy, #ff8fc4);
+  color: #ffffff;
+  font-size: 15px;
+}
+
+.fairy-thumb {
+  width: 104px;
+  height: 104px;
+}
+
+.start-btn {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  max-width: 420px;
+  margin: 16px auto max(4px, env(safe-area-inset-bottom));
+  padding: 18px 24px;
+  border: none;
+  border-radius: 26px;
+  font-family: inherit;
+  font-size: clamp(22px, 5.6vw, 28px);
+  color: #ffffff;
+  background: linear-gradient(135deg, #ff8fc4, #ff5e9c);
+  box-shadow: 0 8px 0 #d6336c, 0 14px 24px rgba(214, 51, 108, 0.3);
+  cursor: pointer;
+}
+
+.start-btn:active {
+  transform: translateY(5px);
+  box-shadow: 0 3px 0 #d6336c;
+}
+
+/* ---------------- 엔딩 ---------------- */
+
+.ending-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  background: rgba(80, 50, 70, 0.3);
+  -webkit-backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
+}
+
+.ending-overlay.is-on {
+  display: flex;
+}
+
+.ending-card {
+  width: 100%;
+  max-width: 400px;
+  padding: 24px 20px 16px;
+  text-align: center;
+  background: #ffffff;
+  border-radius: 32px;
+  box-shadow: 0 24px 50px rgba(120, 60, 90, 0.3);
+  animation: pop-in 0.45s cubic-bezier(0.2, 1.4, 0.4, 1);
+}
+
+@keyframes pop-in {
+  from {
+    transform: scale(0.7);
+    opacity: 0;
+  }
+}
+
+.ending-ornament {
+  font-size: 40px;
+  letter-spacing: 4px;
+  animation: bounce-subtle 1.4s ease-in-out infinite;
+}
+
+@keyframes bounce-subtle {
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+.ending-card h2 {
+  margin: 8px 0 4px;
+  font-size: clamp(22px, 5.6vw, 28px);
+  color: #7a2c4e;
+}
+
+.ending-card p {
+  font-size: 15px;
+  color: #b07a94;
+}
+
+.ending-actions {
+  display: flex;
+  gap: 10px;
+  margin: 18px 0 10px;
+}
+
+.btn-pill {
+  flex: 1;
+  padding: 14px 10px;
+  border: none;
+  border-radius: 22px;
+  font-family: inherit;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.btn-again {
+  background: linear-gradient(135deg, #ff8fc4, #ff5e9c);
+  color: #ffffff;
+  box-shadow: 0 5px 0 #d6336c;
+}
+
+.btn-again:active {
+  transform: translateY(4px);
+  box-shadow: 0 1px 0 #d6336c;
+}
+
+.btn-change {
+  background: #fff0f6;
+  color: #c2255c;
+  box-shadow: 0 5px 0 #ffd6e7;
+}
+
+.btn-change:active {
+  transform: translateY(4px);
+  box-shadow: 0 1px 0 #ffd6e7;
+}
+
+.rest-link {
+  display: inline-block;
+  margin-top: 4px;
+  padding: 6px 12px;
+  font-size: 15px;
+  color: #b07a94;
+  text-decoration: none;
+}
+
+/* ---------------- 작은 화면 ---------------- */
+
+@media (max-width: 520px) {
+  .fairy-row {
+    gap: 8px;
+  }
+
+  .fairy-card {
+    flex: 1 1 0;
+    min-width: 0;
+    padding: 12px 4px 10px;
+    font-size: 14px;
+  }
+
+  .fairy-thumb {
+    width: 88px;
+    height: 88px;
+  }
+}
+
+@media (max-width: 360px) {
+  .fairy-row {
+    gap: 6px;
+  }
+
+  .fairy-card {
+    padding: 10px 4px 10px;
+    font-size: 13px;
+  }
+
+  .fairy-thumb {
+    width: 72px;
+    height: 72px;
+  }
+}
+
+@media (min-width: 760px) {
+  .fairy-row {
+    gap: 22px;
+  }
+}
+
+/* ---------------- 저자극 설정 ---------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .ending-ornament {
+    animation: none;
+  }
+}

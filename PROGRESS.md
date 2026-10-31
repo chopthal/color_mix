@@ -2,6 +2,20 @@
 
 최신이 위. 세션은 상단 2~3개만 읽는다.
 
+## 2026-10-31 — 뾰로롱! 변신 숨바꼭질 v1 구현
+
+• 요약: `games/transform-hide/` 신설. 숨는 차례(물건 4개 중 콕 → 뾰로롱 변신 → 술래 요정 순찰 → 근처 지날 때 물건 씰룩+"히히!" → 약 6.5초 뒤 "?" 하며 포기) → 찾는 차례(친구가 물건에 숨고 ♪ 단서 → 콕 → "까르르!" 발견, 틀려도 무벌점) → 2라운드 → 소프트 엔딩. 요정 3종(하늘/복숭아/라일락) 무언 연출, 물건 아트 4종(피아노/곰인형/소파/선물상자), 로비 카드 추가
+• 검증: `node --check` 3파일. serve(4173) + ego-browser 390×844(dpr2)·1920×860에서 로비 카드 12장·href(`games/transform-hide/index.html`)·진입, 선택 요정 3장(390에서 가로 오버플로우 없음·시작 버튼 노출), 숨기→술래 순찰·"히히!"→"?" 포기→찾기(♪ 단서 위에 지속 표시)→콕 발견→2라운드→엔딩 오버레이, 틀린 물건 무벌점, 오류 이벤트 없음. ego는 rAF가 정지해 canvas가 비어 보여 `requestAnimationFrame` shim(setTimeout) 후 `canvas.toDataURL` 스냅샷으로 확인. 상대경로 자산 + 인라인 슬래시 보정 스크립트로 `file://.../index.html` 직접 열기와 `serve` 진입 모두 자산 200·요정 3장·시작·렌더 확인
+• 경로: `games/transform-hide/`(index.html, css/style.css, js/{data,sound,game}.js), `index.html`, `docs/games/transform-hide.md`, `STATUS.md`, `PROGRESS.md`
+• 리스크: 실기기(iPhone Safari) 미확인. 숨는 차례 6.5초·요정 속도·간지럼 타이밍은 실기기에서 조정 권장. `dino-hide-seek`와 이름 혼동 방지 위해 '변신'을 전면에 둠
+
+## 2026-10-31 — 반짝반짝 별사탕을 지켜요 v1 구현
+
+• 요약: `games/star-candy/` 신설. 상자 5개 중 하나에 별사탕 숨기기 → 요정이 다가와 상자를 열려 함 → 아이 캐릭터를 드래그해 콩! 밀어내기(비눗방울·엉덩방아). 손가락으로 잡고 있으면 요정이 닿는 순간 발동(이동 속도 조건 없음). 놓쳐 상자를 열어도 "앗!" 후 다시 숨기기(벌점·타이머 없음). 5번 지키면 소프트 엔딩. 요정 3종(파랑/핑크/민트) 무언 연출, 상자별 패턴, 별 HUD 5칸. 로비 카드 추가
+• 검증: `node --check` 3파일. serve(4173) + ego-browser 1920×860·390×844(dpr2)에서 로비 카드 11장·href(`games/star-candy/`)·진입, 선택 화면 요정 3장(390에서 카드 0~390 안, 가로 오버플로우 없음, 시작 버튼 노출), 시작→상자 탭 숨기기(사탕 사라짐), 요정 접근→드래그 홀드 콩!(HUD 별 1→5), 5콩 소프트 엔딩 오버레이, 무입력 시 요정이 상자 열고 "앗!"→별사탕 재숨기기, 오류 이벤트 없음. ego는 rAF가 정지해 canvas가 비어 보여 `requestAnimationFrame` shim(setTimeout) 후 `canvas.toDataURL` 스냅샷으로 확인. `serve` cleanUrls가 `/games/star-candy/index.html`을 슬래시 없는 `/games/star-candy`로 보내 상대경로 자산이 404 나던 문제는 CSS/JS를 상대경로로 두고, 게임 HTML 인라인 스크립트가 슬래시 없는 서버 URL을 `/games/star-candy/`로 보정하게 해 해결. `index.html` 직접 열기(file://)와 serve 진입 모두 자산 200·요정 3장·시작·렌더 확인. (절대경로 방식은 file://에서 깨져 폐기)
+• 경로: `games/star-candy/`(index.html, css/style.css, js/{data,sound,game}.js), `index.html`, `docs/games/star-candy.md`, `STATUS.md`, `PROGRESS.md`
+• 리스크: 실기기(iPhone Safari) 미확인. 드래그 홀드 판정·요정 속도는 실기기에서 조정 권장. 콩! 중 손가락을 계속 잡고 있으면 반복 방어로 엔딩까지 갈 수 있음(의도된 몸으로 막기)
+
 ## 2026-10-31 — 쿵쿵! 공룡 범퍼섬 친구 공룡 선택
 
 • 요약: 선택 화면에 친구 공룡 8종 + 🎲 랜덤 행 추가. 내 공룡과 친구를 각각 선택하고 같은 공룡 미러 매치 허용. 수동 선택한 친구는 내 공룡을 바꿔도 유지되며, 자동 선택 상태에서는 내 공룡과 겹치면 다른 공룡으로 자동 변경
