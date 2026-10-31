@@ -1,7 +1,7 @@
 # STATUS
 
 • 기준본: main
-• 피처 브랜치: chopthal/feature-kids-dino-competition
+• 피처 브랜치: chopthal/feature-kids-dino-competition (PR #6 생성됨)
 • 담당: 쿵쿵! 공룡 범퍼섬 (games/dino-bumper)
 • 갱신: 2026-10-31
 
@@ -19,6 +19,6 @@
 
 ## 사용자 액션
 
+• GitHub PR #6 리뷰 및 머지: https://github.com/chopthal/color_mix/pull/6
 • UI 직접 확인: `npx --yes serve . -p 4173` → `http://localhost:4173/games/dino-bumper/`
 • 실기기(iPhone Safari)에서 터치·물리 감도 확인
-• 커밋/푸시는 요청 시
