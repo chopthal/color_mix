@@ -431,6 +431,56 @@
       box-shadow: 0 2px 0 #e8590c;
     }
 
+    /* 카드: 반짝반짝 별사탕을 지켜요 */
+    .card-candy {
+      border-color: #ffd6e7;
+      color: #c2255c;
+    }
+    .card-candy:hover {
+      border-color: #ff8fc4;
+    }
+    .card-candy .card-icon-wrap {
+      background: radial-gradient(circle, #fff0f6 0%, #ffe3ef 100%);
+      border: 4px solid #ffd6e7;
+    }
+    .card-candy .card-icon-wrap span {
+      animation: bounce 2.3s infinite ease-in-out;
+    }
+    .card-candy .play-btn {
+      background: #ff8fc4;
+      color: #ffffff;
+      box-shadow: 0 5px 0 #d6336c;
+    }
+    .card-candy .play-btn:active {
+      transform: translateY(3px);
+      box-shadow: 0 2px 0 #d6336c;
+    }
+
+    /* 카드: 뾰로롱! 변신 숨바꼭질 */
+    .card-transform {
+      border-color: #c9f0e3;
+      color: #0f766e;
+    }
+    .card-transform:hover {
+      border-color: #3fbfa6;
+    }
+    .card-transform .card-icon-wrap {
+      background: radial-gradient(circle, #effcf7 0%, #d9f6ec 100%);
+      border: 4px solid #c9f0e3;
+    }
+    .card-transform .card-icon-wrap span {
+      animation: wiggle 2.4s infinite ease-in-out;
+    }
+    .card-transform .play-btn {
+      background: #14a08f;
+      color: #ffffff;
+      box-shadow: 0 5px 0 #0b766d;
+    }
+    .card-transform .play-btn:active {
+      transform: translateY(3px);
+      box-shadow: 0 2px 0 #0b766d;
+    }
+
     /* 카드: 커밍순 */
     .card-coming {
       border-color: #e9ecef;
@@ -716,6 +766,32 @@
         <p class="card-desc">공룡을 끌어 친구와 쿵!<br>별이 팡 터지고 열매가 통통!</p>
         <button class="play-btn" type="button" tabindex="-1">
           <span>쿵쿵 놀러 가기!</span> <span>💥</span>
+        </button>
+      </a>
+
+      <!-- 10. 반짝반짝 별사탕을 지켜요 -->
+      <a href="games/star-candy/index.html" class="game-card card-candy" id="cardStarCandy">
+        <span class="card-badge badge-new">새 놀이</span>
+        <div class="card-icon-wrap">
+          <span>🍬</span>
+        </div>
+        <h2 class="card-title">반짝반짝 별사탕을 지켜요</h2>
+        <p class="card-desc">상자에 별사탕을 콕 숨기고<br>다가오는 요정을 콩! 밀어내요</p>
+        <button class="play-btn" type="button" tabindex="-1">
+          <span>지키러 가기!</span> <span>🍬</span>
+        </button>
+      </a>
+
+      <!-- 11. 뾰로롱! 변신 숨바꼭질 -->
+      <a href="games/transform-hide/index.html" class="game-card card-transform" id="cardTransformHide">
+        <span class="card-badge badge-new">새 놀이</span>
+        <div class="card-icon-wrap">
+          <span>🪄</span>
+        </div>
+        <h2 class="card-title">뾰로롱! 변신 숨바꼭질</h2>
+        <p class="card-desc">물건으로 뾰로롱 변신해 숨고<br>흔들리는 물건을 콕 찾아요</p>
+        <button class="play-btn" type="button" tabindex="-1">
+          <span>숨바꼭질 하러 가기!</span> <span>🪄</span>
         </button>
       </a>
     </main>
