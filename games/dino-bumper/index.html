@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="쿵쿵! 공룡 범퍼섬">
+  <title>🦖 쿵쿵! 공룡 범퍼섬</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <header class="top-bar">
+    <a class="nav-home" href="../../index.html" aria-label="놀이터로 돌아가기">
+      <span>🏠</span>
+      <span>놀이터</span>
+    </a>
+    <h1 class="app-title"><span>🦖</span> 쿵쿵! 공룡 범퍼섬</h1>
+    <div class="top-right">
+      <div class="friend-chip" id="friendChip" hidden>
+        <span>친구</span>
+        <strong id="friendName">스피노</strong>
+      </div>
+      <button class="btn-icon" id="btnSound" type="button" aria-label="소리 켜기/끄기">🔊</button>
+    </div>
+  </header>
+
+  <main class="stage" id="stage">
+    <canvas id="arenaCanvas" aria-label="공룡 범퍼 놀이터"></canvas>
+
+    <div class="basket-pill" id="basketPill" hidden>
+      <span>🧺</span>
+      <span>0 / 5</span>
+    </div>
+
+    <div class="toast" id="toast" aria-live="polite"></div>
+
+    <!-- 공룡·놀이터 고르기 -->
+    <section class="select-screen is-on" id="selectScreen">
+      <div class="select-head">
+        <h2>누구랑 쿵쿵 놀까?</h2>
+        <p>내 공룡을 고르고, 친구도 골라요</p>
+      </div>
+
+      <div class="dino-grid" id="dinoGrid"></div>
+
+      <div class="friend-pick">
+        <span class="friend-label">친구</span>
+        <div class="friend-row" id="friendRow"></div>
+      </div>
+
+      <div class="arena-pick">
+        <span class="arena-label">놀이터</span>
+        <div class="arena-row" id="arenaRow"></div>
+      </div>
+
+      <button class="start-btn" id="btnStart" type="button">
+        쿵쿵! 시작 <span>💥</span>
+      </button>
+    </section>
+
+    <!-- 함께 성공 엔딩 -->
+    <div class="ending-overlay" id="endingOverlay">
+      <div class="ending-card">
+        <div class="ending-dinos">🦖💥🦕</div>
+        <h2>다 같이 신나게 놀았어!</h2>
+        <p>쿵쿵! 별이 팡팡 터졌어요</p>
+        <div class="ending-actions">
+          <button class="btn-pill btn-again" id="btnAgain" type="button">또! 🔁</button>
+          <button class="btn-pill btn-change" id="btnChange" type="button">공룡 바꾸기 🦕</button>
+        </div>
+        <a class="rest-link" href="../../index.html">쉬자 🏠</a>
+      </div>
+    </div>
+  </main>
+
+  <script src="js/data.js"></script>
+  <script src="js/sound.js"></script>
+  <script src="js/game.js"></script>
+</body>
+</html>
