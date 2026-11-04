@@ -26,4 +26,4 @@
   - 직접 URL: `http://localhost:4173/games/mantis-spino/index.html`
 • 이전 화면이 캐시됐으면 강력 새로고침(Ctrl+F5 / iOS 새로고침) 1회
 • 실기기(iPhone Safari)에서 터치·오디오·속도 확인 (공격/반격 속도·효과음 톤 조정 권장)
-• 커밋 / 푸시 / PR은 사용자 지시 시
+• PR 리뷰 및 머지: https://github.com/chopthal/color_mix/pull/8
