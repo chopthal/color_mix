@@ -481,6 +481,31 @@
       box-shadow: 0 2px 0 #0b766d;
     }
 
+    /* 카드: 째깍 크아앙! 놀이 싸움 */
+    .card-mantis {
+      border-color: #d6f5c9;
+      color: #2f9e44;
+    }
+    .card-mantis:hover {
+      border-color: #51cf66;
+    }
+    .card-mantis .card-icon-wrap {
+      background: radial-gradient(circle, #f3fff0 0%, #e2f8d8 100%);
+      border: 4px solid #c9f0b8;
+    }
+    .card-mantis .card-icon-wrap span {
+      animation: wiggle 2.3s infinite ease-in-out;
+    }
+    .card-mantis .play-btn {
+      background: #40c057;
+      color: #ffffff;
+      box-shadow: 0 5px 0 #2f9e44;
+    }
+    .card-mantis .play-btn:active {
+      transform: translateY(3px);
+      box-shadow: 0 2px 0 #2f9e44;
+    }
+
     /* 카드: 커밍순 */
     .card-coming {
       border-color: #e9ecef;
@@ -792,6 +817,19 @@
         <p class="card-desc">물건으로 뾰로롱 변신해 숨고<br>흔들리는 물건을 콕 찾아요</p>
         <button class="play-btn" type="button" tabindex="-1">
           <span>숨바꼭질 하러 가기!</span> <span>🪄</span>
+        </button>
+      </a>
+
+      <!-- 12. 째깍 크아앙! 놀이 싸움 -->
+      <a href="games/mantis-spino/index.html" class="game-card card-mantis" id="cardMantisSpino">
+        <span class="card-badge badge-new">새 놀이</span>
+        <div class="card-icon-wrap">
+          <span>🦗</span>
+        </div>
+        <h2 class="card-title">째깍 크아앙! 놀이 싸움</h2>
+        <p class="card-desc">사마귀·스피노와 장난으로 겨뤄요!<br>폭신! 별이 팡 터지고 깔깔~</p>
+        <button class="play-btn" type="button" tabindex="-1">
+          <span>겨루러 가기!</span> <span>⚡</span>
         </button>
       </a>
     </main>

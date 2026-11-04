@@ -2,6 +2,34 @@
 
 최신이 위. 세션은 상단 2~3개만 읽는다.
 
+## 2026-11-04 — 사마귀 앞다리 낫 리디자인
+
+• 요약: 사마귀 `scythes` 아트를 뭉툭한 솜 낫 → 실제 사마귀 앞다리처럼 **뾰족한 낫**(곡선 테이퍼 + 안쪽 가시 2개)으로 교체. `drawSickle` 헬퍼 추가, 앞/뒤 두 다리로 입체감. 사용자 확인(이 정도 날카로움 허용)
+• 검증: `node --check` 통과. ego 캔버스 스냅샷(faceoff·attack `째깍 낫`)에서 뾰족한 낫 형태·얼굴 미가림 확인, 오류 0
+• 경로: `games/mantis-spino/js/game.js`, `docs/games/mantis-spino.md`, `STATUS.md`, `PROGRESS.md`
+• 리스크: 실기기 미확인
+
+## 2026-11-04 — 째깍 크아앙! 놀이 싸움 3기술 확장
+
+• 요약: 공격 버튼 1개 → **캐릭터별 커스텀 3기술**로 확장. 각 기술은 `motion`(dash/hop 돌진·폴짝, shout/splash 제자리 외침·물뿌리기)과 `effect`(spark/ring/bubble/leaf/dust)로 연출. 예) 스피노 크아앙!·깨물기·밀기, 코끼리 뿌우~·물 뿌리기·코로 밀기, 사마귀 째깍 낫·째깍!·솜폴짝. 하단 공격 바에 3버튼, 상대는 자기 3기술 중 **랜덤 반격**. 파티클에 ring/leaf/bubble/dust 추가
+• 검증: `node --check` 2파일. ego-browser(가상 프레임). 코끼리 라벨(뿌우~/물 뿌리기/코로 밀기)·사마귀 라벨(째깍 낫/째깍!/솜폴짝) 확인, shout(소리물결)·splash(거품)·dash(돌진 접촉)·hop(폴짝) 4모션 프레임 캔버스 스냅샷 확인, 3겨루기→엔딩, 오류 0. 모바일 390·320: 공격 버튼 3개·가로 오버플로우 없음. ego는 CSS transition을 진행하지 못해(opacity 0 고정) `transition:none`으로 검증 → opacity 1·translateY 0·bottom 828(<844) 정상 확인
+• 경로: `games/mantis-spino/js/{data,game}.js`, `games/mantis-spino/index.html`, `games/mantis-spino/css/style.css`, `docs/games/mantis-spino.md`, `STATUS.md`, `PROGRESS.md`
+• 리스크: 실기기(iPhone Safari) 미확인. 3버튼 배치·모션 속도·효과음 톤은 실기기에서 조정 권장. ego는 CSS 전환/ rAF 정지 환경이고 포인터 입력도 페이지로 전달되지 않아(클릭 로그 0건) 실제 탭은 미검증 — 버튼 핸들러는 programmatic click으로 검증, 버튼은 pointer-events auto·z-index 5·뷰포트 내(바닥 828<844, 데스크톱 905<921)
+
+## 2026-11-04 — 째깍 크아앙! 놀이 싸움 개편 (내/적 선택·돌진 공격)
+
+• 요약: 사마귀·스피노가 같은 편이라는 해석을 바로잡아 **서로 겨루는 사이**로 정리. 선택 화면을 '내 친구 / 적 친구' 두 줄로 바꿔 **전체 11종(동물·공룡·곤충) 풀에서 양쪽을 각각 선택**(기본 사마귀 vs 스피노, 미러 허용). 공격 시 제자리 런지 대신 **상대 앞까지 달려가(돌진) 공격 후 복귀**하도록 `attackCharge` 이동 곡선 추가, 맞은 쪽은 살짝 밀려남. "또!"는 새 랜덤 대신 **같은 조합 재대결**
+• 검증: `node --check` 3파일 통과. serve(4173) + ego-browser(가상 프레임 `__step`). 선택 줄 각 11장·기본/스와프(mantis↔spino) 반영, 계속 진행해 3겨루기→엔딩 오버레이, "또!"(같은 조합 재대결)·"친구 바꾸기"(선택 복귀), 돌진 프레임(rest→dash→contact)에서 공격자가 실제로 상대 앞까지 이동·접촉 확인, 390×844(dpr2)·320×568 가로 오버플로우 없음·선택 줄 가로 스크롤·시작 버튼 노출, 오류 이벤트 없음
+• 경로: `games/mantis-spino/js/{data,game}.js`, `games/mantis-spino/index.html`, `games/mantis-spino/css/style.css`, `docs/games/mantis-spino.md`, `STATUS.md`, `PROGRESS.md`
+• 리스크: 실기기(iPhone Safari) 미확인. 돌진 속도·접촉 간격·효과음 톤은 실기기에서 조정 권장
+
+## 2026-11-04 — 째깍 크아앙! 놀이 싸움 v1 구현
+
+• 요약: `games/mantis-spino/` 신설. 사마귀/스피노 중 내 캐릭터 선택 → 큼직한 공격 버튼 1개(자동) 탭 → 내 캐릭터 공격 연출("째깍!"/"크아앙!") → 상대 "폭신!" 빙글 + 별·하트·거품 + 웃음 → 상대 자동 반격 → 3겨루기 → 하이파이브 + 색종이 엔딩("또! / 친구 바꾸기 / 쉬자"). 상대 메이트 9종(동물 사자·코끼리·토끼 / 공룡 티라노·트리케라·브라키오 / 곤충 사슴벌레·장수풍뎅이·무당벌레) 랜덤. 무해화(마시멜로 이빨·솜 낫·거품 등)·무승패·무HP. 로비 카드 추가
+• 검증: `node --check` 3파일 통과. serve(4173) + ego-browser. ego는 rAF가 멈춰 있어 가상 프레임(`window.__step`, setTimeout 대체 shim)으로 직접 구동해 검증. 로비 카드 13장·href(`games/mantis-spino/index.html`)·진입, 선택 2장(썸네일 렌더)·사마귀/스피노 선택, 시작→faceOff→공격→폭신 파티클→반격→3겨루기→엔딩 오버레이, "또!"(새 랜덤 메이트)·"친구 바꾸기"(선택 복귀), 390×844(dpr2)·320×568 가로 오버플로우 없음·공격/시작 버튼 노출, 오류 이벤트 없음. **모바일(dpr>1)에서 캔버스가 속성 크기(780px)로 커져 잘리던 문제 발견 → `#gameCanvas{width:100%;height:100%}`로 수정 후 clientW=390 확인.** `.card-mantis` 로비 카드 CSS/HTML 추가
+• 경로: `games/mantis-spino/`(index.html, css/style.css, js/{data,sound,game}.js), `index.html`, `docs/games/mantis-spino.md`, `STATUS.md`, `PROGRESS.md`
+• 리스크: 실기기(iPhone Safari) 미확인. 공격/반격 속도·효과음 톤은 실기기에서 조정 권장. ego는 rAF 정지 환경이라 가상 프레임으로 검증(실브라우저는 정상)
+
 ## 2026-10-31 — 뾰로롱! 변신 숨바꼭질 v1 구현
 
 • 요약: `games/transform-hide/` 신설. 숨는 차례(물건 4개 중 콕 → 뾰로롱 변신 → 술래 요정 순찰 → 근처 지날 때 물건 씰룩+"히히!" → 약 6.5초 뒤 "?" 하며 포기) → 찾는 차례(친구가 물건에 숨고 ♪ 단서 → 콕 → "까르르!" 발견, 틀려도 무벌점) → 2라운드 → 소프트 엔딩. 요정 3종(하늘/복숭아/라일락) 무언 연출, 물건 아트 4종(피아노/곰인형/소파/선물상자), 로비 카드 추가
