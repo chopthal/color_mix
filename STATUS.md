@@ -2,15 +2,16 @@
 
 • 기준본: main
 • 피처 브랜치: chopthal/feat-mantis-vs-spinosaurus
-• 담당: 째깍 크아앙! 놀이 싸움 (`games/mantis-spino`)
-• 갱신: 2026-11-04
+• 담당: 신규 게임 3종 병렬 프로토타입 (숲속 냄비 요리, 음악 정원, 포근포근 밤밤)
+• 갱신: 2026-11-07
 
 ## 지금
 
-`째깍 크아앙! 놀이 싸움` v1 구현 완료.
-- 내 친구·적 친구를 11종 풀(동물·공룡·곤충)에서 각각 선택(기본 사마귀 vs 스피노) → 캐릭터별 커스텀 공격 **3버튼**(외침·돌진·폴짝·물뿌리기 등) → 상대 3기술 랜덤 반격 → 3겨루기 → 하이파이브 엔딩
-- 무해화 놀이 싸움(마시멜로 이빨·낫 앞다리·"폭신!"·웃음), 무승패·무HP. "또!"는 같은 조합 재대결
-- 로컬 검증 완료(390·320 레이아웃, 캔버스 렌더, 3기술 모션, 상태 전이, 오류 없음). 로비 카드 13장.
+Orca 오케스트레이션(OpenCode DeepSeek 2 + Antigravity Gemini Flash 1)을 통해 신규 게임 3종 병렬 구현 및 메인 트리 병합 완료.
+- **숲속 냄비 요리** (`games/forest-soup/`): 재료 퐁당 투입, 뱅글뱅글 젓기, 동물 3회 냠냠 시식 및 스티커 저장
+- **음악 정원** (`games/music-garden/`): 구름 톡 빗방울, 새싹 퐁 줄기 쑥 꽃 팡 3단계 성장, 5음계(도레미솔라) 꽃 연주
+- **포근포근 밤밤** (`games/cozy-night/`): 동물 3종 토닥토닥 재우기 5단계, 오르골 자장가, 포근한 이불 덮어주기, 과몰입 방지 취침 엔딩
+- 메인 로비 카드 16장 연동 완료, 로컬 서버(`http://localhost:4173`) 200 OK 서빙 및 `node --check` 문법 검사 에러 0건 확인.
 
 ## 막힘
 
@@ -18,12 +19,12 @@
 
 ## 다음 할 일
 
-(비움 — 실기기(iPhone Safari) 확인 후 커밋/PR 결정)
+(비움 — 실기기에서 3종 게임 플레이 및 사운드/조작감 확인)
 
 ## 사용자 액션
 
-• 실행: `npx --yes serve . -p 4173` 후 `http://localhost:4173/` 로비에서 진입 (현재 4173 서버 켜져 있음)
-  - 직접 URL: `http://localhost:4173/games/mantis-spino/index.html`
-• 이전 화면이 캐시됐으면 강력 새로고침(Ctrl+F5 / iOS 새로고침) 1회
-• 실기기(iPhone Safari)에서 터치·오디오·속도 확인 (공격/반격 속도·효과음 톤 조정 권장)
-• PR 리뷰 및 머지: https://github.com/chopthal/color_mix/pull/8
+• 실행: `http://localhost:4173/` 로비에서 진입 (현재 4173 서버 켜져 있음)
+  - 숲속 냄비 요리: `http://localhost:4173/games/forest-soup/index.html`
+  - 음악 정원: `http://localhost:4173/games/music-garden/index.html`
+  - 포근포근 밤밤: `http://localhost:4173/games/cozy-night/index.html`
+• 실기기(스마트폰/태블릿 Safari)에서 터치감 및 오디오 확인

@@ -506,6 +506,81 @@
       box-shadow: 0 2px 0 #2f9e44;
     }
 
+    /* 카드: 숲속 냄비 요리 */
+    .card-soup {
+      border-color: #d7eec4;
+      color: #4f9a35;
+    }
+    .card-soup:hover {
+      border-color: #7ac74f;
+    }
+    .card-soup .card-icon-wrap {
+      background: radial-gradient(circle, #f7fff0 0%, #e6f7d9 100%);
+      border: 4px solid #cbe9b5;
+    }
+    .card-soup .card-icon-wrap span {
+      animation: wiggle 2.5s infinite ease-in-out;
+    }
+    .card-soup .play-btn {
+      background: #7ac74f;
+      color: #ffffff;
+      box-shadow: 0 5px 0 #4f9a35;
+    }
+    .card-soup .play-btn:active {
+      transform: translateY(3px);
+      box-shadow: 0 2px 0 #4f9a35;
+    }
+
+    /* 카드: 음악 정원 */
+    .card-garden {
+      border-color: #c9f0d8;
+      color: #2f9e63;
+    }
+    .card-garden:hover {
+      border-color: #40c07a;
+    }
+    .card-garden .card-icon-wrap {
+      background: radial-gradient(circle, #f2fff7 0%, #dcf7e7 100%);
+      border: 4px solid #bdeccf;
+    }
+    .card-garden .card-icon-wrap span {
+      animation: bounce 2.5s infinite ease-in-out;
+    }
+    .card-garden .play-btn {
+      background: #40b86a;
+      color: #ffffff;
+      box-shadow: 0 5px 0 #2f8f52;
+    }
+    .card-garden .play-btn:active {
+      transform: translateY(3px);
+      box-shadow: 0 2px 0 #2f8f52;
+    }
+
+    /* 카드: 포근포근 밤밤 */
+    .card-cozy {
+      border-color: #e0d4f7;
+      color: #574b90;
+    }
+    .card-cozy:hover {
+      border-color: #6c5ce7;
+    }
+    .card-cozy .card-icon-wrap {
+      background: radial-gradient(circle, #f8f9fa 0%, #e0d4f7 100%);
+      border: 4px solid #dcdde1;
+    }
+    .card-cozy .card-icon-wrap span {
+      animation: pulse-moon 2.5s infinite alternate;
+    }
+    .card-cozy .play-btn {
+      background: #6c5ce7;
+      color: #ffffff;
+      box-shadow: 0 5px 0 #4834d4;
+    }
+    .card-cozy .play-btn:active {
+      transform: translateY(3px);
+      box-shadow: 0 2px 0 #4834d4;
+    }
+
     /* 카드: 커밍순 */
     .card-coming {
       border-color: #e9ecef;
@@ -644,6 +719,10 @@
       0%, 100% { transform: rotate(0deg); }
       25% { transform: rotate(-8deg); }
       75% { transform: rotate(8deg); }
+    }
+    @keyframes pulse-moon {
+      0% { transform: scale(1) rotate(0deg); opacity: 0.9; }
+      100% { transform: scale(1.1) rotate(-8deg); opacity: 1; }
     }
   </style>
 </head>
@@ -830,6 +909,45 @@
         <p class="card-desc">사마귀·스피노와 장난으로 겨뤄요!<br>폭신! 별이 팡 터지고 깔깔~</p>
         <button class="play-btn" type="button" tabindex="-1">
           <span>겨루러 가기!</span> <span>⚡</span>
+        </button>
+      </a>
+
+      <!-- 13. 숲속 냄비 요리 -->
+      <a href="games/forest-soup/index.html" class="game-card card-soup" id="cardForestSoup">
+        <span class="card-badge badge-new">새 놀이</span>
+        <div class="card-icon-wrap">
+          <span>🍲</span>
+        </div>
+        <h2 class="card-title">숲속 냄비 요리</h2>
+        <p class="card-desc">재료를 냄비에 퐁당 넣고<br>뱅글뱅글 저어 친구에게 냠냠!</p>
+        <button class="play-btn" type="button" tabindex="-1">
+          <span>요리하러 가기!</span> <span>🥄</span>
+        </button>
+      </a>
+
+      <!-- 14. 음악 정원 -->
+      <a href="games/music-garden/index.html" class="game-card card-garden" id="cardMusicGarden">
+        <span class="card-badge badge-new">새 놀이</span>
+        <div class="card-icon-wrap">
+          <span>🌷</span>
+        </div>
+        <h2 class="card-title">음악 정원</h2>
+        <p class="card-desc">구름을 톡톡 눌러 비를 내리고<br>도레미솔라 꽃을 피워 연주해요</p>
+        <button class="play-btn" type="button" tabindex="-1">
+          <span>정원으로 가기!</span> <span>🎵</span>
+        </button>
+      </a>
+
+      <!-- 15. 포근포근 밤밤 -->
+      <a href="games/cozy-night/index.html" class="game-card card-cozy" id="cardCozyNight">
+        <span class="card-badge badge-new">새 놀이</span>
+        <div class="card-icon-wrap">
+          <span>🌙</span>
+        </div>
+        <h2 class="card-title">포근포근 밤밤</h2>
+        <p class="card-desc">동물 친구에게 이불을 덮어주고<br>토닥토닥 재우며 자장가를 들어요</p>
+        <button class="play-btn" type="button" tabindex="-1">
+          <span>꿈나라 가기!</span> <span>💤</span>
         </button>
       </a>
     </main>

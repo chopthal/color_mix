@@ -2,6 +2,16 @@
 
 최신이 위. 세션은 상단 2~3개만 읽는다.
 
+## 2026-11-07 — Orca 오케스트레이션 키즈 게임 3종 병렬 구현 및 통합
+
+• 요약: Orca 오케스트레이션을 통해 OpenCode 2개(DeepSeek V4.1 Flash)와 Antigravity 1개(Gemini 3.8 Flash Medium)를 독립 워크트리에 출격시켜 3개 신규 게임을 병렬 구현 후 메인 트리에 머지 통합.
+  1) `숲속 냄비 요리` (`games/forest-soup/`): 재료 퐁당 투입, 뱅글뱅글 젓기, 동물 3회 냠냠 시식 및 스티커 보관
+  2) `음악 정원` (`games/music-garden/`): 구름 톡 빗방울, 새싹 퐁 줄기 쑥 꽃 팡 3단계 성장, 5음계(도레미솔라) 꽃 연주
+  3) `포근포근 밤밤` (`games/cozy-night/`): 동물 3종 토닥토닥 재우기 5단계, 오르골 자장가, 포근한 이불 덮어주기, 과몰입 방지 취침 엔딩
+• 검증: 각 워커별 Playwright/ego-browser 가상 브라우저 검증(390x844, 320x568, 가로 오버플로우 없음, JS 예외 0) 완료. 메인 작업트리 통합 후 `node --check` 3개 JS 모두 에러 0건. 로비 카드 16장 연동 확인, 로컬 서버(`http://localhost:4173`) HTTP 200 OK 서빙 확인.
+• 경로: `games/{forest-soup,music-garden,cozy-night}/`, `docs/games/{forest-soup,music-garden,cozy-night}.md`, `index.html`, `STATUS.md`, `PROGRESS.md`
+• 리스크: 실기기(iPhone Safari) 미확인 (사운드 톤 및 터치감 확인 권장)
+
 ## 2026-11-04 — 사마귀 앞다리 낫 리디자인
 
 • 요약: 사마귀 `scythes` 아트를 뭉툭한 솜 낫 → 실제 사마귀 앞다리처럼 **뾰족한 낫**(곡선 테이퍼 + 안쪽 가시 2개)으로 교체. `drawSickle` 헬퍼 추가, 앞/뒤 두 다리로 입체감. 사용자 확인(이 정도 날카로움 허용)

@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="포근포근 밤밤">
+  <title>🌙 포근포근 밤밤</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌙</text></svg>">
+
+  <script>
+    (function () {
+      if (location.protocol === 'file:') return;
+      var p = location.pathname;
+      if (/\/$/.test(p) || /\.html?$/.test(p)) return;
+      location.replace(p + '/' + location.search + location.hash);
+    })();
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jua&family=Gaegu:wght@700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="night-room" id="nightRoom">
+    <!-- 상단 바 -->
+    <header class="top-bar">
+      <a class="nav-home" href="../../index.html" aria-label="놀이터로 돌아가기">
+        <span>🏠</span>
+        <span>놀이터</span>
+      </a>
+      <h1 class="app-title">
+        <span class="icon-moon">🌙</span>
+        <span>포근포근 밤밤</span>
+      </h1>
+      <div class="top-controls">
+        <button class="btn-ctrl" id="btnMusic" type="button" aria-label="오르골 자장가 켜기/끄기">
+          <span class="ctrl-icon">🎵</span>
+          <span class="ctrl-text">오르골</span>
+        </button>
+        <button class="btn-ctrl" id="btnSound" type="button" aria-label="효과음 켜기/끄기">
+          <span class="ctrl-icon">🔊</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- 메인 침실 무대 -->
+    <main class="cozy-stage" id="cozyStage">
+      <!-- 밤하늘 창문과 별들 -->
+      <section class="window-area" aria-label="밤하늘 창문">
+        <div class="window-frame">
+          <div class="night-sky">
+            <!-- 인터랙티브 달님 -->
+            <button class="moon-btn" id="moonBtn" type="button" aria-label="달님 토닥이기">
+              <span class="moon-body">🌙</span>
+              <span class="moon-sparkle">✨</span>
+            </button>
+
+            <!-- 인터랙티브 별들 -->
+            <div class="stars-cluster">
+              <button class="star-btn" data-star="0" type="button" aria-label="별 1">⭐</button>
+              <button class="star-btn" data-star="1" type="button" aria-label="별 2">⭐</button>
+              <button class="star-btn" data-star="2" type="button" aria-label="별 3">⭐</button>
+              <button class="star-btn" data-star="3" type="button" aria-label="별 4">⭐</button>
+            </div>
+
+            <!-- 은은한 구름 -->
+            <div class="night-cloud cloud-a"></div>
+            <div class="night-cloud cloud-b"></div>
+          </div>
+        </div>
+        <!-- 조명 스위치 버튼 -->
+        <button class="lamp-switch" id="lampSwitch" type="button" aria-label="조명 끄고 켜기">
+          <span class="lamp-icon">💡</span>
+          <span class="lamp-label">불 끄기</span>
+        </button>
+      </section>
+
+      <!-- 수면 루틴 게이지 (별 채우기) -->
+      <div class="sleep-gauge-wrap" aria-label="잠자리 별 게이지">
+        <span class="gauge-hint">토닥토닥 재워줘요</span>
+        <div class="gauge-stars" id="gaugeStars">
+          <span class="gauge-star" data-index="0">⭐</span>
+          <span class="gauge-star" data-index="1">⭐</span>
+          <span class="gauge-star" data-index="2">⭐</span>
+          <span class="gauge-star" data-index="3">⭐</span>
+          <span class="gauge-star" data-index="4">⭐</span>
+        </div>
+      </div>
+
+      <!-- 침대 & 동물 친구 구역 -->
+      <section class="bed-area" id="bedArea">
+        <div class="bed-container">
+          <!-- 침대 머리판 -->
+          <div class="bed-headboard"></div>
+
+          <!-- 폭신한 베개 -->
+          <div class="bed-pillow">
+            <div class="pillow-wrinkle"></div>
+          </div>
+
+          <!-- 동물 친구 캐릭터 SVG 렌더 영역 -->
+          <div class="animal-stage" id="animalStage" role="button" tabindex="0" aria-label="동물 친구 토닥이기">
+            <!-- 힌트 손가락 -->
+            <div class="tap-hint" id="tapHint">
+              <span>👇</span>
+              <small>토닥토닥</small>
+            </div>
+
+            <!-- 동물 캐릭터 그래픽 -->
+            <svg class="animal-svg" id="animalSvg" viewBox="0 0 240 240" aria-hidden="true">
+              <!-- JS에서 캐릭터별(곰/토끼/고양이) 부품 렌더링 -->
+            </svg>
+
+            <!-- Zzz 말풍선 파티클 컨테이너 -->
+            <div class="bubble-layer" id="bubbleLayer"></div>
+          </div>
+
+          <!-- 포근한 이불 -->
+          <div class="blanket" id="blanket" role="button" tabindex="0" aria-label="이불 덮어주기">
+            <div class="blanket-fold">
+              <span class="blanket-tag">이불 톡! 🛌</span>
+            </div>
+            <div class="blanket-body"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 하단 조작 바 -->
+      <footer class="bottom-controls">
+        <!-- 동물 친구 선택 -->
+        <div class="animal-selector" role="radiogroup" aria-label="재워줄 동물 친구 고르기">
+          <button class="btn-animal is-active" data-animal="bear" type="button" aria-checked="true">
+            <span class="emoji">🐻</span>
+            <span class="name">포근 곰돌이</span>
+          </button>
+          <button class="btn-animal" data-animal="rabbit" type="button" aria-checked="false">
+            <span class="emoji">🐰</span>
+            <span class="name">잠꾸러기 토끼</span>
+          </button>
+          <button class="btn-animal" data-animal="cat" type="button" aria-checked="false">
+            <span class="emoji">🐱</span>
+            <span class="name">골골 고양이</span>
+          </button>
+        </div>
+
+        <!-- 보조 도구 (이불 무늬 변경 & 잘 시간 버튼) -->
+        <div class="action-row">
+          <button class="btn-pill" id="btnBlanketPattern" type="button">
+            <span>🎨</span>
+            <span>이불 옷 입히기</span>
+          </button>
+          <button class="btn-pill btn-bedtime" id="btnBedtime" type="button">
+            <span>💤</span>
+            <span>코 잘 시간이야</span>
+          </button>
+        </div>
+      </footer>
+    </main>
+
+    <!-- 과몰입 방지 취침 엔딩 오버레이 -->
+    <div class="bedtime-overlay" id="bedtimeOverlay" aria-hidden="true">
+      <div class="bedtime-dialog">
+        <div class="dialog-moon">🌙✨</div>
+        <h2 class="dialog-title">동물 친구가 새근새근 잠들었어요</h2>
+        <p class="dialog-text">
+          우리 친구도 이제 눈을 감고 좋은 꿈 꿔요...<br>
+          <span>쉿, 내일 또 만나요!</span>
+        </p>
+
+        <div class="dialog-preview" id="dialogPreview">
+          <div class="preview-icon" id="previewIcon">🐻💤</div>
+          <div class="preview-status">포근하게 코~ 자는 중</div>
+        </div>
+
+        <div class="dialog-actions">
+          <button class="btn-ending btn-replay" id="btnReplay" type="button">
+            <span>🔁</span>
+            <span>또 토닥여줄래</span>
+          </button>
+          <button class="btn-ending btn-night-mode" id="btnNightMode" type="button">
+            <span>🌌</span>
+            <span>꿈나라 화면 켜기</span>
+          </button>
+          <a class="btn-ending btn-lobby" href="../../index.html">
+            <span>🏠</span>
+            <span>놀이터로</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 꿈나라 초저자극 밤 모드 오버레이 (부모가 머리맡에 둘 때) -->
+    <div class="dreamland-screen" id="dreamlandScreen" aria-hidden="true">
+      <div class="dreamland-content">
+        <div class="dreamland-moon">🌙</div>
+        <p class="dreamland-quote">잘 자요, 좋은 꿈 꿔요...</p>
+        <div class="dreamland-stars">✨ 💤 ✨</div>
+        <button class="btn-wake" id="btnWakeUp" type="button">화면 깨우기 ☀️</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/game.js"></script>
+</body>
+</html>

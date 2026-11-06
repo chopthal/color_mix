@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="숲속 냄비 요리">
+  <title>🍲 숲속 냄비 요리</title>
+
+  <script>
+    (function () {
+      if (location.protocol === 'file:') return;
+      var p = location.pathname;
+      if (/\/$/.test(p) || /\.html?$/.test(p)) return;
+      location.replace(p + '/' + location.search + location.hash);
+    })();
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <header class="top-bar">
+    <a class="nav-home" href="../../index.html" aria-label="놀이터로 돌아가기">
+      <span>🏠</span>
+      <span>놀이터</span>
+    </a>
+    <h1 class="app-title"><span>🍲</span> 숲속 냄비 요리</h1>
+    <button class="btn-icon" id="btnSound" type="button" aria-label="소리 켜기/끄기">🔊</button>
+  </header>
+
+  <main class="stage" id="stage">
+
+    <!-- 숲 배경 -->
+    <div class="forest-bg" aria-hidden="true">
+      <div class="sky-glow"></div>
+      <div class="tree tree-a">🌳</div>
+      <div class="tree tree-b">🌲</div>
+      <div class="tree tree-c">🌳</div>
+      <div class="bush bush-a"></div>
+      <div class="bush bush-b"></div>
+      <div class="flower flower-a">🌼</div>
+      <div class="flower flower-b">🌷</div>
+      <div class="flower flower-c">🍄</div>
+    </div>
+
+    <!-- 친구 나무(먹인 친구 스티커) + 이번 놀이 그릇 -->
+    <div class="scene-top">
+      <div class="friends-tree" id="friendsTree" aria-label="먹인 친구들"></div>
+
+      <div class="meal-trail" id="mealTrail" aria-label="오늘 만든 그릇">
+        <span class="meal-bowl">🍲</span>
+        <span class="meal-bowl">🍲</span>
+        <span class="meal-bowl">🍲</span>
+      </div>
+
+      <!-- 숲속 친구 -->
+      <div class="friend-spot" id="friendSpot">
+        <div class="friend-bubble" id="friendBubble">냠냠~</div>
+        <div class="friend-emoji" id="friendEmoji">🐰</div>
+      </div>
+    </div>
+
+    <!-- 조리대 -->
+    <section class="cook-area" id="cookArea">
+      <div class="hint-bubble" id="hintBubble">
+        <span id="hintText">재료를 냄비에 콕!</span>
+      </div>
+
+      <div class="pot-zone" id="potZone" role="button" tabindex="0" aria-label="냄비를 뱅글뱅글 저어요">
+        <div class="pot-wrap" id="potWrap">
+          <svg class="stir-ring" viewBox="0 0 100 100" aria-hidden="true">
+            <circle class="ring-track" cx="50" cy="50" r="46"></circle>
+            <circle class="ring-fill" id="ringFill" cx="50" cy="50" r="46"></circle>
+          </svg>
+
+          <div class="pot-handle pot-handle-left" aria-hidden="true"></div>
+          <div class="pot-handle pot-handle-right" aria-hidden="true"></div>
+
+          <div class="pot-rim">
+            <div class="soup-wrap">
+              <div class="soup" id="soup">
+                <div class="soup-shine" aria-hidden="true"></div>
+                <div class="soup-bits" id="soupBits" aria-hidden="true"></div>
+                <div class="soup-bubbles" aria-hidden="true">
+                  <span></span><span></span><span></span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="steam" aria-hidden="true">
+            <span class="steam-wisp w1"></span>
+            <span class="steam-wisp w2"></span>
+            <span class="steam-wisp w3"></span>
+          </div>
+
+          <div class="spoon-orbit" id="spoonOrbit" aria-hidden="true">
+            <span class="spoon">🥄</span>
+          </div>
+
+          <div class="splash-ring" id="splashRing" aria-hidden="true"></div>
+          <div class="stir-cue" id="stirCue" aria-hidden="true">뱅글뱅글</div>
+        </div>
+      </div>
+
+      <div class="tray" id="tray" aria-label="수프 재료">
+        <button class="ingredient" type="button" data-id="carrot" aria-label="당근 넣기">
+          <span class="ing-emoji">🥕</span>
+          <span class="ing-name">당근</span>
+        </button>
+        <button class="ingredient" type="button" data-id="mushroom" aria-label="버섯 넣기">
+          <span class="ing-emoji">🍄</span>
+          <span class="ing-name">버섯</span>
+        </button>
+        <button class="ingredient" type="button" data-id="corn" aria-label="옥수수 넣기">
+          <span class="ing-emoji">🌽</span>
+          <span class="ing-name">옥수수</span>
+        </button>
+        <button class="ingredient" type="button" data-id="broccoli" aria-label="브로콜리 넣기">
+          <span class="ing-emoji">🥦</span>
+          <span class="ing-name">브로콜리</span>
+        </button>
+        <button class="ingredient" type="button" data-id="apple" aria-label="사과 넣기">
+          <span class="ing-emoji">🍎</span>
+          <span class="ing-name">사과</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- 날아가는 재료·반짝이 -->
+    <div class="fx-layer" id="fxLayer" aria-hidden="true"></div>
+
+    <!-- 소프트 엔딩 -->
+    <div class="ending-overlay" id="endingOverlay">
+      <div class="ending-card">
+        <div class="ending-ornament" id="endingOrnament">🐰🐻🦊</div>
+        <h2>냠냠! 잘 먹었어!</h2>
+        <p>숲속 친구들이 배불러요</p>
+        <div class="ending-actions">
+          <button class="btn-pill btn-again" id="btnAgain" type="button">또 만들기 🔁</button>
+          <a class="btn-pill btn-rest" href="../../index.html">쉬자 🏠</a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="js/game.js"></script>
+</body>
+</html>

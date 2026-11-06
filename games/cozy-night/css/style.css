@@ -1,0 +1,890 @@
+/* 포근포근 밤밤 (Cozy Night) 스타일시트 */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+:root {
+  --font-main: "Jua", "Malgun Gothic", sans-serif;
+  --font-soft: "Gaegu", cursive, sans-serif;
+
+  /* 밤 분위기 색상 */
+  --bg-night-top: #151936;
+  --bg-night-mid: #212850;
+  --bg-night-bot: #2c3463;
+  --wall-color: #2b335c;
+  --wall-wood: #6d4c41;
+  --gold-glow: #ffeaa7;
+  --star-bright: #fffa65;
+  --blanket-yellow: #ffeaa7;
+  --blanket-pink: #f8c291;
+  --blanket-blue: #81ecec;
+
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+body {
+  font-family: var(--font-main);
+  background: var(--bg-night-top);
+  color: #f1f2f6;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.night-room {
+  width: 100%;
+  max-width: 520px;
+  height: 100vh;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  background: linear-gradient(180deg, var(--bg-night-top) 0%, var(--bg-night-mid) 50%, var(--bg-night-bot) 100%);
+  padding: max(12px, var(--safe-top)) 14px max(14px, var(--safe-bottom));
+  transition: filter 0.8s ease, background 0.8s ease;
+  overflow: hidden;
+}
+
+/* 방 조명 껐을 때 (더 어둡고 아늑함) */
+.night-room.is-lights-off {
+  background: linear-gradient(180deg, #0b0e1f 0%, #12162d 55%, #181d38 100%);
+}
+
+.night-room.is-lights-off .window-frame {
+  box-shadow: 0 0 35px rgba(255, 234, 167, 0.45);
+}
+
+/* 상단 네비게이션 & 제어 바 */
+.top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  z-index: 10;
+  margin-bottom: 6px;
+  flex-shrink: 0;
+}
+
+.nav-home {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  min-height: 48px;
+  min-width: 48px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 24px;
+  color: #fff;
+  text-decoration: none;
+  font-size: 1rem;
+  font-family: var(--font-main);
+  backdrop-filter: blur(4px);
+  transition: transform 0.15s ease, background 0.2s ease;
+}
+
+.nav-home:active {
+  transform: scale(0.95);
+  background: rgba(255, 255, 255, 0.22);
+}
+
+.app-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 1.25rem;
+  font-weight: normal;
+  color: #ffeaa7;
+  text-shadow: 0 2px 10px rgba(255, 234, 167, 0.35);
+}
+
+.icon-moon {
+  font-size: 1.3rem;
+  animation: pulse-moon 3s ease-in-out infinite alternate;
+}
+
+@keyframes pulse-moon {
+  0% { transform: scale(1) rotate(0deg); }
+  100% { transform: scale(1.1) rotate(6deg); }
+}
+
+.top-controls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-ctrl {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 48px;
+  min-width: 48px;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 24px;
+  color: #fff;
+  font-family: var(--font-main);
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.2s ease;
+}
+
+.btn-ctrl:active {
+  transform: scale(0.94);
+  background: rgba(255, 255, 255, 0.22);
+}
+
+.btn-ctrl.is-playing {
+  background: rgba(255, 234, 167, 0.28);
+  border-color: #ffeaa7;
+  color: #ffeaa7;
+  box-shadow: 0 0 12px rgba(255, 234, 167, 0.4);
+}
+
+/* 메인 침실 무대 */
+.cozy-stage {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  justify-content: space-between;
+}
+
+/* 밤하늘 창문 */
+.window-area {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin-top: 2px;
+  margin-bottom: 6px;
+  flex-shrink: 0;
+}
+
+.window-frame {
+  width: 90%;
+  max-width: 380px;
+  height: 110px;
+  background: #1e2444;
+  border: 5px solid #8d6e63;
+  border-radius: 55px 55px 14px 14px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5), 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.night-sky {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  background: radial-gradient(circle at 75% 35%, #2a3563 0%, #10142b 85%);
+}
+
+.moon-btn {
+  position: absolute;
+  top: 8px;
+  right: 14px;
+  width: 56px;
+  height: 56px;
+  min-width: 48px;
+  min-height: 48px;
+  background: transparent;
+  border: none;
+  font-size: 2.2rem;
+  cursor: pointer;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.moon-btn:active {
+  transform: scale(1.25) rotate(-10deg);
+}
+
+.moon-sparkle {
+  position: absolute;
+  top: -4px;
+  right: -2px;
+  font-size: 1rem;
+  opacity: 0.8;
+  animation: twinkle 2.5s infinite;
+}
+
+.stars-cluster {
+  position: absolute;
+  left: 10px;
+  top: 8px;
+  right: 78px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  z-index: 3;
+}
+
+.star-btn {
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  cursor: pointer;
+  padding: 0;
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  min-height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.65;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+  animation: gentle-bob 3s ease-in-out infinite alternate;
+}
+
+.star-btn:nth-child(2) { animation-delay: 0.6s; }
+.star-btn:nth-child(3) { animation-delay: 1.2s; }
+.star-btn:nth-child(4) { animation-delay: 1.8s; }
+.star-btn:nth-child(5) { animation-delay: 2.4s; }
+
+.star-btn.is-lit {
+  opacity: 1;
+  filter: drop-shadow(0 0 8px #fff275);
+  transform: scale(1.15);
+}
+
+.star-btn:active {
+  transform: scale(1.35);
+}
+
+.night-cloud {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 30px;
+  pointer-events: none;
+}
+.cloud-a {
+  width: 90px;
+  height: 24px;
+  left: 10px;
+  bottom: 15px;
+  animation: float-left 18s linear infinite;
+}
+.cloud-b {
+  width: 120px;
+  height: 28px;
+  right: 30px;
+  top: 15px;
+  animation: float-left 25s linear infinite;
+  opacity: 0.5;
+}
+
+@keyframes float-left {
+  0% { transform: translateX(0); }
+  50% { transform: translateX(-15px); }
+  100% { transform: translateX(0); }
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.3; transform: scale(0.9); }
+  50% { opacity: 1; transform: scale(1.15); }
+}
+
+@keyframes gentle-bob {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-4px); }
+}
+
+/* 조명 스위치 버튼 */
+.lamp-switch {
+  position: absolute;
+  right: 4px;
+  bottom: -4px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: #ffc048;
+  color: #3d2700;
+  border: 2px solid #e09f3e;
+  border-radius: 20px;
+  padding: 6px 10px;
+  min-height: 48px;
+  font-family: var(--font-main);
+  font-size: 0.85rem;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+  transition: transform 0.15s ease, background 0.3s ease;
+  z-index: 5;
+}
+
+.lamp-switch:active {
+  transform: scale(0.93);
+}
+
+.night-room.is-lights-off .lamp-switch {
+  background: #3742fa;
+  color: #fff;
+  border-color: #5352ed;
+}
+
+/* 별 수면 게이지 */
+.sleep-gauge-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 2px 0 6px;
+  flex-shrink: 0;
+}
+
+.gauge-hint {
+  font-size: 0.95rem;
+  color: #dcdde1;
+  opacity: 0.9;
+}
+
+.gauge-stars {
+  display: inline-flex;
+  gap: 4px;
+  background: rgba(0, 0, 0, 0.25);
+  padding: 4px 10px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.gauge-star {
+  font-size: 1.2rem;
+  opacity: 0.25;
+  filter: grayscale(1);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease, filter 0.3s ease;
+}
+
+.gauge-star.is-earned {
+  opacity: 1;
+  filter: grayscale(0) drop-shadow(0 0 6px #ffeaa7);
+  transform: scale(1.15);
+}
+
+/* 침대 구역 */
+.bed-area {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin: 4px 0 8px;
+}
+
+.bed-container {
+  width: 96%;
+  max-width: 400px;
+  height: 100%;
+  max-height: 380px;
+  min-height: 250px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+/* 침대 머리판 */
+.bed-headboard {
+  position: absolute;
+  top: 15px;
+  width: 90%;
+  height: 90px;
+  background: linear-gradient(180deg, #795548 0%, #5d4037 100%);
+  border-radius: 20px 20px 0 0;
+  border: 4px solid #4e342e;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  z-index: 1;
+}
+
+/* 폭신한 베개 */
+.bed-pillow {
+  position: absolute;
+  top: 45px;
+  width: 76%;
+  height: 80px;
+  background: #ffffff;
+  border-radius: 36px;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
+  z-index: 2;
+  border: 3px solid #f1f2f6;
+}
+
+/* 동물 친구 스테이지 */
+.animal-stage {
+  position: relative;
+  width: 100%;
+  height: 250px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
+  cursor: pointer;
+  -webkit-user-select: none;
+}
+
+.animal-svg {
+  width: 220px;
+  height: 220px;
+  filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.3));
+  transition: transform 0.25s ease;
+  animation: breathing 4.5s ease-in-out infinite;
+}
+
+@keyframes breathing {
+  0% { transform: translateY(0) scale(1, 1); }
+  50% { transform: translateY(-4px) scale(1.02, 1.03); }
+  100% { transform: translateY(0) scale(1, 1); }
+}
+
+.animal-stage:active .animal-svg {
+  transform: scale(0.96);
+}
+
+/* 토닥이기 힌트 손가락 */
+.tap-hint {
+  position: absolute;
+  top: 20px;
+  right: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 1.6rem;
+  color: #ffeaa7;
+  pointer-events: none;
+  animation: bounce-hand 1.6s infinite;
+  z-index: 6;
+  opacity: 0.9;
+}
+
+.tap-hint small {
+  font-size: 0.75rem;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 2px 6px;
+  border-radius: 8px;
+  margin-top: -4px;
+}
+
+@keyframes bounce-hand {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(10px); }
+}
+
+/* Zzz 및 파티클 레이어 */
+.bubble-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: visible;
+  z-index: 8;
+}
+
+.pat-particle {
+  position: absolute;
+  font-size: 1.5rem;
+  pointer-events: none;
+  animation: float-up-fade 1.6s cubic-bezier(0.2, 0.8, 0.3, 1) forwards;
+}
+
+@keyframes float-up-fade {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0) scale(0.6);
+  }
+  20% {
+    opacity: 1;
+    transform: translate(0, -15px) scale(1.1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--dx, 15px), -75px) scale(1.3);
+  }
+}
+
+/* 포근한 이불 */
+.blanket {
+  position: absolute;
+  bottom: 0;
+  width: 86%;
+  height: 140px;
+  z-index: 4;
+  border-radius: 28px 28px 12px 12px;
+  box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), height 0.4s ease;
+  overflow: hidden;
+  border: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+/* 이불 접힘 부분 */
+.blanket-fold {
+  width: 100%;
+  height: 38px;
+  background: rgba(255, 255, 255, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 -2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.blanket-tag {
+  font-size: 0.85rem;
+  color: #2f3542;
+  font-family: var(--font-main);
+  background: rgba(255, 255, 255, 0.6);
+  padding: 2px 10px;
+  border-radius: 12px;
+}
+
+.blanket-body {
+  width: 100%;
+  height: calc(100% - 38px);
+}
+
+/* 이불 패턴 3가지 */
+.blanket.pattern-yellow {
+  background: #f6e58d;
+}
+.blanket.pattern-yellow .blanket-body {
+  background-image: radial-gradient(#f9ca24 20%, transparent 20%);
+  background-size: 26px 26px;
+}
+
+.blanket.pattern-pink {
+  background: #ffbe76;
+}
+.blanket.pattern-pink .blanket-body {
+  background-image: radial-gradient(#ff7979 20%, transparent 20%);
+  background-size: 24px 24px;
+}
+
+.blanket.pattern-blue {
+  background: #7ed6df;
+}
+.blanket.pattern-blue .blanket-body {
+  background-image: radial-gradient(#22a6b3 20%, transparent 20%);
+  background-size: 28px 28px;
+}
+
+/* 이불 푹 덮음 상태 */
+.blanket.is-tucked {
+  height: 180px;
+  transform: translateY(0);
+}
+
+/* 이불 내림 상태 */
+.blanket.is-lowered {
+  height: 90px;
+  transform: translateY(10px);
+}
+
+/* 하단 컨트롤 영역 */
+.bottom-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 10;
+  flex-shrink: 0;
+}
+
+.animal-selector {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.btn-animal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  min-height: 52px;
+  padding: 6px 4px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 18px;
+  color: #fff;
+  font-family: var(--font-main);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.2s ease, border-color 0.2s ease;
+}
+
+.btn-animal .emoji {
+  font-size: 1.4rem;
+}
+
+.btn-animal:active {
+  transform: scale(0.95);
+}
+
+.btn-animal.is-active {
+  background: rgba(255, 234, 167, 0.25);
+  border-color: #ffeaa7;
+  color: #ffeaa7;
+  box-shadow: 0 4px 12px rgba(255, 234, 167, 0.3);
+}
+
+.action-row {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-pill {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 48px;
+  padding: 8px 14px;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 24px;
+  color: #fff;
+  font-family: var(--font-main);
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.2s ease;
+}
+
+.btn-pill:active {
+  transform: scale(0.96);
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.btn-bedtime {
+  background: #6c5ce7;
+  border-color: #a29bfe;
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(108, 92, 231, 0.4);
+}
+
+.btn-bedtime:active {
+  background: #574b90;
+}
+
+/* 과몰입 방지 취침 엔딩 모달 */
+.bedtime-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(11, 14, 31, 0.88);
+  backdrop-filter: blur(8px);
+  z-index: 50;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.bedtime-overlay.is-open {
+  display: flex;
+  opacity: 1;
+}
+
+.bedtime-dialog {
+  width: 100%;
+  max-width: 380px;
+  background: linear-gradient(180deg, #22294f 0%, #171b38 100%);
+  border: 3px solid #ffeaa7;
+  border-radius: 32px;
+  padding: 24px 20px 20px;
+  text-align: center;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5), 0 0 25px rgba(255, 234, 167, 0.3);
+  animation: pop-modal 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes pop-modal {
+  0% { transform: scale(0.85); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.dialog-moon {
+  font-size: 2.8rem;
+  margin-bottom: 8px;
+  animation: pulse-moon 2s infinite alternate;
+}
+
+.dialog-title {
+  font-size: 1.35rem;
+  color: #ffeaa7;
+  margin-bottom: 10px;
+  font-weight: normal;
+}
+
+.dialog-text {
+  font-size: 1.05rem;
+  line-height: 1.5;
+  color: #dcdde1;
+  margin-bottom: 16px;
+}
+
+.dialog-text span {
+  color: #a4b0be;
+  font-size: 0.95rem;
+}
+
+.dialog-preview {
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: 20px;
+  padding: 12px;
+  margin-bottom: 18px;
+  border: 1px dashed rgba(255, 255, 255, 0.2);
+}
+
+.preview-icon {
+  font-size: 2.2rem;
+  margin-bottom: 4px;
+}
+
+.preview-status {
+  font-size: 0.9rem;
+  color: #ffeaa7;
+}
+
+.dialog-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.btn-ending {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 48px;
+  padding: 10px 16px;
+  border-radius: 24px;
+  font-family: var(--font-main);
+  font-size: 1rem;
+  cursor: pointer;
+  text-decoration: none;
+  border: none;
+  transition: transform 0.15s ease, filter 0.2s ease;
+}
+
+.btn-ending:active {
+  transform: scale(0.96);
+}
+
+.btn-replay {
+  background: #ffb142;
+  color: #2c2c54;
+  font-weight: bold;
+}
+
+.btn-night-mode {
+  background: #3742fa;
+  color: #fff;
+}
+
+.btn-lobby {
+  background: rgba(255, 255, 255, 0.12);
+  color: #f1f2f6;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+/* 꿈나라 초저자극 밤 모드 */
+.dreamland-screen {
+  position: fixed;
+  inset: 0;
+  background: #05070e;
+  z-index: 100;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 24px;
+}
+
+.dreamland-screen.is-active {
+  display: flex;
+}
+
+.dreamland-content {
+  animation: dreamland-fade 4s ease-in-out infinite alternate;
+}
+
+@keyframes dreamland-fade {
+  0% { opacity: 0.6; transform: scale(0.98); }
+  100% { opacity: 1; transform: scale(1.02); }
+}
+
+.dreamland-moon {
+  font-size: 4rem;
+  margin-bottom: 16px;
+  filter: drop-shadow(0 0 16px rgba(255, 234, 167, 0.4));
+}
+
+.dreamland-quote {
+  font-size: 1.3rem;
+  color: #a4b0be;
+  margin-bottom: 20px;
+}
+
+.dreamland-stars {
+  font-size: 1.8rem;
+  letter-spacing: 8px;
+  margin-bottom: 36px;
+}
+
+.btn-wake {
+  min-height: 48px;
+  padding: 10px 22px;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #ced6e0;
+  font-family: var(--font-main);
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.btn-wake:active {
+  transform: scale(0.95);
+}
+
+/* 작은 화면 대응 (320px) */
+@media (max-width: 360px) {
+  .app-title {
+    font-size: 1.1rem;
+  }
+  .window-frame {
+    height: 90px;
+  }
+  .animal-stage {
+    height: 200px;
+  }
+  .animal-svg {
+    width: 180px;
+    height: 180px;
+  }
+  .btn-animal {
+    font-size: 0.75rem;
+  }
+  .btn-animal .emoji {
+    font-size: 1.2rem;
+  }
+}
