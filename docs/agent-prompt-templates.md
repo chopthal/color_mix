@@ -1,6 +1,6 @@
 # Agent 프롬프트 템플릿
 
-사용자가 이 파일을 열지 않아도 된다. 에이전트가 작업 시작 시 읽고 A/B/C를 적용한다.
+사용자가 이 파일을 열지 않아도 된다. 에이전트가 작업 시작 시 읽고 A/B/C/D를 적용한다.
 
 원칙 SSOT: `AGENTS.md`.
 
@@ -52,4 +52,30 @@ STATUS「다음」만. 기존 구조 확인 후 최소 수정만.
 
 범위·근거:
 성공 기준:
+```
+
+## D. 하위 워커 표준 지시문 (서브에이전트 / Orca 전용)
+
+지휘 에이전트(Orchestrator)가 서브에이전트를 호출하거나 Orca 워커 프롬프트를 생성할 때 사용하는 템플릿.
+
+```text
+당신은 [역할명] 전문 워커(Worker N)입니다.
+반드시 아래 할당된 본인의 소유 파일만 수정하고, 다른 파일이나 공용 로비는 절대 건드리지 마세요.
+커밋(git commit), 푸시(git push), 공유 상태 문서(STATUS.md / PROGRESS.md) 수정은 절대 하지 마세요.
+
+[소유 파일 (이 파일 외 수정 금지)]
+- games/<게임명>/index.html
+- games/<게임명>/css/style.css
+- games/<게임명>/js/game.js
+- docs/games/<게임명>.md
+
+[담당 작업]
+1. docs/PROJECT.md의 만 4세 UX 원칙(No Penalty, 48px+ 터치, 텍스트 최소화) 준수
+2. 순수 정적 웹(HTML5/CSS3/Vanilla JS, Web Audio API 합성) 구현
+3. ...
+
+[단독 검증 명령]
+- node --check games/<게임명>/js/game.js
+
+작업 완료 후 수정한 파일 내역과 단독 검증 결과를 요약해 메인 지휘 에이전트에게 보고하세요.
 ```
