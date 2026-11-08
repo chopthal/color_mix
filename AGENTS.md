@@ -31,9 +31,10 @@
 | 타입 | 해당 없음 (정적 HTML/JS, 패키지·tsc 없음) |
 | 테스트 | 해당 없음 (자동 테스트 없음). UI 확인 시 아래 serve 후 브라우저 |
 | 린트 | 해당 없음 |
-| 로컬 미리보기 | `npx --yes serve . -p 4173` (이 cwd 전용. 워크트리면 4174, 4175…) |
+| 로컬 미리보기 | `npx --yes serve . -p 4173` (UI 시각 확인 필요 시) |
+| 로컬 미리보기 (T3 Code) | 내장 `preview_*` 또는 `html_preview` 사용 (포트 분리 불필요) |
 
-기본은 서버 없이 변경 파일·콘솔 오류만 확인. UI 시각 확인이 필요할 때만 이 cwd 전용 포트로 serve.
+기본은 서버 없이 변경 파일·콘솔 오류만 확인. UI 시각 확인이 필요할 때만 serve 또는 T3 Code 미리보기 활용.
 
 ## 위험 작업
 
@@ -63,7 +64,7 @@
 
 - `[Debug]` 쓰지 않음. 본문이 과도하면 커밋을 쪼갬.
 - 시크릿 파일 커밋 금지. 요청 시 경고.
-- `dev_log.md` 등 gitignore 대상은 커밋하지 않음.
+- `dev_log.md` 등 임시 메모는 레포에 남기지 않음.
 
 ## 작업 리듬 & 모델 선택 프로토콜 (Pre-Work Gate)
 
@@ -77,22 +78,21 @@
 
 ### 난이도 티어 및 추천 모델 (이 레포 SSOT)
 
-| 티어 | 기준 (이 레포 맥락) | Cursor | Antigravity | OpenCode | Claude |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| **하** | 단순 문서·문구·스타일(CSS) 수정, 기존 파일 오탈자 | Auto / DeepSeek V4.1 Flash | Gemini Flash Low | DeepSeek V4.1 Flash | Haiku 3.5 |
-| **중** | 명세가 명확한 단일 게임 인터랙션, 사운드 합성, CSS 모션 | Auto (조건부 Flash) | Gemini Flash Medium | DeepSeek V4.1 Flash / Pro | Sonnet 3.7 |
-| **상** | 다수 게임 결합, 캔버스 물리 엔진, 상태 머신 전면 개편 | Claude Opus 5.5 | Argon (조건부 Flash High) | Pro / Kimi K3 | Opus 3.7 / 5.5 |
-| **특수** | 권한·보안·원인 불명 버그·계약 파괴 위험 (파일 수 무관 무조건 격상) | Claude Opus 5.5 | Gemini 4 Argon | Cursor Opus / AGY Argon 전환 | Opus 3.7 / 5.5 |
+| 티어 | 기준 (이 레포 맥락) | Cursor | Antigravity (T3 Code) | Claude |
+| :--- | :--- | :--- | :--- | :--- |
+| **하** | 단순 문서·문구·스타일(CSS) 수정, 기존 파일 오탈자 | Auto / DeepSeek V4.1 Flash | Gemini Flash Low | Haiku 3.5 |
+| **중** | 명세가 명확한 단일 게임 인터랙션, 사운드 합성, CSS 모션 | Auto (조건부 Flash) | Gemini Flash Medium | Sonnet 3.7 |
+| **상** | 다수 게임 결합, 캔버스 물리 엔진, 상태 머신 전면 개편 | Claude Opus 5.5 | Argon (조건부 Flash High) | Opus 3.7 / 5.5 |
+| **특수** | 권한·보안·원인 불명 버그·계약 파괴 위험 (파일 수 무관 무조건 격상) | Claude Opus 5.5 | Gemini 4 Argon | Opus 3.7 / 5.5 |
 
 - 티어 = 범위·모호성·위험도 (모델 서열 아님)
 - 권한·보안·원인 불명·계약 파괴 가능이면 파일 수와 무관하게 **상** 또는 **특수**
-- OpenCode는 별도 `OPENCODE.md` 신설 금지. 이 파일(`AGENTS.md`)만 SSOT
 
 ---
 
 ## 병렬 워커 오케스트레이션 표준 프로토콜 (3단계)
 
-지휘 에이전트(Orchestrator)가 Cursor, OpenCode, Claude, Antigravity, Orca 중 어느 도구이든 다중 작업이나 병렬 워커를 운영할 때는 아래 **3단계 프로토콜**을 엄수한다.
+지휘 에이전트(Orchestrator)가 Cursor, Claude, Antigravity(T3 Code) 등 어느 도구이든 다중 작업이나 병렬 워커를 운영할 때는 아래 **3단계 프로토콜**을 엄수한다.
 
 ### [1단계] 스마트 분기 및 사전 분배 계획 승인 (Pre-Flight Gate)
 다중 작업 요청 시 지휘 에이전트는 작업 규모와 파일 결합도를 먼저 분석한다.
@@ -102,7 +102,7 @@
 2. **병렬 워커 분배 계획표 제시 (독립 중·대형 작업 2개 이상 또는 사용자 명시 지시 시):**
    - 실제 코드 착수 전 아래 계획표를 작성해 **사용자 승인을 득한 후 착수**한다:
 
-| 워커 | 역할 및 브랜치(워크트리)명 | 소유 파일 목록 (파일 겹침 0% 필수) | 담당 작업 요약 및 단독 검증 명령 | 난이도 / 추천 모델 (이유) |
+| 워커 | 역할 및 브랜치(워크스페이스)명 | 소유 파일 목록 (파일 겹침 0% 필수) | 담당 작업 요약 및 단독 검증 명령 | 난이도 / 추천 모델 (이유) |
 | :--- | :--- | :--- | :--- | :--- |
 | **Worker 1** | `feat/...` | • `games/<게임A>/...`<br>• `docs/games/<게임A>.md` | • 작업 요약<br>• 검증: `node --check games/<게임A>/js/game.js` | `[중 / 모델명]`<br>선택 이유 |
 | **Worker 2** | `feat/...` | • `games/<게임B>/...`<br>• `docs/games/<게임B>.md` | • 작업 요약<br>• 검증: `node --check games/<게임B>/js/game.js` | `[중 / 모델명]`<br>이유 한 줄 |
@@ -111,13 +111,13 @@
 사용자가 분배 계획을 승인하면 지휘 도구 환경에 맞춰 워커를 구동한다.
 
 1. **실행 방식:**
-   - **내장 서브에이전트 지원 도구 (Antigravity `invoke_subagent`, Claude Subagent, Cursor/OpenCode):** 지휘 에이전트가 직접 서브에이전트를 호출하며 격리 작업공간(`branch`) 또는 지정 소유 경로를 전달한다.
-   - **외부 멀티 워크트리 도구 (Orca, `git worktree`):** 워크트리별로 독립 브랜치를 할당하여 구동하며, 각 워커는 현재 작업 디렉터리(pwd) 내부 파일만 수정한다 (상위/원본 메인 경로 절대경로 접근 금지). UI 확인이 필요할 때만 워크트리 전용 포트(`4174`, `4175`…)를 쓴다.
+   - **T3 Code / 서브에이전트 지원 환경 (`delegate_task`, `invoke_subagent`, Claude Subagent):** 지휘 에이전트가 서브에이전트를 호출하며 독립 격리 작업공간(`isolation: "worktree"` 또는 `Workspace: "branch"`) 또는 지정 소유 경로를 전달한다.
+   - **외부 워크트리 환경 (`git worktree`):** 독립 격리가 필요한 대형 병렬 작업 시 워크트리별로 독립 브랜치를 할당하여 구동하며, 각 워커는 할당된 작업 디렉터리 내부 파일만 수정한다.
 2. **워커 절대 규칙 (충돌 및 프로세스 잠금 방지):**
    - **파일 경계 엄수:** 각 워커는 **본인에게 할당된 소유 파일만** 수정한다. 공용 파일(`index.html` 로비 등)은 워커가 건드리지 않고 지휘 에이전트가 통합 시 처리한다.
    - **검증 경량화:** 워커는 본인 도메인의 **단독 문법 검증(`node --check <본인JS>`)**만 수행한다.
    - **워커 내부 금지 작업:**
-     - `git commit`, `git push`, 임의의 브랜치 전환/stash/worktree 생성
+     - `git commit`, `git push`, 임의의 브랜치 전환/stash 생성
      - 공유 핸드오프 문서(`STATUS.md`, `PROGRESS.md`, `ASSUMPTIONS.md`) 수정
      - 공용 로비(`index.html`) 또는 다른 게임 폴더 수정
      - `.env` 생성 또는 수정 (필요 시 사용자에게 원본 복사 요청 후 중단)
@@ -128,7 +128,7 @@
 1. **코드 및 경계 전수 감사:**
    - 워커들의 작업 결과(`git status`, `git diff`)를 확인하여 파일 소유권 위반 여부, 요구사항 누락, 미사용 변수/임시 코드, 만 4세 가드레일 위반 여부를 전수 검수한다.
 2. **전역 통합 검증 1회 실행:**
-   - 지휘 에이전트가 변경된 모든 JS에 대해 `node --check`를 수행하고, 로비(`index.html`) 카드 연동 및 로컬 서버(`http://localhost:4173`) 서빙 200 OK를 확인한다.
+   - 지휘 에이전트가 변경된 모든 JS에 대해 `node --check`를 수행하고, 로비(`index.html`) 카드 연동 및 로컬 프리뷰(또는 서버 200 OK)를 확인한다.
 3. **종합 보고 및 문서 단일 갱신:**
    - 무결성 검증 증거와 사용자 시각 확인 시나리오/URL을 포함한 종합 평가 보고서를 제출한다.
    - 공유 핸드오프/상태 문서(`STATUS.md`, `PROGRESS.md`)는 지휘 에이전트가 최종 **1회만 갱신**한다.
