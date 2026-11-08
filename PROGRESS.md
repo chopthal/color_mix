@@ -1,6 +1,7 @@
 # PROGRESS
 
-최신이 위. 세션은 상단 2~3개만 읽는다.
+최신이 위. 세션은 상단 2~3개만 읽는다.  
+**보관 정책:** 최근 10개 항목만 유지하며, 10개 초과 시 가장 오래된 항목은 [`docs/archive/PROGRESS_ARCHIVE.md`](docs/archive/PROGRESS_ARCHIVE.md)로 이동 보관한다.
 
 ## 2026-11-07 — Orca 오케스트레이션 키즈 게임 3종 병렬 구현 및 통합
 

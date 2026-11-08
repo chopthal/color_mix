@@ -19,7 +19,7 @@
 1. STATUS → ASSUMPTIONS(유효) → PROGRESS(상단) 확인
 2. STATUS「다음 할 일」만. 비면 구현하지 말고 다음 1개를 묻는다
 3. 막힘: STATUS「막힘」+ PROGRESS 한 줄 → 중단
-4. 완료: 관련 검증 실행 → PROGRESS 상단 추가 → STATUS 덮어쓰기
+4. 완료: 관련 검증 실행 → PROGRESS 상단 추가 (최근 10개 유지 원칙: 10개 초과 시 오래된 항목은 `docs/archive/PROGRESS_ARCHIVE.md`로 이동) → STATUS 덮어쓰기
 5. commit / push / deploy: 사용자 지시 전 금지
    - 로컬 커밋은 단위별 가능(요청 시), 푸시는 묶음 끝 1회
 6. 직렬 핸드오프. 같은 워킹트리 동시 구현 금지
