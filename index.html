@@ -581,6 +581,31 @@
       box-shadow: 0 2px 0 #4834d4;
     }
 
+    /* 카드: 달콤 사탕 자판기 */
+    .card-candymachine {
+      border-color: #ffc2d8;
+      color: #d6336c;
+    }
+    .card-candymachine:hover {
+      border-color: #ff6b9d;
+    }
+    .card-candymachine .card-icon-wrap {
+      background: radial-gradient(circle, #fff0f6 0%, #ffe3ef 100%);
+      border: 4px solid #ffc2d8;
+    }
+    .card-candymachine .card-icon-wrap span {
+      animation: bounce 2.3s infinite ease-in-out;
+    }
+    .card-candymachine .play-btn {
+      background: #ff6b9d;
+      color: #ffffff;
+      box-shadow: 0 5px 0 #d6336c;
+    }
+    .card-candymachine .play-btn:active {
+      transform: translateY(3px);
+      box-shadow: 0 2px 0 #d6336c;
+    }
+
     /* 카드: 커밍순 */
     .card-coming {
       border-color: #e9ecef;
@@ -948,6 +973,19 @@
         <p class="card-desc">동물 친구에게 이불을 덮어주고<br>토닥토닥 재우며 자장가를 들어요</p>
         <button class="play-btn" type="button" tabindex="-1">
           <span>꿈나라 가기!</span> <span>💤</span>
+        </button>
+      </a>
+
+      <!-- 16. 달콤 사탕 자판기 -->
+      <a href="games/candy-machine/index.html" class="game-card card-candymachine" id="cardCandyMachine">
+        <span class="card-badge badge-new">새 놀이</span>
+        <div class="card-icon-wrap">
+          <span>🍭</span>
+        </div>
+        <h2 class="card-title">달콤 사탕 자판기</h2>
+        <p class="card-desc">동전 짤랑 넣고 사탕을 뽑아<br>쪽쪽 녹여 먹고 치카치카 양치해요</p>
+        <button class="play-btn" type="button" tabindex="-1">
+          <span>뽑으러 가기!</span> <span>🍭</span>
         </button>
       </a>
     </main>

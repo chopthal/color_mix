@@ -3,6 +3,13 @@
 최신이 위. 세션은 상단 2~3개만 읽는다.  
 **보관 정책:** 최근 10개 항목만 유지하며, 10개 초과 시 가장 오래된 항목은 [`docs/archive/PROGRESS_ARCHIVE.md`](docs/archive/PROGRESS_ARCHIVE.md)로 이동 보관한다.
 
+## 2026-11-08 — 달콤 사탕 자판기와 치카치카 v1 구현
+
+• 요약: `games/candy-machine/` 신설. 음료수형 자판기(동전 투입 → 12종 사탕 버튼 콕 → 배출구 도어 오픈 → 사탕 획득) → 포장지 까기 → 쪽쪽 녹여먹기(3단계 축소) vs 아작 깨물기(아야+반창고) → 뮤탄스균 발생 → 왕칫솔 슥삭 치카치카로 반짝반짝 완치 루프. 12종 사탕(롤리팝 4·별사탕 4·알사탕 4), 주니토니풍 남아 캐릭터, No Penalty(양치하면 100% 회복). 로비 카드 17번째 추가.
+• 검증: `node --check` 통과. serve(4173)+T3 preview(430×932, iPhone 14 Pro Max)에서 동전→버튼→도어→까기→쪽쪽×3→치카치카 스크럽→엔딩 오버레이("치카치카 대성공!") 전 경로 구동, JS 예외 0.
+• 경로: `games/candy-machine/`(index.html, css/style.css, js/game.js), `index.html`, `docs/games/candy-machine.md`, `STATUS.md`, `PROGRESS.md`
+• 리스크: 실기기(iPhone Safari) 미확인. 터치감·효과음 톤·사탕 낙하 연출은 실기기 조정 권장.
+
 ## 2026-11-07 — Orca 오케스트레이션 키즈 게임 3종 병렬 구현 및 통합
 
 • 요약: Orca 오케스트레이션을 통해 OpenCode 2개(DeepSeek V4.1 Flash)와 Antigravity 1개(Gemini 3.8 Flash Medium)를 독립 워크트리에 출격시켜 3개 신규 게임을 병렬 구현 후 메인 트리에 머지 통합.
@@ -68,13 +75,6 @@
 • 검증: `node --check` 3파일 통과. serve(4173) + ego-browser 390×844에서 8종 카드·3 아레나 선택, 시작·친구 자동 선택, 드래그 충돌→별·열매 팝업, 가만히 4.2초에 바구니 0/5(자동 획득 없음), 쓸기 수집→황금 열매→링 도달→엔딩 오버레이, 또!·공룡 바꾸기·시작 재진입, 320/375/390/768/1024 레이아웃(2·4열, 내부 스크롤, 시작 버튼 항상 노출, 가로 오버플로우 없음), 초원/강가/얼음 캔버스 렌더, 오류 이벤트 없음. ego `Page.captureScreenshot` 타임아웃은 환경 이슈라 `canvas.toDataURL`로 대체 확인
 • 경로: `games/dino-bumper/`(index.html, css/style.css, js/{data,sound,game}.js), `index.html`, `docs/games/dino-bumper.md`, `STATUS.md`, `PROGRESS.md`
 • 리스크: 실기기(iPhone Safari) 미확인. 물리 감도·AI 속도는 실기기에서 조정 권장. ego 환경은 rAF가 멈춰 canvas가 비어 보이나 실브라우저는 정상
-
-## 2026-10-31 — 쿵쿵! 공룡 범퍼섬 구상 합의
-
-• 요약: `docs/games/dino-bumper.md` 신설. 드래그 이동 → 쿵 충돌(무피해·승패 없음) → 열매 수집 → 황금 열매 함께 밀기 엔딩. 공룡 8종 패시브 특기, 아레나 3종(초원/강가/얼음), 간식 도감 재방문 훅. v1 Done 3 / 미룸 3. 사용자 확정: 웹 게임·둘 다 성공·공룡 8종
-• 검증: 문서만. §8-1~8-4 체크리스트·§6-1 가드레일 대조 확인. 자동테스트 없음
-• 경로: `docs/games/dino-bumper.md`, `STATUS.md`, `PROGRESS.md`
-• 리스크: 구현 전 충돌 감도·아레나 마찰 튜닝 필요. 실기기 확인 미실시
 
 ---
 
