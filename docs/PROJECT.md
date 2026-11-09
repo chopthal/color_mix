@@ -88,7 +88,7 @@
 ## 7. 관련 문서
 
 • 코딩 에이전트 운영: `AGENTS.md`
-• 핸드오프: `STATUS.md`, `PROGRESS.md`, `ASSUMPTIONS.md`
+• 핸드오프: `STATUS.md` (이력은 `git log`)
 • 프롬프트 모드: `docs/agent-prompt-templates.md`
 • 게임 구상 양식: `docs/games/_template.md` (게임별 문서는 이 파일을 복사)
 • UI 패턴: 로비·게임별 CSS (토큰 SSOT는 추후 합의 시 여기 기입)

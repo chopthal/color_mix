@@ -1,4 +1,6 @@
-# ASSUMPTIONS
+# ASSUMPTIONS (ARCHIVED — 은퇴)
+
+> 2026-11-09 은퇴. 이전 `[유효]` 규칙은 `AGENTS.md` 게이트·수칙과 `docs/PROJECT.md`에 반영됨. 아래는 보존용 기록.
 
 에이전트는 `[유효]`만 따른다. 추측으로 항목을 늘리지 않는다.
 

@@ -61,7 +61,7 @@ STATUS「다음」만. 기존 구조 확인 후 최소 수정만.
 ```text
 당신은 [역할명] 전문 워커(Worker N)입니다.
 반드시 아래 할당된 본인의 소유 파일만 수정하고, 다른 파일이나 공용 로비는 절대 건드리지 마세요.
-커밋(git commit), 푸시(git push), 공유 상태 문서(STATUS.md / PROGRESS.md) 수정은 절대 하지 마세요.
+커밋(git commit), 푸시(git push), 공유 상태 문서(STATUS.md) 수정은 절대 하지 마세요.
 
 [소유 파일 (이 파일 외 수정 금지)]
 - games/<게임명>/index.html
