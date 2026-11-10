@@ -87,7 +87,7 @@
 
 ## 7. 관련 문서
 
-• 코딩 에이전트 운영: `AGENTS.md`
+• 코딩 에이전트 운영: `AGENTS.md` (역할·워커 배정·위임·감사: `docs/workflow.md`)
 • 핸드오프: `STATUS.md` (이력은 `git log`)
 • 프롬프트 모드: `docs/agent-prompt-templates.md`
 • 게임 구상 양식: `docs/games/_template.md` (게임별 문서는 이 파일을 복사)
