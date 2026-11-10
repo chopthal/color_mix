@@ -4,7 +4,7 @@
 
 | 항목 | 내용 |
 |------|------|
-| **지금** | candy-machine v1 구현 완료 + 로비 연동 (`node --check` 통과) |
+| **지금** | 에이전트 거버넌스 이식: Claude 오케스트레이터 + Gemini 워커 (`docs/workflow.md` SSOT) |
 | **막힘** | 없음 |
 | **다음 할 일** | (비움 — candy-machine 실기기 플레이·사운드·터치감 확인) |
 | **절대 금지** | 원본 데이터·시크릿 임의 수정 / 지시 전 commit·push·PR |
