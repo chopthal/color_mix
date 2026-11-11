@@ -59,6 +59,21 @@ const BrickSound = {
     source.start(t0);
   },
 
+  speak(text) {
+    if (this.muted || !text) return;
+    try {
+      if (!window.speechSynthesis) return;
+      window.speechSynthesis.cancel();
+      const utter = new SpeechSynthesisUtterance(text);
+      utter.lang = 'ko-KR';
+      utter.rate = 1.05;
+      utter.pitch = 1.15;
+      window.speechSynthesis.speak(utter);
+    } catch (e) {
+      /* ignore */
+    }
+  },
+
   play(name) {
     if (this.muted) return;
     this.unlock();

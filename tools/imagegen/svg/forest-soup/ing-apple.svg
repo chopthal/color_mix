@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192" fill="none">
+  <ellipse cx="96" cy="178" rx="36" ry="8" fill="#3D2B1F" opacity="0.12"/>
+  <!-- leaf -->
+  <ellipse cx="120" cy="42" rx="22" ry="14" fill="#7BD389" stroke="#3D2B1F" stroke-width="8" stroke-linejoin="round" transform="rotate(-28 120 42)"/>
+  <ellipse cx="116" cy="38" rx="7" ry="4" fill="#FFF6E5" opacity="0.5" transform="rotate(-28 116 38)"/>
+  <!-- stem -->
+  <path d="M96 58 L96 36" stroke="#3D2B1F" stroke-width="8" stroke-linecap="round"/>
+  <path d="M96 56 L96 38" stroke="#B07A4F" stroke-width="5" stroke-linecap="round"/>
+  <!-- apple body -->
+  <circle cx="96" cy="112" r="58" fill="#FF6B81" stroke="#3D2B1F" stroke-width="8"/>
+  <ellipse cx="78" cy="90" rx="18" ry="14" fill="#FFF6E5" opacity="0.55"/>
+  <!-- soft dimple -->
+  <ellipse cx="96" cy="62" rx="10" ry="6" fill="#FF9F45" opacity="0.35"/>
+  <!-- face -->
+  <ellipse cx="80" cy="112" rx="5" ry="6.5" fill="#3D2B1F"/>
+  <ellipse cx="112" cy="112" rx="5" ry="6.5" fill="#3D2B1F"/>
+  <circle cx="81.5" cy="110" r="1.8" fill="#FFFFFF"/>
+  <circle cx="113.5" cy="110" r="1.8" fill="#FFFFFF"/>
+  <circle cx="68" cy="126" r="7" fill="#FFB3C1" opacity="0.5"/>
+  <circle cx="124" cy="126" r="7" fill="#FFB3C1" opacity="0.5"/>
+  <path d="M84 130 Q96 140 108 130" stroke="#3D2B1F" stroke-width="4.5" stroke-linecap="round" fill="none"/>
+</svg>

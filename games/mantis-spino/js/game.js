@@ -20,7 +20,29 @@
     btnAgain: document.getElementById('btnAgain'),
     btnChange: document.getElementById('btnChange'),
     sound: document.getElementById('btnSound'),
+    matchHud: document.getElementById('matchHud'),
+    hudPlayerName: document.getElementById('hudPlayerName'),
+    hudPlayerStars: document.getElementById('hudPlayerStars'),
+    hudEnemyName: document.getElementById('hudEnemyName'),
+    hudEnemyStars: document.getElementById('hudEnemyStars'),
+    hudMatchText: document.getElementById('hudMatchText'),
+    matchBanner: document.getElementById('matchBanner'),
+    btnNextMatch: document.getElementById('btnNextMatch'),
+    bannerTitle: document.getElementById('bannerTitle'),
+    bannerSub: document.getElementById('bannerSub'),
+    endingStamps: document.getElementById('endingStamps'),
   };
+
+  const kitStore = window.KidsKit && window.KidsKit.store ? window.KidsKit.store('mantis-spino') : null;
+  function getStamps() {
+    return kitStore ? kitStore.get('stamps', {}) : {};
+  }
+  function addStamp(id) {
+    if (!kitStore) return;
+    const s = getStamps();
+    s[id] = (s[id] || 0) + 1;
+    kitStore.set('stamps', s);
+  }
 
   const G = {
     state: 'select',
@@ -28,6 +50,13 @@
     enemyId: 'spino',
     player: MS_CHARS[0],
     enemy: MS_CHARS[1],
+    nextEnemy: null,
+    match: 1,
+    maxMatches: 3,
+    playerScore: 0,
+    enemyScore: 0,
+    targetScore: 2,
+    todayFriends: [],
     W: 0,
     H: 0,
     dpr: 1,
@@ -787,16 +816,31 @@
     G.floaters.length = 0;
   }
 
+  function updateMatchHud() {
+    if (!els.matchHud) return;
+    els.hudPlayerName.textContent = G.player.name;
+    els.hudEnemyName.textContent = G.enemy.name;
+    els.hudPlayerStars.textContent = '⭐'.repeat(G.playerScore) + '☆'.repeat(Math.max(0, G.targetScore - G.playerScore));
+    els.hudEnemyStars.textContent = '⭐'.repeat(G.enemyScore) + '☆'.repeat(Math.max(0, G.targetScore - G.enemyScore));
+    els.hudMatchText.textContent = `${G.match} / ${G.maxMatches} 경기`;
+  }
+
   function startGame() {
     G.player = findChar(G.playerId);
     G.enemy = findChar(G.enemyId);
-    G.rounds = 0;
+    G.match = 1;
+    G.playerScore = 0;
+    G.enemyScore = 0;
+    G.todayFriends = [G.enemy];
     G.playerAttack = null;
     G.enemyAttack = null;
     resetFx();
     els.select.classList.remove('is-on');
     els.ending.classList.remove('is-on');
+    if (els.matchBanner) els.matchBanner.classList.remove('is-on');
+    if (els.matchHud) els.matchHud.classList.add('is-on');
     buildAttackBar(G.player);
+    updateMatchHud();
     setState('faceOff');
   }
 
@@ -808,15 +852,62 @@
     setState('playerAttack');
   }
 
+  function showNextMatchBanner() {
+    G.state = 'matchBanner';
+    G.canAttack = false;
+    const playedIds = G.todayFriends.map((f) => f.id);
+    playedIds.push(G.playerId);
+    const available = MS_CHARS.filter((c) => !playedIds.includes(c.id));
+    const nextEnemy = available.length > 0 ? pick(available) : pick(MS_CHARS.filter((c) => c.id !== G.playerId));
+    G.nextEnemy = nextEnemy;
+
+    if (els.bannerTitle) els.bannerTitle.textContent = `${nextEnemy.name} 친구가 놀러왔어요! 🐾`;
+    if (els.bannerSub) els.bannerSub.textContent = `신나게 하이파이브하고 ${G.match + 1}번째 겨루기를 시작해요!`;
+    if (els.matchBanner) els.matchBanner.classList.add('is-on');
+  }
+
+  function proceedToNextMatch() {
+    if (els.matchBanner) els.matchBanner.classList.remove('is-on');
+    G.match += 1;
+    G.enemyId = G.nextEnemy.id;
+    G.enemy = G.nextEnemy;
+    G.todayFriends.push(G.enemy);
+    G.playerScore = 0;
+    G.enemyScore = 0;
+    G.playerAttack = null;
+    G.enemyAttack = null;
+    resetFx();
+    updateMatchHud();
+    setState('faceOff');
+  }
+
   function again() {
-    G.rounds = 0;
+    // 새로운 3경기 챔피언십 시작 (새로운 상대 친구로 교체)
+    const others = MS_CHARS.filter((c) => c.id !== G.enemyId && c.id !== G.playerId);
+    const next = pick(others.length > 0 ? others : MS_CHARS);
+    G.enemyId = next.id;
+    G.enemy = next;
+    markSelected(els.enemyRow, G.enemyId);
+
+    G.match = 1;
+    G.playerScore = 0;
+    G.enemyScore = 0;
+    G.todayFriends = [G.enemy];
+    G.playerAttack = null;
+    G.enemyAttack = null;
     resetFx();
     els.ending.classList.remove('is-on');
+    if (els.matchBanner) els.matchBanner.classList.remove('is-on');
+    if (els.matchHud) els.matchHud.classList.add('is-on');
+    updateMatchHud();
     setState('faceOff');
   }
 
   function backToSelect() {
     els.ending.classList.remove('is-on');
+    if (els.matchBanner) els.matchBanner.classList.remove('is-on');
+    if (els.matchHud) els.matchHud.classList.remove('is-on');
+    buildSelect();
     els.select.classList.add('is-on');
     setState('select');
     G.canAttack = false;
@@ -825,6 +916,19 @@
   function showEnding() {
     G.state = 'ending';
     G.canAttack = false;
+    if (els.matchHud) els.matchHud.classList.remove('is-on');
+    if (els.matchBanner) els.matchBanner.classList.remove('is-on');
+
+    if (els.endingStamps) {
+      els.endingStamps.innerHTML = '';
+      G.todayFriends.forEach((fr) => {
+        const badge = document.createElement('div');
+        badge.className = 'ending-stamp-badge';
+        badge.textContent = `⭐ ${fr.name}`;
+        els.endingStamps.appendChild(badge);
+      });
+    }
+
     els.ending.classList.add('is-on');
   }
 
@@ -893,19 +997,58 @@
     } else if (G.state === 'enemyAttack') {
       resolveAttackSide(false, G.enemyAttack, t);
       if (t > 1.15) {
-        G.rounds += 1;
-        if (G.rounds >= 3) setState('highFive');
-        else setState('faceOff');
+        setState('roundJudge');
+      }
+    } else if (G.state === 'roundJudge') {
+      if (!G.events.judged && t > 0.05) {
+        G.events.judged = true;
+        // 유아 맞춤형 즐거운 승패 판정 (도전감과 성취감 균형)
+        let playerWon = true;
+        if (G.enemyScore === 1 && G.playerScore === 0) {
+          playerWon = true;
+        } else if (G.playerScore === 1 && G.enemyScore === 0) {
+          playerWon = Math.random() < 0.6;
+        } else {
+          playerWon = Math.random() < 0.75;
+        }
+
+        if (playerWon) {
+          G.playerScore += 1;
+          MS_SOUND.play('win');
+          spawnFloater('내가 이겼어! ⭐', G.W * 0.35, G.H * 0.32, '#2f7d32', Math.min(G.W, G.H) * 0.075);
+          spawnHit(G.W * 0.3, G.H * 0.5, 8);
+        } else {
+          G.enemyScore += 1;
+          MS_SOUND.play('boing');
+          spawnFloater('멋진 기술이야! ⭐', G.W * 0.65, G.H * 0.32, '#d97706', Math.min(G.W, G.H) * 0.075);
+          spawnHit(G.W * 0.7, G.H * 0.5, 8);
+        }
+        updateMatchHud();
+      }
+
+      if (t > 1.35) {
+        if (G.playerScore >= G.targetScore || G.enemyScore >= G.targetScore) {
+          setState('highFive');
+        } else {
+          setState('faceOff');
+        }
       }
     } else if (G.state === 'highFive') {
       if (!G.events.hf && t > 0.05) {
         MS_SOUND.play('highfive');
         MS_SOUND.play('win');
         spawnConfetti();
-        spawnFloater('짝!', G.W * 0.5, G.H * 0.28, '#d6336c', Math.min(G.W, G.H) * 0.09);
+        spawnFloater('짝! 하이파이브!', G.W * 0.5, G.H * 0.28, '#d6336c', Math.min(G.W, G.H) * 0.09);
+        addStamp(G.enemy.id);
         G.events.hf = true;
       }
-      if (t > 1.6) showEnding();
+      if (t > 1.8) {
+        if (G.match < G.maxMatches) {
+          showNextMatchBanner();
+        } else {
+          showEnding();
+        }
+      }
     }
 
     updateFx(dt);
@@ -1102,12 +1245,21 @@
 
   function makePickRow(rowEl, onPick) {
     rowEl.innerHTML = '';
+    const stamps = getStamps();
     MS_CHARS.forEach((ch) => {
       const card = document.createElement('button');
       card.type = 'button';
       card.className = 'pick-card';
       card.dataset.id = ch.id;
       card.style.setProperty('--sel', ch.color);
+
+      if (stamps[ch.id]) {
+        const st = document.createElement('span');
+        st.className = 'pick-stamp';
+        st.textContent = '⭐';
+        st.title = `${stamps[ch.id]}번 만난 친구!`;
+        card.appendChild(st);
+      }
 
       const cv = document.createElement('canvas');
       cv.className = 'pick-thumb';
@@ -1162,6 +1314,13 @@
       startGame();
     });
 
+    if (els.btnNextMatch) {
+      els.btnNextMatch.addEventListener('click', () => {
+        MS_SOUND.play('tap');
+        proceedToNextMatch();
+      });
+    }
+
     els.btnAgain.addEventListener('click', () => {
       MS_SOUND.play('tap');
       again();
@@ -1172,11 +1331,22 @@
       backToSelect();
     });
 
-    els.sound.addEventListener('click', () => {
-      MS_SOUND.muted = !MS_SOUND.muted;
+    if (window.KidsKit && window.KidsKit.sound) {
+      MS_SOUND.muted = window.KidsKit.sound.isMuted();
       els.sound.textContent = MS_SOUND.muted ? '🔇' : '🔊';
-      if (!MS_SOUND.muted) MS_SOUND.play('tap');
-    });
+      els.sound.addEventListener('click', () => {
+        const m = window.KidsKit.sound.toggleMute();
+        MS_SOUND.muted = m;
+        els.sound.textContent = m ? '🔇' : '🔊';
+        if (!m) MS_SOUND.play('tap');
+      });
+    } else {
+      els.sound.addEventListener('click', () => {
+        MS_SOUND.muted = !MS_SOUND.muted;
+        els.sound.textContent = MS_SOUND.muted ? '🔇' : '🔊';
+        if (!MS_SOUND.muted) MS_SOUND.play('tap');
+      });
+    }
 
     window.addEventListener('resize', resize);
     window.addEventListener('orientationchange', () => setTimeout(resize, 120));

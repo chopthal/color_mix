@@ -103,6 +103,54 @@ const TH_SOUND = {
         });
         this.noise(0.3, 0.1, 3000);
         break;
+      /* 물건별 발견 리액션 */
+      case 'pang':
+        this.noise(0.1, 0.16, 900);
+        this.tone(280, 0.1, 'sine', 0.12, 0, 160);
+        break;
+      case 'doremi':
+        [523, 587, 659].forEach((f, i) => {
+          this.tone(f, 0.11, 'triangle', 0.13, i * 0.08);
+        });
+        break;
+      case 'belly':
+        this.tone(360, 0.12, 'sine', 0.14, 0, 520);
+        this.tone(520, 0.1, 'sine', 0.1, 0.1);
+        break;
+      case 'ribbon':
+        this.tone(980, 0.08, 'sine', 0.12);
+        this.tone(740, 0.1, 'sine', 0.1, 0.07);
+        break;
+      case 'clunk':
+        this.tone(180, 0.12, 'square', 0.08);
+        this.noise(0.08, 0.12, 600);
+        break;
+      case 'bubble':
+        this.tone(420, 0.08, 'sine', 0.1, 0, 280);
+        this.tone(520, 0.08, 'sine', 0.08, 0.09, 360);
+        break;
+      case 'tok':
+        this.tone(700, 0.06, 'triangle', 0.14);
+        break;
+      case 'sweet':
+        this.tone(880, 0.08, 'sine', 0.11);
+        this.tone(1320, 0.1, 'sine', 0.09, 0.07);
+        break;
+      case 'rustle':
+        this.noise(0.14, 0.1, 2400);
+        this.tone(640, 0.06, 'sine', 0.06);
+        break;
+      case 'bloom':
+        this.tone(660, 0.1, 'sine', 0.11, 0, 990);
+        break;
+      case 'whoosh':
+        this.noise(0.16, 0.1, 1600);
+        this.tone(400, 0.14, 'sine', 0.08, 0, 700);
+        break;
+      case 'splash':
+        this.noise(0.12, 0.12, 2000);
+        this.tone(500, 0.08, 'sine', 0.1, 0, 300);
+        break;
       default:
         break;
     }

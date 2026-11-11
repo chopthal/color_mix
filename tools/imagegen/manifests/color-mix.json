@@ -1,0 +1,68 @@
+{
+  "items": [
+    {
+      "name": "bowl-fruit",
+      "outPath": "games/color-mix/assets/bowl-fruit.webp",
+      "prompt": "A cute empty fruit basket bowl for kids paint mixing, round woven basket shape, soft rim, front view, no fruit inside, no text.",
+      "width": 512,
+      "height": 320,
+      "refs": []
+    },
+    {
+      "name": "bowl-flower",
+      "outPath": "games/color-mix/assets/bowl-flower.webp",
+      "prompt": "A cute empty round flower pot or wide vase bowl for kids color mixing, soft ceramic, front view, empty inside, no text.",
+      "width": 512,
+      "height": 320,
+      "refs": []
+    },
+    {
+      "name": "bowl-sky",
+      "outPath": "games/color-mix/assets/bowl-sky.webp",
+      "prompt": "A soft fluffy cloud shaped bowl container for kids sky color mixing, hollow center for color, gentle smile optional, front view, no text.",
+      "width": 512,
+      "height": 320,
+      "refs": []
+    },
+    {
+      "name": "paint-blob-fruit",
+      "outPath": "games/color-mix/assets/paint-blob-fruit.webp",
+      "prompt": "A simple round fruit shaped paint blob silhouette like a soft apple or berry, blank fillable shape for kids UI, front view, no text.",
+      "width": 192,
+      "height": 192,
+      "refs": []
+    },
+    {
+      "name": "paint-blob-flower",
+      "outPath": "games/color-mix/assets/paint-blob-flower.webp",
+      "prompt": "A simple soft flower blossom silhouette paint blob with five round petals, blank fillable shape for kids UI, front view, no text.",
+      "width": 192,
+      "height": 192,
+      "refs": []
+    },
+    {
+      "name": "paint-blob-sky",
+      "outPath": "games/color-mix/assets/paint-blob-sky.webp",
+      "prompt": "A simple soft cloud puff silhouette paint blob, blank fillable shape for kids UI, front view, no text.",
+      "width": 192,
+      "height": 192,
+      "refs": []
+    },
+    {
+      "name": "sparkle",
+      "outPath": "games/color-mix/assets/sparkle.webp",
+      "prompt": "A single cute soft sparkle star particle for kids surprise effect, rounded points, centered, no text.",
+      "width": 96,
+      "height": 96,
+      "refs": []
+    },
+    {
+      "name": "welcome-sticker",
+      "outPath": "games/color-mix/assets/welcome-sticker.webp",
+      "prompt": "A friendly round sticker badge for welcoming back a kids color mixing game, soft ribbon shape, blank center for color swatch, no text.",
+      "width": 256,
+      "height": 128,
+      "refs": []
+    }
+  ]
+}

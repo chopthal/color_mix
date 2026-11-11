@@ -8,6 +8,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="색깔 섞기">
   <title>색깔 섞기</title>
+  <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../_shared/kit.css">
   <style>
     * {
       box-sizing: border-box;
@@ -35,7 +37,12 @@
       height: 100%;
       height: 100dvh;
       padding: max(12px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(20px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+      transition: background 0.4s ease;
     }
+
+    body.theme-fruit { background: linear-gradient(180deg, #fff6e8 0%, #ffe8d2 100%); }
+    body.theme-flower { background: linear-gradient(180deg, #fff5f8 0%, #f3e8ff 100%); }
+    body.theme-sky { background: linear-gradient(180deg, #eaf6ff 0%, #d9f0ff 55%, #fff8e7 100%); }
 
     button {
       touch-action: manipulation;
@@ -43,7 +50,7 @@
     }
 
     h1 {
-      font-size: clamp(26px, 5.5vw, 44px);
+      font-size: clamp(24px, 5.2vw, 40px);
       text-align: center;
       margin-top: 4px;
     }
@@ -54,10 +61,8 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      background: #fff8e7;
       z-index: 10;
       padding-bottom: 8px;
-      box-shadow: 0 8px 16px rgba(255, 248, 231, 0.95);
       position: relative;
     }
 
@@ -89,10 +94,101 @@
       box-shadow: 0 1px 0 #ecd8b6;
     }
 
+    .welcome-banner {
+      display: none;
+      align-items: center;
+      gap: 10px;
+      margin: 6px 0 2px;
+      padding: 8px 14px;
+      max-width: min(92vw, 520px);
+      background: #ffffff;
+      border: 3px solid #ecd8b6;
+      border-radius: 24px;
+      box-shadow: 0 4px 0 #ecd8b6;
+      font-weight: 800;
+      font-size: clamp(14px, 3.4vw, 18px);
+      line-height: 1.3;
+    }
+
+    .welcome-banner.show {
+      display: flex;
+      animation: welcome-pop 0.45s ease;
+    }
+
+    .welcome-banner .welcome-swatch {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 3px solid rgba(255, 255, 255, 0.9);
+      box-shadow: 0 2px 0 rgba(0, 0, 0, 0.12);
+      flex-shrink: 0;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .welcome-banner .welcome-art {
+      width: 40px;
+      height: 28px;
+      object-fit: contain;
+      flex-shrink: 0;
+      display: none;
+    }
+
+    .welcome-banner .welcome-art.visible {
+      display: block;
+    }
+
+    @keyframes welcome-pop {
+      from { transform: scale(0.85); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .theme-row {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin: 6px 0 4px;
+      width: min(96vw, 640px);
+    }
+
+    /* 공용 '쉬자' 버튼이 상단 오른쪽에 오므로 테마 칩이 그 자리에 걸치지 않게 왼쪽으로 물린다 */
+    @media (max-width: 520px) {
+      .theme-row {
+        padding-right: 72px;
+      }
+    }
+
+    .theme-chip {
+      min-height: 44px;
+      min-width: 88px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 3px solid #ecd8b6;
+      background: #ffffff;
+      color: #7b5b33;
+      font-weight: 800;
+      font-size: 16px;
+      box-shadow: 0 3px 0 #ecd8b6;
+      cursor: pointer;
+    }
+
+    .theme-chip:active {
+      transform: translateY(2px);
+      box-shadow: 0 1px 0 #ecd8b6;
+    }
+
+    .theme-chip.active {
+      background: #8d6e4a;
+      color: #fff;
+      border-color: #6b5136;
+      box-shadow: 0 3px 0 #6b5136;
+    }
+
     .mix-area {
       width: min(92vw, 640px);
       min-height: 140px;
-      height: min(26vh, 200px);
+      height: min(24vh, 190px);
       margin: 8px 0 0;
       border-radius: 40px;
       background: #ffffff;
@@ -104,12 +200,35 @@
       text-align: center;
       gap: 10px;
       padding: 12px 16px;
-      transition: background 0.35s ease, border-color 0.35s ease;
+      transition: background 0.35s ease, border-color 0.35s ease, border-radius 0.35s ease;
+      position: relative;
+      overflow: hidden;
+      background-size: cover;
+      background-position: center;
+    }
+
+    body.theme-fruit .mix-area {
+      border-radius: 28px 28px 48px 48px;
+      border-color: #e8b87a;
+    }
+
+    body.theme-flower .mix-area {
+      border-radius: 56% 56% 40% 40% / 45% 45% 55% 55%;
+      border-color: #d9a8d0;
+    }
+
+    body.theme-sky .mix-area {
+      border-radius: 48% 52% 45% 55% / 55% 48% 52% 45%;
+      border-color: #9ec9e8;
     }
 
     .mix-area.filled {
       border-style: solid;
       border-color: rgba(255, 255, 255, 0.55);
+    }
+
+    .mix-area.has-art.empty {
+      background-color: transparent;
     }
 
     .ingredients {
@@ -118,6 +237,8 @@
       gap: 8px;
       justify-content: center;
       min-height: 32px;
+      position: relative;
+      z-index: 1;
     }
 
     .ingredient-dot {
@@ -128,12 +249,26 @@
       box-shadow: 0 2px 0 rgba(0, 0, 0, 0.15);
     }
 
+    body.theme-fruit .ingredient-dot {
+      border-radius: 50% 50% 45% 55% / 55% 45% 55% 45%;
+    }
+
+    body.theme-flower .ingredient-dot {
+      border-radius: 40% 60% 50% 50% / 55% 45% 55% 45%;
+    }
+
+    body.theme-sky .ingredient-dot {
+      border-radius: 60% 40% 55% 45% / 50% 55% 45% 50%;
+    }
+
     .mix-label {
-      font-size: clamp(20px, 5vw, 40px);
+      font-size: clamp(18px, 4.6vw, 36px);
       font-weight: 800;
       line-height: 1.25;
       padding: 4px 8px;
       max-width: 92%;
+      position: relative;
+      z-index: 1;
     }
 
     .mix-area.empty .mix-label {
@@ -150,7 +285,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 4px 0 12px;
+      padding: 4px 0 72px;
     }
 
     .palette {
@@ -199,7 +334,47 @@
       flex: 0 0 auto;
       text-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
       box-shadow: 0 6px 0 rgba(0, 0, 0, 0.15);
-      transition: transform 0.12s ease, box-shadow 0.12s ease;
+      transition: transform 0.12s ease, box-shadow 0.12s ease, border-radius 0.3s ease;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      position: relative;
+    }
+
+    /* 흰 실루엣 webp: mask로 모양 자르고 multiply로 물감 색 틴트(외곽선 유지) */
+    .color-btn.has-blob-art {
+      border-color: transparent;
+      border-radius: 0;
+      box-shadow: none;
+      padding: 0;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-blend-mode: multiply;
+      -webkit-mask-size: contain;
+      mask-size: contain;
+      -webkit-mask-repeat: no-repeat;
+      mask-repeat: no-repeat;
+      -webkit-mask-position: center;
+      mask-position: center;
+    }
+
+    body.theme-fruit .color-btn.has-blob-art,
+    body.theme-flower .color-btn.has-blob-art,
+    body.theme-sky .color-btn.has-blob-art {
+      border-radius: 0;
+    }
+
+    body.theme-fruit .color-btn {
+      border-radius: 48% 52% 45% 55% / 55% 48% 52% 48%;
+    }
+
+    body.theme-flower .color-btn {
+      border-radius: 55% 45% 50% 50% / 40% 40% 60% 60%;
+    }
+
+    body.theme-sky .color-btn {
+      border-radius: 60% 40% 55% 45% / 50% 60% 40% 50%;
     }
 
     .color-btn:active {
@@ -213,6 +388,8 @@
       pointer-events: none;
       line-height: 1.15;
       padding: 0 4px;
+      position: relative;
+      z-index: 1;
     }
 
     .color-btn.dark-label span {
@@ -228,9 +405,18 @@
       animation: pop-in 0.35s ease;
     }
 
+    .color-btn.pulse-paint {
+      animation: paint-pulse 0.45s ease;
+    }
+
     @keyframes pop-in {
       from { transform: scale(0.6); }
       to { transform: scale(1); }
+    }
+
+    @keyframes paint-pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.12); }
     }
 
     .again-btn {
@@ -278,6 +464,77 @@
       display: none;
     }
 
+    .surprise-layer {
+      pointer-events: none;
+      position: fixed;
+      inset: 0;
+      z-index: 40;
+      overflow: hidden;
+    }
+
+    .surprise-toast {
+      position: absolute;
+      left: 50%;
+      top: 18%;
+      transform: translateX(-50%);
+      background: rgba(255, 255, 255, 0.95);
+      border: 3px solid #ecd8b6;
+      border-radius: 24px;
+      padding: 12px 18px;
+      font-weight: 800;
+      font-size: clamp(16px, 4vw, 22px);
+      box-shadow: 0 6px 0 rgba(0, 0, 0, 0.08);
+      opacity: 0;
+      transition: opacity 0.25s ease, transform 0.25s ease;
+      text-align: center;
+      max-width: 88vw;
+    }
+
+    .surprise-toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .sparkle-bit {
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #fff 0%, #ffe566 45%, transparent 70%);
+      animation: sparkle-fly 1.1s ease-out forwards;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+
+    @keyframes sparkle-fly {
+      0% { transform: translate(0, 0) scale(0.4); opacity: 1; }
+      100% { transform: translate(var(--dx), var(--dy)) scale(1.2); opacity: 0; }
+    }
+
+    .rainbow-ring {
+      position: absolute;
+      left: 50%;
+      top: 42%;
+      width: min(70vw, 280px);
+      height: min(70vw, 280px);
+      margin: calc(min(70vw, 280px) / -2) 0 0 calc(min(70vw, 280px) / -2);
+      border-radius: 50%;
+      border: 10px solid transparent;
+      border-top-color: #ff3b3b;
+      border-right-color: #ffd400;
+      border-bottom-color: #22c55e;
+      border-left-color: #2f7dff;
+      opacity: 0;
+      animation: rainbow-spin 1.2s ease-out;
+    }
+
+    @keyframes rainbow-spin {
+      0% { transform: scale(0.4) rotate(0deg); opacity: 0; }
+      30% { opacity: 1; }
+      100% { transform: scale(1.25) rotate(180deg); opacity: 0; }
+    }
+
     @media (min-width: 768px) {
       .mix-area {
         min-height: 180px;
@@ -306,12 +563,24 @@
     }
   </style>
 </head>
-<body>
+<body class="theme-fruit">
   <div class="result-bar">
     <nav class="home-nav">
       <a href="../../index.html" class="home-btn" title="놀이터 홈으로">🏠 놀이터</a>
     </nav>
     <h1>색깔 섞기</h1>
+
+    <div id="welcomeBanner" class="welcome-banner" aria-live="polite">
+      <img id="welcomeArt" class="welcome-art" alt="">
+      <span id="welcomeSwatch" class="welcome-swatch" aria-hidden="true"></span>
+      <span id="welcomeText"></span>
+    </div>
+
+    <div class="theme-row" role="tablist" aria-label="재료 테마">
+      <button type="button" class="theme-chip active" data-theme="fruit" role="tab" aria-selected="true">과일</button>
+      <button type="button" class="theme-chip" data-theme="flower" role="tab" aria-selected="false">꽃</button>
+      <button type="button" class="theme-chip" data-theme="sky" role="tab" aria-selected="false">하늘</button>
+    </div>
 
     <div id="mixArea" class="mix-area empty" aria-live="polite">
       <div id="ingredients" class="ingredients"></div>
@@ -323,54 +592,54 @@
 
   <div class="palette-scroll">
   <div class="palette">
-    <p class="palette-title">물감</p>
+    <p class="palette-title" id="paletteTitle">과일 물감</p>
     <div class="buttons" id="paintButtons">
       <div class="paint-item">
-        <button class="color-btn" style="background:#ff3b3b" data-name="빨강" data-ryb="1,0,0" data-white="0" data-black="0" type="button"><span>빨강</span></button>
+        <button class="color-btn" style="background-color:#ff3b3b" data-name="빨강" data-ryb="1,0,0" data-white="0" data-black="0" type="button"><span>빨강</span></button>
         <button class="speak-color-btn" type="button" aria-label="빨강 듣기">🔊</button>
       </div>
       <div class="paint-item">
-        <button class="color-btn dark-label" style="background:#ff8a00" data-name="주황" data-ryb="1,1,0" data-white="0" data-black="0" type="button"><span>주황</span></button>
+        <button class="color-btn dark-label" style="background-color:#ff8a00" data-name="주황" data-ryb="1,1,0" data-white="0" data-black="0" type="button"><span>주황</span></button>
         <button class="speak-color-btn" type="button" aria-label="주황 듣기">🔊</button>
       </div>
       <div class="paint-item">
-        <button class="color-btn dark-label" style="background:#ffd400" data-name="노랑" data-ryb="0,1,0" data-white="0" data-black="0" type="button"><span>노랑</span></button>
+        <button class="color-btn dark-label" style="background-color:#ffd400" data-name="노랑" data-ryb="0,1,0" data-white="0" data-black="0" type="button"><span>노랑</span></button>
         <button class="speak-color-btn" type="button" aria-label="노랑 듣기">🔊</button>
       </div>
       <div class="paint-item">
-        <button class="color-btn dark-label" style="background:#9ccd2a" data-name="연두" data-ryb="0,1,0.45" data-white="0" data-black="0" type="button"><span>연두</span></button>
+        <button class="color-btn dark-label" style="background-color:#9ccd2a" data-name="연두" data-ryb="0,1,0.45" data-white="0" data-black="0" type="button"><span>연두</span></button>
         <button class="speak-color-btn" type="button" aria-label="연두 듣기">🔊</button>
       </div>
       <div class="paint-item">
-        <button class="color-btn dark-label" style="background:#22c55e" data-name="초록" data-ryb="0,1,1" data-white="0" data-black="0" type="button"><span>초록</span></button>
+        <button class="color-btn dark-label" style="background-color:#22c55e" data-name="초록" data-ryb="0,1,1" data-white="0" data-black="0" type="button"><span>초록</span></button>
         <button class="speak-color-btn" type="button" aria-label="초록 듣기">🔊</button>
       </div>
       <div class="paint-item">
-        <button class="color-btn" style="background:#299db7" data-name="청록" data-ryb="0,0.45,1" data-white="0" data-black="0" type="button"><span>청록</span></button>
+        <button class="color-btn" style="background-color:#299db7" data-name="청록" data-ryb="0,0.45,1" data-white="0" data-black="0" type="button"><span>청록</span></button>
         <button class="speak-color-btn" type="button" aria-label="청록 듣기">🔊</button>
       </div>
       <div class="paint-item">
-        <button class="color-btn" style="background:#2f7dff" data-name="파랑" data-ryb="0,0,1" data-white="0" data-black="0" type="button"><span>파랑</span></button>
+        <button class="color-btn" style="background-color:#2f7dff" data-name="파랑" data-ryb="0,0,1" data-white="0" data-black="0" type="button"><span>파랑</span></button>
         <button class="speak-color-btn" type="button" aria-label="파랑 듣기">🔊</button>
       </div>
       <div class="paint-item">
-        <button class="color-btn" style="background:#2c5297" data-name="남색" data-ryb="0,0,1" data-white="0" data-black="0.85" type="button"><span>남색</span></button>
+        <button class="color-btn" style="background-color:#2c5297" data-name="남색" data-ryb="0,0,1" data-white="0" data-black="0.85" type="button"><span>남색</span></button>
         <button class="speak-color-btn" type="button" aria-label="남색 듣기">🔊</button>
       </div>
       <div class="paint-item">
-        <button class="color-btn" style="background:#9b4dff" data-name="보라" data-ryb="1,0,1" data-white="0" data-black="0" type="button"><span>보라</span></button>
+        <button class="color-btn" style="background-color:#9b4dff" data-name="보라" data-ryb="1,0,1" data-white="0" data-black="0" type="button"><span>보라</span></button>
         <button class="speak-color-btn" type="button" aria-label="보라 듣기">🔊</button>
       </div>
       <div class="paint-item">
-        <button class="color-btn" style="background:#d24393" data-name="자주" data-ryb="1,0,0.45" data-white="0" data-black="0" type="button"><span>자주</span></button>
+        <button class="color-btn" style="background-color:#d24393" data-name="자주" data-ryb="1,0,0.45" data-white="0" data-black="0" type="button"><span>자주</span></button>
         <button class="speak-color-btn" type="button" aria-label="자주 듣기">🔊</button>
       </div>
       <div class="paint-item">
-        <button class="color-btn dark-label white-paint" style="background:#ffffff" data-name="하얀색" data-ryb="0,0,0" data-white="1" data-black="0" type="button"><span>하얀색</span></button>
+        <button class="color-btn dark-label white-paint" style="background-color:#ffffff" data-name="하얀색" data-ryb="0,0,0" data-white="1" data-black="0" type="button"><span>하얀색</span></button>
         <button class="speak-color-btn" type="button" aria-label="하얀색 듣기">🔊</button>
       </div>
       <div class="paint-item">
-        <button class="color-btn" style="background:#28201c" data-name="까만색" data-ryb="0,0,0" data-white="0" data-black="1" type="button"><span>까만색</span></button>
+        <button class="color-btn" style="background-color:#28201c" data-name="까만색" data-ryb="0,0,0" data-white="0" data-black="1" type="button"><span>까만색</span></button>
         <button class="speak-color-btn" type="button" aria-label="까만색 듣기">🔊</button>
       </div>
     </div>
@@ -383,6 +652,11 @@
 
   </div>
 
+  <div id="surpriseLayer" class="surprise-layer" aria-hidden="true">
+    <div id="surpriseToast" class="surprise-toast"></div>
+  </div>
+
+  <script src="../_shared/kit.js"></script>
   <script>
     const RYB_CUBE = {
       white:  [255, 255, 255],
@@ -397,9 +671,26 @@
 
     const WHITE_RGB = [255, 255, 255];
     const BLACK_RGB = [40, 32, 28];
+    const MIXES_FOR_ENDING = 5;
+    const THEME_TITLES = {
+      fruit: "과일 물감",
+      flower: "꽃 물감",
+      sky: "하늘 물감"
+    };
+    const THEME_ORDER = ["fruit", "flower", "sky"];
+    const SPECIAL_COLOR_NAMES = ["금색", "민트색", "연분홍 (벚꽃색)", "포도색", "바다색"];
+    const ASSET_KEYS = {
+      "bowl-fruit": "assets/bowl-fruit.webp",
+      "bowl-flower": "assets/bowl-flower.webp",
+      "bowl-sky": "assets/bowl-sky.webp",
+      "paint-blob-fruit": "assets/paint-blob-fruit.webp",
+      "paint-blob-flower": "assets/paint-blob-flower.webp",
+      "paint-blob-sky": "assets/paint-blob-sky.webp",
+      sparkle: "assets/sparkle.webp",
+      "welcome-sticker": "assets/welcome-sticker.webp"
+    };
 
     // 섞인 색 이름은 이 목록에서 RGB가 가장 가까운 항목으로 붙입니다.
-    // 색을 더 넣으려면 { name, rgb: [r, g, b] } 한 줄만 추가하면 됩니다.
     const colorPalette = [
       { name: "빨강", rgb: [255, 0, 0] },
       { name: "노랑", rgb: [255, 255, 0] },
@@ -446,10 +737,24 @@
     const againBtn = document.getElementById("againBtn");
     const madePalette = document.getElementById("madePalette");
     const madeButtons = document.getElementById("madeButtons");
+    const paletteTitle = document.getElementById("paletteTitle");
+    const welcomeBanner = document.getElementById("welcomeBanner");
+    const welcomeText = document.getElementById("welcomeText");
+    const welcomeSwatch = document.getElementById("welcomeSwatch");
+    const welcomeArt = document.getElementById("welcomeArt");
+    const surpriseLayer = document.getElementById("surpriseLayer");
+    const surpriseToast = document.getElementById("surpriseToast");
 
+    const store = window.KidsKit ? KidsKit.store("color-mix") : null;
+    const assetImages = {};
     let bowlPaints = [];
     let madePaints = [];
     let nextMadeId = 1;
+    let currentTheme = "fruit";
+    let sessionMixCount = 0;
+    let endingShown = false;
+    let discoveredSpecials = [];
+    let surpriseTimer = null;
 
     function spokenColorName(name) {
       return name.replace(/\s*\(([^)]+)\)\s*/g, ", $1");
@@ -501,6 +806,32 @@
 
     function speakColorName(name) {
       speakText(spokenColorName(name));
+    }
+
+    function playKit(soundName) {
+      if (window.KidsKit && KidsKit.sound) {
+        KidsKit.sound.play(soundName);
+      }
+    }
+
+    function hapticKit(kind) {
+      if (window.KidsKit && KidsKit.haptic) {
+        KidsKit.haptic(kind);
+      }
+    }
+
+    function assetUrl(key) {
+      const img = assetImages[key];
+      if (!img || !img.src) {
+        return "";
+      }
+      if (img.dataset && img.dataset.kidsKitPlaceholder === "1") {
+        return "";
+      }
+      if (!img.naturalWidth || img.naturalWidth <= 1) {
+        return "";
+      }
+      return img.src;
     }
 
     function bindPaintItem(paintItem) {
@@ -647,6 +978,87 @@
       return paint;
     }
 
+    function serializePaint(paint) {
+      return {
+        id: paint.id,
+        name: paint.name,
+        r: paint.r,
+        y: paint.y,
+        b: paint.b,
+        w: paint.w,
+        k: paint.k,
+        rgb: paint.rgb.slice(),
+        hex: paint.hex
+      };
+    }
+
+    function hydratePaint(raw) {
+      if (!raw || !Array.isArray(raw.rgb) || raw.rgb.length !== 3) {
+        return null;
+      }
+      return {
+        id: Number(raw.id) || 0,
+        name: String(raw.name || "색"),
+        r: Number(raw.r) || 0,
+        y: Number(raw.y) || 0,
+        b: Number(raw.b) || 0,
+        w: Number(raw.w) || 0,
+        k: Number(raw.k) || 0,
+        rgb: [Number(raw.rgb[0]), Number(raw.rgb[1]), Number(raw.rgb[2])],
+        hex: raw.hex || rgbToHex(raw.rgb)
+      };
+    }
+
+    function persistState() {
+      if (!store) {
+        return;
+      }
+      store.set("madePaints", madePaints.map(serializePaint));
+      store.set("nextMadeId", nextMadeId);
+      store.set("discoveredSpecials", discoveredSpecials.slice());
+      store.set("theme", currentTheme);
+      if (madePaints.length > 0) {
+        const last = madePaints[madePaints.length - 1];
+        store.set("lastColor", { name: last.name, hex: last.hex, rgb: last.rgb.slice() });
+      }
+    }
+
+    function loadState() {
+      if (!store) {
+        return { lastColor: null, visits: 1 };
+      }
+
+      const visits = Number(store.get("visits", 0)) + 1;
+      store.set("visits", visits);
+
+      const savedTheme = store.get("theme", null);
+      if (THEME_ORDER.indexOf(savedTheme) >= 0) {
+        currentTheme = savedTheme;
+      } else {
+        currentTheme = THEME_ORDER[(visits - 1) % THEME_ORDER.length];
+      }
+
+      const savedPaints = store.get("madePaints", []);
+      if (Array.isArray(savedPaints)) {
+        madePaints = savedPaints.map(hydratePaint).filter(Boolean);
+      }
+
+      nextMadeId = Number(store.get("nextMadeId", madePaints.length + 1)) || 1;
+      madePaints.forEach((paint) => {
+        if (paint.id >= nextMadeId) {
+          nextMadeId = paint.id + 1;
+        }
+      });
+
+      const savedSpecials = store.get("discoveredSpecials", []);
+      discoveredSpecials = Array.isArray(savedSpecials) ? savedSpecials.slice() : [];
+
+      return {
+        lastColor: store.get("lastColor", null),
+        visits: visits
+      };
+    }
+
     function allKnownPaints() {
       const starterPaints = Array.from(document.querySelectorAll("#paintButtons .color-btn")).map(paintFromButton);
       return starterPaints.concat(madePaints);
@@ -664,6 +1076,80 @@
       return mixedPaint;
     }
 
+    function applyBowlArt() {
+      const bowlKey = "bowl-" + currentTheme;
+      const url = assetUrl(bowlKey);
+      if (url && bowlPaints.length === 0) {
+        mixArea.classList.add("has-art");
+        mixArea.style.backgroundImage = "url('" + url + "')";
+      } else {
+        mixArea.classList.remove("has-art");
+        mixArea.style.backgroundImage = "";
+      }
+    }
+
+    function applyPaintBlobArt() {
+      const blobKey = "paint-blob-" + currentTheme;
+      const url = assetUrl(blobKey);
+      const maskUrl = url ? "url('" + url + "')" : "";
+      document.querySelectorAll(".color-btn").forEach((button) => {
+        if (url) {
+          // mask로 실루엣 형태 + multiply로 흰 면→물감색, 진한 외곽선 유지
+          button.classList.add("has-blob-art");
+          button.style.backgroundImage = maskUrl;
+          button.style.backgroundBlendMode = "multiply";
+          button.style.backgroundSize = "contain";
+          button.style.backgroundRepeat = "no-repeat";
+          button.style.backgroundPosition = "center";
+          button.style.webkitMaskImage = maskUrl;
+          button.style.maskImage = maskUrl;
+          button.style.webkitMaskSize = "contain";
+          button.style.maskSize = "contain";
+          button.style.webkitMaskRepeat = "no-repeat";
+          button.style.maskRepeat = "no-repeat";
+          button.style.webkitMaskPosition = "center";
+          button.style.maskPosition = "center";
+        } else {
+          button.classList.remove("has-blob-art");
+          button.style.backgroundImage = "";
+          button.style.backgroundBlendMode = "";
+          button.style.backgroundSize = "";
+          button.style.backgroundRepeat = "";
+          button.style.backgroundPosition = "";
+          button.style.webkitMaskImage = "";
+          button.style.maskImage = "";
+          button.style.webkitMaskSize = "";
+          button.style.maskSize = "";
+          button.style.webkitMaskRepeat = "";
+          button.style.maskRepeat = "";
+          button.style.webkitMaskPosition = "";
+          button.style.maskPosition = "";
+        }
+      });
+    }
+
+    function setTheme(theme) {
+      if (THEME_ORDER.indexOf(theme) < 0) {
+        theme = "fruit";
+      }
+      currentTheme = theme;
+      document.body.classList.remove("theme-fruit", "theme-flower", "theme-sky");
+      document.body.classList.add("theme-" + theme);
+      paletteTitle.textContent = THEME_TITLES[theme];
+
+      document.querySelectorAll(".theme-chip").forEach((chip) => {
+        const active = chip.dataset.theme === theme;
+        chip.classList.toggle("active", active);
+        chip.setAttribute("aria-selected", active ? "true" : "false");
+      });
+
+      applyBowlArt();
+      applyPaintBlobArt();
+      if (store) {
+        store.set("theme", currentTheme);
+      }
+    }
+
     function updateBowlView() {
       ingredients.innerHTML = "";
 
@@ -674,8 +1160,12 @@
         mixLabel.style.color = "";
         mixLabel.innerHTML = "색깔을 눌러<br>섞어 보세요!";
         againBtn.hidden = true;
+        applyBowlArt();
         return;
       }
+
+      mixArea.classList.remove("has-art");
+      mixArea.style.backgroundImage = "";
 
       bowlPaints.forEach((paint) => {
         const dot = document.createElement("span");
@@ -703,12 +1193,108 @@
       againBtn.hidden = false;
     }
 
+    function highlightMadePaint(paintId) {
+      const button = madeButtons.querySelector('[data-paint-id="' + paintId + '"]');
+      if (!button) {
+        return;
+      }
+      button.classList.remove("pulse-paint");
+      void button.offsetWidth;
+      button.classList.add("pulse-paint");
+    }
+
+    function clearSurprise() {
+      if (surpriseTimer) {
+        window.clearTimeout(surpriseTimer);
+        surpriseTimer = null;
+      }
+      surpriseToast.classList.remove("show");
+      surpriseToast.textContent = "";
+      Array.from(surpriseLayer.querySelectorAll(".sparkle-bit, .rainbow-ring")).forEach((node) => node.remove());
+    }
+
+    function spawnSparkles(count) {
+      const sparkleSrc = assetUrl("sparkle");
+      for (let i = 0; i < count; i += 1) {
+        const bit = document.createElement("span");
+        bit.className = "sparkle-bit";
+        const angle = (Math.PI * 2 * i) / count;
+        const distance = 80 + Math.random() * 100;
+        bit.style.left = "50%";
+        bit.style.top = "40%";
+        bit.style.setProperty("--dx", Math.cos(angle) * distance + "px");
+        bit.style.setProperty("--dy", Math.sin(angle) * distance + "px");
+        if (sparkleSrc) {
+          bit.style.backgroundImage = "url('" + sparkleSrc + "')";
+          bit.style.backgroundColor = "transparent";
+        }
+        surpriseLayer.appendChild(bit);
+      }
+    }
+
+    function showSurprise(message, withRainbow) {
+      clearSurprise();
+      surpriseToast.textContent = message;
+      surpriseToast.classList.add("show");
+      spawnSparkles(withRainbow ? 12 : 8);
+      if (withRainbow) {
+        const ring = document.createElement("div");
+        ring.className = "rainbow-ring";
+        surpriseLayer.appendChild(ring);
+      }
+      playKit("sparkle");
+      hapticKit("success");
+      surpriseTimer = window.setTimeout(clearSurprise, 1600);
+    }
+
+    function markSpecial(id) {
+      if (discoveredSpecials.indexOf(id) >= 0) {
+        return false;
+      }
+      discoveredSpecials.push(id);
+      persistState();
+      return true;
+    }
+
+    function checkDiscoveries(mixedPaint) {
+      if (bowlPaints.length < 2) {
+        return;
+      }
+
+      const names = bowlPaints.map((paint) => paint.name);
+      const hasRed = names.indexOf("빨강") >= 0;
+      const hasYellow = names.indexOf("노랑") >= 0;
+      const hasBlue = names.indexOf("파랑") >= 0;
+
+      if (hasRed && hasYellow && hasBlue && markSpecial("rainbow-trio")) {
+        showSurprise("우와, 무지개 색깔!", true);
+        return;
+      }
+
+      if (SPECIAL_COLOR_NAMES.indexOf(mixedPaint.name) >= 0) {
+        const key = "special:" + mixedPaint.name;
+        if (markSpecial(key)) {
+          showSurprise("반짝! " + mixedPaint.name + "!", false);
+        }
+      }
+    }
+
     function saveMixedPaintIfNew() {
       if (bowlPaints.length < 2) {
         return;
       }
 
       const mixedPaint = mixBowl();
+      checkDiscoveries(mixedPaint);
+
+      const existingMade = madePaints.find((paint) =>
+        paint.name === mixedPaint.name || colorDistance(paint.rgb, mixedPaint.rgb) < 22
+      );
+      if (existingMade) {
+        highlightMadePaint(existingMade.id);
+        return;
+      }
+
       if (isSimilarToKnownPaint(mixedPaint.rgb)) {
         return;
       }
@@ -717,6 +1303,8 @@
       nextMadeId += 1;
       madePaints.push(mixedPaint);
       renderMadePaints(mixedPaint.id);
+      persistState();
+      playKit("chime");
     }
 
     function renderMadePaints(newPaintId) {
@@ -730,13 +1318,15 @@
         const button = document.createElement("button");
         button.type = "button";
         button.className = "color-btn";
+        button.dataset.paintId = paint.id;
         if (needsDarkLabel(paint.rgb)) {
           button.classList.add("dark-label");
         }
         if (paint.id === newPaintId) {
           button.classList.add("new-paint");
         }
-        button.style.background = paint.hex;
+        // background-color만 설정(shorthand background는 blob 이미지까지 지움)
+        button.style.backgroundColor = paint.hex;
         button.dataset.name = paint.name;
         button.dataset.ryb = paint.r + "," + paint.y + "," + paint.b;
         button.dataset.white = String(paint.w);
@@ -754,20 +1344,115 @@
         madeButtons.appendChild(paintItem);
         bindPaintItem(paintItem);
       });
+      applyPaintBlobArt();
     }
 
     function addPaintToBowl(paint) {
       bowlPaints.push(paint);
       updateBowlView();
       saveMixedPaintIfNew();
+      playKit("pop");
+      hapticKit("light");
+    }
+
+    function maybeSoftEnding() {
+      if (endingShown || sessionMixCount < MIXES_FOR_ENDING) {
+        return;
+      }
+      if (!window.KidsKit || !KidsKit.softEnding) {
+        return;
+      }
+      endingShown = true;
+      KidsKit.softEnding({
+        title: "잘 섞었어!",
+        emoji: "🎨",
+        onAgain: function () {
+          sessionMixCount = 0;
+          endingShown = false;
+          emptyBowl();
+          speakText("또 섞어 볼까?");
+        }
+      });
     }
 
     function emptyBowl() {
+      const completedMix = bowlPaints.length >= 2;
       bowlPaints = [];
       updateBowlView();
+      if (completedMix) {
+        sessionMixCount += 1;
+        playKit("whoosh");
+        maybeSoftEnding();
+      }
+    }
+
+    function showWelcome(lastColor) {
+      if (!lastColor || !lastColor.name || !lastColor.hex) {
+        return;
+      }
+      welcomeSwatch.style.background = lastColor.hex;
+      welcomeText.textContent = "지난번에 만든 " + lastColor.name + "!";
+      const sticker = assetUrl("welcome-sticker");
+      if (sticker) {
+        welcomeArt.src = sticker;
+        welcomeArt.classList.add("visible");
+      }
+      welcomeBanner.classList.add("show");
+      window.setTimeout(function () {
+        welcomeBanner.classList.remove("show");
+      }, 4500);
+    }
+
+    function preloadAssets() {
+      // assets/slots.json 의 ready 목록만 preload.
+      // webp 없으면 ready=[] → CSS 도형 폴백(없는 파일 404 콘솔 없음).
+      if (!window.KidsKit || !KidsKit.assets) {
+        return Promise.resolve();
+      }
+      return fetch("assets/slots.json", { cache: "no-store" })
+        .then(function (response) {
+          if (!response.ok) {
+            return { ready: [] };
+          }
+          return response.json();
+        })
+        .catch(function () {
+          return { ready: [] };
+        })
+        .then(function (slots) {
+          // 실제 요청 여부는 KidsKit이 assets/ready.json으로 판단 (목록에 없으면 placeholder → 폴백)
+          const ready = Object.keys(ASSET_KEYS);
+          const list = ready
+            .filter(function (key) {
+              return ASSET_KEYS[key];
+            })
+            .map(function (key) {
+              return { key: key, src: ASSET_KEYS[key] };
+            });
+          return KidsKit.assets.preload(list).then(function (result) {
+            Object.keys(result.images || {}).forEach(function (key) {
+              assetImages[key] = result.images[key];
+            });
+            applyBowlArt();
+            applyPaintBlobArt();
+            const sticker = assetUrl("welcome-sticker");
+            if (sticker && welcomeBanner.classList.contains("show")) {
+              welcomeArt.src = sticker;
+              welcomeArt.classList.add("visible");
+            }
+          });
+        });
     }
 
     document.querySelectorAll("#paintButtons .paint-item").forEach(bindPaintItem);
+
+    document.querySelectorAll(".theme-chip").forEach((chip) => {
+      chip.addEventListener("click", function () {
+        setTheme(chip.dataset.theme);
+        playKit("boing");
+        hapticKit("soft");
+      });
+    });
 
     againBtn.addEventListener("click", emptyBowl);
 
@@ -791,6 +1476,18 @@
       speechSynthesis.getVoices();
       speechSynthesis.onvoiceschanged = pickKoreanVoice;
     }
+
+    const boot = loadState();
+    setTheme(currentTheme);
+    renderMadePaints(null);
+    showWelcome(boot.lastColor);
+
+    if (window.KidsKit && KidsKit.restButton) {
+      // 아래쪽은 물감 팔레트가 바닥까지 차므로 상단 오른쪽 빈 자리로 옮긴다
+      KidsKit.restButton({ position: 'tr' });
+    }
+
+    preloadAssets();
   </script>
 </body>
 </html>

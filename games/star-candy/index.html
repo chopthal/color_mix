@@ -8,6 +8,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="반짝반짝 별사탕을 지켜요">
   <title>🍬 반짝반짝 별사탕을 지켜요</title>
+  <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
 
   <script>
     (function () {
@@ -22,6 +23,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
 
+  <link rel="stylesheet" href="../_shared/kit.css">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -40,14 +42,21 @@
   <main class="stage" id="stage">
     <canvas id="gameCanvas" aria-label="별사탕 숨기기 놀이터"></canvas>
 
-    <!-- 요정 고르기 -->
+    <!-- 요정 고르기 + 스티커 도감 반김 -->
     <section class="select-screen is-on" id="selectScreen">
+      <div class="welcome-banner" id="welcomeBanner" hidden>
+        <p class="welcome-text" id="welcomeText">스티커가 반겨 줘!</p>
+        <div class="sticker-album" id="stickerAlbum" aria-label="별사탕 스티커 도감"></div>
+      </div>
+
       <div class="select-head">
         <h2>누구랑 놀까?</h2>
-        <p>요정 친구를 골라요</p>
+        <p>요정 친구를 골라요 · 끌어다 콩!</p>
       </div>
 
       <div class="fairy-row" id="fairyRow"></div>
+
+      <p class="place-hint" id="placeHint">오늘 장소: 별 보물방</p>
 
       <button class="start-btn" id="btnStart" type="button">
         놀이 시작! <span>🍬</span>
@@ -58,8 +67,9 @@
     <div class="ending-overlay" id="endingOverlay">
       <div class="ending-card">
         <div class="ending-ornament">🍬✨🍬</div>
-        <h2>오늘 별사탕 잘 지켰어!</h2>
-        <p>콩콩! 신나게 놀았어요</p>
+        <h2 id="endingTitle">오늘 별사탕 잘 지켰어!</h2>
+        <p id="endingSub">콩콩! 신나게 놀았어요</p>
+        <div class="ending-stickers" id="endingStickers" aria-hidden="true"></div>
         <div class="ending-actions">
           <button class="btn-pill btn-again" id="btnAgain" type="button">또! 🔁</button>
           <button class="btn-pill btn-change" id="btnChange" type="button">요정 바꾸기 🧚</button>
@@ -69,6 +79,7 @@
     </div>
   </main>
 
+  <script src="../_shared/kit.js"></script>
   <script src="js/data.js"></script>
   <script src="js/sound.js"></script>
   <script src="js/game.js"></script>

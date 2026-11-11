@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 176" fill="none">
+  <ellipse cx="170" cy="164" rx="88" ry="10" fill="#3D2B1F" opacity="0.12"/>
+  <!-- sleepy marks (bubbles, no letters) -->
+  <ellipse cx="230" cy="28" rx="8" ry="6" fill="#A78BFA" opacity="0.45"/>
+  <ellipse cx="248" cy="18" rx="6" ry="4.5" fill="#A78BFA" opacity="0.35"/>
+  <ellipse cx="262" cy="10" rx="4.5" ry="3.5" fill="#A78BFA" opacity="0.28"/>
+  <!-- tail left -->
+  <path d="M52 96 C16 70, 6 58, 20 46 C38 58, 46 78, 54 92 Z" fill="#7CC6FE" stroke="#3D2B1F" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M52 100 C14 124, 8 142, 24 150 C40 138, 48 120, 56 106 Z" fill="#7CC6FE" stroke="#3D2B1F" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"/>
+  <!-- dorsal fin rounded -->
+  <path d="M150 70 C158 28, 188 22, 196 68 C176 62, 160 66, 150 70 Z" fill="#3BA4E6" stroke="#3D2B1F" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"/>
+  <ellipse cx="168" cy="46" rx="8" ry="5" fill="#FFF6E5" opacity="0.5"/>
+  <!-- body facing right -->
+  <ellipse cx="172" cy="102" rx="112" ry="42" fill="#7CC6FE" stroke="#3D2B1F" stroke-width="7" stroke-linejoin="round"/>
+  <!-- belly -->
+  <ellipse cx="176" cy="116" rx="72" ry="22" fill="#FFF6E5" stroke="#3D2B1F" stroke-width="5" stroke-linejoin="round"/>
+  <ellipse cx="120" cy="84" rx="32" ry="14" fill="#FFF6E5" opacity="0.5"/>
+  <!-- side fin -->
+  <ellipse cx="150" cy="132" rx="30" ry="12" fill="#3BA4E6" stroke="#3D2B1F" stroke-width="6" stroke-linejoin="round" transform="rotate(-8 150 132)"/>
+  <!-- sleepy closed eyes (curves) -->
+  <path d="M230 96 Q242 88 254 96" stroke="#3D2B1F" stroke-width="6" stroke-linecap="round" fill="none"/>
+  <path d="M258 96 Q268 90 278 98" stroke="#3D2B1F" stroke-width="6" stroke-linecap="round" fill="none"/>
+  <!-- blush -->
+  <circle cx="236" cy="112" r="9" fill="#FFB3C1" opacity="0.5"/>
+  <circle cx="286" cy="112" r="8" fill="#FFB3C1" opacity="0.45"/>
+  <!-- gentle sleepy smile -->
+  <path d="M244 120 Q262 130 280 118" stroke="#3D2B1F" stroke-width="4.5" stroke-linecap="round" fill="none"/>
+  <!-- rounded snout tip highlight -->
+  <ellipse cx="268" cy="88" rx="14" ry="8" fill="#FFF6E5" opacity="0.45"/>
+</svg>

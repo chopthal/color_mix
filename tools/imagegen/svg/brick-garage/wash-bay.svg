@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 480" fill="none">
+  <!-- toy car wash bay platform, empty center for vehicle -->
+  <defs>
+    <linearGradient id="bayFloor" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#E0F4FF"/>
+      <stop offset="55%" stop-color="#B8E4FE"/>
+      <stop offset="100%" stop-color="#94A3B8"/>
+    </linearGradient>
+    <linearGradient id="baySky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#7CC6FE"/>
+      <stop offset="100%" stop-color="#E0F4FF"/>
+    </linearGradient>
+  </defs>
+  <rect width="780" height="480" rx="0" fill="url(#baySky)"/>
+  <!-- soft clouds -->
+  <ellipse cx="140" cy="70" rx="70" ry="28" fill="#FFFFFF" opacity="0.55"/>
+  <ellipse cx="200" cy="70" rx="50" ry="22" fill="#FFFFFF" opacity="0.45"/>
+  <ellipse cx="600" cy="56" rx="80" ry="30" fill="#FFFFFF" opacity="0.5"/>
+  <!-- wash arch frame left/right posts -->
+  <rect x="70" y="80" width="36" height="260" rx="14" fill="#7CC6FE" opacity="0.85"/>
+  <rect x="674" y="80" width="36" height="260" rx="14" fill="#7CC6FE" opacity="0.85"/>
+  <path d="M88 90 Q390 10 692 90" fill="none" stroke="#3BA4E6" stroke-width="28" stroke-linecap="round" opacity="0.7"/>
+  <!-- hanging soft brushes -->
+  <rect x="160" y="70" width="28" height="70" rx="12" fill="#A78BFA" opacity="0.65"/>
+  <rect x="230" y="60" width="28" height="80" rx="12" fill="#FFB3C1" opacity="0.65"/>
+  <rect x="522" y="60" width="28" height="80" rx="12" fill="#FFB3C1" opacity="0.65"/>
+  <rect x="592" y="70" width="28" height="70" rx="12" fill="#A78BFA" opacity="0.65"/>
+  <!-- platform / floor -->
+  <rect x="40" y="300" width="700" height="150" rx="36" fill="url(#bayFloor)"/>
+  <ellipse cx="390" cy="360" rx="220" ry="40" fill="#FFFFFF" opacity="0.25"/>
+  <!-- water sparkles -->
+  <circle cx="160" cy="340" r="8" fill="#FFFFFF" opacity="0.7"/>
+  <circle cx="200" cy="320" r="5" fill="#FFFFFF" opacity="0.6"/>
+  <circle cx="580" cy="330" r="7" fill="#FFFFFF" opacity="0.65"/>
+  <circle cx="620" cy="350" r="5" fill="#FFFFFF" opacity="0.55"/>
+  <circle cx="390" cy="310" r="6" fill="#FFFFFF" opacity="0.5"/>
+  <!-- puddle hints at edges only - center empty for car -->
+  <ellipse cx="140" cy="400" rx="50" ry="12" fill="#3BA4E6" opacity="0.25"/>
+  <ellipse cx="640" cy="400" rx="50" ry="12" fill="#3BA4E6" opacity="0.25"/>
+  <!-- soap bubbles side accents -->
+  <circle cx="100" cy="240" r="16" fill="#FFFFFF" opacity="0.55"/>
+  <circle cx="120" cy="220" r="10" fill="#FFFFFF" opacity="0.45"/>
+  <circle cx="680" cy="230" r="14" fill="#FFFFFF" opacity="0.5"/>
+  <circle cx="660" cy="250" r="9" fill="#FFFFFF" opacity="0.4"/>
+</svg>

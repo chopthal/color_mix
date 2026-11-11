@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="none">
+  <ellipse cx="128" cy="228" rx="58" ry="12" fill="#3D2B1F" opacity="0.12"/>
+  <!-- pot -->
+  <path d="M64 120 L76 214 Q80 228 128 228 Q176 228 180 214 L192 120 Z" fill="#E07A5F" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round"/>
+  <ellipse cx="128" cy="120" rx="68" ry="22" fill="#C96A4F" stroke="#3D2B1F" stroke-width="9"/>
+  <ellipse cx="100" cy="116" rx="18" ry="8" fill="#FFB3A0" opacity="0.55"/>
+  <!-- leaves -->
+  <ellipse cx="128" cy="100" rx="52" ry="34" fill="#7BD389" stroke="#3D2B1F" stroke-width="9"/>
+  <ellipse cx="96" cy="88" rx="22" ry="28" fill="#3FA34D" stroke="#3D2B1F" stroke-width="7" transform="rotate(-20 96 88)"/>
+  <ellipse cx="160" cy="88" rx="22" ry="28" fill="#3FA34D" stroke="#3D2B1F" stroke-width="7" transform="rotate(20 160 88)"/>
+  <ellipse cx="110" cy="78" rx="12" ry="7" fill="#C8F5D4" opacity="0.55"/>
+  <!-- flower -->
+  <circle cx="128" cy="58" r="22" fill="#FF6B81" stroke="#3D2B1F" stroke-width="7"/>
+  <circle cx="128" cy="58" r="8" fill="#FFC94A" stroke="#3D2B1F" stroke-width="4"/>
+</svg>

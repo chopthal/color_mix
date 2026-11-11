@@ -1,6 +1,7 @@
 /**
- * 뾰로롱! 변신 숨바꼭질 — 요정·물건·순찰 데이터
- * 요정은 색과 장식만 다르고 대사는 없다(무언 연출).
+ * 뾰로롱! 변신 숨바꼭질 — 요정·장소·물건·순찰 데이터
+ * 요정은 색·장식·걸음만 다르고 대사는 없다(무언 연출).
+ * 장소 3 × 물건 4로 10회차 변주. star-candy와 다른 마법·탭 숨바꼭질 톤.
  */
 const TH_FAIRIES = [
   {
@@ -10,6 +11,10 @@ const TH_FAIRIES = [
     belly: '#e6f0ff',
     accent: '#3b82f6',
     hat: 'crown',
+    gait: 'float',
+    speedMul: 0.72,
+    bobMul: 1.55,
+    sparkle: false,
   },
   {
     id: 'peach',
@@ -18,6 +23,10 @@ const TH_FAIRIES = [
     belly: '#ffe8df',
     accent: '#e8590c',
     hat: 'bow',
+    gait: 'bounce',
+    speedMul: 1.18,
+    bobMul: 1.1,
+    sparkle: false,
   },
   {
     id: 'lilac',
@@ -26,27 +35,214 @@ const TH_FAIRIES = [
     belly: '#f0e7ff',
     accent: '#7c3aed',
     hat: 'star',
+    gait: 'glide',
+    speedMul: 0.92,
+    bobMul: 0.7,
+    sparkle: true,
   },
 ];
 
-const TH_OBJECTS = [
-  { kind: 'piano', aria: '피아노', portrait: [0.22, 0.3], landscape: [0.14, 0.52] },
-  { kind: 'teddy', aria: '곰인형', portrait: [0.78, 0.3], landscape: [0.38, 0.36] },
-  { kind: 'sofa', aria: '소파', portrait: [0.24, 0.53], landscape: [0.62, 0.56] },
-  { kind: 'gift', aria: '선물상자', portrait: [0.76, 0.53], landscape: [0.86, 0.4] },
+/** 장소별 팔레트·소품 세트 (변주 축 1) */
+const TH_PLACES = [
+  {
+    id: 'living',
+    label: '거실',
+    hello: '거실이야!',
+    wallTop: '#f4efff',
+    wallBot: '#e4d7ff',
+    stripe: '#d4c2f5',
+    floorTop: '#e8d4b8',
+    floorBot: '#d4b896',
+    floorLine: 'rgba(160, 120, 90, 0.28)',
+    accent: '#9b7dff',
+    rugOuter: '#ddd0ff',
+    rugInner: '#f3ecff',
+    objects: [
+      {
+        kind: 'sofa',
+        aria: '소파',
+        reaction: { text: '팡!', color: '#ff6b9d', sound: 'pang' },
+        portrait: [0.24, 0.53],
+        landscape: [0.62, 0.56],
+      },
+      {
+        kind: 'gift',
+        aria: '선물상자',
+        reaction: { text: '리본!', color: '#f06595', sound: 'ribbon' },
+        portrait: [0.76, 0.53],
+        landscape: [0.86, 0.4],
+      },
+      {
+        kind: 'teddy',
+        aria: '곰인형',
+        reaction: { text: '배꼽!', color: '#e8590c', sound: 'belly' },
+        portrait: [0.78, 0.3],
+        landscape: [0.38, 0.36],
+      },
+      {
+        kind: 'piano',
+        aria: '피아노',
+        reaction: { text: '도레미', color: '#7c3aed', sound: 'doremi' },
+        portrait: [0.22, 0.3],
+        landscape: [0.14, 0.52],
+      },
+    ],
+    patrol: {
+      portrait: [
+        [0.3, 0.23],
+        [0.7, 0.23],
+        [0.7, 0.47],
+        [0.3, 0.47],
+      ],
+      landscape: [
+        [0.18, 0.52],
+        [0.4, 0.45],
+        [0.62, 0.48],
+        [0.82, 0.42],
+      ],
+    },
+  },
+  {
+    id: 'kitchen',
+    label: '부엌',
+    hello: '부엌이야!',
+    wallTop: '#fff8f0',
+    wallBot: '#ffe8d6',
+    stripe: '#ffd8b8',
+    floorTop: '#f0e0c8',
+    floorBot: '#e0c8a0',
+    floorLine: 'rgba(170, 130, 90, 0.3)',
+    accent: '#f08c5a',
+    rugOuter: '#ffe0c0',
+    rugInner: '#fff4e6',
+    objects: [
+      {
+        kind: 'fridge',
+        aria: '냉장고',
+        reaction: { text: '덜컹!', color: '#4dabf7', sound: 'clunk' },
+        portrait: [0.22, 0.32],
+        landscape: [0.14, 0.48],
+      },
+      {
+        kind: 'pot',
+        aria: '냄비',
+        reaction: { text: '보글!', color: '#e8590c', sound: 'bubble' },
+        portrait: [0.78, 0.32],
+        landscape: [0.4, 0.38],
+      },
+      {
+        kind: 'stool',
+        aria: '의자',
+        reaction: { text: '톡!', color: '#fab005', sound: 'tok' },
+        portrait: [0.24, 0.55],
+        landscape: [0.64, 0.55],
+      },
+      {
+        kind: 'jar',
+        aria: '쿠키병',
+        reaction: { text: '달콩!', color: '#f06595', sound: 'sweet' },
+        portrait: [0.76, 0.55],
+        landscape: [0.86, 0.42],
+      },
+    ],
+    patrol: {
+      portrait: [
+        [0.28, 0.24],
+        [0.72, 0.24],
+        [0.72, 0.48],
+        [0.28, 0.48],
+      ],
+      landscape: [
+        [0.2, 0.5],
+        [0.42, 0.42],
+        [0.66, 0.5],
+        [0.84, 0.4],
+      ],
+    },
+  },
+  {
+    id: 'garden',
+    label: '정원',
+    hello: '정원이야!',
+    wallTop: '#dff6ff',
+    wallBot: '#c8efd8',
+    stripe: '#b8e6c8',
+    floorTop: '#b8d978',
+    floorBot: '#9ec65e',
+    floorLine: 'rgba(90, 130, 50, 0.28)',
+    accent: '#69b578',
+    rugOuter: '#a8d868',
+    rugInner: '#c8e888',
+    objects: [
+      {
+        kind: 'bush',
+        aria: '덤불',
+        reaction: { text: '살랑!', color: '#2f9e44', sound: 'rustle' },
+        portrait: [0.22, 0.34],
+        landscape: [0.16, 0.5],
+      },
+      {
+        kind: 'planter',
+        aria: '화분',
+        reaction: { text: '꽃!', color: '#f06595', sound: 'bloom' },
+        portrait: [0.78, 0.34],
+        landscape: [0.4, 0.38],
+      },
+      {
+        kind: 'swing',
+        aria: '그네',
+        reaction: { text: '슝!', color: '#4dabf7', sound: 'whoosh' },
+        portrait: [0.24, 0.56],
+        landscape: [0.64, 0.54],
+      },
+      {
+        kind: 'can',
+        aria: '물뿌리개',
+        reaction: { text: '찰박!', color: '#15aabf', sound: 'splash' },
+        portrait: [0.76, 0.56],
+        landscape: [0.86, 0.44],
+      },
+    ],
+    patrol: {
+      portrait: [
+        [0.3, 0.26],
+        [0.7, 0.26],
+        [0.7, 0.5],
+        [0.3, 0.5],
+      ],
+      landscape: [
+        [0.18, 0.52],
+        [0.4, 0.44],
+        [0.62, 0.5],
+        [0.82, 0.42],
+      ],
+    },
+  },
 ];
 
-const TH_PATROL = {
-  portrait: [
-    [0.3, 0.23],
-    [0.7, 0.23],
-    [0.7, 0.47],
-    [0.3, 0.47],
-  ],
-  landscape: [
-    [0.18, 0.52],
-    [0.4, 0.45],
-    [0.62, 0.48],
-    [0.82, 0.42],
-  ],
-};
+/** 한 세션 라운드 수 (숨기+찾기 쌍). 아이 템포 기준 3~5분 호흡용 */
+const TH_TOTAL_ROUNDS = 5;
+
+/** 이미지 슬롯 목록 (파일이 없으면 코드 드로잉 폴백) */
+const TH_ASSET_SLOTS = [
+  { key: 'kid', src: 'assets/kid.webp' },
+  { key: 'fairy-sky', src: 'assets/fairy-sky.webp' },
+  { key: 'fairy-peach', src: 'assets/fairy-peach.webp' },
+  { key: 'fairy-lilac', src: 'assets/fairy-lilac.webp' },
+  { key: 'bg-living', src: 'assets/bg-living.webp' },
+  { key: 'bg-kitchen', src: 'assets/bg-kitchen.webp' },
+  { key: 'bg-garden', src: 'assets/bg-garden.webp' },
+  { key: 'sofa', src: 'assets/sofa.webp' },
+  { key: 'gift', src: 'assets/gift.webp' },
+  { key: 'teddy', src: 'assets/teddy.webp' },
+  { key: 'piano', src: 'assets/piano.webp' },
+  { key: 'fridge', src: 'assets/fridge.webp' },
+  { key: 'pot', src: 'assets/pot.webp' },
+  { key: 'stool', src: 'assets/stool.webp' },
+  { key: 'jar', src: 'assets/jar.webp' },
+  { key: 'bush', src: 'assets/bush.webp' },
+  { key: 'planter', src: 'assets/planter.webp' },
+  { key: 'swing', src: 'assets/swing.webp' },
+  { key: 'can', src: 'assets/can.webp' },
+  { key: 'sparkle', src: 'assets/sparkle.webp' },
+];

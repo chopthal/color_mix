@@ -1,0 +1,107 @@
+{
+  "items": [
+    {
+      "name": "kid",
+      "outPath": "games/star-candy/assets/kid.webp",
+      "prompt": "A cute round-headed child character holding a small star wand, friendly smile, short limbs, front three-quarter view, candy-guard play outfit in soft blue.",
+      "width": 256,
+      "height": 256,
+      "refs": []
+    },
+    {
+      "name": "fairy",
+      "width": 256,
+      "height": 256,
+      "refs": [],
+      "variants": [
+        {
+          "name": "fairy-blue",
+          "outPath": "games/star-candy/assets/fairy-blue.webp",
+          "prompt": "A cute round blue fairy with tiny wings and a small gold crown, gentle smile, floating pose."
+        },
+        {
+          "name": "fairy-pink",
+          "outPath": "games/star-candy/assets/fairy-pink.webp",
+          "prompt": "A cute round pink fairy with tiny wings and a soft bow on the head, gentle smile, floating pose."
+        },
+        {
+          "name": "fairy-mint",
+          "outPath": "games/star-candy/assets/fairy-mint.webp",
+          "prompt": "A cute round mint-green fairy with tiny wings and a star tip antenna, gentle smile, floating pose."
+        }
+      ]
+    },
+    {
+      "name": "candy",
+      "outPath": "games/star-candy/assets/candy.webp",
+      "prompt": "A glowing five-point star candy treat, soft yellow-gold, centered, simple silhouette with tiny sparkle.",
+      "width": 192,
+      "height": 192,
+      "refs": []
+    },
+    {
+      "name": "door",
+      "outPath": "games/star-candy/assets/door.webp",
+      "prompt": "A rectangular candy fortress door with candy-cane side posts and a star doorknob, front view, simple kid-safe shapes.",
+      "width": 256,
+      "height": 320,
+      "refs": []
+    },
+    {
+      "name": "bg-nursery",
+      "outPath": "games/star-candy/assets/bg-nursery.webp",
+      "prompt": "A cozy night candy treasure nursery room interior, deep purple walls with soft stars, round moon window, star rug on the floor, candy jars, no characters.",
+      "width": 768,
+      "height": 1280,
+      "refs": []
+    },
+    {
+      "name": "bg-garden",
+      "outPath": "games/star-candy/assets/bg-garden.webp",
+      "prompt": "A soft night candy garden exterior, deep blue sky with stars, moon, candy bushes with star blooms, yellow star rug, garden gate door, no characters.",
+      "width": 768,
+      "height": 1280,
+      "refs": []
+    },
+    {
+      "name": "box-star",
+      "outPath": "games/star-candy/assets/box-star.webp",
+      "prompt": "Cute chunky gift box in yellow, matching lid and ribbon, a simple star motif on the front, centered, single subject.",
+      "width": 256,
+      "height": 256,
+      "refs": []
+    },
+    {
+      "name": "box-heart",
+      "outPath": "games/star-candy/assets/box-heart.webp",
+      "prompt": "Cute chunky gift box in pink, matching lid and ribbon, a simple heart motif on the front, centered, single subject.",
+      "width": 256,
+      "height": 256,
+      "refs": []
+    },
+    {
+      "name": "box-dot",
+      "outPath": "games/star-candy/assets/box-dot.webp",
+      "prompt": "Cute chunky gift box in mint, matching lid and ribbon, a simple dot motif on the front, centered, single subject.",
+      "width": 256,
+      "height": 256,
+      "refs": []
+    },
+    {
+      "name": "box-moon",
+      "outPath": "games/star-candy/assets/box-moon.webp",
+      "prompt": "Cute chunky gift box in purple, matching lid and ribbon, a simple moon motif on the front, centered, single subject.",
+      "width": 256,
+      "height": 256,
+      "refs": []
+    },
+    {
+      "name": "box-stripe",
+      "outPath": "games/star-candy/assets/box-stripe.webp",
+      "prompt": "Cute chunky gift box in orange, matching lid and ribbon, a simple stripe motif on the front, centered, single subject.",
+      "width": 256,
+      "height": 256,
+      "refs": []
+    }
+  ]
+}

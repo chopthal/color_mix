@@ -1,0 +1,138 @@
+{
+  "items": [
+    {
+      "name": "cloud",
+      "outPath": "games/music-garden/assets/cloud.webp",
+      "prompt": "A soft fluffy cartoon cloud character with a gentle smile, round lobes, front view, centered.",
+      "width": 256,
+      "height": 192,
+      "refs": []
+    },
+    {
+      "name": "cloud-tap",
+      "outPath": "games/music-garden/assets/cloud-tap.webp",
+      "prompt": "The same soft fluffy cartoon cloud with cheeks puffed in a playful tap reaction, front view, centered.",
+      "width": 256,
+      "height": 192,
+      "refs": []
+    },
+    {
+      "name": "raindrop",
+      "outPath": "games/music-garden/assets/raindrop.webp",
+      "prompt": "A single cute round raindrop with a tiny sparkle highlight, simple silhouette, centered.",
+      "width": 96,
+      "height": 128,
+      "refs": []
+    },
+    {
+      "name": "sun",
+      "outPath": "games/music-garden/assets/sun.webp",
+      "prompt": "A friendly round sun with soft short rays and a gentle smile, no sharp spikes, centered.",
+      "width": 256,
+      "height": 256,
+      "refs": []
+    },
+    {
+      "name": "flowerbed",
+      "outPath": "games/music-garden/assets/flowerbed.webp",
+      "prompt": "A simple wooden flower bed planter box filled with soft soil, empty of plants, front view.",
+      "width": 512,
+      "height": 192,
+      "refs": []
+    },
+    {
+      "name": "note-particle",
+      "outPath": "games/music-garden/assets/note-particle.webp",
+      "prompt": "A single cute rounded music note particle icon with a tiny sparkle, no staff lines, centered.",
+      "width": 96,
+      "height": 96,
+      "refs": []
+    },
+    {
+      "name": "plant",
+      "prompt": "Cute garden plant growth stages for a kids music garden game.",
+      "width": 192,
+      "height": 256,
+      "refs": [],
+      "variants": [
+        {
+          "name": "plant-seed",
+          "outPath": "games/music-garden/assets/plant-seed.webp",
+          "prompt": "Stage: tiny brown seed resting in a bit of soft soil, very simple, front view."
+        },
+        {
+          "name": "plant-sprout",
+          "outPath": "games/music-garden/assets/plant-sprout.webp",
+          "prompt": "Stage: small green sprout with two round leaves, front view."
+        },
+        {
+          "name": "plant-stem",
+          "outPath": "games/music-garden/assets/plant-stem.webp",
+          "prompt": "Stage: taller green stem with a few round leaves, no flower yet, front view."
+        },
+        {
+          "name": "plant-bud",
+          "outPath": "games/music-garden/assets/plant-bud.webp",
+          "prompt": "Stage: green stem with a closed soft flower bud on top, front view."
+        }
+      ]
+    },
+    {
+      "name": "flower",
+      "width": 192,
+      "height": 192,
+      "refs": [],
+      "variants": [
+        {
+          "name": "flower-pink",
+          "outPath": "games/music-garden/assets/flower-pink.webp",
+          "prompt": "Fully open soft pink flower with six round petals and a yellow center, front view."
+        },
+        {
+          "name": "flower-orange",
+          "outPath": "games/music-garden/assets/flower-orange.webp",
+          "prompt": "Fully open soft orange flower with six round petals and a yellow center, front view."
+        },
+        {
+          "name": "flower-yellow",
+          "outPath": "games/music-garden/assets/flower-yellow.webp",
+          "prompt": "Fully open soft yellow flower with six round petals and an orange center, front view."
+        },
+        {
+          "name": "flower-green",
+          "outPath": "games/music-garden/assets/flower-green.webp",
+          "prompt": "Fully open soft mint-green flower with six round petals and a yellow center, front view."
+        },
+        {
+          "name": "flower-purple",
+          "outPath": "games/music-garden/assets/flower-purple.webp",
+          "prompt": "Fully open soft lavender-purple flower with six round petals and a yellow center, front view."
+        }
+      ]
+    },
+    {
+      "name": "sky-morning",
+      "outPath": "games/music-garden/assets/sky-morning.webp",
+      "prompt": "Soft morning sky wash for kids game background, warm peach to pale blue gradient, empty, no objects.",
+      "width": 512,
+      "height": 768,
+      "refs": []
+    },
+    {
+      "name": "sky-day",
+      "outPath": "games/music-garden/assets/sky-day.webp",
+      "prompt": "Soft daytime sky wash for kids game background, pale blue to light green gradient, empty, no objects.",
+      "width": 512,
+      "height": 768,
+      "refs": []
+    },
+    {
+      "name": "sky-evening",
+      "outPath": "games/music-garden/assets/sky-evening.webp",
+      "prompt": "Soft evening sky wash for kids game background, warm peach to soft lavender gradient, empty, no objects.",
+      "width": 512,
+      "height": 768,
+      "refs": []
+    }
+  ]
+}

@@ -1,0 +1,101 @@
+{
+  "items": [
+    {
+      "name": "bg",
+      "outPath": "games/candy-machine/assets/bg.webp",
+      "prompt": "Soft pastel candy-shop wall backdrop, warm cream and peach tones, gentle polka dots, empty of characters and objects, front view.",
+      "width": 780,
+      "height": 1688,
+      "refs": []
+    },
+    {
+      "name": "boy",
+      "width": 384,
+      "height": 384,
+      "refs": [],
+      "variants": [
+        {
+          "name": "boy-neutral",
+          "outPath": "games/candy-machine/assets/boy-neutral.webp",
+          "prompt": "Cute round-faced little boy head, soft brown hair, gentle smile, big cheeks, kid-safe, centered."
+        },
+        {
+          "name": "boy-happy",
+          "outPath": "games/candy-machine/assets/boy-happy.webp",
+          "prompt": "Same cute little boy head, happy closed smiling eyes, open joyful mouth, rosy cheeks, centered."
+        },
+        {
+          "name": "boy-wince",
+          "outPath": "games/candy-machine/assets/boy-wince.webp",
+          "prompt": "Same cute little boy head, soft wince expression, squinted eyes, small bandaid on cheek, gentle not scary, centered."
+        },
+        {
+          "name": "boy-sour",
+          "outPath": "games/candy-machine/assets/boy-sour.webp",
+          "prompt": "Same cute little boy head, funny sour lemon puckered lips, squinted eyes, playful, centered."
+        },
+        {
+          "name": "boy-sparkle",
+          "outPath": "games/candy-machine/assets/boy-sparkle.webp",
+          "prompt": "Same cute little boy head, delighted sparkling eyes, big smile, tiny star sparkles near cheeks, centered."
+        }
+      ]
+    },
+    {
+      "name": "machine",
+      "outPath": "games/candy-machine/assets/machine.webp",
+      "prompt": "Pink candy vending machine body with glass display window and bottom tray door closed, empty shelves, rounded toy shape, front view.",
+      "width": 512,
+      "height": 640,
+      "refs": []
+    },
+    {
+      "name": "coin",
+      "outPath": "games/candy-machine/assets/coin.webp",
+      "prompt": "Large shiny gold toy coin with a soft star mark in the center, round, simple, no text.",
+      "width": 192,
+      "height": 192,
+      "refs": []
+    },
+    {
+      "name": "brush",
+      "outPath": "games/candy-machine/assets/brush.webp",
+      "prompt": "Cute oversized pink kids toothbrush standing upright, soft bristles, rounded handle, no text.",
+      "width": 128,
+      "height": 256,
+      "refs": []
+    },
+    {
+      "name": "candy-lollipop",
+      "outPath": "games/candy-machine/assets/candy-lollipop.webp",
+      "prompt": "Round swirl lollipop candy on a short stick, pink and cream colors, shiny highlight, no wrapper text.",
+      "width": 192,
+      "height": 256,
+      "refs": []
+    },
+    {
+      "name": "candy-star",
+      "outPath": "games/candy-machine/assets/candy-star.webp",
+      "prompt": "Cute star-shaped hard candy, soft yellow and pink edges, shiny, no text.",
+      "width": 192,
+      "height": 192,
+      "refs": []
+    },
+    {
+      "name": "candy-ball",
+      "outPath": "games/candy-machine/assets/candy-ball.webp",
+      "prompt": "Round hard candy ball, green rind with pink center hint like watermelon candy, shiny, no text.",
+      "width": 192,
+      "height": 192,
+      "refs": []
+    },
+    {
+      "name": "sticker-frame",
+      "outPath": "games/candy-machine/assets/sticker-frame.webp",
+      "prompt": "Empty cute round sticker badge frame with soft white border and tiny sparkle, hollow center, no text.",
+      "width": 128,
+      "height": 128,
+      "refs": []
+    }
+  ]
+}

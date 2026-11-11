@@ -1,0 +1,9 @@
+<svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+        <path class="part" data-part="banana1" data-name="바나나" d="M64 200 Q74 108 176 64 Q206 52 226 66 Q168 96 140 156 Q124 192 96 212 Q72 214 64 200 Z" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <path class="part" data-part="banana2" data-name="바나나" d="M88 214 Q96 132 188 88 Q214 78 230 90 Q180 116 156 168 Q142 198 116 220 Q98 224 88 214 Z" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <path class="part" data-part="tip1" data-name="꼭지" d="M226 66 Q240 60 246 70 Q242 80 230 76 Z" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <path class="part" data-part="tip2" data-name="꼭지" d="M230 90 Q244 84 250 94 Q246 104 234 100 Z" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <g class="fixed">
+          <path d="M86 196 Q108 150 132 122 M108 208 Q130 166 152 138" stroke="#3D2B1F" stroke-width="3" opacity="0.3" fill="none" />
+        </g>
+      </svg>

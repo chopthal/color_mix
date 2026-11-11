@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 1688" width="780" height="1688">
+  <defs>
+    <linearGradient id="nWater" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#7CC6FE"/>
+      <stop offset="40%" stop-color="#3BA4E6"/>
+      <stop offset="75%" stop-color="#2B7FBF"/>
+      <stop offset="100%" stop-color="#1A5F96"/>
+    </linearGradient>
+    <linearGradient id="nSand" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F5D9A0"/>
+      <stop offset="100%" stop-color="#D4B06E"/>
+    </linearGradient>
+  </defs>
+  <rect width="780" height="1688" fill="url(#nWater)"/>
+  <!-- bright upper band -->
+  <rect y="0" width="780" height="280" fill="#B8E4FE" opacity="0.35"/>
+  <!-- clear water shimmer -->
+  <ellipse cx="390" cy="360" rx="260" ry="80" fill="#FFFFFF" opacity="0.08"/>
+  <!-- side coral / seaweed -->
+  <path d="M30 1050 Q80 920 40 780 Q100 900 90 1080 Q70 1300 30 1500" fill="#3FA34D" opacity="0.4"/>
+  <path d="M110 1180 Q140 1040 120 900 Q170 1020 150 1200 Q130 1400 110 1540" fill="#FF6B81" opacity="0.18"/>
+  <path d="M750 1020 Q700 900 740 760 Q680 880 690 1060 Q710 1280 750 1480" fill="#3FA34D" opacity="0.4"/>
+  <path d="M670 1160 Q640 1020 660 880 Q610 1000 630 1180 Q650 1380 670 1520" fill="#FF9F45" opacity="0.16"/>
+  <circle cx="90" cy="460" r="9" fill="#FFFFFF" opacity="0.22"/>
+  <circle cx="690" cy="500" r="7" fill="#FFFFFF" opacity="0.2"/>
+  <circle cx="140" cy="620" r="5" fill="#FFFFFF" opacity="0.18"/>
+  <path d="M0 1400 Q220 1340 390 1380 Q560 1420 780 1350 L780 1688 L0 1688 Z" fill="url(#nSand)"/>
+  <ellipse cx="240" cy="1500" rx="36" ry="10" fill="#B07A4F" opacity="0.14"/>
+  <ellipse cx="560" cy="1540" rx="44" ry="12" fill="#B07A4F" opacity="0.12"/>
+</svg>

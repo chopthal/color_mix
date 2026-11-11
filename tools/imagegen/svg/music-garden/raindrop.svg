@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 128" width="96" height="128" fill="none">
+  <!-- rounded teardrop (no sharp tip) -->
+  <path d="M48 18
+           C48 18 78 58 78 78
+           C78 98 64 110 48 110
+           C32 110 18 98 18 78
+           C18 58 48 18 48 18Z"
+        fill="#7CC6FE" stroke="#3D2B1F" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <!-- deeper water tip -->
+  <ellipse cx="48" cy="86" rx="18" ry="14" fill="#3BA4E6" opacity="0.45"/>
+  <!-- sparkle highlight -->
+  <ellipse cx="38" cy="58" rx="10" ry="14" fill="#FFFFFF" opacity="0.7"/>
+  <circle cx="58" cy="72" r="4" fill="#FFFFFF" opacity="0.55"/>
+</svg>

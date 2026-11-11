@@ -35,8 +35,9 @@ body {
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  /* 아래쪽은 KidsKit '쉬자' 버튼(오른쪽 아래 고정) 자리만큼 비워 둔다 */
   padding: max(10px, env(safe-area-inset-top)) max(10px, env(safe-area-inset-right))
-    max(12px, env(safe-area-inset-bottom)) max(10px, env(safe-area-inset-left));
+    calc(80px + env(safe-area-inset-bottom)) max(10px, env(safe-area-inset-left));
 }
 
 button {
@@ -138,6 +139,12 @@ button {
   gap: 12px;
 }
 
+#screenPicker.has-asset {
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+}
+
 .cat-tabs {
   flex-shrink: 0;
   display: flex;
@@ -186,6 +193,9 @@ button {
   overflow-y: auto;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
+  /* 행 높이는 카드 내용이 정한다 — 보드 비율이 찌그러지지 않도록 고정 높이에 눌리지 않게 한다 */
+  grid-auto-rows: min-content;
+  align-content: start;
   gap: 12px;
   padding-bottom: 4px;
   scrollbar-width: none;
@@ -231,8 +241,23 @@ button {
   filter: drop-shadow(0 4px 4px rgba(0, 0, 0, 0.12));
 }
 
+.vehicle-card__preview {
+  width: 100%;
+  /* 보드 좌표계(16:10)와 같은 비율을 유지한다 — 높이를 고정하면 차가 납작하게 찌그러진다 */
+  height: auto;
+  aspect-ratio: 16 / 10;
+  flex: 0 0 auto;
+  pointer-events: none;
+}
+
+.vehicle-card__preview.has-asset {
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
 .vehicle-card__name {
-  font-size: clamp(15px, 3.6vw, 20px);
+  font-size: clamp(13px, 3.2vw, 17px);
   color: #233547;
   text-align: center;
 }
@@ -259,36 +284,44 @@ button {
 .picker-actions {
   flex-shrink: 0;
   display: flex;
-  gap: 10px;
+  flex-wrap: nowrap;
+  gap: 8px;
+  margin-top: 10px;
 }
 
 .shelf-btn {
   flex: 1;
+  min-width: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 5px;
   background: linear-gradient(135deg, #ffd166, #f9a826);
   color: #7c4a03;
-  font-size: 18px;
+  font-size: clamp(14px, 3.7vw, 18px);
   font-weight: 700;
-  padding: 12px;
+  padding: 12px 6px;
   border-radius: 999px;
+  white-space: nowrap;
+  overflow: hidden;
   box-shadow: 0 5px 0 #d9880f, 0 8px 16px rgba(217, 136, 15, 0.28);
 }
 
 .free-btn {
   flex: 1;
+  min-width: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 5px;
   background: linear-gradient(135deg, #c4b5fd, #7c3aed);
   color: #ffffff;
-  font-size: 18px;
+  font-size: clamp(14px, 3.7vw, 18px);
   font-weight: 700;
-  padding: 12px;
+  padding: 12px 6px;
   border-radius: 999px;
+  white-space: nowrap;
+  overflow: hidden;
   box-shadow: 0 5px 0 #5b21b6, 0 8px 16px rgba(124, 58, 237, 0.3);
 }
 
@@ -298,7 +331,7 @@ button {
 }
 
 .free-btn__icon {
-  font-size: 22px;
+  font-size: clamp(16px, 4.4vw, 22px);
 }
 
 .shelf-btn:active {
@@ -307,19 +340,20 @@ button {
 }
 
 .shelf-btn__icon {
-  font-size: 22px;
+  font-size: clamp(16px, 4.4vw, 22px);
 }
 
 .shelf-btn__count {
   background: #ffffff;
   color: #b45309;
-  min-width: 28px;
-  height: 28px;
+  min-width: 24px;
+  height: 24px;
   border-radius: 999px;
   display: grid;
   place-items: center;
-  font-size: 16px;
-  padding: 0 8px;
+  font-size: 14px;
+  padding: 0 5px;
+  flex-shrink: 0;
 }
 
 /* ── 공통: 조립 보드 ── */
@@ -856,6 +890,24 @@ button {
   z-index: 2;
 }
 
+.rock.has-asset {
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.rock.has-asset .rock__piece {
+  opacity: 0;
+}
+
+.rock.has-asset.is-breaking .rock__piece {
+  opacity: 1;
+}
+
+.rock.has-asset.is-breaking {
+  background-image: none !important;
+}
+
 .rock__piece {
   position: absolute;
   border-radius: 8px;
@@ -865,6 +917,57 @@ button {
     inset 0 3px 0 rgba(255, 255, 255, 0.28),
     0 3px 6px rgba(15, 23, 42, 0.18);
   transition: transform 0.5s ease, opacity 0.5s ease;
+}
+
+/* 탭마다 금이 가는 오버레이 (3탭 중 1·2단계) */
+.rock__crack {
+  position: absolute;
+  inset: 8% 12%;
+  z-index: 3;
+  pointer-events: none;
+  opacity: 0;
+  background:
+    linear-gradient(115deg, transparent 46%, rgba(15, 23, 42, 0.55) 48%, transparent 50%),
+    linear-gradient(55deg, transparent 42%, rgba(15, 23, 42, 0.45) 49%, transparent 52%),
+    linear-gradient(160deg, transparent 55%, rgba(15, 23, 42, 0.4) 57%, transparent 60%);
+  transition: opacity 0.2s ease;
+}
+
+.rock.is-crack-1 .rock__crack {
+  opacity: 0.55;
+}
+
+.rock.is-crack-2 .rock__crack {
+  opacity: 0.95;
+  background:
+    linear-gradient(115deg, transparent 44%, rgba(15, 23, 42, 0.7) 48%, transparent 52%),
+    linear-gradient(55deg, transparent 38%, rgba(15, 23, 42, 0.6) 49%, transparent 56%),
+    linear-gradient(160deg, transparent 50%, rgba(15, 23, 42, 0.55) 57%, transparent 64%),
+    linear-gradient(20deg, transparent 48%, rgba(15, 23, 42, 0.5) 50%, transparent 53%);
+}
+
+.rock.is-crack-1 .rock__piece:nth-child(3),
+.rock.is-crack-1 .rock__piece:nth-child(9) {
+  transform: translate(4px, -3px) rotate(6deg);
+  opacity: 0.85;
+}
+
+.rock.is-crack-2 .rock__piece:nth-child(3),
+.rock.is-crack-2 .rock__piece:nth-child(9),
+.rock.is-crack-2 .rock__piece:nth-child(6),
+.rock.is-crack-2 .rock__piece:nth-child(12) {
+  transform: translate(8px, -6px) rotate(12deg);
+  opacity: 0.7;
+}
+
+.rock.is-chip {
+  animation: rock-chip 0.28s ease;
+}
+
+@keyframes rock-chip {
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  30% { transform: scale(1.04) rotate(-3deg); }
+  60% { transform: scale(0.98) rotate(3deg); }
 }
 
 .rock.is-breaking {
@@ -992,6 +1095,13 @@ button {
   position: absolute;
   inset: 0;
   pointer-events: none;
+}
+
+.flame.has-asset {
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: transparent;
 }
 
 .flame {
@@ -1285,6 +1395,8 @@ button {
   overflow-y: auto;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-auto-rows: min-content;
+  align-content: start;
   gap: 12px;
   padding: 4px 2px 8px;
   scrollbar-width: none;
@@ -1314,6 +1426,10 @@ button {
   font-size: clamp(13px, 3.2vw, 17px);
   color: #475569;
   text-align: center;
+}
+
+.shelf-card .mini-board {
+  flex: 0 0 auto;
 }
 
 .shelf-empty {
@@ -1460,6 +1576,454 @@ button {
   filter: brightness(1.08);
 }
 
+/* 차체 실루엣 변별 */
+.brick[data-body='bike'] {
+  border-radius: 18px;
+}
+.brick[data-body='bus'],
+.brick[data-body='long'] {
+  border-radius: 10px;
+}
+.brick[data-body='tank'] {
+  border-radius: 40px;
+}
+.brick[data-body='van'],
+.brick[data-body='tall'] {
+  border-radius: 8px 8px 12px 12px;
+}
+.brick[data-body='crawler'],
+.brick[data-body='roller'] {
+  border-radius: 6px;
+}
+.brick--slim {
+  box-shadow: inset 0 0 0 3px rgba(255, 255, 255, 0.35);
+}
+.brick__stripe {
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  top: 38%;
+  height: 22%;
+  border-radius: 6px;
+  background: var(--trim-color, #fff);
+  opacity: 0.85;
+  pointer-events: none;
+}
+.brick__tank {
+  position: absolute;
+  left: 18%;
+  right: 18%;
+  top: 8%;
+  height: 70%;
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.05));
+  box-shadow: inset 0 0 0 3px rgba(15, 23, 42, 0.12);
+  pointer-events: none;
+}
+
+/* 오늘의 출동 카드 */
+.today-card {
+  display: grid;
+  grid-template-columns: 96px 1fr auto;
+  grid-template-rows: auto auto;
+  gap: 4px 10px;
+  align-items: center;
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto 10px;
+  padding: 10px 12px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #fff7ed, #e0f2fe);
+  border: 3px solid var(--card-color, #fb923c);
+  box-shadow: var(--shadow-card);
+  cursor: pointer;
+}
+.today-card[hidden] { display: none; }
+.today-card__label {
+  grid-column: 1 / -1;
+  font-size: 13px;
+  color: #9a3412;
+  font-weight: 700;
+}
+.today-card__board {
+  grid-row: 2;
+  height: auto;
+  aspect-ratio: 16 / 10;
+  flex: 0 0 auto;
+  pointer-events: none;
+}
+.today-card__name {
+  grid-row: 2;
+  font-size: 16px;
+  font-weight: 700;
+}
+.today-card__go {
+  grid-row: 2;
+  background: #fb923c;
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 999px;
+  font-size: 14px;
+  white-space: nowrap;
+}
+.today-card:active { transform: scale(0.98); }
+
+.picker-actions {
+  flex-wrap: nowrap;
+}
+
+/* 출동 배경 변주 */
+.city--day {
+  background: linear-gradient(180deg, #7dd3fc 0%, #bae6fd 45%, #fef9c3 100%);
+}
+.city--sunset {
+  background: linear-gradient(180deg, #fdba74 0%, #fda4af 40%, #fde68a 100%);
+}
+.city--park {
+  background: linear-gradient(180deg, #86efac 0%, #bbf7d0 40%, #fef08a 100%);
+}
+.city.has-asset {
+  background-size: cover;
+  background-position: center;
+}
+
+.city.has-asset .city__sun,
+.city.has-asset .city__buildings {
+  opacity: 0;
+}
+.fire-building--house {
+  width: 42%;
+  border-radius: 12px 12px 4px 4px;
+}
+.fire-building--shed {
+  width: 36%;
+  background: #a16207;
+}
+.pour-hole--plaza {
+  border-color: #c4b5fd;
+  background: #ede9fe;
+}
+.pour-hole--yard {
+  border-color: #86efac;
+  background: #dcfce7;
+}
+
+/* 세차 */
+.wash-root {
+  flex: 1;
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
+  overflow: auto;
+  padding-bottom: 8px;
+}
+.wash-header { text-align: center; margin-bottom: 10px; }
+.wash-title { font-size: 22px; color: #1e3a8a; }
+.wash-guide-pill {
+  display: inline-block;
+  background: #fff;
+  color: #0369a1;
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 700;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+  margin-top: 6px;
+}
+.wash-bay-scene {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  align-items: center;
+}
+.wash-car-platform {
+  width: 100%;
+  max-width: 520px;
+  height: 240px;
+  background: linear-gradient(180deg, #e0f2fe 0%, #bae6fd 60%, #94a3b8 100%);
+  border-radius: var(--radius-lg);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+  cursor: pointer;
+  border: 4px solid #fff;
+}
+
+.wash-car-platform.has-asset {
+  background-size: cover;
+  background-position: center;
+}
+.wash-vehicle-board {
+  width: 78%;
+  height: 58%;
+  position: relative;
+  z-index: 1;
+  pointer-events: none;
+}
+.dirt-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  transition: opacity 0.4s ease;
+}
+.dirt-visible { opacity: 0.95; }
+.dirt-fading { opacity: 0.3; }
+.dirt-clean { opacity: 0; }
+.dirt-spot {
+  position: absolute;
+  font-size: 34px;
+  filter: blur(1px);
+}
+.spot-1 { top: 35%; left: 30%; }
+.spot-2 { top: 50%; left: 55%; }
+.spot-3 { top: 38%; left: 68%; }
+.spot-4 { top: 60%; left: 35%; }
+.soap-bubble-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 3;
+}
+.soap-bubble {
+  position: absolute;
+  font-size: 28px;
+  animation: wash-bubble 1.2s infinite alternate ease-in-out;
+}
+@keyframes wash-bubble {
+  from { transform: translateY(0); }
+  to { transform: translateY(-8px); }
+}
+.wash-shine {
+  position: absolute;
+  inset: 18% 10%;
+  display: grid;
+  place-items: center;
+  font-size: 36px;
+  z-index: 4;
+  pointer-events: none;
+  animation: brick-pop 0.8s ease;
+}
+.wash-toolbox {
+  width: 100%;
+  max-width: 420px;
+  display: flex;
+  justify-content: center;
+}
+.wash-tool-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 64px;
+  padding: 12px 22px;
+  border-radius: 999px;
+  background: #38bdf8;
+  color: #0c4a6e;
+  font-size: 18px;
+  font-weight: 700;
+  box-shadow: 0 8px 16px rgba(14, 165, 233, 0.35);
+}
+.wash-tool-btn--done { background: #fbbf24; color: #78350f; }
+.wash-tool-btn .tool-emoji { font-size: 28px; }
+.wash-tool-btn:active { transform: scale(0.96); }
+
+/* 선반 반김: 그림은 글자와 겹치지 않는 전용 칸에 contain으로 담는다 */
+.welcome-banner__art {
+  width: 110px;
+  height: 72px;
+  flex: 0 0 auto;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.welcome-banner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto 10px;
+  padding: 10px 14px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, #fef3c7, #dbeafe);
+  box-shadow: var(--shadow-card);
+}
+.welcome-banner[hidden] { display: none; }
+.welcome-banner__board {
+  width: 110px;
+  height: 64px;
+  flex-shrink: 0;
+}
+.welcome-banner__text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 15px;
+}
+.welcome-banner.is-wave .welcome-banner__board,
+.welcome-banner.is-wave .welcome-banner__art {
+  animation: welcome-wave 1.4s ease-in-out infinite;
+}
+@keyframes welcome-wave {
+  0%, 100% { transform: rotate(-3deg) translateY(0); }
+  50% { transform: rotate(3deg) translateY(-4px); }
+}
+.shelf-card.is-welcome {
+  outline: 3px solid #fbbf24;
+  box-shadow: 0 0 0 4px rgba(251, 191, 36, 0.25);
+}
+
+/* 열린 도감 */
+.catalog-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-auto-rows: min-content;
+  align-content: start;
+  gap: 10px;
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
+  overflow: auto;
+  padding-bottom: 12px;
+  flex: 1;
+}
+.catalog-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: center;
+  padding: 10px;
+  border-radius: 18px;
+  background: #fff;
+  border: 3px solid var(--card-color, #93c5fd);
+  box-shadow: var(--shadow-card);
+  min-height: 120px;
+}
+.catalog-card .mini-board {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 10;
+  flex: 0 0 auto;
+  pointer-events: none;
+}
+.catalog-card__name {
+  font-size: 13px;
+  font-weight: 700;
+  text-align: center;
+}
+.catalog-card__speak {
+  font-size: 12px;
+  color: #0369a1;
+}
+.catalog-card:active { transform: scale(0.97); }
+.catalog-detail {
+  position: absolute;
+  inset: 8% 6% auto;
+  z-index: 20;
+  background: #fff;
+  border-radius: 24px;
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.22);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  max-width: 520px;
+  margin: 0 auto;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(92%, 520px);
+}
+.catalog-detail[hidden] { display: none; }
+.catalog-detail__board {
+  width: 100%;
+  height: 140px;
+  position: relative;
+}
+.catalog-detail__voice {
+  font-size: 15px;
+  text-align: center;
+  color: #334155;
+  line-height: 1.35;
+}
+.catalog-detail__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+.catalog-detail__actions .btn-pill {
+  flex: 0 1 auto;
+  padding: 12px 12px;
+  font-size: clamp(15px, 4vw, 20px);
+  white-space: nowrap;
+}
+
+.drive-actions {
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+#screenCatalog,
+#screenWash {
+  position: relative;
+}
+
+/* 가로/넓은 화면: 세로 여백이 아까우니 아래 띠 대신 오른쪽으로 '쉬자' 버튼 자리를 비켜 준다 */
+@media (orientation: landscape) and (max-height: 560px) {
+  body {
+    padding-bottom: max(12px, env(safe-area-inset-bottom));
+  }
+
+  .picker-actions,
+  .free-actions,
+  .drive-actions,
+  .catalog-detail__actions,
+  .dispatch-btn,
+  .conveyor {
+    margin-right: 84px;
+  }
+
+  /* 스크롤 그리드는 '쉬자' 버튼이 덮는 오른쪽 띠를 비워 둔다 */
+  .picker-grid,
+  .shelf,
+  .catalog-grid {
+    padding-right: 84px;
+  }
+
+  /* 가로 화면은 세로가 짧아 '오늘의 출동' 카드를 접고 차 그리드에 자리를 준다 */
+  #todayCard {
+    display: none;
+  }
+
+  /* 가로 화면에서는 높이 기준으로 보드를 줄여 아래 컨베이어와 겹치지 않게 한다 */
+  .board {
+    width: auto;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    flex: 0 0 auto;
+  }
+
+  /* 가로 화면은 세로가 짧아 카드가 화면을 다 먹지 않게 미리보기 높이만 캡한다 (보드 비율은 유지) */
+  .vehicle-card__preview,
+  .shelf-card .mini-board,
+  .catalog-card .mini-board {
+    width: auto;
+    height: 72px;
+    flex: 0 0 auto;
+    align-self: center;
+  }
+
+  #screenPicker .picker-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
 /* 데스크톱 */
 @media (min-width: 640px) {
   .picker-grid {
@@ -1467,6 +2031,10 @@ button {
   }
 
   .shelf {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .catalog-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }

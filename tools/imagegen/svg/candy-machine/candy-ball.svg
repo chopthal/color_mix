@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192" width="192" height="192" fill="none">
+  <!-- watermelon hard candy ball: green rind, pink center hint -->
+  <circle cx="96" cy="96" r="74" fill="#7BD389" stroke="#3D2B1F" stroke-width="8" stroke-linejoin="round"/>
+  <circle cx="96" cy="96" r="54" fill="#6EE7B7" stroke="#3D2B1F" stroke-width="6"/>
+  <circle cx="96" cy="96" r="36" fill="#FF6B81" stroke="#3D2B1F" stroke-width="6"/>
+  <circle cx="96" cy="96" r="16" fill="#FFB3C1"/>
+  <!-- rind dashes -->
+  <g stroke="#3FA34D" stroke-width="5" stroke-linecap="round" opacity="0.55">
+    <line x1="96" y1="28" x2="96" y2="42"/>
+    <line x1="148" y1="48" x2="138" y2="58"/>
+    <line x1="160" y1="96" x2="146" y2="96"/>
+    <line x1="148" y1="144" x2="138" y2="134"/>
+    <line x1="96" y1="164" x2="96" y2="150"/>
+    <line x1="44" y1="144" x2="54" y2="134"/>
+    <line x1="32" y1="96" x2="46" y2="96"/>
+    <line x1="44" y1="48" x2="54" y2="58"/>
+  </g>
+  <ellipse cx="70" cy="70" rx="16" ry="12" fill="#FFF6E5" opacity="0.6"/>
+</svg>

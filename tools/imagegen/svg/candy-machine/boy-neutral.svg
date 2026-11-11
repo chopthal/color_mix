@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 384" width="384" height="384" fill="none">
+  <!-- cute boy head, gentle smile -->
+  <ellipse cx="192" cy="350" rx="78" ry="16" fill="#3D2B1F" opacity="0.12"/>
+  <!-- hair back -->
+  <ellipse cx="192" cy="168" rx="128" ry="120" fill="#B07A4F" stroke="#3D2B1F" stroke-width="15" stroke-linejoin="round"/>
+  <!-- face -->
+  <circle cx="192" cy="200" r="118" fill="#FFD8B0" stroke="#3D2B1F" stroke-width="15"/>
+  <ellipse cx="150" cy="160" rx="36" ry="22" fill="#FFF6E5" opacity="0.55"/>
+  <!-- bangs -->
+  <path d="M90 175 C95 95 145 78 192 78 C245 78 290 100 294 175 C275 125 235 118 192 118 C148 118 110 128 90 175 Z"
+        fill="#B07A4F" stroke="#3D2B1F" stroke-width="15" stroke-linejoin="round" stroke-linecap="round"/>
+  <ellipse cx="132" cy="118" rx="34" ry="28" fill="#B07A4F" stroke="#3D2B1F" stroke-width="12" stroke-linejoin="round"/>
+  <ellipse cx="252" cy="118" rx="34" ry="28" fill="#B07A4F" stroke="#3D2B1F" stroke-width="12" stroke-linejoin="round"/>
+  <!-- eyes lower on face -->
+  <ellipse cx="152" cy="210" rx="14" ry="18" fill="#3D2B1F"/>
+  <ellipse cx="232" cy="210" rx="14" ry="18" fill="#3D2B1F"/>
+  <circle cx="156" cy="204" r="5" fill="#FFFFFF"/>
+  <circle cx="236" cy="204" r="5" fill="#FFFFFF"/>
+  <!-- blush -->
+  <circle cx="118" cy="240" r="22" fill="#FFB3C1" opacity="0.5"/>
+  <circle cx="266" cy="240" r="22" fill="#FFB3C1" opacity="0.5"/>
+  <!-- gentle smile -->
+  <path d="M168 258 Q192 278 216 258" stroke="#3D2B1F" stroke-width="10" stroke-linecap="round" fill="none"/>
+</svg>

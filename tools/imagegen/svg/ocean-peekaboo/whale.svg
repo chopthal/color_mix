@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 192" fill="none">
+  <ellipse cx="170" cy="178" rx="90" ry="12" fill="#3D2B1F" opacity="0.12"/>
+  <!-- spout bubbles -->
+  <circle cx="248" cy="36" r="10" fill="#7CC6FE" stroke="#3D2B1F" stroke-width="5" opacity="0.85"/>
+  <circle cx="268" cy="22" r="7" fill="#7CC6FE" stroke="#3D2B1F" stroke-width="4" opacity="0.7"/>
+  <circle cx="282" cy="12" r="5" fill="#7CC6FE" stroke="#3D2B1F" stroke-width="3" opacity="0.55"/>
+  <ellipse cx="246" cy="32" rx="4" ry="3" fill="#FFF6E5" opacity="0.55"/>
+  <!-- tail (left) -->
+  <path d="M48 100 C18 70, 8 60, 22 48 C36 56, 42 72, 48 88 Z" fill="#3BA4E6" stroke="#3D2B1F" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M48 108 C14 130, 6 148, 24 156 C38 146, 44 128, 50 114 Z" fill="#3BA4E6" stroke="#3D2B1F" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"/>
+  <!-- body facing right -->
+  <ellipse cx="170" cy="110" rx="118" ry="52" fill="#3BA4E6" stroke="#3D2B1F" stroke-width="8" stroke-linejoin="round"/>
+  <!-- belly -->
+  <ellipse cx="178" cy="124" rx="78" ry="28" fill="#FFF6E5" stroke="#3D2B1F" stroke-width="5" stroke-linejoin="round"/>
+  <!-- fin -->
+  <path d="M150 78 C158 42, 196 38, 200 72 C180 70, 164 74, 150 78 Z" fill="#7CC6FE" stroke="#3D2B1F" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"/>
+  <ellipse cx="172" cy="58" rx="10" ry="6" fill="#FFF6E5" opacity="0.55"/>
+  <!-- body highlight -->
+  <ellipse cx="130" cy="88" rx="36" ry="18" fill="#FFF6E5" opacity="0.5"/>
+  <!-- eye (lower on face, near head/right) -->
+  <ellipse cx="248" cy="104" rx="9" ry="11" fill="#3D2B1F"/>
+  <circle cx="251" cy="100" r="3" fill="#FFFFFF"/>
+  <!-- blush -->
+  <circle cx="236" cy="120" r="9" fill="#FFB3C1" opacity="0.5"/>
+  <!-- smile -->
+  <path d="M230 128 Q248 140 266 126" stroke="#3D2B1F" stroke-width="5" stroke-linecap="round" fill="none"/>
+  <!-- tiny pectoral -->
+  <ellipse cx="200" cy="148" rx="28" ry="12" fill="#7CC6FE" stroke="#3D2B1F" stroke-width="6" stroke-linejoin="round" transform="rotate(-12 200 148)"/>
+</svg>

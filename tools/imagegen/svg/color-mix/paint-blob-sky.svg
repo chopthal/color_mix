@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192" fill="none">
+  <!-- Soft cloud puff silhouette - white fill for multiply tint -->
+  <path d="M48 118
+           C28 118 22 96 40 86
+           C30 68 50 52 70 60
+           C76 40 108 36 122 56
+           C140 44 168 58 164 82
+           C182 88 180 118 156 120
+           C160 140 136 152 112 146
+           C100 160 68 158 58 140
+           C38 144 32 128 48 118Z"
+        fill="#FFFFFF" stroke="#3D2B1F" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"/>
+  <!-- Highlight puffs -->
+  <ellipse cx="72" cy="78" rx="16" ry="12" fill="#E8E8E8" opacity="0.65"/>
+  <ellipse cx="118" cy="72" rx="12" ry="9" fill="#E8E8E8" opacity="0.55"/>
+</svg>

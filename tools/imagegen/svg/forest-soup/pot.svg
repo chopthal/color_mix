@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <!-- top-down clay pot; palette cocoa/cream/ink -->
+  <ellipse cx="256" cy="478" rx="160" ry="20" fill="#3D2B1F" opacity="0.12"/>
+  <ellipse cx="46" cy="256" rx="40" ry="36" fill="#B07A4F" stroke="#3D2B1F" stroke-width="20" stroke-linejoin="round"/>
+  <ellipse cx="46" cy="256" rx="15" ry="13" fill="#FFF6E5" opacity="0.45"/>
+  <ellipse cx="466" cy="256" rx="40" ry="36" fill="#B07A4F" stroke="#3D2B1F" stroke-width="20" stroke-linejoin="round"/>
+  <ellipse cx="466" cy="256" rx="15" ry="13" fill="#FFF6E5" opacity="0.45"/>
+  <path fill-rule="evenodd" fill="#B07A4F" stroke="#3D2B1F" stroke-width="20" stroke-linejoin="round"
+        d="M256 36c121.5 0 220 98.5 220 220S377.5 476 256 476 36 377.5 36 256 134.5 36 256 36zm0 92c71 0 128 57 128 128s-57 128-128 128-128-57-128-128 57-128 128-128z"/>
+  <path fill-rule="evenodd" fill="#C48B5A"
+        d="M256 64c106 0 192 86 192 192S362 448 256 448 64 362 64 256 150 64 256 64zm0 78c63 0 114 51 114 114s-51 114-114 114-114-51-114-114 51-114 114-114z"/>
+  <circle cx="256" cy="256" r="128" fill="none" stroke="#3D2B1F" stroke-width="14"/>
+  <ellipse cx="170" cy="120" rx="70" ry="32" fill="#FFF6E5" opacity="0.55"/>
+</svg>

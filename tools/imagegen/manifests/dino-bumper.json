@@ -1,0 +1,155 @@
+{
+  "items": [
+    {
+      "name": "dino",
+      "width": 256,
+      "height": 256,
+      "refs": [],
+      "variants": [
+        {
+          "name": "dino-giga",
+          "outPath": "games/dino-bumper/assets/dino-giga.webp",
+          "prompt": "Cute round orange giganotosaurus dinosaur toy, big head tiny arms, friendly smile, three-quarter front view, centered."
+        },
+        {
+          "name": "dino-spino",
+          "outPath": "games/dino-bumper/assets/dino-spino.webp",
+          "prompt": "Cute round blue spinosaurus dinosaur toy with soft sail on back and webbed feet, friendly smile, three-quarter front view, centered."
+        },
+        {
+          "name": "dino-trex",
+          "outPath": "games/dino-bumper/assets/dino-trex.webp",
+          "prompt": "Cute round red-orange t-rex dinosaur toy, big head tiny arms, friendly smile, three-quarter front view, centered."
+        },
+        {
+          "name": "dino-trike",
+          "outPath": "games/dino-bumper/assets/dino-trike.webp",
+          "prompt": "Cute round green triceratops dinosaur toy with soft frill and three rounded horns, friendly smile, three-quarter front view, centered."
+        },
+        {
+          "name": "dino-anky",
+          "outPath": "games/dino-bumper/assets/dino-anky.webp",
+          "prompt": "Cute round brown ankylosaurus dinosaur toy with club tail and soft back plates, friendly smile, three-quarter front view, centered."
+        },
+        {
+          "name": "dino-pachy",
+          "outPath": "games/dino-bumper/assets/dino-pachy.webp",
+          "prompt": "Cute round purple pachycephalosaurus dinosaur toy with soft dome head, friendly smile, three-quarter front view, centered."
+        },
+        {
+          "name": "dino-brachio",
+          "outPath": "games/dino-bumper/assets/dino-brachio.webp",
+          "prompt": "Cute round teal brachiosaurus dinosaur toy with long neck and long tail, friendly smile, three-quarter front view, centered."
+        },
+        {
+          "name": "dino-theri",
+          "outPath": "games/dino-bumper/assets/dino-theri.webp",
+          "prompt": "Cute round pink therizinosaurus dinosaur toy with soft long claws and big belly, friendly smile, three-quarter front view, centered."
+        }
+      ]
+    },
+    {
+      "name": "snack",
+      "width": 128,
+      "height": 128,
+      "refs": [],
+      "variants": [
+        {
+          "name": "snack-0",
+          "outPath": "games/dino-bumper/assets/snack-0.webp",
+          "prompt": "Single cute round apple fruit icon for a kids game, simple silhouette, centered."
+        },
+        {
+          "name": "snack-1",
+          "outPath": "games/dino-bumper/assets/snack-1.webp",
+          "prompt": "Single cute round grape cluster fruit icon for a kids game, simple silhouette, centered."
+        },
+        {
+          "name": "snack-2",
+          "outPath": "games/dino-bumper/assets/snack-2.webp",
+          "prompt": "Single cute round orange fruit icon for a kids game, simple silhouette, centered."
+        },
+        {
+          "name": "snack-3",
+          "outPath": "games/dino-bumper/assets/snack-3.webp",
+          "prompt": "Single cute round strawberry fruit icon for a kids game, simple silhouette, centered."
+        },
+        {
+          "name": "snack-4",
+          "outPath": "games/dino-bumper/assets/snack-4.webp",
+          "prompt": "Single cute round lemon fruit icon for a kids game, simple silhouette, centered."
+        },
+        {
+          "name": "snack-5",
+          "outPath": "games/dino-bumper/assets/snack-5.webp",
+          "prompt": "Single cute round watermelon slice fruit icon for a kids game, simple silhouette, centered."
+        },
+        {
+          "name": "snack-6",
+          "outPath": "games/dino-bumper/assets/snack-6.webp",
+          "prompt": "Single cute round peach fruit icon for a kids game, simple silhouette, centered."
+        },
+        {
+          "name": "snack-7",
+          "outPath": "games/dino-bumper/assets/snack-7.webp",
+          "prompt": "Single cute round pear fruit icon for a kids game, simple silhouette, centered."
+        }
+      ]
+    },
+    {
+      "name": "golden-fruit",
+      "outPath": "games/dino-bumper/assets/golden-fruit.webp",
+      "prompt": "A big shiny golden fruit for kids bumper game, oval shape, soft glow, friendly sparkles, centered.",
+      "width": 256,
+      "height": 256,
+      "refs": []
+    },
+    {
+      "name": "prop-flower",
+      "outPath": "games/dino-bumper/assets/prop-flower.webp",
+      "prompt": "A single cute meadow flower with five soft petals and yellow center, kids toy style, centered.",
+      "width": 160,
+      "height": 160,
+      "refs": []
+    },
+    {
+      "name": "prop-wave",
+      "outPath": "games/dino-bumper/assets/prop-wave.webp",
+      "prompt": "Cute water ripple puddle with soft arcs, kids toy style, centered.",
+      "width": 160,
+      "height": 160,
+      "refs": []
+    },
+    {
+      "name": "prop-spark",
+      "outPath": "games/dino-bumper/assets/prop-spark.webp",
+      "prompt": "Cute icy sparkle cluster with soft snow glints, kids toy style, centered.",
+      "width": 160,
+      "height": 160,
+      "refs": []
+    },
+    {
+      "name": "arena",
+      "width": 512,
+      "height": 384,
+      "refs": [],
+      "variants": [
+        {
+          "name": "arena-meadow",
+          "outPath": "games/dino-bumper/assets/arena-meadow.webp",
+          "prompt": "Soft kids play arena meadow ground plate with gentle grass, empty of characters, top-down friendly view."
+        },
+        {
+          "name": "arena-river",
+          "outPath": "games/dino-bumper/assets/arena-river.webp",
+          "prompt": "Soft kids play arena riverside ground plate with gentle water tones, empty of characters, top-down friendly view."
+        },
+        {
+          "name": "arena-ice",
+          "outPath": "games/dino-bumper/assets/arena-ice.webp",
+          "prompt": "Soft kids play arena icy ground plate with pale blue sparkles, empty of characters, top-down friendly view."
+        }
+      ]
+    }
+  ]
+}

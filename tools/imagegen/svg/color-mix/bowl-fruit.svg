@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 320" fill="none">
+  <!-- Empty fruit basket bowl - Style A -->
+  <ellipse cx="256" cy="292" rx="150" ry="14" fill="#3D2B1F" opacity="0.12"/>
+  <!-- Outer basket body -->
+  <path d="M78 118
+           C78 118 92 250 256 250
+           C420 250 434 118 434 118
+           C434 118 400 96 256 96
+           C112 96 78 118 78 118Z"
+        fill="#B07A4F" stroke="#3D2B1F" stroke-width="13" stroke-linejoin="round" stroke-linecap="round"/>
+  <!-- Inner hollow (empty) -->
+  <ellipse cx="256" cy="128" rx="148" ry="42"
+           fill="#FFF6E5" stroke="#3D2B1F" stroke-width="13" stroke-linejoin="round"/>
+  <!-- Rim band -->
+  <path d="M96 118 C140 98 372 98 416 118"
+        fill="none" stroke="#3D2B1F" stroke-width="8" stroke-linecap="round" opacity="0.35"/>
+  <!-- Weave lines (soft) -->
+  <path d="M120 150 C170 170 340 170 392 150" fill="none" stroke="#8A5A36" stroke-width="6" stroke-linecap="round" opacity="0.45"/>
+  <path d="M132 180 C180 198 332 198 380 180" fill="none" stroke="#8A5A36" stroke-width="6" stroke-linecap="round" opacity="0.35"/>
+  <path d="M148 210 C190 224 322 224 364 210" fill="none" stroke="#8A5A36" stroke-width="5" stroke-linecap="round" opacity="0.28"/>
+  <!-- Vertical weave hints -->
+  <path d="M180 140 L168 230" fill="none" stroke="#8A5A36" stroke-width="5" stroke-linecap="round" opacity="0.3"/>
+  <path d="M256 136 L256 236" fill="none" stroke="#8A5A36" stroke-width="5" stroke-linecap="round" opacity="0.3"/>
+  <path d="M332 140 L344 230" fill="none" stroke="#8A5A36" stroke-width="5" stroke-linecap="round" opacity="0.3"/>
+  <!-- Highlight on rim -->
+  <ellipse cx="200" cy="108" rx="36" ry="10" fill="#FFF6E5" opacity="0.55"/>
+  <!-- Tiny leaf accent on rim (not fruit inside) -->
+  <ellipse cx="390" cy="112" rx="18" ry="10" fill="#7BD389" stroke="#3D2B1F" stroke-width="5" stroke-linejoin="round" transform="rotate(-20 390 112)"/>
+  <ellipse cx="390" cy="104" rx="8" ry="4" fill="#FFF6E5" opacity="0.5"/>
+</svg>

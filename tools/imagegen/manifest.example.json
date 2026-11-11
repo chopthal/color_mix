@@ -1,0 +1,139 @@
+{
+  "items": [
+    {
+      "name": "cloud",
+      "outPath": "games/music-garden/assets/cloud.webp",
+      "prompt": "A soft fluffy cartoon cloud character, gentle smile, round shapes, centered.",
+      "width": 256,
+      "height": 192,
+      "refs": []
+    },
+    {
+      "name": "cloud-tap",
+      "outPath": "games/music-garden/assets/cloud-tap.webp",
+      "prompt": "The same soft fluffy cartoon cloud, cheeks puffed as if saying 'tok', playful tap reaction, centered.",
+      "width": 256,
+      "height": 192,
+      "refs": []
+    },
+    {
+      "name": "raindrop",
+      "outPath": "games/music-garden/assets/raindrop.webp",
+      "prompt": "A single cute round raindrop with a tiny friendly sparkle, simple silhouette.",
+      "width": 96,
+      "height": 128,
+      "refs": []
+    },
+    {
+      "name": "plant",
+      "prompt": "A cute garden plant growth stage for a kids music garden game.",
+      "width": 192,
+      "height": 256,
+      "refs": [],
+      "variants": [
+        {
+          "name": "plant-seed",
+          "outPath": "games/music-garden/assets/plant-seed.webp",
+          "prompt": "Stage: tiny seed in a bit of soil, very simple."
+        },
+        {
+          "name": "plant-sprout",
+          "outPath": "games/music-garden/assets/plant-sprout.webp",
+          "prompt": "Stage: small sprout with two round leaves."
+        },
+        {
+          "name": "plant-stem",
+          "outPath": "games/music-garden/assets/plant-stem.webp",
+          "prompt": "Stage: taller stem with a few leaves, no flower yet."
+        },
+        {
+          "name": "plant-bud",
+          "outPath": "games/music-garden/assets/plant-bud.webp",
+          "prompt": "Stage: stem with a closed flower bud on top."
+        }
+      ]
+    },
+    {
+      "name": "flower",
+      "width": 192,
+      "height": 192,
+      "refs": [],
+      "variants": [
+        {
+          "name": "flower-red-bud",
+          "outPath": "games/music-garden/assets/flower-red-bud.webp",
+          "prompt": "Closed red flower bud, cute and round."
+        },
+        {
+          "name": "flower-red-bloom",
+          "outPath": "games/music-garden/assets/flower-red-bloom.webp",
+          "prompt": "Fully open red flower, big soft petals."
+        },
+        {
+          "name": "flower-orange-bud",
+          "outPath": "games/music-garden/assets/flower-orange-bud.webp",
+          "prompt": "Closed orange flower bud, cute and round."
+        },
+        {
+          "name": "flower-orange-bloom",
+          "outPath": "games/music-garden/assets/flower-orange-bloom.webp",
+          "prompt": "Fully open orange flower, big soft petals."
+        },
+        {
+          "name": "flower-yellow-bud",
+          "outPath": "games/music-garden/assets/flower-yellow-bud.webp",
+          "prompt": "Closed yellow flower bud, cute and round."
+        },
+        {
+          "name": "flower-yellow-bloom",
+          "outPath": "games/music-garden/assets/flower-yellow-bloom.webp",
+          "prompt": "Fully open yellow flower, big soft petals."
+        },
+        {
+          "name": "flower-blue-bud",
+          "outPath": "games/music-garden/assets/flower-blue-bud.webp",
+          "prompt": "Closed blue flower bud, cute and round."
+        },
+        {
+          "name": "flower-blue-bloom",
+          "outPath": "games/music-garden/assets/flower-blue-bloom.webp",
+          "prompt": "Fully open blue flower, big soft petals."
+        },
+        {
+          "name": "flower-purple-bud",
+          "outPath": "games/music-garden/assets/flower-purple-bud.webp",
+          "prompt": "Closed purple flower bud, cute and round."
+        },
+        {
+          "name": "flower-purple-bloom",
+          "outPath": "games/music-garden/assets/flower-purple-bloom.webp",
+          "prompt": "Fully open purple flower, big soft petals."
+        }
+      ]
+    },
+    {
+      "name": "sun",
+      "outPath": "games/music-garden/assets/sun.webp",
+      "prompt": "A friendly round sun with soft rays and a gentle smile, no sharp spikes.",
+      "width": 256,
+      "height": 256,
+      "refs": []
+    },
+    {
+      "name": "flowerbed",
+      "outPath": "games/music-garden/assets/flowerbed.webp",
+      "prompt": "A simple wooden flower bed planter box with soft soil, empty of plants, front view.",
+      "width": 384,
+      "height": 192,
+      "refs": []
+    },
+    {
+      "name": "note-particle",
+      "outPath": "games/music-garden/assets/note-particle.webp",
+      "prompt": "A single cute music note particle icon, rounded, no staff lines, tiny sparkle.",
+      "width": 96,
+      "height": 96,
+      "refs": []
+    }
+  ]
+}

@@ -1,0 +1,68 @@
+{
+  "items": [
+    {
+      "name": "diver",
+      "outPath": "games/ocean-peekaboo/assets/diver.webp",
+      "prompt": "A cute round child scuba diver facing forward, big helmet with clear visor, short teal wetsuit, friendly calm smile, small air tank, centered.",
+      "width": 192,
+      "height": 224,
+      "refs": []
+    },
+    {
+      "name": "turtle",
+      "outPath": "games/ocean-peekaboo/assets/turtle.webp",
+      "prompt": "A cute baby sea turtle helper character, round green shell, soft flippers, gentle smile, waving pose, centered.",
+      "width": 192,
+      "height": 176,
+      "refs": []
+    },
+    {
+      "name": "whale",
+      "outPath": "games/ocean-peekaboo/assets/whale.webp",
+      "prompt": "A cute baby whale swimming sideways, soft blue body, round eyes, happy gentle smile, tiny spout bubbles, centered.",
+      "width": 320,
+      "height": 192,
+      "refs": []
+    },
+    {
+      "name": "shark",
+      "outPath": "games/ocean-peekaboo/assets/shark.webp",
+      "prompt": "A cute sleepy shark swimming sideways, soft gray-blue body, closed sleepy eyes, tiny zzz marks, friendly not scary, rounded fins, centered.",
+      "width": 320,
+      "height": 176,
+      "refs": []
+    },
+    {
+      "name": "kelp",
+      "outPath": "games/ocean-peekaboo/assets/kelp.webp",
+      "prompt": "A cluster of soft green kelp seaweed fronds standing upright, simple kids hide-spot prop, rounded leaves, centered.",
+      "width": 192,
+      "height": 224,
+      "refs": []
+    },
+    {
+      "name": "coral",
+      "outPath": "games/ocean-peekaboo/assets/coral.webp",
+      "prompt": "A soft pink branching coral hide-spot prop, rounded tips, friendly and simple, centered.",
+      "width": 224,
+      "height": 208,
+      "refs": []
+    },
+    {
+      "name": "rock",
+      "outPath": "games/ocean-peekaboo/assets/rock.webp",
+      "prompt": "A smooth gray underwater rock hide-spot, rounded boulder shape, tiny soft speckles, centered.",
+      "width": 208,
+      "height": 176,
+      "refs": []
+    },
+    {
+      "name": "sea-bg",
+      "outPath": "games/ocean-peekaboo/assets/sea-bg.webp",
+      "prompt": "A soft underwater ocean background scene, gentle blue water gradient, faint light rays from above, sandy bottom, calm and bright, no characters.",
+      "width": 768,
+      "height": 1280,
+      "refs": []
+    }
+  ]
+}

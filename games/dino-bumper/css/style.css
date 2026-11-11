@@ -106,7 +106,8 @@ body {
 }
 
 .friend-chip[hidden],
-.basket-pill[hidden] {
+.basket-pill[hidden],
+.dex-strip[hidden] {
   display: none;
 }
 
@@ -161,7 +162,7 @@ body {
 .toast {
   position: absolute;
   left: 50%;
-  bottom: 22px;
+  bottom: max(72px, calc(22px + env(safe-area-inset-bottom)));
   z-index: 4;
   transform: translate(-50%, 16px);
   max-width: 90%;
@@ -181,7 +182,7 @@ body {
   transform: translate(-50%, 0);
 }
 
-/* ---------------- 선택 화면 ---------------- */
+/* ---------------- 선택 화면 (작은 폰 스크롤 부담↓) ---------------- */
 
 .select-screen {
   position: absolute;
@@ -189,7 +190,7 @@ body {
   z-index: 4;
   display: none;
   flex-direction: column;
-  padding: 14px 14px max(16px, env(safe-area-inset-bottom));
+  padding: 8px 10px 0;
   background: radial-gradient(circle at 50% 0%, #fffdf2 0%, #eaf7ff 55%, #dff1ff 100%);
   overflow: hidden;
 }
@@ -201,39 +202,59 @@ body {
 .select-head {
   flex: 0 0 auto;
   text-align: center;
-  margin: 2px 0 12px;
+  margin: 0 0 6px;
 }
 
 .select-head h2 {
-  font-size: clamp(21px, 5.6vw, 30px);
+  font-size: clamp(18px, 5vw, 26px);
   color: #2b4365;
 }
 
 .select-head p {
-  margin-top: 4px;
-  font-size: clamp(13px, 3.4vw, 16px);
+  margin-top: 2px;
+  font-size: clamp(12px, 3.2vw, 15px);
   color: #7a8fa6;
+}
+
+.dex-strip {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px;
+  margin-top: 6px;
+  max-height: 44px;
+  overflow: hidden;
+}
+
+.dex-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #fff7e8;
+  border: 2px solid #ffe0a3;
+  font-size: 13px;
+  line-height: 1.2;
+  color: #8a6a2b;
+}
+
+.select-scroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 4px;
 }
 
 .dino-grid {
   display: grid;
-  flex: 1 1 auto;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   align-content: start;
-  gap: 10px;
+  gap: 6px;
   width: 100%;
   max-width: 760px;
-  min-height: 0;
   margin: 0 auto;
-  padding-bottom: 4px;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-}
-
-@media (min-width: 720px) {
-  .dino-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
 }
 
 .dino-card {
@@ -241,12 +262,12 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1px;
-  min-height: 108px;
-  padding: 8px 6px 10px;
+  gap: 0;
+  min-height: 0;
+  padding: 4px 2px 6px;
   background: #ffffff;
   border: 3px solid #e3eef7;
-  border-radius: 20px;
+  border-radius: 16px;
   font-family: inherit;
   color: inherit;
   cursor: pointer;
@@ -259,61 +280,108 @@ body {
 
 .dino-card.is-selected {
   border-color: var(--dino, #f59e0b);
-  box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.22), 0 10px 20px rgba(80, 110, 140, 0.16);
-  transform: translateY(-2px);
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.22), 0 6px 12px rgba(80, 110, 140, 0.14);
+  transform: translateY(-1px);
 }
 
 .dino-card.is-selected::after {
   content: "✓";
   position: absolute;
-  top: 6px;
-  right: 8px;
-  width: 22px;
-  height: 22px;
+  top: 3px;
+  right: 4px;
+  width: 18px;
+  height: 18px;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
   background: var(--dino, #f59e0b);
   color: #ffffff;
-  font-size: 14px;
+  font-size: 11px;
 }
 
 .dino-thumb {
-  width: 62px;
-  height: 62px;
+  width: 48px;
+  height: 48px;
 }
 
 .dino-name {
-  font-size: 15px;
+  font-size: 12px;
   font-weight: 700;
+  line-height: 1.15;
+  text-align: center;
 }
 
 .dino-tag {
-  font-size: 11px;
+  display: none;
+  font-size: 10px;
   color: #8a9bad;
+  text-align: center;
+}
+
+@media (min-width: 520px) {
+  .dino-tag {
+    display: block;
+  }
+
+  .dino-thumb {
+    width: 56px;
+    height: 56px;
+  }
+
+  .dino-name {
+    font-size: 14px;
+  }
+
+  .dino-card {
+    padding: 6px 4px 8px;
+    border-radius: 18px;
+  }
+}
+
+@media (min-width: 720px) {
+  .dino-grid {
+    gap: 10px;
+  }
+
+  .dino-thumb {
+    width: 62px;
+    height: 62px;
+  }
+
+  .dino-name {
+    font-size: 15px;
+  }
+}
+
+.select-footer {
+  flex: 0 0 auto;
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 6px 0 max(10px, env(safe-area-inset-bottom));
+  background: linear-gradient(180deg, rgba(234, 247, 255, 0), #eaf7ff 28%);
 }
 
 .friend-pick {
   display: flex;
   align-items: center;
-  gap: 8px;
-  flex: 0 0 auto;
+  gap: 6px;
   width: 100%;
-  max-width: 760px;
-  margin: 10px auto 0;
+  margin: 0;
 }
 
-.friend-label {
+.friend-label,
+.arena-label {
   flex: 0 0 auto;
-  font-size: 14px;
+  font-size: 13px;
   color: #7a8fa6;
 }
 
 .friend-row {
   display: flex;
   flex: 1 1 auto;
-  gap: 8px;
+  gap: 6px;
   min-width: 0;
   padding: 2px;
   overflow-x: auto;
@@ -325,8 +393,8 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 54px;
-  height: 54px;
+  width: 44px;
+  height: 44px;
   padding: 0;
   background: #ffffff;
   border: 3px solid #e3eef7;
@@ -335,60 +403,57 @@ body {
 }
 
 .friend-btn canvas {
-  width: 46px;
-  height: 46px;
+  width: 38px;
+  height: 38px;
 }
 
 .friend-btn.is-selected {
   border-color: var(--dino, #f59e0b);
   box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.25);
-  transform: translateY(-2px);
+  transform: translateY(-1px);
 }
 
 .friend-btn.random {
   background: #fff7ed;
   border-color: #ffd8a8;
-  font-size: 22px;
+  font-size: 20px;
   font-family: inherit;
 }
 
 .arena-pick {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin: 14px auto 12px;
-}
-
-.arena-label {
-  font-size: 14px;
-  color: #7a8fa6;
+  justify-content: flex-start;
+  gap: 6px;
+  flex-wrap: nowrap;
+  margin: 8px 0 8px;
+  overflow-x: auto;
 }
 
 .arena-row {
   display: flex;
-  gap: 8px;
+  gap: 6px;
 }
 
 .arena-pill {
   display: flex;
   align-items: center;
-  gap: 5px;
-  padding: 8px 14px;
+  gap: 4px;
+  padding: 6px 12px;
   background: #ffffff;
   border: 3px solid #e3eef7;
-  border-radius: 18px;
+  border-radius: 16px;
   font-family: inherit;
-  font-size: 16px;
+  font-size: 14px;
   color: #4a6076;
   cursor: pointer;
+  white-space: nowrap;
 }
 
 .arena-pill.is-selected {
   border-color: #7cc7ff;
   background: #eaf7ff;
-  box-shadow: 0 4px 0 #bfe3fc;
+  box-shadow: 0 3px 0 #bfe3fc;
 }
 
 .start-btn {
@@ -396,23 +461,23 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 8px;
   width: 100%;
   max-width: 420px;
-  margin: 0 auto max(4px, env(safe-area-inset-bottom));
-  padding: 18px 24px;
+  margin: 0 auto;
+  padding: 14px 20px;
   border: none;
-  border-radius: 26px;
+  border-radius: 24px;
   font-family: inherit;
-  font-size: clamp(22px, 5.6vw, 28px);
+  font-size: clamp(20px, 5.2vw, 26px);
   color: #ffffff;
   background: linear-gradient(135deg, #ff8a3d, #ff5e62);
-  box-shadow: 0 8px 0 #d84343, 0 14px 24px rgba(216, 67, 67, 0.3);
+  box-shadow: 0 7px 0 #d84343, 0 12px 20px rgba(216, 67, 67, 0.28);
   cursor: pointer;
 }
 
 .start-btn:active {
-  transform: translateY(5px);
+  transform: translateY(4px);
   box-shadow: 0 3px 0 #d84343;
 }
 
@@ -529,5 +594,36 @@ body {
   .basket-pill.is-golden,
   .ending-dinos {
     animation: none;
+  }
+}
+
+/* 가로 모드: 선택 화면 더 납작하게 */
+@media (orientation: landscape) and (max-height: 480px) {
+  .select-head h2 {
+    font-size: 16px;
+  }
+
+  .select-head p,
+  .dex-strip {
+    display: none;
+  }
+
+  .dino-thumb {
+    width: 36px;
+    height: 36px;
+  }
+
+  .dino-name {
+    font-size: 11px;
+  }
+
+  .friend-btn {
+    width: 36px;
+    height: 36px;
+  }
+
+  .start-btn {
+    padding: 10px 16px;
+    font-size: 18px;
   }
 }

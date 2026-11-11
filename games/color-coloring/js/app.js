@@ -23,6 +23,28 @@
     made: 'cc-made-v1'
   };
 
+  /* 대표 20종: 선화 webp + SVG 파트 마스크. 나머지 30종은 SVG만. */
+  var OUTLINE_IDS = [
+    'car', 'bus', 'plane', 'firetruck',
+    'trex', 'triceratops', 'brachiosaurus', 'pteranodon',
+    'lion', 'elephant', 'rabbit', 'dog',
+    'apple', 'banana', 'icecream', 'cake',
+    'robot', 'castle', 'butterfly', 'flower'
+  ];
+  var OUTLINE_SET = {};
+  OUTLINE_IDS.forEach(function (id) { OUTLINE_SET[id] = true; });
+  var STAGE_ASSET_KEYS = ['stage-day', 'stage-night', 'stage-rainbow', 'frame-mat'];
+
+  var kitStore = (window.KidsKit && KidsKit.store)
+    ? KidsKit.store('color-coloring')
+    : null;
+  var assetImages = {};
+  var SESSION_SOFT_AT = 3;
+  var sessionCompletes = 0;
+  var softEndingShown = false;
+  var welcomeEntry = null;
+  var themeHintUsed = false;
+
   /* ───────── 저장소 ───────── */
   var storage = (function () {
     try {
@@ -246,6 +268,15 @@
   var galleryGrid = document.getElementById('galleryGrid');
   var galleryEmpty = document.getElementById('galleryEmpty');
   var toastEl = document.getElementById('toast');
+  var weatherBadge = document.getElementById('weatherBadge');
+  var weatherBurst = document.getElementById('weatherBurst');
+  var welcomeFrame = document.getElementById('welcomeFrame');
+  var welcomeMini = document.getElementById('welcomeMini');
+  var welcomeText = document.getElementById('welcomeText');
+  var frameMatImg = document.getElementById('frameMatImg');
+  var frameOverlay = document.getElementById('frameOverlay');
+  var frameOverlayMini = document.getElementById('frameOverlayMini');
+  var frameOverlayText = document.getElementById('frameOverlayText');
 
   var $ = function (sel, root) { return (root || document).querySelector(sel); };
   var $$ = function (sel, root) {
@@ -366,7 +397,11 @@
       playTone(f, 0.16, 'triangle', 0.13, i * 0.09);
     });
   }
-  function playError() { playTone(300, 0.12, 'square', 0.06); }
+  function playError() {
+    /* 마법붓 빈 상태 등: 거친 square 대신 부드러운 안내음 */
+    playTone(480, 0.11, 'sine', 0.07, 0, 360);
+    playTone(360, 0.14, 'triangle', 0.05, 0.06);
+  }
 
   function vibrate(pattern) {
     try {
@@ -501,7 +536,74 @@
     pickerScreen.classList.remove('hidden');
     renderPicker();
     updateProgress();
+    renderWelcomeFrame();
     playTap();
+  }
+
+  function findGalleryEntry(key) {
+    if (!key) return null;
+    for (var i = 0; i < gallery.length; i++) {
+      if (gallery[i].key === key) return gallery[i];
+    }
+    return null;
+  }
+
+  function latestGalleryEntry() {
+    if (kitStore) {
+      var keyed = findGalleryEntry(kitStore.get('lastArtworkKey', null));
+      if (keyed && OBJECT_MAP[keyed.objectId]) return keyed;
+    }
+    for (var i = 0; i < gallery.length; i++) {
+      if (gallery[i] && OBJECT_MAP[gallery[i].objectId] && gallery[i].state) {
+        return gallery[i];
+      }
+    }
+    return null;
+  }
+
+  function applyFrameMatImage() {
+    if (!frameMatImg) return;
+    var mat = assetImages['frame-mat'];
+    if (isUsableAsset(mat)) {
+      frameMatImg.src = mat.src;
+      frameMatImg.classList.remove('hidden');
+    } else {
+      frameMatImg.removeAttribute('src');
+      frameMatImg.classList.add('hidden');
+    }
+  }
+
+  function renderWelcomeFrame() {
+    if (!welcomeFrame || !welcomeMini) return;
+    welcomeEntry = latestGalleryEntry();
+    var visits = kitStore ? Number(kitStore.get('visits', 0)) || 0 : 0;
+    if (!welcomeEntry || visits < 1) {
+      welcomeFrame.classList.add('hidden');
+      return;
+    }
+    var obj = OBJECT_MAP[welcomeEntry.objectId];
+    if (!obj) {
+      welcomeFrame.classList.add('hidden');
+      return;
+    }
+    applyFrameMatImage();
+    welcomeMini.innerHTML = '';
+    welcomeMini.appendChild(buildMini(obj, welcomeEntry.state));
+    if (welcomeText) {
+      welcomeText.textContent = obj.emoji + ' ' + obj.name + ' 그림이 반겨 줘요!';
+    }
+    welcomeFrame.classList.remove('hidden');
+  }
+
+  function dismissWelcome() {
+    if (welcomeFrame) welcomeFrame.classList.add('hidden');
+    playTap();
+  }
+
+  function openWelcomeArtwork() {
+    if (!welcomeEntry) return;
+    playTap();
+    loadArtwork(welcomeEntry);
   }
 
   /* ───────── 화면: 색칠 ───────── */
@@ -525,10 +627,19 @@
     colorScreen.classList.remove('hidden');
 
     renderObject();
-    applyTheme();
+    applyTheme({ burst: !silent });
     renderStickers();
     switchTab('paint');
     updateBrushPreview();
+
+    if (!silent && !themeHintUsed) {
+      themeHintUsed = true;
+      var themeBtn = document.getElementById('themeBtn');
+      if (themeBtn) {
+        themeBtn.classList.add('theme-hint');
+        window.setTimeout(function () { themeBtn.classList.remove('theme-hint'); }, 3200);
+      }
+    }
 
     requestAnimationFrame(function () {
       sizeStage();
@@ -541,9 +652,37 @@
     }, 180);
   }
 
+  function outlineImageFor(objId) {
+    if (!OUTLINE_SET[objId]) return null;
+    var img = assetImages[objId + '-outline'];
+    return isUsableAsset(img) ? img : null;
+  }
+
   function renderObject() {
     if (!current) return;
-    objectHost.innerHTML = current.svg;
+    objectHost.innerHTML = '';
+
+    var stack = document.createElement('div');
+    stack.className = 'object-stack';
+
+    var paintLayer = document.createElement('div');
+    paintLayer.className = 'svg-paint-layer';
+    paintLayer.innerHTML = current.svg;
+    stack.appendChild(paintLayer);
+
+    var outlineImg = outlineImageFor(current.id);
+    if (outlineImg) {
+      stack.classList.add('has-outline');
+      var img = document.createElement('img');
+      img.className = 'outline-img';
+      img.alt = '';
+      img.draggable = false;
+      img.src = outlineImg.src;
+      stack.appendChild(img);
+    }
+
+    objectHost.appendChild(stack);
+
     var svg = objectHost.querySelector('svg');
     if (!svg) return;
     var defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
@@ -747,6 +886,46 @@
     speak(phrase);
     toast('🎉 완성! 정말 멋져요!');
     saveArtwork(true);
+    showFrameSticker();
+
+    sessionCompletes += 1;
+    maybeSoftEnding();
+  }
+
+  function showFrameSticker() {
+    if (!frameOverlay || !frameOverlayMini || !current || !state) return;
+    frameOverlayMini.innerHTML = '';
+    frameOverlayMini.appendChild(buildMini(current, state));
+    if (frameOverlayText) {
+      frameOverlayText.textContent = current.emoji + ' ' + current.name + ' 액자에 붙였어요!';
+    }
+    frameOverlay.classList.remove('hidden');
+    window.setTimeout(function () {
+      frameOverlay.classList.add('hidden');
+    }, 2200);
+  }
+
+  function maybeSoftEnding() {
+    if (softEndingShown) return;
+    if (sessionCompletes < SESSION_SOFT_AT) return;
+    if (!window.KidsKit || typeof KidsKit.softEnding !== 'function') return;
+    softEndingShown = true;
+    window.setTimeout(function () {
+      if (frameOverlay) frameOverlay.classList.add('hidden');
+      KidsKit.softEnding({
+        title: '오늘도 잘 칠했어!',
+        emoji: '🎨',
+        onAgain: function () {
+          softEndingShown = false;
+          sessionCompletes = 0;
+          showPicker();
+          toast('또 칠해 볼까요?');
+        },
+        onRest: function () {
+          window.location.href = '../../index.html';
+        }
+      });
+    }, 2400);
   }
 
   function spawnConfetti() {
@@ -769,9 +948,72 @@
   }
 
   /* ───────── 배경 테마 ───────── */
-  function applyTheme() {
+  function themeLabel(theme) {
+    if (theme === 'night') return '🌙 밤 무대';
+    if (theme === 'rainbow') return '🌈 무지개 무대';
+    return '☀️ 낮 무대';
+  }
+
+  function themeToast(theme) {
+    if (theme === 'night') return '🌙 밤이 되었어요! 반짝반짝';
+    if (theme === 'rainbow') return '🌈 무지개 세상이에요!';
+    return '☀️ 낮이 되었어요! 따뜻해요';
+  }
+
+  function updateWeatherBadge(theme, pop) {
+    if (!weatherBadge) return;
+    weatherBadge.textContent = themeLabel(theme || 'day');
+    if (pop) {
+      weatherBadge.classList.remove('pop');
+      void weatherBadge.offsetWidth;
+      weatherBadge.classList.add('pop');
+      window.setTimeout(function () { weatherBadge.classList.remove('pop'); }, 280);
+    }
+  }
+
+  function spawnWeatherBurst(theme) {
+    if (!weatherBurst) return;
+    weatherBurst.innerHTML = '';
+    var bits = theme === 'night'
+      ? ['⭐', '✨', '🌙', '🌟', '✨', '⭐', '💫', '✨']
+      : theme === 'rainbow'
+        ? ['🌈', '✨', '💛', '💗', '💚', '💙', '💜', '✨']
+        : ['☀️', '✨', '☁️', '💛', '🌤️', '✨', '☀️', '🌟'];
+    bits.forEach(function (emoji, i) {
+      var el = document.createElement('span');
+      el.className = 'burst-bit';
+      el.textContent = emoji;
+      var angle = (Math.PI * 2 * i) / bits.length;
+      var dist = 48 + (i % 3) * 22;
+      el.style.setProperty('--bx', Math.cos(angle) * dist + 'px');
+      el.style.setProperty('--by', Math.sin(angle) * dist - 10 + 'px');
+      el.style.animationDelay = (i * 0.03) + 's';
+      weatherBurst.appendChild(el);
+    });
+    window.setTimeout(function () { weatherBurst.innerHTML = ''; }, 1100);
+  }
+
+  function applyStageBackground(theme) {
+    if (!stage) return;
+    var key = 'stage-' + theme;
+    var img = assetImages[key];
+    if (isUsableAsset(img)) {
+      stage.style.backgroundImage = 'url("' + img.src + '")';
+      stage.classList.add('has-stage-img');
+    } else {
+      stage.style.backgroundImage = '';
+      stage.classList.remove('has-stage-img');
+    }
+  }
+
+  function applyTheme(opts) {
+    opts = opts || {};
+    var theme = (state && state.theme) || 'day';
     stage.classList.remove('theme-day', 'theme-night', 'theme-rainbow');
-    stage.classList.add('theme-' + ((state && state.theme) || 'day'));
+    stage.classList.add('theme-' + theme);
+    applyStageBackground(theme);
+    updateWeatherBadge(theme, !!opts.burst);
+    if (opts.burst) spawnWeatherBurst(theme);
   }
 
   function cycleTheme() {
@@ -781,16 +1023,19 @@
     history.push({ type: 'theme', prev: state.theme });
     trimHistory();
     state.theme = next;
-    applyTheme();
+    applyTheme({ burst: true });
     playWhoosh();
-    toast(next === 'day' ? '☀️ 낮이 되었어요!' : next === 'night' ? '🌙 밤이 되었어요!' : '🌈 무지개 세상!');
+    toast(themeToast(next));
+    speak(next === 'day' ? '낮 무대!' : next === 'night' ? '밤 무대!' : '무지개 무대!');
+    var themeBtn = document.getElementById('themeBtn');
+    if (themeBtn) themeBtn.classList.remove('theme-hint');
   }
 
   /* ───────── 되돌리기 / 지우기 ───────── */
   function undo() {
     var action = history.pop();
     if (!action) {
-      playError();
+      playTap();
       return;
     }
 
@@ -1246,11 +1491,28 @@
       key: 'g' + Date.now() + '_' + Math.floor(Math.random() * 1000),
       objectId: current.id,
       state: clone(state),
-      savedAt: Date.now()
+      savedAt: Date.now(),
+      auto: !!auto
     };
+
+    if (auto) {
+      /* 같은 그림의 이전 자동/레거시 저장 교체. 수동(auto:false)은 유지. */
+      gallery = gallery.filter(function (e) {
+        if (e.objectId !== current.id) return true;
+        if (e.auto === false) return true;
+        return false;
+      });
+    }
+
     gallery.unshift(entry);
     if (gallery.length > 40) gallery = gallery.slice(0, 40);
     saveJSON(STORE.gallery, gallery);
+
+    if (kitStore) {
+      kitStore.set('lastArtworkKey', entry.key);
+      kitStore.set('lastArtworkAt', entry.savedAt);
+    }
+
     if (!auto) {
       toast('💾 내 작품에 저장했어요!');
       playSuccess();
@@ -1267,10 +1529,31 @@
 
     var svg = wrap.querySelector('svg');
     if (svg && st && st.parts) {
+      // 갤러리 여러 미니가 한 DOM에 공존하므로 pattern id는 인스턴스별로 고유해야 함
+      var uid = 'm' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+      var defs = svg.querySelector('defs');
+      if (!defs) {
+        defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+        svg.insertBefore(defs, svg.firstChild);
+      }
+      var defsHTML = '';
+      Object.keys(st.parts).forEach(function (pid) {
+        var ps = st.parts[pid];
+        if (ps && ps.mode === 'pattern') {
+          defsHTML += patternDef('mini-pat-' + uid + '-' + pid, ps.pattern, ps.color);
+        }
+      });
+      defs.innerHTML = defsHTML;
+
       Object.keys(st.parts).forEach(function (pid) {
         var ps = st.parts[pid];
         var el = svg.querySelector('[data-part="' + pid + '"]');
-        if (el && ps) el.style.fill = ps.color;
+        if (!el || !ps) return;
+        if (ps.mode === 'pattern') {
+          el.style.fill = 'url(#mini-pat-' + uid + '-' + pid + ')';
+        } else {
+          el.style.fill = ps.color;
+        }
       });
     }
 
@@ -1417,6 +1700,16 @@
     document.getElementById('mixAgain').addEventListener('click', clearBowl);
     useMixed.addEventListener('click', applyMixedColor);
 
+    var welcomeOpen = document.getElementById('welcomeOpen');
+    var welcomeDismiss = document.getElementById('welcomeDismiss');
+    if (welcomeOpen) welcomeOpen.addEventListener('click', openWelcomeArtwork);
+    if (welcomeDismiss) welcomeDismiss.addEventListener('click', dismissWelcome);
+    if (frameOverlay) {
+      frameOverlay.addEventListener('click', function () {
+        frameOverlay.classList.add('hidden');
+      });
+    }
+
     stage.addEventListener('pointerdown', onStageDown);
 
     $$('button', toolTabs).forEach(function (btn) {
@@ -1473,6 +1766,55 @@
     }
   }
 
+  function collectAssetList() {
+    var list = [];
+    OUTLINE_IDS.forEach(function (id) {
+      list.push({ src: 'assets/' + id + '-outline.webp', key: id + '-outline' });
+    });
+    STAGE_ASSET_KEYS.forEach(function (key) {
+      list.push({ src: 'assets/' + key + '.webp', key: key });
+    });
+    return list;
+  }
+
+  function isUsableAsset(img) {
+    return !!(
+      img &&
+      img.dataset.kidsKitPlaceholder !== '1' &&
+      img.naturalWidth > 1 &&
+      img.naturalHeight > 1
+    );
+  }
+
+  function rememberAssets(result) {
+    assetImages = {};
+    if (!result || !result.images) return;
+    Object.keys(result.images).forEach(function (key) {
+      var img = result.images[key];
+      if (isUsableAsset(img)) assetImages[key] = img;
+    });
+  }
+
+  /* assets/slots.json 의 ready[] 에 있는 키만 preload (없으면 404 콘솔 소음 0) */
+  function loadReadyAssetList() {
+    return fetch('assets/slots.json', { cache: 'no-store' })
+      .then(function (res) {
+        if (!res.ok) return [];
+        return res.json();
+      })
+      .then(function (data) {
+        // 실제 요청 여부는 KidsKit이 assets/ready.json으로 판단 (목록에 없으면 placeholder → 폴백)
+        return collectAssetList();
+      })
+      .catch(function () { return []; });
+  }
+
+  function bumpVisit() {
+    if (!kitStore) return;
+    var visits = Number(kitStore.get('visits', 0)) || 0;
+    kitStore.set('visits', visits + 1);
+  }
+
   /* ───────── 시작 ───────── */
   function init() {
     buildBaseColors();
@@ -1486,6 +1828,40 @@
     renderMission();
     bindEvents();
     sizeStage();
+    updateWeatherBadge('day', false);
+
+    if (window.KidsKit && typeof KidsKit.restButton === 'function') {
+      KidsKit.restButton({
+        onRest: function () {
+          window.location.href = '../../index.html';
+        }
+      });
+    }
+
+    bumpVisit();
+
+    var startUi = function () {
+      renderWelcomeFrame();
+      applyFrameMatImage();
+    };
+
+    if (window.KidsKit && KidsKit.assets && typeof KidsKit.assets.preload === 'function') {
+      loadReadyAssetList().then(function (existing) {
+        if (!existing.length) {
+          rememberAssets({ images: {} });
+          startUi();
+          return null;
+        }
+        return KidsKit.assets.preload(existing).then(function (result) {
+          rememberAssets(result);
+          startUi();
+        });
+      }).catch(function () {
+        startUi();
+      });
+    } else {
+      startUi();
+    }
   }
 
   init();

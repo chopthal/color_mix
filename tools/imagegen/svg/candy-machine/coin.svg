@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192" width="192" height="192" fill="none">
+  <!-- shiny gold toy coin with soft star, no text -->
+  <circle cx="96" cy="96" r="78" fill="#E8A800" stroke="#3D2B1F" stroke-width="8" stroke-linejoin="round"/>
+  <circle cx="96" cy="96" r="66" fill="#FFC94A" stroke="#3D2B1F" stroke-width="6"/>
+  <circle cx="96" cy="96" r="52" fill="none" stroke="#E8A800" stroke-width="5" opacity="0.7"/>
+  <!-- soft star mark -->
+  <path d="M96 52 L106 78 L134 82 L112 100 L118 128 L96 114 L74 128 L80 100 L58 82 L86 78 Z"
+        fill="#FFF6E5" stroke="#3D2B1F" stroke-width="6" stroke-linejoin="round"/>
+  <!-- shine -->
+  <ellipse cx="68" cy="64" rx="18" ry="12" fill="#FFFFFF" opacity="0.55"/>
+</svg>

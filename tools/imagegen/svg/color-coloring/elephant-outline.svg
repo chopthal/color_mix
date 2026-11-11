@@ -1,0 +1,17 @@
+<svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+        <path class="part" data-part="tail" data-name="꼬리" d="M232 196 Q262 198 272 218 Q260 220 252 208 Q246 202 234 204 Z" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <ellipse class="part" data-part="body" data-name="몸통" cx="176" cy="186" rx="72" ry="54" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <g class="part" data-part="legs" data-name="다리" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round">
+          <rect x="130" y="212" width="34" height="54" rx="14" />
+          <rect x="196" y="212" width="34" height="54" rx="14" />
+        </g>
+        <circle class="part" data-part="head" data-name="머리" cx="102" cy="150" r="50" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <path class="part" data-part="ear" data-name="귀" d="M122 108 Q176 100 178 158 Q174 200 132 198 Q108 160 122 108 Z" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <path class="part" data-part="trunk" data-name="코" d="M78 168 Q46 198 58 242 Q62 256 76 252 Q88 248 80 234 Q70 208 94 186 Z" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <path class="part" data-part="tusk" data-name="엄니" d="M64 178 Q46 186 48 200 Q58 196 66 188 Z" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <g class="fixed">
+          <g class="face"><circle cx="88" cy="138" r="9" fill="#fff" stroke="#3D2B1F" stroke-width="3" /><circle cx="89.44" cy="138" r="4.140000000000001" fill="#3D2B1F" /><circle cx="86.2" cy="135.66" r="1.6199999999999999" fill="#fff" /><circle cx="114" cy="138" r="9" fill="#fff" stroke="#3D2B1F" stroke-width="3" /><circle cx="115.44" cy="138" r="4.140000000000001" fill="#3D2B1F" /><circle cx="112.2" cy="135.66" r="1.6199999999999999" fill="#fff" /></g>
+          <g class="face"><ellipse cx="82" cy="160" rx="9" ry="5" fill="#ff9db2" opacity="0.75" /><ellipse cx="120" cy="162" rx="9" ry="5" fill="#ff9db2" opacity="0.75" /></g>
+          <path d="M148 254 L164 254 M214 254 L230 254" stroke="#3D2B1F" stroke-width="3" stroke-linecap="round" />
+        </g>
+      </svg>

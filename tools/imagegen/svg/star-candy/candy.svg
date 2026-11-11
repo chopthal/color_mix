@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192" fill="none">
+  <!-- glowing five-point star candy -->
+  <circle cx="96" cy="96" r="70" fill="#FFC94A" opacity="0.22"/>
+  <circle cx="96" cy="96" r="48" fill="#FFC94A" opacity="0.18"/>
+  <path d="M96 28 L112 72 L158 76 L122 106 L132 152 L96 128 L60 152 L70 106 L34 76 L80 72 Z" fill="#FFC94A" stroke="#3D2B1F" stroke-width="8" stroke-linejoin="round"/>
+  <path d="M96 48 L108 78 L140 81 L115 101 L122 133 L96 116 L70 133 L77 101 L52 81 L84 78 Z" fill="#FF9F45" stroke="#3D2B1F" stroke-width="6" stroke-linejoin="round"/>
+  <path d="M96 68 L104 88 L126 90 L108 103 L114 124 L96 112 L78 124 L84 103 L66 90 L88 88 Z" fill="#FFF6E5" stroke="#3D2B1F" stroke-width="5" stroke-linejoin="round"/>
+  <ellipse cx="86" cy="78" rx="12" ry="8" fill="#FFFFFF" opacity="0.65"/>
+  <!-- tiny sparkles -->
+  <circle cx="42" cy="52" r="5" fill="#FFF6E5" stroke="#3D2B1F" stroke-width="4"/>
+  <circle cx="154" cy="48" r="4" fill="#FFF6E5" stroke="#3D2B1F" stroke-width="4"/>
+  <circle cx="160" cy="132" r="5" fill="#FFF6E5" stroke="#3D2B1F" stroke-width="4"/>
+</svg>

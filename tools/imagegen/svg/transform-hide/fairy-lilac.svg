@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 320" fill="none">
+  <!-- lilac fairy with star antenna, soft foot sparkles, faces right -->
+  <ellipse cx="128" cy="298" rx="48" ry="11" fill="#3D2B1F" opacity="0.12"/>
+  <!-- foot sparkles -->
+  <path d="M70 286 L74 296 L84 298 L76 304 L78 314 L70 308 L62 314 L64 304 L56 298 L66 296 Z" fill="#FFC94A" opacity="0.85"/>
+  <path d="M186 278 L189 286 L198 288 L191 293 L193 302 L186 297 L179 302 L181 293 L174 288 L183 286 Z" fill="#A78BFA" opacity="0.85"/>
+  <ellipse cx="52" cy="150" rx="36" ry="58" fill="#FFFFFF" opacity="0.75" stroke="#3D2B1F" stroke-width="8" transform="rotate(-18 52 150)"/>
+  <ellipse cx="204" cy="150" rx="36" ry="58" fill="#FFFFFF" opacity="0.75" stroke="#3D2B1F" stroke-width="8" transform="rotate(18 204 150)"/>
+  <ellipse cx="58" cy="130" rx="12" ry="20" fill="#A78BFA" opacity="0.45"/>
+  <ellipse cx="198" cy="130" rx="12" ry="20" fill="#A78BFA" opacity="0.45"/>
+  <ellipse cx="100" cy="258" rx="22" ry="12" fill="#7C3AED" stroke="#3D2B1F" stroke-width="8"/>
+  <ellipse cx="156" cy="258" rx="22" ry="12" fill="#7C3AED" stroke="#3D2B1F" stroke-width="8"/>
+  <circle cx="128" cy="168" r="68" fill="#B28DFF" stroke="#3D2B1F" stroke-width="10"/>
+  <ellipse cx="128" cy="188" rx="40" ry="30" fill="#F0E7FF"/>
+  <ellipse cx="108" cy="148" rx="18" ry="10" fill="#FFF6E5" opacity="0.55"/>
+  <ellipse cx="58" cy="178" rx="18" ry="14" fill="#B28DFF" stroke="#3D2B1F" stroke-width="8" transform="rotate(-20 58 178)"/>
+  <ellipse cx="198" cy="178" rx="18" ry="14" fill="#B28DFF" stroke="#3D2B1F" stroke-width="8" transform="rotate(20 198 178)"/>
+  <circle cx="102" cy="170" r="10" fill="#FFB3C1" opacity="0.5"/>
+  <circle cx="154" cy="170" r="10" fill="#FFB3C1" opacity="0.5"/>
+  <ellipse cx="108" cy="156" rx="8" ry="10" fill="#3D2B1F"/>
+  <ellipse cx="148" cy="156" rx="8" ry="10" fill="#3D2B1F"/>
+  <circle cx="110" cy="153" r="2.8" fill="#FFFFFF"/>
+  <circle cx="150" cy="153" r="2.8" fill="#FFFFFF"/>
+  <path d="M114 182 Q128 196 142 182" stroke="#3D2B1F" stroke-width="5" stroke-linecap="round" fill="none"/>
+  <line x1="128" y1="100" x2="128" y2="58" stroke="#7C3AED" stroke-width="8" stroke-linecap="round"/>
+  <path d="M128 28 L136 48 L158 50 L140 64 L145 86 L128 74 L111 86 L116 64 L98 50 L120 48 Z" fill="#FFC94A" stroke="#3D2B1F" stroke-width="6" stroke-linejoin="round"/>
+</svg>

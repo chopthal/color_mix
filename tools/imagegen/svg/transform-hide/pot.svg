@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="none">
+  <ellipse cx="128" cy="220" rx="70" ry="12" fill="#3D2B1F" opacity="0.12"/>
+  <!-- steam -->
+  <circle cx="100" cy="48" r="14" fill="#FF9F45" opacity="0.7" stroke="#3D2B1F" stroke-width="5"/>
+  <circle cx="136" cy="36" r="11" fill="#FF9F45" opacity="0.65" stroke="#3D2B1F" stroke-width="5"/>
+  <circle cx="160" cy="56" r="9" fill="#FFC94A" opacity="0.7" stroke="#3D2B1F" stroke-width="4"/>
+  <!-- body -->
+  <rect x="48" y="110" width="160" height="96" rx="28" fill="#64748B" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round"/>
+  <ellipse cx="80" cy="132" rx="20" ry="10" fill="#94A3B8" opacity="0.55"/>
+  <!-- lid -->
+  <rect x="40" y="86" width="176" height="36" rx="16" fill="#475569" stroke="#3D2B1F" stroke-width="9" stroke-linejoin="round"/>
+  <ellipse cx="128" cy="86" rx="28" ry="12" fill="#94A3B8" stroke="#3D2B1F" stroke-width="6"/>
+  <!-- handles -->
+  <ellipse cx="36" cy="140" rx="18" ry="14" fill="#94A3B8" stroke="#3D2B1F" stroke-width="8"/>
+  <ellipse cx="220" cy="140" rx="18" ry="14" fill="#94A3B8" stroke="#3D2B1F" stroke-width="8"/>
+</svg>

@@ -1,0 +1,18 @@
+<svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+        <ellipse class="part" data-part="ear-left" data-name="왼쪽 귀" cx="118" cy="76" rx="16" ry="46" transform="rotate(-12 118 76)" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <ellipse class="part" data-part="ear-right" data-name="오른쪽 귀" cx="182" cy="76" rx="16" ry="46" transform="rotate(12 182 76)" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <circle class="part" data-part="tail" data-name="꼬리" cx="214" cy="218" r="18" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <ellipse class="part" data-part="body" data-name="몸통" cx="150" cy="210" rx="48" ry="50" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <g class="part" data-part="feet" data-name="발" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round">
+          <ellipse cx="120" cy="254" rx="22" ry="12" /><ellipse cx="180" cy="254" rx="22" ry="12" />
+        </g>
+        <circle class="part" data-part="head" data-name="얼굴" cx="150" cy="134" r="46" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <ellipse class="part" data-part="belly" data-name="배" cx="150" cy="218" rx="30" ry="32" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <g class="fixed">
+          <g class="face"><circle cx="132" cy="128" r="9" fill="#fff" stroke="#3D2B1F" stroke-width="3" /><circle cx="133.44" cy="128" r="4.140000000000001" fill="#3D2B1F" /><circle cx="130.2" cy="125.66" r="1.6199999999999999" fill="#fff" /><circle cx="168" cy="128" r="9" fill="#fff" stroke="#3D2B1F" stroke-width="3" /><circle cx="169.44" cy="128" r="4.140000000000001" fill="#3D2B1F" /><circle cx="166.2" cy="125.66" r="1.6199999999999999" fill="#fff" /></g>
+          <g class="face"><ellipse cx="118" cy="148" rx="10" ry="6" fill="#ff9db2" opacity="0.75" /><ellipse cx="182" cy="148" rx="10" ry="6" fill="#ff9db2" opacity="0.75" /></g>
+          <path d="M150 142 L144 150 L156 150 Z" fill="#ff8fa8" />
+          <path d="M140 152 Q150 160 160 152" fill="none" stroke="#3D2B1F" stroke-width="4" stroke-linecap="round" />
+          <path d="M120 156 L100 152 M120 162 L100 164 M180 156 L200 152 M180 162 L200 164" stroke="#3D2B1F" stroke-width="2" stroke-linecap="round" />
+        </g>
+      </svg>

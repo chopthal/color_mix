@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 224 208" fill="none">
+  <!-- stem -->
+  <path d="M112 190 V118" stroke="#3D2B1F" stroke-width="22" stroke-linecap="round"/>
+  <path d="M112 190 V118" stroke="#FF6B81" stroke-width="14" stroke-linecap="round"/>
+  <!-- left branch -->
+  <path d="M112 140 C70 120, 48 88, 52 52" stroke="#3D2B1F" stroke-width="8" stroke-linecap="round" fill="none"/>
+  <path d="M112 140 C70 120, 48 88, 52 52" stroke="#FFB3C1" stroke-width="14" stroke-linecap="round" fill="none"/>
+  <!-- right branch -->
+  <path d="M112 128 C154 108, 176 78, 172 44" stroke="#3D2B1F" stroke-width="8" stroke-linecap="round" fill="none"/>
+  <path d="M112 128 C154 108, 176 78, 172 44" stroke="#FF6B81" stroke-width="14" stroke-linecap="round" fill="none"/>
+  <!-- upper mid branch -->
+  <path d="M112 100 C112 70, 118 48, 112 28" stroke="#3D2B1F" stroke-width="8" stroke-linecap="round" fill="none"/>
+  <path d="M112 100 C112 70, 118 48, 112 28" stroke="#FF9F45" stroke-width="12" stroke-linecap="round" fill="none"/>
+  <!-- rounded tips -->
+  <circle cx="52" cy="48" r="22" fill="#FFB3C1" stroke="#3D2B1F" stroke-width="8"/>
+  <ellipse cx="46" cy="40" rx="8" ry="6" fill="#FFF6E5" opacity="0.55"/>
+  <circle cx="172" cy="40" r="22" fill="#FF6B81" stroke="#3D2B1F" stroke-width="8"/>
+  <ellipse cx="164" cy="32" rx="8" ry="6" fill="#FFF6E5" opacity="0.55"/>
+  <circle cx="112" cy="28" r="18" fill="#FF9F45" stroke="#3D2B1F" stroke-width="8"/>
+  <ellipse cx="106" cy="22" rx="7" ry="5" fill="#FFF6E5" opacity="0.55"/>
+  <circle cx="112" cy="118" r="16" fill="#FFB3C1" stroke="#3D2B1F" stroke-width="7"/>
+  <ellipse cx="106" cy="112" rx="6" ry="4" fill="#FFF6E5" opacity="0.5"/>
+</svg>

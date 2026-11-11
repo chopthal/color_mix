@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 1688">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#B8E6FF"/>
+      <stop offset="70%" stop-color="#DFF6FF"/>
+      <stop offset="100%" stop-color="#C8EFD8"/>
+    </linearGradient>
+    <linearGradient id="grass" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#B8D978"/>
+      <stop offset="100%" stop-color="#9EC65E"/>
+    </linearGradient>
+  </defs>
+  <rect width="780" height="1215" fill="url(#sky)"/>
+  <!-- sun -->
+  <circle cx="640" cy="180" r="70" fill="#FFC94A" opacity="0.9"/>
+  <circle cx="640" cy="180" r="48" fill="#FFE08A" opacity="0.85"/>
+  <!-- clouds -->
+  <ellipse cx="160" cy="200" rx="70" ry="36" fill="#FFFFFF" opacity="0.85"/>
+  <ellipse cx="210" cy="190" rx="50" ry="30" fill="#FFFFFF" opacity="0.85"/>
+  <ellipse cx="120" cy="210" rx="40" ry="24" fill="#FFFFFF" opacity="0.8"/>
+  <ellipse cx="420" cy="140" rx="60" ry="28" fill="#FFFFFF" opacity="0.75"/>
+  <ellipse cx="470" cy="135" rx="40" ry="22" fill="#FFFFFF" opacity="0.75"/>
+  <!-- wooden fence (mid, sides) -->
+  <rect x="0" y="900" width="780" height="18" fill="#B07A4F" opacity="0.7"/>
+  <rect x="0" y="960" width="780" height="18" fill="#B07A4F" opacity="0.7"/>
+  <rect x="40" y="880" width="22" height="120" rx="6" fill="#C9966A" opacity="0.75"/>
+  <rect x="140" y="880" width="22" height="120" rx="6" fill="#C9966A" opacity="0.75"/>
+  <rect x="240" y="880" width="22" height="120" rx="6" fill="#C9966A" opacity="0.75"/>
+  <rect x="520" y="880" width="22" height="120" rx="6" fill="#C9966A" opacity="0.75"/>
+  <rect x="620" y="880" width="22" height="120" rx="6" fill="#C9966A" opacity="0.75"/>
+  <rect x="720" y="880" width="22" height="120" rx="6" fill="#C9966A" opacity="0.75"/>
+  <!-- soft hill transition -->
+  <ellipse cx="390" cy="1180" rx="520" ry="120" fill="#A8D868" opacity="0.55"/>
+  <!-- grass floor -->
+  <rect y="1215" width="780" height="473" fill="url(#grass)"/>
+  <line x1="0" y1="1280" x2="780" y2="1280" stroke="#5A8232" stroke-opacity="0.22" stroke-width="3"/>
+  <line x1="0" y1="1350" x2="780" y2="1350" stroke="#5A8232" stroke-opacity="0.22" stroke-width="3"/>
+  <line x1="0" y1="1420" x2="780" y2="1420" stroke="#5A8232" stroke-opacity="0.22" stroke-width="3"/>
+  <line x1="0" y1="1490" x2="780" y2="1490" stroke="#5A8232" stroke-opacity="0.22" stroke-width="3"/>
+  <line x1="0" y1="1560" x2="780" y2="1560" stroke="#5A8232" stroke-opacity="0.22" stroke-width="3"/>
+  <!-- soft garden oval -->
+  <ellipse cx="390" cy="1450" rx="210" ry="80" fill="#A8D868" opacity="0.7"/>
+  <ellipse cx="390" cy="1450" rx="150" ry="52" fill="#C8E888" opacity="0.85"/>
+</svg>

@@ -13,8 +13,13 @@
   var TOTAL_SPECIES = SPECIES.length;
   var TOTAL_HEARTS = TOTAL_SPECIES * 3;
   var SCENE_ART = D.SCENE_ART || {};
+  var HIDE_STYLE = D.HIDE_STYLE || {};
+  var ASSET_SLOTS = D.ASSET_SLOTS || [];
   var dinoArt = D.dinoArt || function () { return ''; };
   var spotArt = D.spotArt || function () { return ''; };
+  var sceneArt = D.sceneArt || function (hab) { return SCENE_ART[hab] || SCENE_ART.forest || ''; };
+  var kitStore = (window.KidsKit && KidsKit.store) ? KidsKit.store('dino-hide-seek') : null;
+  var assetReady = false;
 
   var $ = function (sel, root) { return (root || document).querySelector(sel); };
   var $$ = function (sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); };
@@ -273,6 +278,62 @@
     $$('.screen').forEach(function (el) {
       el.classList.toggle('active', el.id === name + 'Screen');
     });
+    syncRestButton();
+  }
+
+  function goLobby() {
+    window.location.href = '../../index.html';
+  }
+
+  function openSoftEnding(title) {
+    if (!(window.KidsKit && KidsKit.softEnding)) {
+      goLobby();
+      return;
+    }
+    KidsKit.softEnding({
+      title: title || '오늘도 까꿍 재미있었어!',
+      emoji: '🦕',
+      onAgain: function () {
+        if (state.screen === 'game' && state.session && state.session.finished) {
+          startSession();
+        } else if (state.screen !== 'game') {
+          openMap();
+        }
+      },
+      onRest: goLobby
+    });
+  }
+
+  function syncRestButton() {
+    var app = $('#app');
+    if (app) app.classList.toggle('is-playing', state.screen === 'game');
+    if (!(window.KidsKit && KidsKit.restButton)) return;
+    var existing = document.querySelector('.kk-rest-btn');
+    if (state.screen === 'game') {
+      KidsKit.restButton({
+        parent: app || document.body,
+        onRest: function () {
+          playPop();
+          openSoftEnding('오늘도 까꿍 재미있었어!');
+        }
+      });
+    } else if (existing) {
+      existing.remove();
+    }
+  }
+
+  function kitHaptic(kind) {
+    if (window.KidsKit && KidsKit.haptic) KidsKit.haptic(kind || 'soft');
+  }
+
+  function busyTapFeedback(el) {
+    if (!el) return;
+    el.classList.remove('busy-tap');
+    void el.offsetWidth;
+    el.classList.add('busy-tap');
+    tone(440, 0.08, { to: 560, vol: 0.08 });
+    kitHaptic('soft');
+    setTimeout(function () { el.classList.remove('busy-tap'); }, 280);
   }
 
   function openOverlay(html, cls) {
@@ -406,7 +467,46 @@
     $('#titleDinos').innerHTML = picks.map(function (d) {
       return '<div class="title-dino">' + dinoArt(d) + '</div>';
     }).join('');
+    renderWelcomeBack();
     updateSoundUI();
+  }
+
+  function renderWelcomeBack() {
+    var el = $('#welcomeBack');
+    if (!el) return;
+    if (!kitStore) {
+      el.hidden = true;
+      return;
+    }
+    /* 같은 페이지 로드에서 preload 후 renderTitle이 다시 불리며 끄지 않도록 */
+    if (state.welcomeFlash) {
+      el.hidden = false;
+      el.textContent = state.welcomeFlash;
+      el.removeAttribute('hidden');
+      return;
+    }
+    var visits = kitStore.get('visits', 0) || 0;
+    var greeted = kitStore.get('greetedVisit', 0) || 0;
+    if (visits >= 1 && greeted < visits && totalFound() > 0) {
+      var friend = SPECIES.filter(function (d) { return state.save.found[d.id]; })[0];
+      var msg = friend ? (friend.name + '가 반겨 줘요!') : '친구들이 반겨 줘요!';
+      state.welcomeFlash = '💛 ' + msg;
+      el.hidden = false;
+      el.removeAttribute('hidden');
+      el.textContent = state.welcomeFlash;
+      kitStore.set('greetedVisit', visits);
+      speak(msg);
+    } else {
+      el.hidden = true;
+    }
+  }
+
+  function bumpVisit() {
+    if (!kitStore) return;
+    var visits = kitStore.get('visits', 0) || 0;
+    kitStore.set('visits', visits + 1);
+    kitStore.set('lastFound', totalFound());
+    kitStore.set('lastHearts', totalHearts());
   }
 
   /* ============================================================
@@ -467,11 +567,12 @@
     var scene = $('#scene');
     scene.dataset.scene = state.habitat;
     scene.dataset.time = state.time;
-    $('#landscape').innerHTML = SCENE_ART[state.habitat] || SCENE_ART.forest;
+    $('#landscape').innerHTML = sceneArt(state.habitat);
     $('#hudSceneName').textContent = habitatName(state.habitat);
     $('#timeToggle').textContent = state.time === 'day' ? '🌙' : '☀️';
     $('#timeToggle').setAttribute('aria-label', state.time === 'day' ? '밤으로 바꾸기' : '낮으로 바꾸기');
     renderStars();
+    renderNightExtras();
   }
 
   function renderStars() {
@@ -485,6 +586,61 @@
       html += '<i style="left:' + left + '%;top:' + top + '%;width:' + size + 'px;height:' + size + 'px;animation-delay:' + delay + 's"></i>';
     }
     box.innerHTML = html;
+  }
+
+  function renderNightExtras() {
+    var glow = $('#moonGlow');
+    var flies = $('#fireflies');
+    if (!glow || !flies) return;
+    if (state.time !== 'night') {
+      glow.innerHTML = '';
+      flies.innerHTML = '';
+      glow.hidden = true;
+      flies.hidden = true;
+      return;
+    }
+    glow.hidden = false;
+    flies.hidden = false;
+    var moonImg = (D.assetImgHtml && D.assetImgHtml('night-moon', 'asset-img moon-art')) || '';
+    glow.innerHTML = (moonImg || '<span class="moon-beam" aria-hidden="true"></span>')
+      + '<span class="moon-puddle a" aria-hidden="true"></span>'
+      + '<span class="moon-puddle b" aria-hidden="true"></span>';
+    var html = '';
+    for (var i = 0; i < 6; i++) {
+      var left = (8 + Math.random() * 84).toFixed(1);
+      var top = (18 + Math.random() * 55).toFixed(1);
+      var delay = (Math.random() * 2.8).toFixed(2);
+      var flyArt = (D.assetImgHtml && D.assetImgHtml('night-firefly', 'asset-img firefly-art')) || '';
+      html += '<button type="button" class="firefly" style="left:' + left + '%;top:' + top + '%;--fd:' + delay + 's" aria-label="반딧불">'
+        + (flyArt || '<i></i>')
+        + '</button>';
+    }
+    flies.innerHTML = html;
+  }
+
+  function onFireflyTap(btn) {
+    if (!btn || btn.classList.contains('sparked')) return;
+    btn.classList.add('sparked');
+    tone(880, 0.12, { to: 1200, vol: 0.1 });
+    kitHaptic('light');
+    showToast('반딧불이 반짝!');
+    setTimeout(function () {
+      if (!btn.parentNode) return;
+      btn.style.left = (8 + Math.random() * 84).toFixed(1) + '%';
+      btn.style.top = (18 + Math.random() * 55).toFixed(1) + '%';
+      btn.classList.remove('sparked');
+    }, 700);
+  }
+
+  function onMoonPuddleTap() {
+    tone(520, 0.16, { to: 780, vol: 0.1 });
+    kitHaptic('soft');
+    showToast('달빛이 반짝!');
+    var glow = $('#moonGlow');
+    if (!glow) return;
+    glow.classList.remove('moon-pulse');
+    void glow.offsetWidth;
+    glow.classList.add('moon-pulse');
   }
 
   function enterGame(habitat, time) {
@@ -528,16 +684,26 @@
     var layer = $('#spots');
     layer.innerHTML = '';
     state.session.spots.forEach(function (spot, i) {
+      var hide = HIDE_STYLE[spot.type] || 'rustle';
       var btn = document.createElement('button');
       btn.type = 'button';
       btn.className = 'spot';
+      btn.dataset.hide = hide;
       if (spot.x <= 14) btn.classList.add('edge-left');
       if (spot.x >= 86) btn.classList.add('edge-right');
       btn.style.left = spot.x + '%';
       btn.style.top = spot.y + '%';
       btn.style.setProperty('--delay', (Math.random() * 2.4).toFixed(2) + 's');
       btn.setAttribute('aria-label', '흔들리는 곳, 눌러서 공룡 찾기');
-      btn.innerHTML = '<span class="spot-art" aria-hidden="true">' + spotArt(spot.type) + '</span>'
+      var peek = '';
+      if (hide === 'peek' && spot.dino) {
+        peek = '<span class="hide-peek-tip" style="background:' + (spot.dino.body || '#7bd48c') + '" aria-hidden="true"></span>';
+      }
+      if (hide === 'ripple') {
+        peek += '<span class="hide-ripple-ring" aria-hidden="true"></span>';
+      }
+      btn.innerHTML = peek
+        + '<span class="spot-art" aria-hidden="true">' + spotArt(spot.type) + '</span>'
         + '<span class="twinkle" aria-hidden="true"></span>'
         + '<span class="reveal-dino" aria-hidden="true"></span>'
         + burstMarks();
@@ -596,9 +762,16 @@
 
   function onSpotTap(i, el) {
     var s = state.session;
-    if (!s || s.busy || s.finished) return;
+    if (!s || s.finished) return;
     var spot = s.spots[i];
-    if (!spot || spot.found || !spot.dino) return;
+    if (!spot) return;
+
+    /* 찾기 연출 중(~1.1초)에도 작은 반응 — "안 눌림" 느낌 완화 */
+    if (s.busy || spot.found) {
+      busyTapFeedback(el);
+      return;
+    }
+    if (!spot.dino) return;
 
     s.busy = true;
     spot.found = true;
@@ -607,6 +780,7 @@
 
     el.classList.add('opening');
     playPop();
+    kitHaptic('light');
 
     setTimeout(function () {
       if (!state.session || state.session.token !== token) return;
@@ -685,6 +859,7 @@
       + '<button class="big-btn primary" data-act="again" type="button">한 번 더 🦖</button>'
       + '<button class="big-btn soft" data-act="playground" type="button">공룡 놀이터 🦕</button>'
       + '<button class="big-btn ghost" data-act="map" type="button">다른 곳 가기</button>'
+      + '<button class="big-btn ghost" data-act="rest" type="button">쉬자 🌙</button>'
       + '</div>'
     );
 
@@ -1472,6 +1647,9 @@
       else if (act === 'playground') {
         closeOverlay();
         openPlayground(state.habitat);
+      } else if (act === 'rest') {
+        closeOverlay();
+        openSoftEnding('우와! 오늘 공룡 친구랑 잘 놀았어!');
       } else if (act === 'close') { closeOverlay(); }
       else if (act === 'reset-yes') { closeOverlay(); resetProgress(); }
       else if (act === 'care-detail') {
@@ -1480,6 +1658,17 @@
         setTimeout(function () { if (id) openCare(id, 'book'); }, 230);
       }
     });
+
+    var scene = $('#scene');
+    if (scene) {
+      scene.addEventListener('click', function (e) {
+        var fly = e.target.closest('.firefly');
+        if (fly) { onFireflyTap(fly); return; }
+        if (e.target.closest('.moon-puddle') || e.target.closest('.moon-beam')) {
+          onMoonPuddleTap();
+        }
+      });
+    }
 
     window.addEventListener('resize', function () {
       if (state.screen === 'game') layoutSpots();
@@ -1507,11 +1696,29 @@
   state.save = loadSave();
   state.time = state.save.lastTime;
 
-  renderTitle();
-  renderMap();
-  renderStars();
-  bindEvents();
-  updateSoundUI();
+  function bootAssetsThenUi() {
+    bumpVisit();
+    renderTitle();
+    renderMap();
+    renderStars();
+    bindEvents();
+    updateSoundUI();
+    syncRestButton();
 
+    if (window.KidsKit && KidsKit.assets && ASSET_SLOTS.length) {
+      KidsKit.assets.preload(ASSET_SLOTS).then(function (result) {
+        assetReady = true;
+        if (D.setAssetImages) D.setAssetImages(result.images || {});
+        if (state.screen === 'title') renderTitle();
+        if (state.screen === 'game') applyScene();
+      }).catch(function () {
+        assetReady = true;
+      });
+    } else {
+      assetReady = true;
+    }
+  }
+
+  bootAssetsThenUi();
   document.addEventListener('pointerdown', unlockAudioOnce);
 })();

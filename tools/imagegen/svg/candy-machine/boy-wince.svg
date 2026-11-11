@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 384" width="384" height="384" fill="none">
+  <!-- soft wince + tiny bandaid on cheek -->
+  <ellipse cx="192" cy="350" rx="78" ry="16" fill="#3D2B1F" opacity="0.12"/>
+  <ellipse cx="192" cy="168" rx="128" ry="120" fill="#B07A4F" stroke="#3D2B1F" stroke-width="15" stroke-linejoin="round"/>
+  <circle cx="192" cy="200" r="118" fill="#FFD8B0" stroke="#3D2B1F" stroke-width="15"/>
+  <ellipse cx="150" cy="160" rx="36" ry="22" fill="#FFF6E5" opacity="0.55"/>
+  <path d="M90 175 C95 95 145 78 192 78 C245 78 290 100 294 175 C275 125 235 118 192 118 C148 118 110 128 90 175 Z"
+        fill="#B07A4F" stroke="#3D2B1F" stroke-width="15" stroke-linejoin="round" stroke-linecap="round"/>
+  <ellipse cx="132" cy="118" rx="34" ry="28" fill="#B07A4F" stroke="#3D2B1F" stroke-width="12" stroke-linejoin="round"/>
+  <ellipse cx="252" cy="118" rx="34" ry="28" fill="#B07A4F" stroke="#3D2B1F" stroke-width="12" stroke-linejoin="round"/>
+  <!-- squinted wince eyes -->
+  <path d="M130 208 L172 218" stroke="#3D2B1F" stroke-width="12" stroke-linecap="round"/>
+  <path d="M134 222 L170 210" stroke="#3D2B1F" stroke-width="12" stroke-linecap="round"/>
+  <path d="M212 218 L254 208" stroke="#3D2B1F" stroke-width="12" stroke-linecap="round"/>
+  <path d="M214 210 L250 222" stroke="#3D2B1F" stroke-width="12" stroke-linecap="round"/>
+  <circle cx="118" cy="240" r="20" fill="#FFB3C1" opacity="0.45"/>
+  <circle cx="266" cy="240" r="20" fill="#FFB3C1" opacity="0.45"/>
+  <!-- small worried mouth -->
+  <path d="M174 268 Q192 258 210 268" stroke="#3D2B1F" stroke-width="10" stroke-linecap="round" fill="none"/>
+  <!-- bandaid on right cheek -->
+  <g transform="translate(268 248) rotate(-28)">
+    <rect x="-28" y="-14" width="56" height="28" rx="8" fill="#FFC94A" stroke="#3D2B1F" stroke-width="8" stroke-linejoin="round"/>
+    <rect x="-6" y="-10" width="12" height="20" rx="3" fill="#FF9F45" opacity="0.7"/>
+    <rect x="-10" y="-4" width="20" height="8" rx="3" fill="#FF9F45" opacity="0.7"/>
+  </g>
+</svg>

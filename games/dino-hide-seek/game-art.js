@@ -3,6 +3,22 @@
 
   var DINO = window.DINO || (window.DINO = {});
   var LINE = DINO.LINE || '#34455c';
+  var assetImages = {};
+
+  function setAssetImages(map) {
+    assetImages = map || {};
+  }
+
+  function hasAsset(key) {
+    var img = assetImages[key];
+    return !!(img && img.dataset && img.dataset.kidsKitPlaceholder !== '1' && img.naturalWidth > 0);
+  }
+
+  function assetImgHtml(key, cls) {
+    var img = assetImages[key];
+    if (!hasAsset(key)) return '';
+    return '<img class="' + (cls || 'asset-img') + '" src="' + img.src + '" alt="" draggable="false">';
+  }
 
   function eye(x, y, r) {
     r = r || 7.5;
@@ -335,7 +351,7 @@
     );
   }
 
-  function dinoArt(d) {
+  function dinoArtDrawn(d) {
     if (!d) return '';
     switch (d.kind) {
       case 'ceratops': return artCeratops(d);
@@ -352,7 +368,13 @@
     }
   }
 
-  function spotArt(type) {
+  function dinoArt(d) {
+    if (!d) return '';
+    var slot = assetImgHtml('dino-' + d.id, 'asset-img asset-dino');
+    return slot || dinoArtDrawn(d);
+  }
+
+  function spotArtDrawn(type) {
     switch (type) {
       case 'bush':
         return '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">'
@@ -426,7 +448,13 @@
     }
   }
 
-  var SCENE_ART = {
+  function spotArt(type) {
+    var key = 'spot-' + (type || 'grass');
+    var slot = assetImgHtml(key, 'asset-img asset-spot');
+    return slot || spotArtDrawn(type);
+  }
+
+  var SCENE_ART_DRAWN = {
     forest: '<svg viewBox="0 0 1000 700" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">'
       + '<path d="M0 505 Q170 460 350 500 T690 488 T1000 512 L1000 700 L0 700Z" fill="#a5e7b2"/>'
       + '<path d="M0 574 Q190 528 390 564 T730 552 T1000 578 L1000 700 L0 700Z" fill="#79d494"/>'
@@ -476,7 +504,18 @@
       + '<circle cx="930" cy="600" r="26" fill="#63c98a"/><circle cx="930" cy="600" r="10" fill="#4db16b"/></svg>'
   };
 
+  function sceneArt(hab) {
+    var key = 'scene-' + (hab || 'forest');
+    var slot = assetImgHtml(key, 'asset-img asset-scene');
+    if (slot) return slot;
+    return SCENE_ART_DRAWN[hab] || SCENE_ART_DRAWN.forest;
+  }
+
+  DINO.setAssetImages = setAssetImages;
+  DINO.hasAsset = hasAsset;
+  DINO.assetImgHtml = assetImgHtml;
   DINO.dinoArt = dinoArt;
   DINO.spotArt = spotArt;
-  DINO.SCENE_ART = SCENE_ART;
+  DINO.sceneArt = sceneArt;
+  DINO.SCENE_ART = SCENE_ART_DRAWN;
 })();

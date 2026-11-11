@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 768 1280" fill="none">
+  <!-- soft night candy garden  empty center play space -->
+  <defs>
+    <linearGradient id="skyG" x1="0" y1="0" x2="0" y2="920">
+      <stop offset="0%" stop-color="#1A2748"/>
+      <stop offset="45%" stop-color="#1E3A5F"/>
+      <stop offset="100%" stop-color="#2D5A7A"/>
+    </linearGradient>
+    <linearGradient id="floorG" x1="0" y1="920" x2="0" y2="1280">
+      <stop offset="0%" stop-color="#3D6B4F"/>
+      <stop offset="100%" stop-color="#2A4A38"/>
+    </linearGradient>
+    <radialGradient id="moonSkyG" cx="0.42" cy="0.38" r="0.6">
+      <stop offset="0%" stop-color="#A8D8FF"/>
+      <stop offset="100%" stop-color="#15243F"/>
+    </radialGradient>
+  </defs>
+  <rect width="768" height="920" fill="url(#skyG)"/>
+  <!-- soft night wash -->
+  <g opacity="0.14">
+    <path d="M-10 0 L50 0 L20 920 L-40 920 Z" fill="#7CC6FE"/>
+    <path d="M90 0 L150 0 L120 920 L60 920 Z" fill="#7CC6FE"/>
+    <path d="M190 0 L250 0 L220 920 L160 920 Z" fill="#7CC6FE"/>
+    <path d="M290 0 L350 0 L320 920 L260 920 Z" fill="#7CC6FE"/>
+    <path d="M390 0 L450 0 L420 920 L360 920 Z" fill="#7CC6FE"/>
+    <path d="M490 0 L550 0 L520 920 L460 920 Z" fill="#7CC6FE"/>
+    <path d="M590 0 L650 0 L620 920 L560 920 Z" fill="#7CC6FE"/>
+    <path d="M690 0 L750 0 L720 920 L660 920 Z" fill="#7CC6FE"/>
+  </g>
+  <!-- stars -->
+  <g fill="#FFF6E5" opacity="0.7">
+    <circle cx="70" cy="90" r="2.5"/><circle cx="160" cy="50" r="2"/><circle cx="250" cy="120" r="3"/>
+    <circle cx="340" cy="40" r="2"/><circle cx="430" cy="100" r="2.5"/><circle cx="520" cy="55" r="2"/>
+    <circle cx="610" cy="130" r="3"/><circle cx="700" cy="70" r="2"/><circle cx="110" cy="200" r="2"/>
+    <circle cx="280" cy="180" r="2.5"/><circle cx="460" cy="210" r="2"/><circle cx="650" cy="190" r="3"/>
+    <circle cx="90" cy="300" r="2"/><circle cx="210" cy="340" r="2.5"/><circle cx="580" cy="320" r="2"/>
+    <circle cx="720" cy="280" r="2.5"/><circle cx="380" cy="160" r="2"/><circle cx="150" cy="400" r="2"/>
+  </g>
+  <!-- moon window / moon disc left -->
+  <circle cx="150" cy="170" r="78" fill="#6EE7B7" opacity="0.85"/>
+  <circle cx="150" cy="170" r="66" fill="url(#moonSkyG)"/>
+  <circle cx="170" cy="156" r="24" fill="#FFF6E5"/>
+  <circle cx="184" cy="146" r="17" fill="url(#moonSkyG)"/>
+  <!-- floor -->
+  <rect y="920" width="768" height="360" fill="url(#floorG)"/>
+  <g stroke="#FFF6E5" stroke-width="2" opacity="0.08">
+    <line x1="0" y1="970" x2="768" y2="970"/>
+    <line x1="0" y1="1020" x2="768" y2="1020"/>
+    <line x1="0" y1="1070" x2="768" y2="1070"/>
+    <line x1="0" y1="1120" x2="768" y2="1120"/>
+  </g>
+  <!-- yellow star rug -->
+  <ellipse cx="384" cy="860" rx="300" ry="120" fill="#FFC94A" opacity="0.95"/>
+  <ellipse cx="384" cy="860" rx="230" ry="88" fill="#FFF6E5" opacity="0.85"/>
+  <path d="M384 820 L392 840 L414 842 L396 856 L402 878 L384 866 L366 878 L372 856 L354 842 L376 840 Z" fill="#FF9F45" opacity="0.9"/>
+  <!-- candy bushes left/right edges -->
+  <g>
+    <ellipse cx="90" cy="1040" rx="70" ry="40" fill="#7BD389"/>
+    <ellipse cx="50" cy="1010" rx="40" ry="34" fill="#3FA34D"/>
+    <ellipse cx="130" cy="1010" rx="40" ry="34" fill="#3FA34D"/>
+    <path d="M90 960 L96 974 L111 976 L99 986 L103 1000 L90 992 L77 1000 L81 986 L69 976 L84 974 Z" fill="#FFC94A"/>
+    <ellipse cx="680" cy="1030" rx="70" ry="40" fill="#FF9F45"/>
+    <ellipse cx="640" cy="1000" rx="40" ry="34" fill="#FF6B81"/>
+    <ellipse cx="720" cy="1000" rx="40" ry="34" fill="#FF6B81"/>
+    <path d="M680 950 L686 964 L701 966 L689 976 L693 990 L680 982 L667 990 L671 976 L659 966 L674 964 Z" fill="#FFC94A"/>
+  </g>
+</svg>

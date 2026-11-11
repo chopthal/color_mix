@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 384" width="384" height="384" fill="none">
+  <!-- same boy, happy closed eyes + open joyful mouth -->
+  <ellipse cx="192" cy="350" rx="78" ry="16" fill="#3D2B1F" opacity="0.12"/>
+  <ellipse cx="192" cy="168" rx="128" ry="120" fill="#B07A4F" stroke="#3D2B1F" stroke-width="15" stroke-linejoin="round"/>
+  <circle cx="192" cy="200" r="118" fill="#FFD8B0" stroke="#3D2B1F" stroke-width="15"/>
+  <ellipse cx="150" cy="160" rx="36" ry="22" fill="#FFF6E5" opacity="0.55"/>
+  <path d="M90 175 C95 95 145 78 192 78 C245 78 290 100 294 175 C275 125 235 118 192 118 C148 118 110 128 90 175 Z"
+        fill="#B07A4F" stroke="#3D2B1F" stroke-width="15" stroke-linejoin="round" stroke-linecap="round"/>
+  <ellipse cx="132" cy="118" rx="34" ry="28" fill="#B07A4F" stroke="#3D2B1F" stroke-width="12" stroke-linejoin="round"/>
+  <ellipse cx="252" cy="118" rx="34" ry="28" fill="#B07A4F" stroke="#3D2B1F" stroke-width="12" stroke-linejoin="round"/>
+  <!-- closed happy eyes (arcs) -->
+  <path d="M132 212 Q152 198 172 212" stroke="#3D2B1F" stroke-width="12" stroke-linecap="round" fill="none"/>
+  <path d="M212 212 Q232 198 252 212" stroke="#3D2B1F" stroke-width="12" stroke-linecap="round" fill="none"/>
+  <!-- rosy cheeks -->
+  <circle cx="118" cy="240" r="24" fill="#FFB3C1" opacity="0.55"/>
+  <circle cx="266" cy="240" r="24" fill="#FFB3C1" opacity="0.55"/>
+  <!-- open joyful mouth -->
+  <path d="M158 258 Q192 300 226 258 Q192 272 158 258 Z" fill="#FF6B81" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round"/>
+  <ellipse cx="192" cy="275" rx="14" ry="8" fill="#FFF6E5" opacity="0.45"/>
+</svg>

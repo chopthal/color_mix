@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 1688" width="780" height="1688">
+  <defs>
+    <linearGradient id="mWater" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#B8E4FE"/>
+      <stop offset="35%" stop-color="#7CC6FE"/>
+      <stop offset="70%" stop-color="#3BA4E6"/>
+      <stop offset="100%" stop-color="#2A7FB8"/>
+    </linearGradient>
+    <linearGradient id="mSand" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FFE7B0"/>
+      <stop offset="100%" stop-color="#E8C98A"/>
+    </linearGradient>
+    <radialGradient id="mRay" cx="50%" cy="0%" r="70%">
+      <stop offset="0%" stop-color="#FFF6E5" stop-opacity="0.55"/>
+      <stop offset="55%" stop-color="#FFC94A" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#FFC94A" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="780" height="1688" fill="url(#mWater)"/>
+  <ellipse cx="390" cy="0" rx="420" ry="520" fill="url(#mRay)"/>
+  <!-- soft sun rays -->
+  <path d="M390 0 L280 520 L320 520 Z" fill="#FFF6E5" opacity="0.12"/>
+  <path d="M390 0 L460 540 L500 540 Z" fill="#FFF6E5" opacity="0.1"/>
+  <path d="M390 0 L560 500 L590 500 Z" fill="#FFF6E5" opacity="0.08"/>
+  <!-- side seaweed (keep center clear) -->
+  <path d="M40 1100 Q70 980 50 860 Q90 940 80 1100 Q60 1280 40 1480" fill="#3FA34D" opacity="0.35"/>
+  <path d="M100 1200 Q130 1080 110 960 Q150 1060 140 1220 Q120 1400 100 1520" fill="#7BD389" opacity="0.3"/>
+  <path d="M740 1080 Q710 960 730 840 Q690 920 700 1080 Q720 1280 740 1480" fill="#3FA34D" opacity="0.35"/>
+  <path d="M680 1180 Q650 1060 670 940 Q630 1040 640 1200 Q660 1380 680 1500" fill="#7BD389" opacity="0.3"/>
+  <!-- bubbles -->
+  <circle cx="120" cy="420" r="10" fill="#FFFFFF" opacity="0.25"/>
+  <circle cx="160" cy="520" r="6" fill="#FFFFFF" opacity="0.2"/>
+  <circle cx="660" cy="380" r="8" fill="#FFFFFF" opacity="0.22"/>
+  <circle cx="700" cy="560" r="5" fill="#FFFFFF" opacity="0.18"/>
+  <!-- sand -->
+  <path d="M0 1380 Q200 1320 390 1360 Q580 1400 780 1330 L780 1688 L0 1688 Z" fill="url(#mSand)"/>
+  <ellipse cx="180" cy="1480" rx="40" ry="12" fill="#B07A4F" opacity="0.15"/>
+  <ellipse cx="520" cy="1520" rx="50" ry="14" fill="#B07A4F" opacity="0.12"/>
+  <ellipse cx="390" cy="1420" rx="90" ry="16" fill="#3D2B1F" opacity="0.06"/>
+</svg>

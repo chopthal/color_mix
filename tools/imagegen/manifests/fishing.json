@@ -1,0 +1,132 @@
+{
+  "items": [
+    {
+      "name": "bg-morning",
+      "outPath": "games/fishing/assets/bg-morning.webp",
+      "prompt": "Underwater ocean scene morning light, soft sun rays from above, sandy seabed, no characters, no text.",
+      "width": 780,
+      "height": 1688,
+      "refs": []
+    },
+    {
+      "name": "bg-noon",
+      "outPath": "games/fishing/assets/bg-noon.webp",
+      "prompt": "Bright midday underwater ocean scene, clear blue water, sandy seabed, no characters, no text.",
+      "width": 780,
+      "height": 1688,
+      "refs": []
+    },
+    {
+      "name": "bg-afternoon",
+      "outPath": "games/fishing/assets/bg-afternoon.webp",
+      "prompt": "Afternoon underwater ocean scene with warm golden-blue water tint, sandy seabed, no characters, no text.",
+      "width": 780,
+      "height": 1688,
+      "refs": []
+    },
+    {
+      "name": "bg-sunset",
+      "outPath": "games/fishing/assets/bg-sunset.webp",
+      "prompt": "Sunset underwater ocean scene with soft coral pink and purple water glow, sandy seabed, no characters, no text.",
+      "width": 780,
+      "height": 1688,
+      "refs": []
+    },
+    {
+      "name": "bg-night",
+      "outPath": "games/fishing/assets/bg-night.webp",
+      "prompt": "Gentle night underwater ocean scene with soft teal glow and tiny sparkles, not scary, sandy seabed, no characters, no text.",
+      "width": 780,
+      "height": 1688,
+      "refs": []
+    },
+    {
+      "name": "fish-puffer",
+      "outPath": "games/fishing/assets/fish-puffer.webp",
+      "prompt": "Cute round yellow pufferfish side view, big friendly eyes, soft spikes, centered, kid-safe.",
+      "width": 256,
+      "height": 192,
+      "refs": []
+    },
+    {
+      "name": "fish-clownfish",
+      "outPath": "games/fishing/assets/fish-clownfish.webp",
+      "prompt": "Cute orange clownfish with white stripes side view, big friendly eyes, centered, kid-safe.",
+      "width": 256,
+      "height": 160,
+      "refs": []
+    },
+    {
+      "name": "fish-bluetang",
+      "outPath": "games/fishing/assets/fish-bluetang.webp",
+      "prompt": "Cute round blue tang fish with yellow tail side view, big friendly eyes, centered, kid-safe.",
+      "width": 256,
+      "height": 160,
+      "refs": []
+    },
+    {
+      "name": "fish-angelfish",
+      "outPath": "games/fishing/assets/fish-angelfish.webp",
+      "prompt": "Cute pink angelfish with tall fins side view, big friendly eyes, centered, kid-safe.",
+      "width": 224,
+      "height": 224,
+      "refs": []
+    },
+    {
+      "name": "fish-greenfish",
+      "outPath": "games/fishing/assets/fish-greenfish.webp",
+      "prompt": "Cute green striped fish side view, big friendly eyes, centered, kid-safe.",
+      "width": 256,
+      "height": 160,
+      "refs": []
+    },
+    {
+      "name": "fish-golden",
+      "outPath": "games/fishing/assets/fish-golden.webp",
+      "prompt": "Cute shiny golden bonus fish side view with soft sparkle, big friendly eyes, centered, kid-safe.",
+      "width": 256,
+      "height": 160,
+      "refs": []
+    },
+    {
+      "name": "baby-octopus",
+      "outPath": "games/fishing/assets/baby-octopus.webp",
+      "prompt": "Cute baby purple octopus facing forward, round head, soft tentacles, big friendly eyes, centered, kid-safe.",
+      "width": 224,
+      "height": 224,
+      "refs": []
+    },
+    {
+      "name": "baby-whale",
+      "outPath": "games/fishing/assets/baby-whale.webp",
+      "prompt": "Cute baby blue whale side view swimming, gentle smile, soft rounded body, centered, kid-safe.",
+      "width": 320,
+      "height": 200,
+      "refs": []
+    },
+    {
+      "name": "sea-turtle",
+      "outPath": "games/fishing/assets/sea-turtle.webp",
+      "prompt": "Cute sea turtle side view swimming, soft green shell, friendly eyes, centered, kid-safe.",
+      "width": 280,
+      "height": 200,
+      "refs": []
+    },
+    {
+      "name": "dolphin",
+      "outPath": "games/fishing/assets/dolphin.webp",
+      "prompt": "Cute dolphin mid-jump side view, soft blue-gray, friendly smile, centered, kid-safe.",
+      "width": 300,
+      "height": 200,
+      "refs": []
+    },
+    {
+      "name": "fishing-net",
+      "outPath": "games/fishing/assets/fishing-net.webp",
+      "prompt": "Simple cute round fishing net with wooden handle, soft cartoon silhouette, centered, kid-safe.",
+      "width": 192,
+      "height": 192,
+      "refs": []
+    }
+  ]
+}

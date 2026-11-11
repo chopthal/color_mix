@@ -1,0 +1,6 @@
+<svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+        <path class="part" data-part="body" data-name="사과" d="M150 92 Q120 68 92 96 Q64 130 84 190 Q104 248 150 248 Q196 248 216 190 Q236 130 208 96 Q180 68 150 92 Z" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <path class="part" data-part="stem" data-name="꼭지" d="M148 92 Q144 66 156 52 L168 56 Q158 70 160 92 Z" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <path class="part" data-part="leaf" data-name="잎" d="M160 70 Q190 52 210 66 Q204 90 176 90 Q164 82 160 70 Z" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <ellipse class="part" data-part="highlight" data-name="하이라이트" cx="112" cy="128" rx="16" ry="26" transform="rotate(24 112 128)" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+      </svg>

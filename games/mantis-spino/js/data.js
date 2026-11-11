@@ -29,7 +29,7 @@ const MS_CHARS = [
     art: { sail: true, webbed: true, longSnout: true },
     attacks: [
       { id: 'roar', label: '크아앙!', emoji: '📣', sfx: 'chomp', motion: 'shout', effect: 'ring' },
-      { id: 'bite', label: '깨물기', emoji: '🦷', sfx: 'chomp', motion: 'dash', effect: 'spark' },
+      { id: 'bite', label: '마시멜로 냠!', emoji: '🧁', sfx: 'chomp', motion: 'dash', effect: 'spark' },
       { id: 'push', label: '밀기', emoji: '💨', sfx: 'bonk', motion: 'dash', effect: 'dust' },
     ],
   },
@@ -45,7 +45,7 @@ const MS_CHARS = [
     art: { mane: true },
     attacks: [
       { id: 'roar', label: '어흥!', emoji: '📣', sfx: 'chomp', motion: 'shout', effect: 'ring' },
-      { id: 'bite', label: '물기', emoji: '🦷', sfx: 'chomp', motion: 'dash', effect: 'spark' },
+      { id: 'bite', label: '포근 냠냠', emoji: '🐾', sfx: 'chomp', motion: 'dash', effect: 'spark' },
       { id: 'push', label: '밀기', emoji: '💨', sfx: 'bonk', motion: 'dash', effect: 'dust' },
     ],
   },
@@ -89,7 +89,7 @@ const MS_CHARS = [
     art: { bigHead: true, tinyArms: true },
     attacks: [
       { id: 'roar', label: '어흥!', emoji: '📣', sfx: 'chomp', motion: 'shout', effect: 'ring' },
-      { id: 'bite', label: '깨물기', emoji: '🦷', sfx: 'chomp', motion: 'dash', effect: 'spark' },
+      { id: 'bite', label: '마시멜로 냠!', emoji: '🧁', sfx: 'chomp', motion: 'dash', effect: 'spark' },
       { id: 'push', label: '꼬리 밀기', emoji: '💨', sfx: 'bonk', motion: 'dash', effect: 'dust' },
     ],
   },

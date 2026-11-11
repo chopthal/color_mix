@@ -1,0 +1,148 @@
+/* KidsKit UI tokens + soft ending / rest button */
+
+:root {
+  --kk-cream: #fff8ef;
+  --kk-sky: #7ec8e3;
+  --kk-mint: #8fd6b5;
+  --kk-peach: #ffb58a;
+  --kk-butter: #ffe08a;
+  --kk-ink: #3a3a45;
+  --kk-ink-soft: #5c5c6a;
+  --kk-overlay: rgba(40, 48, 64, 0.45);
+  --kk-card: #ffffff;
+  --kk-shadow: 0 10px 28px rgba(58, 58, 69, 0.16);
+  --kk-radius-lg: 28px;
+  --kk-radius-md: 22px;
+  --kk-radius-pill: 999px;
+  --kk-font: "Jua", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  --kk-touch-min: 64px;
+  --kk-safe-bottom: env(safe-area-inset-bottom, 0px);
+  --kk-safe-right: env(safe-area-inset-right, 0px);
+  --kk-safe-left: env(safe-area-inset-left, 0px);
+  --kk-safe-top: env(safe-area-inset-top, 0px);
+}
+
+.kk-btn {
+  appearance: none;
+  border: 0;
+  cursor: pointer;
+  min-height: var(--kk-touch-min);
+  min-width: var(--kk-touch-min);
+  padding: 0.85rem 1.4rem;
+  border-radius: var(--kk-radius-pill);
+  font-family: var(--kk-font);
+  font-size: 1.25rem;
+  line-height: 1.2;
+  color: var(--kk-ink);
+  background: var(--kk-butter);
+  box-shadow: var(--kk-shadow);
+  transition: transform 0.12s ease, filter 0.12s ease;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.kk-btn:active {
+  transform: scale(0.97);
+  filter: brightness(0.98);
+}
+
+.kk-btn--primary {
+  background: var(--kk-mint);
+}
+
+.kk-btn--rest {
+  background: var(--kk-sky);
+}
+
+.kk-rest-btn {
+  position: fixed;
+  z-index: 9400;
+  right: calc(12px + var(--kk-safe-right));
+  bottom: calc(12px + var(--kk-safe-bottom));
+  min-width: var(--kk-touch-min);
+  min-height: var(--kk-touch-min);
+  padding: 0.7rem 1.1rem;
+  border: 0;
+  border-radius: var(--kk-radius-pill);
+  background: var(--kk-sky);
+  color: var(--kk-ink);
+  font-family: var(--kk-font);
+  font-size: 1.1rem;
+  box-shadow: var(--kk-shadow);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.kk-rest-btn--bl {
+  right: auto;
+  left: calc(12px + var(--kk-safe-left, 0px));
+}
+
+.kk-rest-btn--tr,
+.kk-rest-btn--tl {
+  bottom: auto;
+  top: calc(12px + var(--kk-safe-top, 0px));
+}
+
+.kk-rest-btn--tl {
+  right: auto;
+  left: calc(12px + var(--kk-safe-left, 0px));
+}
+
+.kk-rest-btn:active {
+  transform: scale(0.97);
+}
+
+.kk-soft-ending {
+  position: fixed;
+  inset: 0;
+  z-index: 9500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: calc(16px + var(--kk-safe-top)) calc(16px + var(--kk-safe-right))
+    calc(16px + var(--kk-safe-bottom)) calc(16px + var(--kk-safe-left));
+  background: var(--kk-overlay);
+  box-sizing: border-box;
+}
+
+.kk-soft-ending__card {
+  width: min(92vw, 360px);
+  background: var(--kk-card);
+  border-radius: var(--kk-radius-lg);
+  box-shadow: var(--kk-shadow);
+  padding: 1.6rem 1.25rem 1.35rem;
+  text-align: center;
+}
+
+.kk-soft-ending__emoji {
+  font-size: 2.6rem;
+  line-height: 1;
+  margin-bottom: 0.55rem;
+}
+
+.kk-soft-ending__title {
+  margin: 0 0 1.2rem;
+  font-family: var(--kk-font);
+  font-size: 1.55rem;
+  font-weight: 400;
+  color: var(--kk-ink);
+}
+
+.kk-soft-ending__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+@media (min-width: 480px) {
+  .kk-soft-ending__actions {
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  .kk-soft-ending__actions .kk-btn {
+    flex: 1;
+  }
+}

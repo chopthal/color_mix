@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 96" fill="none">
+  <!-- single cute bat wing facing right (left copy is CSS-flipped) -->
+  <ellipse cx="64" cy="88" rx="28" ry="5" fill="#3D2B1F" opacity="0.12"/>
+  <!-- attach nub on left -->
+  <ellipse cx="28" cy="50" rx="12" ry="14" fill="#2E3A6B" stroke="#3D2B1F" stroke-width="4" stroke-linejoin="round"/>
+  <!-- wing membrane, round lobes -->
+  <path d="M34 50
+           C48 28 70 20 96 24
+           C88 36 86 44 92 52
+           C78 48 70 52 66 62
+           C58 54 48 56 42 64
+           C38 58 34 56 34 50 Z"
+        fill="#A78BFA" stroke="#3D2B1F" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <ellipse cx="56" cy="40" rx="12" ry="7" fill="#FFF6E5" opacity="0.4"/>
+  <!-- soft lobe tips -->
+  <circle cx="96" cy="28" r="8" fill="#A78BFA" stroke="#3D2B1F" stroke-width="3.5"/>
+  <circle cx="90" cy="50" r="7" fill="#A78BFA" stroke="#3D2B1F" stroke-width="3.5"/>
+  <circle cx="64" cy="60" r="6" fill="#A78BFA" stroke="#3D2B1F" stroke-width="3"/>
+</svg>

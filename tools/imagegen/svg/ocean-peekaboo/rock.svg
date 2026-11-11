@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 208 176" fill="none">
+  <ellipse cx="104" cy="160" rx="70" ry="12" fill="#3D2B1F" opacity="0.12"/>
+  <!-- main boulder (soft underwater blue-gray from palette) -->
+  <path d="M28 132 C34 70, 70 40, 104 46 C140 30, 176 62, 182 128 C150 152, 60 154, 28 132 Z" fill="#3BA4E6" stroke="#3D2B1F" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"/>
+  <!-- lighter top plane -->
+  <path d="M48 124 C54 82, 82 62, 108 66 C134 54, 158 76, 160 118 C136 132, 72 134, 48 124 Z" fill="#7CC6FE" stroke="#3D2B1F" stroke-width="5" stroke-linejoin="round"/>
+  <ellipse cx="80" cy="78" rx="28" ry="14" fill="#FFF6E5" opacity="0.45"/>
+  <!-- soft speckles -->
+  <circle cx="72" cy="108" r="5" fill="#2E3A6B" opacity="0.25"/>
+  <circle cx="118" cy="100" r="4" fill="#2E3A6B" opacity="0.22"/>
+  <circle cx="96" cy="124" r="3.5" fill="#2E3A6B" opacity="0.2"/>
+  <circle cx="140" cy="112" r="3" fill="#2E3A6B" opacity="0.2"/>
+</svg>

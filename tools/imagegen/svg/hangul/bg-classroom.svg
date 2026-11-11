@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 768 512" width="768" height="512" fill="none">
+  <!-- soft chalk-board wash, calm center for stroke roads -->
+  <defs>
+    <linearGradient id="classSky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FFF6E5"/>
+      <stop offset="55%" stop-color="#F5F0E0"/>
+      <stop offset="100%" stop-color="#E8F5E9"/>
+    </linearGradient>
+    <linearGradient id="boardWash" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#DDE9D4" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#C8D9BE" stop-opacity="0.35"/>
+    </linearGradient>
+  </defs>
+  <rect width="768" height="512" fill="url(#classSky)"/>
+  <!-- faint chalkboard panel, edges only strong -->
+  <rect x="48" y="40" width="672" height="400" rx="28" fill="url(#boardWash)"/>
+  <rect x="48" y="40" width="672" height="400" rx="28" fill="none" stroke="#B07A4F" stroke-width="10" opacity="0.28" stroke-linejoin="round"/>
+  <!-- chalk tray -->
+  <rect x="120" y="430" width="528" height="22" rx="10" fill="#B07A4F" opacity="0.22"/>
+  <!-- left shelf books (soft) -->
+  <rect x="64" y="360" width="28" height="56" rx="6" fill="#FF6B81" opacity="0.28"/>
+  <rect x="96" y="348" width="26" height="68" rx="6" fill="#7CC6FE" opacity="0.28"/>
+  <rect x="126" y="368" width="24" height="48" rx="6" fill="#FFC94A" opacity="0.28"/>
+  <!-- right plant -->
+  <ellipse cx="690" cy="400" rx="22" ry="14" fill="#7BD389" opacity="0.35"/>
+  <ellipse cx="678" cy="384" rx="16" ry="18" fill="#3FA34D" opacity="0.28"/>
+  <ellipse cx="702" cy="382" rx="14" ry="16" fill="#6EE7B7" opacity="0.3"/>
+  <rect x="684" y="408" width="14" height="28" rx="5" fill="#B07A4F" opacity="0.28"/>
+  <!-- soft sun window top-right -->
+  <circle cx="640" cy="100" r="36" fill="#FFC94A" opacity="0.22"/>
+  <circle cx="640" cy="100" r="22" fill="#FFF6E5" opacity="0.35"/>
+  <!-- tiny chalk dust dots near edges -->
+  <circle cx="180" cy="90" r="4" fill="#FFFFFF" opacity="0.45"/>
+  <circle cx="210" cy="110" r="3" fill="#FFFFFF" opacity="0.35"/>
+  <circle cx="560" cy="80" r="3.5" fill="#FFFFFF" opacity="0.4"/>
+  <!-- open calm center intentionally empty -->
+</svg>

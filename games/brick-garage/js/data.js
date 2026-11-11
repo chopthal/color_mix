@@ -207,15 +207,160 @@ function bgGetVehicle(id) {
   return roster.find((v) => v.id === id) || roster[0];
 }
 
+/** 출동 장소·타깃 세트 로테이션 (난이도↑ 아님) */
+const BG_SCENE_PACKS = {
+  rock: [
+    {
+      id: 'yard',
+      buildings: ['#93c5fd', '#f9a8d4', '#fcd34d', '#86efac', '#c4b5fd', '#fdba74', '#a5b4fc'],
+      heights: [52, 74, 44, 88, 60, 70, 48],
+      rock: ['#cbd5e1', '#94a3b8', '#a8b3c2', '#f9a826', '#60a5fa', '#ef4444', '#4ade80'],
+      skyClass: 'city--day',
+    },
+    {
+      id: 'sunset',
+      buildings: ['#fda4af', '#fdba74', '#fde68a', '#c4b5fd', '#67e8f9', '#86efac', '#f9a8d4'],
+      heights: [40, 82, 56, 70, 48, 90, 62],
+      rock: ['#a78bfa', '#f472b6', '#fb923c', '#facc15', '#38bdf8', '#4ade80', '#e2e8f0'],
+      skyClass: 'city--sunset',
+    },
+    {
+      id: 'park',
+      buildings: ['#86efac', '#bbf7d0', '#fde68a', '#a5b4fc', '#fdba74', '#67e8f9', '#f9a8d4'],
+      heights: [36, 58, 72, 50, 84, 44, 66],
+      rock: ['#78716c', '#a8a29e', '#d6d3d1', '#65a30d', '#84cc16', '#fbbf24', '#38bdf8'],
+      skyClass: 'city--park',
+    },
+  ],
+  water: [
+    {
+      id: 'tower',
+      windows: [[14, 16], [52, 20], [30, 52], [66, 56]],
+      flames: [[24, 12], [60, 16], [40, 42], [70, 46], [18, 62]],
+      buildingClass: 'fire-building--tower',
+      skyClass: 'city--day',
+    },
+    {
+      id: 'house',
+      windows: [[18, 22], [58, 18], [38, 48]],
+      flames: [[22, 10], [55, 14], [36, 38], [68, 44]],
+      buildingClass: 'fire-building--house',
+      skyClass: 'city--sunset',
+    },
+    {
+      id: 'shed',
+      windows: [[22, 28], [62, 30]],
+      flames: [[28, 16], [58, 20], [44, 48], [72, 52], [16, 58], [50, 64]],
+      buildingClass: 'fire-building--shed',
+      skyClass: 'city--park',
+    },
+  ],
+  crane: [
+    {
+      id: 'river',
+      colors: ['#60a5fa', '#f9a826', '#4ade80'],
+      positions: [
+        { left: 58, bottom: 54 },
+        { left: 70, bottom: 60 },
+        { left: 63, bottom: 70 },
+      ],
+      skyClass: 'city--day',
+    },
+    {
+      id: 'canal',
+      colors: ['#f472b6', '#38bdf8', '#facc15'],
+      positions: [
+        { left: 54, bottom: 50 },
+        { left: 72, bottom: 56 },
+        { left: 62, bottom: 68 },
+      ],
+      skyClass: 'city--sunset',
+    },
+    {
+      id: 'dock',
+      colors: ['#a78bfa', '#34d399', '#fb923c'],
+      positions: [
+        { left: 60, bottom: 48 },
+        { left: 74, bottom: 58 },
+        { left: 66, bottom: 72 },
+      ],
+      skyClass: 'city--park',
+    },
+  ],
+  pour: [
+    { id: 'road', holeClass: 'pour-hole--road', skyClass: 'city--day' },
+    { id: 'plaza', holeClass: 'pour-hole--plaza', skyClass: 'city--sunset' },
+    { id: 'yard', holeClass: 'pour-hole--yard', skyClass: 'city--park' },
+  ],
+  load: [
+    {
+      id: 'lot',
+      colors: ['#60a5fa', '#f9a826', '#4ade80'],
+      floats: [
+        { left: 62, bottom: 58 },
+        { left: 74, bottom: 66 },
+        { left: 66, bottom: 74 },
+      ],
+      skyClass: 'city--day',
+    },
+    {
+      id: 'depot',
+      colors: ['#f472b6', '#38bdf8', '#fbbf24'],
+      floats: [
+        { left: 58, bottom: 54 },
+        { left: 76, bottom: 62 },
+        { left: 68, bottom: 72 },
+      ],
+      skyClass: 'city--sunset',
+    },
+  ],
+};
+
+function bgPickScene(mission, seed) {
+  const packs = BG_SCENE_PACKS[mission] || BG_SCENE_PACKS.rock;
+  const n = typeof seed === 'number' ? seed : 0;
+  return packs[Math.abs(n) % packs.length];
+}
+
+function bgBodySlot(bodyStyle) {
+  const base = Object.assign({}, BG_SLOTS.base);
+  if (bodyStyle === 'bike') {
+    base.x = 22;
+    base.w = 56;
+    base.h = 16;
+  } else if (bodyStyle === 'bus' || bodyStyle === 'long') {
+    base.x = 4;
+    base.w = 92;
+    base.h = 20;
+  } else if (bodyStyle === 'tank') {
+    base.x = 10;
+    base.w = 80;
+    base.h = 24;
+  } else if (bodyStyle === 'compact') {
+    base.x = 14;
+    base.w = 72;
+    base.h = 17;
+  } else if (bodyStyle === 'tall' || bodyStyle === 'van') {
+    base.y = 46;
+    base.h = 24;
+  } else if (bodyStyle === 'crawler' || bodyStyle === 'roller') {
+    base.y = 48;
+    base.h = 22;
+  }
+  return base;
+}
+
 function bgResolvePart(vehicle, partId, wheelChoice) {
   switch (partId) {
     case 'base':
       return {
         id: 'base',
-        slot: BG_SLOTS.base,
+        slot: bgBodySlot(vehicle.bodyStyle || 'standard'),
         color: vehicle.color,
+        trim: vehicle.trim,
+        bodyStyle: vehicle.bodyStyle || 'standard',
         shape: 'base',
-        studs: 6,
+        studs: vehicle.bodyStyle === 'bike' ? 3 : 6,
       };
     case 'wheels': {
       if (wheelChoice === 'jet') {

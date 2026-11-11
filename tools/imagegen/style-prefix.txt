@@ -1,0 +1,7 @@
+Children's game art for ages 3-5, style A: bold clean outlines in dark cocoa brown (#3D2B1F), flat solid colors with a single soft highlight per shape.
+Big head, round chunky body, front or 3/4 view facing right, simple readable silhouette, limited cheerful palette.
+Rounded tips on horns, spikes and teeth. No realistic horror, no gore, no scary mood.
+No text, letters, numbers, logos, or watermarks in the image.
+No drop shadow (a single faint contact shadow under the feet is allowed).
+Flat solid chroma-key background exactly #00FF00, evenly lit, no gradients on the background.
+Subject fully visible, centered, with clear edges against the green screen.

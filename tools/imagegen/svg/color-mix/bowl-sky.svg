@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 320" fill="none">
+  <!-- Soft fluffy cloud bowl with hollow center - Style A -->
+  <ellipse cx="256" cy="294" rx="160" ry="12" fill="#3D2B1F" opacity="0.12"/>
+  <!-- Cloud outer puffs forming a bowl -->
+  <path d="M96 170
+           C70 170 58 140 82 122
+           C70 98 96 78 124 88
+           C132 58 178 50 204 78
+           C228 48 292 48 316 78
+           C350 52 400 64 404 104
+           C440 100 462 132 444 158
+           C470 170 460 204 428 206
+           C440 240 400 262 356 250
+           C340 278 280 288 256 288
+           C232 288 172 278 156 250
+           C112 262 72 240 84 206
+           C52 204 48 170 96 170Z"
+        fill="#7CC6FE" stroke="#3D2B1F" stroke-width="13" stroke-linejoin="round" stroke-linecap="round"/>
+  <!-- Hollow cream center for mixing -->
+  <ellipse cx="256" cy="168" rx="110" ry="58"
+           fill="#FFF6E5" stroke="#3D2B1F" stroke-width="11" stroke-linejoin="round"/>
+  <!-- Soft smile (optional, friendly) -->
+  <path d="M220 188 Q256 208 292 188"
+        fill="none" stroke="#3D2B1F" stroke-width="7" stroke-linecap="round"/>
+  <!-- Eyes -->
+  <ellipse cx="222" cy="158" rx="10" ry="12" fill="#3D2B1F"/>
+  <ellipse cx="290" cy="158" rx="10" ry="12" fill="#3D2B1F"/>
+  <circle cx="225" cy="154" r="3.5" fill="#FFFFFF"/>
+  <circle cx="293" cy="154" r="3.5" fill="#FFFFFF"/>
+  <!-- Blush -->
+  <circle cx="198" cy="178" r="12" fill="#FFB3C1" opacity="0.5"/>
+  <circle cx="314" cy="178" r="12" fill="#FFB3C1" opacity="0.5"/>
+  <!-- Highlight puffs -->
+  <ellipse cx="150" cy="120" rx="28" ry="18" fill="#FFFFFF" opacity="0.55"/>
+  <ellipse cx="360" cy="118" rx="22" ry="14" fill="#FFFFFF" opacity="0.5"/>
+</svg>

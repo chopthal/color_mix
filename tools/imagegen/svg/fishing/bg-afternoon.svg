@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 1688" width="780" height="1688">
+  <defs>
+    <linearGradient id="aWater" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#9BE8F5"/>
+      <stop offset="30%" stop-color="#67D4F0"/>
+      <stop offset="65%" stop-color="#3BA4E6"/>
+      <stop offset="100%" stop-color="#246A9E"/>
+    </linearGradient>
+    <linearGradient id="aSand" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FFE0A8"/>
+      <stop offset="100%" stop-color="#E0B86A"/>
+    </linearGradient>
+    <radialGradient id="aGlow" cx="80%" cy="10%" r="55%">
+      <stop offset="0%" stop-color="#FFC94A" stop-opacity="0.35"/>
+      <stop offset="60%" stop-color="#FF9F45" stop-opacity="0.1"/>
+      <stop offset="100%" stop-color="#FF9F45" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="780" height="1688" fill="url(#aWater)"/>
+  <ellipse cx="620" cy="120" rx="300" ry="280" fill="url(#aGlow)"/>
+  <!-- warm golden tint wash -->
+  <rect width="780" height="1688" fill="#FFC94A" opacity="0.06"/>
+  <path d="M50 1120 Q90 980 60 840 Q110 960 100 1140 Q80 1340 50 1500" fill="#3FA34D" opacity="0.32"/>
+  <path d="M730 1100 Q690 960 720 820 Q670 940 680 1120 Q700 1320 730 1480" fill="#3FA34D" opacity="0.32"/>
+  <path d="M120 1240 Q150 1120 130 1000 Q170 1120 160 1260" fill="#FF9F45" opacity="0.14"/>
+  <circle cx="100" cy="400" r="8" fill="#FFFFFF" opacity="0.2"/>
+  <circle cx="700" cy="440" r="10" fill="#FFFFFF" opacity="0.18"/>
+  <path d="M0 1390 Q200 1330 390 1370 Q580 1410 780 1340 L780 1688 L0 1688 Z" fill="url(#aSand)"/>
+  <ellipse cx="300" cy="1510" rx="48" ry="12" fill="#B07A4F" opacity="0.12"/>
+</svg>

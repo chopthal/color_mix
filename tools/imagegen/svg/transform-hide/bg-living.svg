@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 1688">
+  <defs>
+    <linearGradient id="wall" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F4EFFF"/>
+      <stop offset="100%" stop-color="#E4D7FF"/>
+    </linearGradient>
+    <linearGradient id="floor" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#E8D4B8"/>
+      <stop offset="100%" stop-color="#D4B896"/>
+    </linearGradient>
+  </defs>
+  <rect width="780" height="1215" fill="url(#wall)"/>
+  <!-- soft stripes -->
+  <rect y="180" width="780" height="28" fill="#D4C2F5" opacity="0.35"/>
+  <rect y="360" width="780" height="28" fill="#D4C2F5" opacity="0.28"/>
+  <rect y="540" width="780" height="28" fill="#D4C2F5" opacity="0.22"/>
+  <!-- tiny star dots (sides only) -->
+  <circle cx="70" cy="160" r="6" fill="#A78BFA" opacity="0.45"/>
+  <circle cx="120" cy="280" r="4" fill="#FFC94A" opacity="0.5"/>
+  <circle cx="60" cy="420" r="5" fill="#A78BFA" opacity="0.4"/>
+  <circle cx="710" cy="200" r="5" fill="#A78BFA" opacity="0.45"/>
+  <circle cx="740" cy="360" r="4" fill="#FFC94A" opacity="0.45"/>
+  <circle cx="690" cy="500" r="6" fill="#A78BFA" opacity="0.35"/>
+  <!-- glowing purple arch portal at top center -->
+  <ellipse cx="390" cy="120" rx="120" ry="90" fill="#C4B5FD" opacity="0.55"/>
+  <path d="M270 180 Q270 40 390 40 Q510 40 510 180" fill="#9B7DFF" opacity="0.55"/>
+  <path d="M300 180 Q300 80 390 80 Q480 80 480 180" fill="#E9D5FF" opacity="0.7"/>
+  <ellipse cx="390" cy="100" rx="40" ry="28" fill="#FFF6E5" opacity="0.55"/>
+  <!-- round star window right -->
+  <circle cx="640" cy="280" r="70" fill="#B8D9FF" opacity="0.85"/>
+  <circle cx="640" cy="280" r="52" fill="#7CC6FE" opacity="0.55"/>
+  <circle cx="618" cy="260" r="16" fill="#FFFFFF" opacity="0.45"/>
+  <!-- floor -->
+  <rect y="1215" width="780" height="473" fill="url(#floor)"/>
+  <line x1="0" y1="1280" x2="780" y2="1280" stroke="#A0785A" stroke-opacity="0.22" stroke-width="3"/>
+  <line x1="0" y1="1350" x2="780" y2="1350" stroke="#A0785A" stroke-opacity="0.22" stroke-width="3"/>
+  <line x1="0" y1="1420" x2="780" y2="1420" stroke="#A0785A" stroke-opacity="0.22" stroke-width="3"/>
+  <line x1="0" y1="1490" x2="780" y2="1490" stroke="#A0785A" stroke-opacity="0.22" stroke-width="3"/>
+  <line x1="0" y1="1560" x2="780" y2="1560" stroke="#A0785A" stroke-opacity="0.22" stroke-width="3"/>
+  <!-- oval star rug -->
+  <ellipse cx="390" cy="1450" rx="220" ry="90" fill="#DDD0FF" opacity="0.9"/>
+  <ellipse cx="390" cy="1450" rx="160" ry="60" fill="#F3ECFF" opacity="0.95"/>
+  <path d="M390 1410 L398 1430 L420 1432 L402 1444 L408 1466 L390 1452 L372 1466 L378 1444 L360 1432 L382 1430 Z" fill="#FFC94A" opacity="0.7"/>
+</svg>

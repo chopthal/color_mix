@@ -8,6 +8,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="달콤 사탕 자판기">
   <title>🍬 달콤 사탕 자판기</title>
+  <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
 
   <script>
     (function () {
@@ -22,6 +23,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
 
+  <link rel="stylesheet" href="../_shared/kit.css">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -44,8 +46,8 @@
     <div class="ending-overlay" id="endingOverlay">
       <div class="ending-card">
         <div class="ending-ornament">🦷✨🍬</div>
-        <h2>치카치카 대성공!</h2>
-        <p>이가 반짝반짝 깨끗해졌어요</p>
+        <h2 id="endingTitle">치카치카 대성공!</h2>
+        <p id="endingMsg">이가 반짝반짝 깨끗해졌어요</p>
         <div class="ending-actions">
           <button class="btn-pill btn-again" id="btnAgain" type="button">또 먹기! 🍬</button>
           <a class="btn-pill btn-play" id="btnRest" href="../../index.html">쉬자 🏠</a>
@@ -54,6 +56,7 @@
     </div>
   </main>
 
+  <script src="../_shared/kit.js"></script>
   <script src="js/game.js"></script>
 </body>
 </html>

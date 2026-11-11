@@ -7,6 +7,10 @@
   'use strict';
 
   const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const Kit = window.KidsKit || null;
+  const store = Kit ? Kit.store('dino-bumper') : null;
+  const ASSETS = Object.create(null);
+  const LOBBY = '../../index.html';
 
   const els = {
     canvas: document.getElementById('arenaCanvas'),
@@ -17,6 +21,8 @@
     arenaRow: document.getElementById('arenaRow'),
     startBtn: document.getElementById('btnStart'),
     ending: document.getElementById('endingOverlay'),
+    endingTitle: document.getElementById('endingTitle'),
+    endingSub: document.getElementById('endingSub'),
     btnAgain: document.getElementById('btnAgain'),
     btnChange: document.getElementById('btnChange'),
     basket: document.getElementById('basketPill'),
@@ -24,6 +30,8 @@
     friendChip: document.getElementById('friendChip'),
     friendName: document.getElementById('friendName'),
     sound: document.getElementById('btnSound'),
+    welcomeLine: document.getElementById('welcomeLine'),
+    dexStrip: document.getElementById('dexStrip'),
   };
 
   const G = {
@@ -43,6 +51,7 @@
     fruits: [],
     particles: [],
     puddles: [],
+    props: [],
     golden: null,
     ring: null,
     collected: 0,
@@ -54,11 +63,74 @@
     lastT: 0,
     bumpCd: 0,
     fruitCd: 0,
+    bumpCount: 0,
+    secretIdx: 0,
+    roundsWon: 0,
+    propToastCd: 0,
     aiTimer: 0,
     aiDash: 0,
     aiMode: 'wander',
     aiWander: { x: 0, y: 0 },
   };
+
+  function defaultSave() {
+    return {
+      visits: 0,
+      snacks: {},
+      metDinos: [],
+      lastDinoId: null,
+      lastFriendId: null,
+      totalSnacks: 0,
+      rounds: 0,
+    };
+  }
+
+  function loadSave() {
+    if (!store) return defaultSave();
+    const raw = store.get('save', null);
+    if (!raw || typeof raw !== 'object') return defaultSave();
+    return Object.assign(defaultSave(), raw, {
+      snacks: raw.snacks && typeof raw.snacks === 'object' ? raw.snacks : {},
+      metDinos: Array.isArray(raw.metDinos) ? raw.metDinos : [],
+    });
+  }
+
+  function writeSave(patch) {
+    if (!store) return loadSave();
+    const next = Object.assign(loadSave(), patch || {});
+    store.set('save', next);
+    return next;
+  }
+
+  function getAsset(key) {
+    const img = ASSETS[key];
+    if (!img || img.dataset.kidsKitPlaceholder === '1') return null;
+    if (!img.complete || !(img.naturalWidth > 0)) return null;
+    return img;
+  }
+
+  function preloadAssets() {
+    if (!Kit || !Kit.assets) return Promise.resolve();
+    const list = [];
+    DB_DINOS.forEach((d) => {
+      list.push({ src: 'assets/dino-' + d.id + '.webp', key: 'dino-' + d.id });
+    });
+    DB_SNACKS.forEach((emoji, i) => {
+      list.push({ src: 'assets/snack-' + i + '.webp', key: 'snack-' + i });
+    });
+    list.push({ src: 'assets/golden-fruit.webp', key: 'golden-fruit' });
+    list.push({ src: 'assets/prop-flower.webp', key: 'prop-flower' });
+    list.push({ src: 'assets/prop-wave.webp', key: 'prop-wave' });
+    list.push({ src: 'assets/prop-spark.webp', key: 'prop-spark' });
+    DB_ARENAS.forEach((a) => {
+      list.push({ src: 'assets/arena-' + a.id + '.webp', key: 'arena-' + a.id });
+    });
+    return Kit.assets.preload(list).then((res) => {
+      Object.keys(res.images).forEach((k) => {
+        ASSETS[k] = res.images[k];
+      });
+    });
+  }
 
   const rand = (a, b) => a + Math.random() * (b - a);
   const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
@@ -136,24 +208,34 @@
     const giggle = o.giggle || 0;
     const tilt = o.tilt || 0;
     const phase = o.phase || 0;
+    const sit = o.sit || 0;
+    const spin = o.spin || 0;
 
-    const sx = 1 + squash * 0.26;
-    const sy = 1 - squash * 0.2;
+    const sx = 1 + squash * 0.26 + sit * 0.35;
+    const sy = 1 - squash * 0.2 - sit * 0.28;
     const bob = Math.sin(time * 3 + phase) * r * 0.02;
-    const lift = hop * r * 0.55;
+    const lift = hop * r * 0.55 - sit * r * 0.18;
     const wiggle = giggle > 0 ? Math.sin(time * 40) * r * 0.03 : 0;
+    const spinRot = spin > 0 ? Math.sin(time * 14) * 0.55 * spin : 0;
 
     ctx.save();
     ctx.fillStyle = 'rgba(35, 60, 40, 0.16)';
     ctx.beginPath();
-    ctx.ellipse(x, y + r * 0.92, r * 0.8 * (1 + squash * 0.1), r * 0.2, 0, 0, Math.PI * 2);
+    ctx.ellipse(x, y + r * 0.92, r * 0.8 * (1 + squash * 0.1 + sit * 0.2), r * 0.2, 0, 0, Math.PI * 2);
     ctx.fill();
     ctx.restore();
 
     ctx.save();
     ctx.translate(x + wiggle, y - lift + bob);
-    ctx.rotate(tilt);
+    ctx.rotate(tilt + spinRot);
     ctx.scale(facing * sx, sy);
+
+    const sprite = getAsset('dino-' + dino.id);
+    if (sprite) {
+      ctx.drawImage(sprite, -r * 1.15, -r * 1.25, r * 2.3, r * 2.3);
+      ctx.restore();
+      return;
+    }
 
     // 꼬리
     ctx.fillStyle = dino.color;
@@ -344,6 +426,34 @@
     return pool[Math.floor(Math.random() * pool.length)].id;
   }
 
+  function renderDex(save) {
+    if (!els.dexStrip) return;
+    const snacks = save.snacks || {};
+    const keys = Object.keys(snacks).filter((k) => snacks[k] > 0);
+    if (!keys.length) {
+      els.dexStrip.hidden = true;
+      els.dexStrip.innerHTML = '';
+      return;
+    }
+    els.dexStrip.hidden = false;
+    els.dexStrip.innerHTML = keys
+      .slice(0, 8)
+      .map((k) => '<span class="dex-chip">' + k + ' ' + snacks[k] + '</span>')
+      .join('');
+  }
+
+  function applyWelcome(save) {
+    if (!els.welcomeLine) return;
+    if (save.visits > 0 && save.lastFriendId) {
+      const friend = DB_DINOS.find((d) => d.id === save.lastFriendId);
+      const name = friend ? friend.name : '친구 공룡';
+      els.welcomeLine.textContent = name + '가 또 보고 싶대! 간식도 같이 보자';
+    } else {
+      els.welcomeLine.textContent = '내 공룡을 고르고, 친구도 골라요';
+    }
+    renderDex(save);
+  }
+
   function buildSelect() {
     els.dinoGrid.innerHTML = '';
     DB_DINOS.forEach((d) => {
@@ -464,10 +574,24 @@
       squash: 0,
       hop: 0,
       giggle: 0,
+      sit: 0,
+      spin: 0,
       walk: 0,
       tilt: 0,
       phase: Math.random() * 6,
     };
+  }
+
+  function rememberPair() {
+    const save = loadSave();
+    const met = new Set(save.metDinos || []);
+    met.add(G.dinoId);
+    met.add(G.friendId);
+    writeSave({
+      lastDinoId: G.dinoId,
+      lastFriendId: G.friendId,
+      metDinos: Array.from(met),
+    });
   }
 
   function startRound() {
@@ -481,6 +605,7 @@
     els.basket.hidden = false;
     els.friendChip.hidden = false;
     els.toast.classList.remove('is-on');
+    setRestVisible(true);
 
     G.state = 'play';
     G.player = makeDino(G.dinoId, G.W * 0.32, G.H * 0.66);
@@ -495,12 +620,16 @@
     G.time = 0;
     G.bumpCd = 0;
     G.fruitCd = 0;
+    G.bumpCount = 0;
     G.aiTimer = 1;
     G.aiDash = 0;
     G.aiMode = 'wander';
     G.aiWander = { x: G.W * 0.5, y: G.H * 0.5 };
     G.shake = 0;
     G.dragging = false;
+    G.propToastCd = 0;
+    spawnArenaProps();
+    rememberPair();
 
     els.friendName.textContent = G.friend.dino.name;
     updateBasket();
@@ -516,6 +645,9 @@
     els.toast.classList.remove('is-on');
     G.golden = null;
     G.ring = null;
+    G.props = [];
+    setRestVisible(false);
+    applyWelcome(loadSave());
   }
 
   function updateBasket() {
@@ -759,6 +891,8 @@
     p.squash = Math.max(0, p.squash - dt * 4);
     p.hop = Math.max(0, p.hop - dt * 2.4);
     p.giggle = Math.max(0, p.giggle - dt);
+    p.sit = Math.max(0, p.sit - dt * 1.2);
+    p.spin = Math.max(0, p.spin - dt * 1.1);
   }
 
   function steer(e, tx, ty, maxS, dt) {
@@ -815,6 +949,35 @@
     f.squash = Math.max(0, f.squash - dt * 4);
     f.hop = Math.max(0, f.hop - dt * 2.4);
     f.giggle = Math.max(0, f.giggle - dt);
+    f.sit = Math.max(0, f.sit - dt * 1.2);
+    f.spin = Math.max(0, f.spin - dt * 1.1);
+  }
+
+  function triggerSecretReaction(a, b, mid) {
+    const list = DB_SECRET_REACTIONS;
+    const react = list[G.secretIdx % list.length];
+    G.secretIdx += 1;
+    if (react.id === 'sit') {
+      a.sit = 1;
+      b.sit = 1;
+      a.vx *= 0.2;
+      a.vy *= 0.2;
+      b.vx *= 0.2;
+      b.vy *= 0.2;
+    } else if (react.id === 'jump') {
+      a.hop = 1;
+      b.hop = 1;
+      a.vy -= 180;
+      b.vy -= 180;
+    } else {
+      a.giggle = 1.4;
+      b.giggle = 1.4;
+      a.spin = 1;
+      b.spin = 1;
+    }
+    burst(mid.x, mid.y, REDUCED ? 6 : 14, 'star');
+    toast(react.toast);
+    if (Kit) Kit.haptic('soft');
   }
 
   function collideDinos() {
@@ -881,6 +1044,10 @@
     if (G.bumpCd <= 0) {
       DB_SOUND.play('bump');
       G.bumpCd = 0.18;
+      G.bumpCount += 1;
+      if (G.bumpCount > 0 && G.bumpCount % 3 === 0) {
+        triggerSecretReaction(a, b, mid);
+      }
     }
     burst(mid.x, mid.y, REDUCED ? 5 : 11, 'star');
 
@@ -905,14 +1072,17 @@
   }
 
   function spawnFruit(from) {
-    const emojis = ['🍎', '🍇', '🍊', '🍓', '🍋', '🍉', '🍑', '🍐'];
+    const emojis = DB_SNACKS;
+    const emoji = emojis[Math.floor(Math.random() * emojis.length)];
     G.fruits.push({
       x: from.x + rand(-0.3, 0.3) * G.baseR,
       y: from.y - G.baseR * 0.9,
-      vx: rand(-170, 170),
-      vy: rand(-340, -200),
+      // 튕김을 줄여 유아가 가까이서 줍기 쉽게
+      vx: rand(-85, 85),
+      vy: rand(-200, -110),
       r: G.baseR * 0.36,
-      emoji: emojis[Math.floor(Math.random() * emojis.length)],
+      emoji,
+      snackIndex: emojis.indexOf(emoji),
       angle: 0,
       spin: rand(-3, 3),
       age: 0,
@@ -924,6 +1094,8 @@
   function updateFruits(dt) {
     const p = G.player;
     const f = G.friend;
+    const magnetRange = 120;
+    const magnetPull = 110;
 
     for (let i = G.fruits.length - 1; i >= 0; i -= 1) {
       const fr = G.fruits[i];
@@ -931,6 +1103,14 @@
       fr.age += dt;
       fr.vx *= fric;
       fr.vy *= fric;
+
+      const dPlayer = dist(p, fr);
+      // 플레이어 근처면 천천히 끌어당김(자석)
+      if (fr.age > 0.2 && dPlayer > 1 && dPlayer < magnetRange) {
+        fr.vx += ((p.x - fr.x) / dPlayer) * magnetPull * dt;
+        fr.vy += ((p.y - fr.y) / dPlayer) * magnetPull * dt;
+      }
+
       fr.x += fr.vx * dt;
       fr.y += fr.vy * dt;
       fr.angle += (fr.vx * 0.002 + fr.spin * dt);
@@ -951,7 +1131,8 @@
         fr.vy = -Math.abs(fr.vy) * 0.6;
       }
 
-      if (fr.age > 0.28 && dist(p, fr) < p.r + fr.r * 0.7) {
+      // 수집 반경 확대
+      if (fr.age > 0.28 && dPlayer < p.r + fr.r * 1.45) {
         collectFruit(fr);
         continue;
       }
@@ -968,7 +1149,7 @@
     const min = e.r + fr.r;
     fr.x = e.x + (dx / d) * min;
     fr.y = e.y + (dy / d) * min;
-    const sp = Math.max(120, Math.hypot(e.vx, e.vy) * 0.8);
+    const sp = Math.max(55, Math.hypot(e.vx, e.vy) * 0.4);
     fr.vx = (dx / d) * sp;
     fr.vy = (dy / d) * sp;
   }
@@ -982,9 +1163,123 @@
     burst(fr.x, fr.y, 8, 'star');
     updateBasket();
 
+    const save = loadSave();
+    const snacks = Object.assign({}, save.snacks);
+    snacks[fr.emoji] = (snacks[fr.emoji] || 0) + 1;
+    writeSave({
+      snacks,
+      totalSnacks: (save.totalSnacks || 0) + 1,
+    });
+
     if (G.collected >= G.need && !G.golden) {
       spawnGolden();
     }
+  }
+
+  function spawnArenaProps() {
+    G.props = [];
+    if (!G.W || !G.H) return;
+    const kind = G.arena.prop || 'flower';
+    const count = 5 + Math.floor(Math.random() * 2);
+    for (let i = 0; i < count; i += 1) {
+      G.props.push({
+        kind,
+        x: rand(40, G.W - 40),
+        y: rand(48, G.H - 48),
+        r: G.baseR * (kind === 'wave' ? 0.55 : 0.42),
+        state: 0,
+        cool: 0,
+        phase: Math.random() * 6,
+      });
+    }
+  }
+
+  function touchProp(p, e) {
+    if (p.cool > 0) return;
+    const d = Math.hypot(e.x - p.x, e.y - p.y);
+    if (d > e.r + p.r) return;
+    p.cool = 1.4;
+    p.state = 1;
+    if (p.kind === 'flower') burst(p.x, p.y - 8, 5, 'star');
+    else if (p.kind === 'wave') burst(p.x, p.y, 4, 'star');
+    else burst(p.x, p.y, 6, 'star');
+    if (G.propToastCd <= 0) {
+      G.propToastCd = 2.8;
+      if (p.kind === 'flower') toast('꽃잎이 활짝!');
+      else if (p.kind === 'wave') toast('물결이 찰랑!');
+      else toast('반짝 눈가루!');
+    }
+    if (Kit) Kit.haptic('light');
+  }
+
+  function updateProps(dt) {
+    G.propToastCd = Math.max(0, G.propToastCd - dt);
+    for (let i = 0; i < G.props.length; i += 1) {
+      const p = G.props[i];
+      p.cool = Math.max(0, p.cool - dt);
+      if (p.state > 0) p.state = Math.max(0, p.state - dt * 0.55);
+      if (G.player) touchProp(p, G.player);
+      if (G.friend) touchProp(p, G.friend);
+    }
+  }
+
+  function drawProp(ctx, p) {
+    const t = G.time + p.phase;
+    const pop = p.state > 0 ? 1 + (1 - p.state) * 0.35 : 1;
+    const img = getAsset('prop-' + (p.kind === 'spark' ? 'spark' : p.kind === 'wave' ? 'wave' : 'flower'));
+    ctx.save();
+    ctx.translate(p.x, p.y);
+    ctx.scale(pop, pop);
+    if (img) {
+      const s = p.r * 2.4;
+      ctx.drawImage(img, -s / 2, -s / 2, s, s);
+    } else if (p.kind === 'flower') {
+      const open = 0.55 + Math.min(1, p.state) * 0.7;
+      const colors = ['#ff9fb2', '#ffd166', '#c3a6ff', '#ffffff'];
+      ctx.fillStyle = colors[Math.floor(p.phase) % colors.length];
+      for (let k = 0; k < 5; k += 1) {
+        const ang = ((Math.PI * 2) / 5) * k + t * 0.2;
+        ctx.beginPath();
+        ctx.ellipse(
+          Math.cos(ang) * p.r * 0.55 * open,
+          Math.sin(ang) * p.r * 0.55 * open - 2,
+          p.r * 0.38,
+          p.r * 0.28,
+          ang,
+          0,
+          Math.PI * 2
+        );
+        ctx.fill();
+      }
+      ctx.fillStyle = '#ffd93d';
+      ctx.beginPath();
+      ctx.arc(0, -2, p.r * 0.28, 0, Math.PI * 2);
+      ctx.fill();
+    } else if (p.kind === 'wave') {
+      ctx.strokeStyle = 'rgba(255,255,255,' + (0.45 + Math.min(1, p.state) * 0.4) + ')';
+      ctx.lineWidth = 3;
+      for (let k = 0; k < 3; k += 1) {
+        const rr = p.r * (0.45 + k * 0.35) * (1 + Math.min(1, p.state) * 0.5);
+        ctx.beginPath();
+        ctx.arc(0, 0, rr, 0.15, Math.PI * 1.2);
+        ctx.stroke();
+      }
+      ctx.fillStyle = 'rgba(120, 200, 230, 0.35)';
+      ctx.beginPath();
+      ctx.ellipse(0, 4, p.r * 0.9, p.r * 0.45, 0, 0, Math.PI * 2);
+      ctx.fill();
+    } else {
+      ctx.fillStyle = 'rgba(255,255,255,' + (0.55 + Math.min(1, p.state) * 0.35) + ')';
+      for (let k = 0; k < 6; k += 1) {
+        const ang = t * 2 + k;
+        const rr = p.r * (0.3 + (k % 3) * 0.25) * (1 + Math.min(1, p.state));
+        ctx.beginPath();
+        ctx.arc(Math.cos(ang) * rr, Math.sin(ang) * rr, 2.2, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      drawStar(ctx, 0, 0, p.r * 0.45 * pop, '#e8f6ff');
+    }
+    ctx.restore();
   }
 
   function spawnGolden() {
@@ -1071,16 +1366,63 @@
   function winRound() {
     if (G.state !== 'play') return;
     G.state = 'ending';
+    G.roundsWon += 1;
+    const save = loadSave();
+    writeSave({ rounds: (save.rounds || 0) + 1 });
     DB_SOUND.play('win');
+    if (Kit) Kit.haptic('success');
     if (G.golden) burst(G.golden.x, G.golden.y, REDUCED ? 10 : 26, 'star');
+    if (els.endingTitle) els.endingTitle.textContent = '와아! 같이 이겼어!';
+    if (els.endingSub) {
+      els.endingSub.textContent =
+        G.roundsWon >= 2
+          ? '친구 공룡도 축하해 주며 깔깔!'
+          : '황금 열매를 반짝이 속에 넣었어';
+    }
     for (let i = 0; i < 5; i += 1) {
       setTimeout(() => {
         if (G.state === 'ending') confettiBurst();
       }, i * 170);
     }
     setTimeout(() => {
-      if (G.state === 'ending') els.ending.classList.add('is-on');
+      if (G.state === 'ending') {
+        els.ending.classList.add('is-on');
+        setRestVisible(false);
+      }
     }, 650);
+  }
+
+  function setRestVisible(on) {
+    const btn = document.querySelector('.kk-rest-btn');
+    if (!btn) return;
+    btn.style.display = on ? '' : 'none';
+  }
+
+  function openRestEnding() {
+    if (G.state === 'select') {
+      window.location.href = LOBBY;
+      return;
+    }
+    G.state = 'ending';
+    G.dragging = false;
+    els.ending.classList.remove('is-on');
+    setRestVisible(false);
+    if (Kit && Kit.softEnding) {
+      Kit.softEnding({
+        title: '오늘도 쿵쿵 신났어!',
+        emoji: '🦖💤',
+        onAgain: () => {
+          startRound();
+        },
+        onRest: () => {
+          window.location.href = LOBBY;
+        },
+      });
+    } else {
+      if (els.endingTitle) els.endingTitle.textContent = '오늘도 쿵쿵 신났어!';
+      if (els.endingSub) els.endingSub.textContent = '다음에 또 놀자';
+      els.ending.classList.add('is-on');
+    }
   }
 
   /* ------------------------------------------------------------------ */
@@ -1202,17 +1544,23 @@
     ctx.save();
     ctx.translate(f.x, f.y);
     ctx.rotate(f.angle);
-    ctx.fillStyle = 'rgba(255,255,255,0.9)';
-    ctx.beginPath();
-    ctx.arc(0, 0, f.r * 1.18, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.strokeStyle = 'rgba(120, 160, 90, 0.25)';
-    ctx.lineWidth = 2;
-    ctx.stroke();
-    ctx.font = f.r * 2.2 + 'px "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", serif';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText(f.emoji, 0, 0);
+    const sprite = typeof f.snackIndex === 'number' ? getAsset('snack-' + f.snackIndex) : null;
+    if (sprite) {
+      const s = f.r * 2.4;
+      ctx.drawImage(sprite, -s / 2, -s / 2, s, s);
+    } else {
+      ctx.fillStyle = 'rgba(255,255,255,0.9)';
+      ctx.beginPath();
+      ctx.arc(0, 0, f.r * 1.18, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.strokeStyle = 'rgba(120, 160, 90, 0.25)';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+      ctx.font = f.r * 2.2 + 'px "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(f.emoji, 0, 0);
+    }
     ctx.restore();
   }
 
@@ -1221,6 +1569,22 @@
     const pulse = 1 + Math.sin(G.time * 5) * 0.05;
     ctx.save();
     ctx.translate(g.x, g.y);
+
+    const goldenImg = getAsset('golden-fruit');
+    if (goldenImg) {
+      const glow = ctx.createRadialGradient(0, 0, g.r * 0.4, 0, 0, g.r * 2.2);
+      glow.addColorStop(0, 'rgba(255,225,120,0.75)');
+      glow.addColorStop(1, 'rgba(255,225,120,0)');
+      ctx.fillStyle = glow;
+      ctx.beginPath();
+      ctx.arc(0, 0, g.r * 2.2, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.scale(pulse, pulse);
+      const s = g.r * 2.2;
+      ctx.drawImage(goldenImg, -s / 2, -s / 2, s, s);
+      ctx.restore();
+      return;
+    }
 
     const glow = ctx.createRadialGradient(0, 0, g.r * 0.4, 0, 0, g.r * 2.2);
     glow.addColorStop(0, 'rgba(255,225,120,0.75)');
@@ -1265,6 +1629,8 @@
       squash: e.squash,
       hop: e.hop,
       giggle: e.giggle,
+      sit: e.sit,
+      spin: e.spin,
       tilt: e.tilt,
       time: G.time,
       phase: e.phase,
@@ -1322,13 +1688,17 @@
       ctx.translate((Math.random() - 0.5) * s, (Math.random() - 0.5) * s);
     }
 
-    if (G.bg) {
+    const arenaImg = getAsset('arena-' + G.arena.id);
+    if (arenaImg) {
+      ctx.drawImage(arenaImg, 0, 0, G.W, G.H);
+    } else if (G.bg) {
       ctx.drawImage(G.bg, 0, 0, G.W, G.H);
     } else {
       ctx.fillStyle = G.arena.ground[0];
       ctx.fillRect(0, 0, G.W, G.H);
     }
 
+    for (let i = 0; i < G.props.length; i += 1) drawProp(ctx, G.props[i]);
     if (G.ring) drawRing(ctx);
     for (let i = 0; i < G.puddles.length; i += 1) drawPuddle(ctx, G.puddles[i]);
     for (let i = 0; i < G.fruits.length; i += 1) drawFruit(ctx, G.fruits[i]);
@@ -1361,6 +1731,7 @@
     updateFriend(dt);
     collideDinos();
     updateFruits(dt);
+    updateProps(dt);
     updateGolden(dt);
   }
 
@@ -1426,18 +1797,39 @@
 
     els.sound.addEventListener('click', () => {
       DB_SOUND.muted = !DB_SOUND.muted;
+      if (Kit && Kit.sound) Kit.sound.setMuted(DB_SOUND.muted);
       els.sound.textContent = DB_SOUND.muted ? '🔇' : '🔊';
       if (!DB_SOUND.muted) DB_SOUND.play('tap');
     });
 
     window.addEventListener('resize', resize);
     window.addEventListener('orientationchange', () => setTimeout(resize, 120));
+
+    if (Kit && Kit.restButton) {
+      Kit.restButton({
+        parent: els.stage,
+        onRest: openRestEnding,
+      });
+      setRestVisible(false);
+    }
   }
 
   function init() {
+    const save = loadSave();
+    if (save.lastDinoId && DB_DINOS.some((d) => d.id === save.lastDinoId)) {
+      G.dinoId = save.lastDinoId;
+    }
+    if (save.lastFriendId && DB_DINOS.some((d) => d.id === save.lastFriendId)) {
+      G.friendId = save.lastFriendId;
+      G.friendManual = true;
+    }
+    applyWelcome(save);
+    writeSave({ visits: (save.visits || 0) + 1 });
+
     buildSelect();
     bindUI();
     resize();
+    preloadAssets().catch(() => {});
     requestAnimationFrame(loop);
   }
 

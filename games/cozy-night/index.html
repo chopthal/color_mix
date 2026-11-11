@@ -8,7 +8,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="포근포근 밤밤">
   <title>🌙 포근포근 밤밤</title>
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌙</text></svg>">
+  <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
 
   <script>
     (function () {
@@ -23,10 +23,17 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Jua&family=Gaegu:wght@700&display=swap" rel="stylesheet">
 
+  <link rel="stylesheet" href="../_shared/kit.css">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
   <div class="night-room" id="nightRoom">
+    <!-- 재방문 반김 배너 -->
+    <div class="welcome-banner" id="welcomeBanner" hidden aria-live="polite">
+      <span class="welcome-emoji" id="welcomeEmoji">🐻</span>
+      <p class="welcome-text" id="welcomeText">잘 잤어요! 기지개~</p>
+    </div>
+
     <!-- 상단 바 -->
     <header class="top-bar">
       <a class="nav-home" href="../../index.html" aria-label="놀이터로 돌아가기">
@@ -43,7 +50,7 @@
           <span class="ctrl-text">오르골</span>
         </button>
         <button class="btn-ctrl" id="btnSound" type="button" aria-label="효과음 켜기/끄기">
-          <span class="ctrl-icon">🔊</span>
+          <span class="ctrl-icon" id="soundIcon">🔊</span>
         </button>
       </div>
     </header>
@@ -54,10 +61,12 @@
       <section class="window-area" aria-label="밤하늘 창문">
         <div class="window-frame">
           <div class="night-sky">
-            <!-- 인터랙티브 달님 -->
+            <!-- 인터랙티브 달님 (이미지 슬롯 + 이모지 폴백) -->
             <button class="moon-btn" id="moonBtn" type="button" aria-label="달님 토닥이기">
-              <span class="moon-body">🌙</span>
+              <img class="asset-img moon-asset" id="moonAsset" alt="" hidden>
+              <span class="moon-body" id="moonFallback">🌙</span>
               <span class="moon-sparkle">✨</span>
+              <span class="moon-wink" aria-hidden="true">😉</span>
             </button>
 
             <!-- 인터랙티브 별들 -->
@@ -80,9 +89,9 @@
         </button>
       </section>
 
-      <!-- 수면 루틴 게이지 (별 채우기) -->
+      <!-- 수면 의식 게이지 -->
       <div class="sleep-gauge-wrap" aria-label="잠자리 별 게이지">
-        <span class="gauge-hint">토닥토닥 재워줘요</span>
+        <span class="gauge-hint" id="gaugeHint">토닥토닥 재워줘요</span>
         <div class="gauge-stars" id="gaugeStars">
           <span class="gauge-star" data-index="0">⭐</span>
           <span class="gauge-star" data-index="1">⭐</span>
@@ -90,38 +99,43 @@
           <span class="gauge-star" data-index="3">⭐</span>
           <span class="gauge-star" data-index="4">⭐</span>
         </div>
+        <div class="ritual-dots" id="ritualDots" aria-hidden="true">
+          <span class="ritual-dot" data-step="pat" title="토닥">🫶</span>
+          <span class="ritual-dot" data-step="blanket" title="이불">🛌</span>
+          <span class="ritual-dot" data-step="night" title="별·오르골">✨</span>
+        </div>
       </div>
 
       <!-- 침대 & 동물 친구 구역 -->
       <section class="bed-area" id="bedArea">
         <div class="bed-container">
-          <!-- 침대 머리판 -->
-          <div class="bed-headboard"></div>
+          <!-- 침대 머리판 (이미지 슬롯) -->
+          <div class="bed-headboard" id="bedHeadboard">
+            <img class="asset-img bed-asset" id="bedAsset" alt="" hidden>
+          </div>
 
           <!-- 폭신한 베개 -->
           <div class="bed-pillow">
             <div class="pillow-wrinkle"></div>
           </div>
 
-          <!-- 동물 친구 캐릭터 SVG 렌더 영역 -->
+          <!-- 동물 친구 캐릭터 -->
           <div class="animal-stage" id="animalStage" role="button" tabindex="0" aria-label="동물 친구 토닥이기">
-            <!-- 힌트 손가락 -->
             <div class="tap-hint" id="tapHint">
               <span>👇</span>
               <small>토닥토닥</small>
             </div>
 
-            <!-- 동물 캐릭터 그래픽 -->
-            <svg class="animal-svg" id="animalSvg" viewBox="0 0 240 240" aria-hidden="true">
-              <!-- JS에서 캐릭터별(곰/토끼/고양이) 부품 렌더링 -->
-            </svg>
+            <img class="asset-img animal-asset" id="animalAsset" alt="" hidden>
+            <svg class="animal-svg" id="animalSvg" viewBox="0 0 240 240" aria-hidden="true"></svg>
 
-            <!-- Zzz 말풍선 파티클 컨테이너 -->
             <div class="bubble-layer" id="bubbleLayer"></div>
+            <div class="combo-toast" id="comboToast" hidden></div>
           </div>
 
           <!-- 포근한 이불 -->
           <div class="blanket" id="blanket" role="button" tabindex="0" aria-label="이불 덮어주기">
+            <img class="asset-img blanket-asset" id="blanketAsset" alt="" hidden>
             <div class="blanket-fold">
               <span class="blanket-tag">이불 톡! 🛌</span>
             </div>
@@ -132,23 +146,24 @@
 
       <!-- 하단 조작 바 -->
       <footer class="bottom-controls">
-        <!-- 동물 친구 선택 -->
         <div class="animal-selector" role="radiogroup" aria-label="재워줄 동물 친구 고르기">
           <button class="btn-animal is-active" data-animal="bear" type="button" aria-checked="true">
             <span class="emoji">🐻</span>
             <span class="name">포근 곰돌이</span>
+            <span class="asleep-badge" hidden>💤</span>
           </button>
           <button class="btn-animal" data-animal="rabbit" type="button" aria-checked="false">
             <span class="emoji">🐰</span>
             <span class="name">잠꾸러기 토끼</span>
+            <span class="asleep-badge" hidden>💤</span>
           </button>
           <button class="btn-animal" data-animal="cat" type="button" aria-checked="false">
             <span class="emoji">🐱</span>
             <span class="name">골골 고양이</span>
+            <span class="asleep-badge" hidden>💤</span>
           </button>
         </div>
 
-        <!-- 보조 도구 (이불 무늬 변경 & 잘 시간 버튼) -->
         <div class="action-row">
           <button class="btn-pill" id="btnBlanketPattern" type="button">
             <span>🎨</span>
@@ -162,12 +177,17 @@
       </footer>
     </main>
 
+    <!-- 친구 잠듦 짧은 반김 (세션 계속용) -->
+    <div class="friend-asleep-toast" id="friendAsleepToast" hidden aria-live="polite">
+      <p id="friendAsleepText">친구가 새근새근 잠들었어요</p>
+    </div>
+
     <!-- 과몰입 방지 취침 엔딩 오버레이 -->
     <div class="bedtime-overlay" id="bedtimeOverlay" aria-hidden="true">
       <div class="bedtime-dialog">
         <div class="dialog-moon">🌙✨</div>
-        <h2 class="dialog-title">동물 친구가 새근새근 잠들었어요</h2>
-        <p class="dialog-text">
+        <h2 class="dialog-title" id="dialogTitle">동물 친구가 새근새근 잠들었어요</h2>
+        <p class="dialog-text" id="dialogText">
           우리 친구도 이제 눈을 감고 좋은 꿈 꿔요...<br>
           <span>쉿, 내일 또 만나요!</span>
         </p>
@@ -194,7 +214,7 @@
       </div>
     </div>
 
-    <!-- 꿈나라 초저자극 밤 모드 오버레이 (부모가 머리맡에 둘 때) -->
+    <!-- 꿈나라 초저자극 밤 모드 -->
     <div class="dreamland-screen" id="dreamlandScreen" aria-hidden="true">
       <div class="dreamland-content">
         <div class="dreamland-moon">🌙</div>
@@ -205,6 +225,7 @@
     </div>
   </div>
 
+  <script src="../_shared/kit.js"></script>
   <script src="js/game.js"></script>
 </body>
 </html>

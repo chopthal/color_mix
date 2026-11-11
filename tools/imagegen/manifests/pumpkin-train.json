@@ -1,0 +1,116 @@
+{
+  "items": [
+    {
+      "name": "car-bulldozer",
+      "outPath": "games/pumpkin-train/assets/car-bulldozer.webp",
+      "prompt": "Cute round orange pumpkin bulldozer vehicle for kids, friendly smile, small blade in front, centered, no text.",
+      "width": 192,
+      "height": 192,
+      "refs": []
+    },
+    {
+      "name": "car-sprayer",
+      "outPath": "games/pumpkin-train/assets/car-sprayer.webp",
+      "prompt": "Cute round orange pumpkin juice sprayer truck for kids, friendly smile, soft water splash nozzle, centered, no text.",
+      "width": 192,
+      "height": 192,
+      "refs": []
+    },
+    {
+      "name": "candy-cane",
+      "outPath": "games/pumpkin-train/assets/candy-cane.webp",
+      "prompt": "Single cute candy cane sweet, soft stripes, round kid-safe shapes, centered, no text.",
+      "width": 128,
+      "height": 128,
+      "refs": []
+    },
+    {
+      "name": "candy-wrap",
+      "outPath": "games/pumpkin-train/assets/candy-wrap.webp",
+      "prompt": "Single cute wrapped hard candy, pink and white, round kid-safe shapes, centered, no text.",
+      "width": 128,
+      "height": 128,
+      "refs": []
+    },
+    {
+      "name": "candy-choco",
+      "outPath": "games/pumpkin-train/assets/candy-choco.webp",
+      "prompt": "Single cute chocolate bar candy piece, soft edges, kid-safe, centered, no text.",
+      "width": 128,
+      "height": 128,
+      "refs": []
+    },
+    {
+      "name": "candy-star",
+      "outPath": "games/pumpkin-train/assets/candy-star.webp",
+      "prompt": "Single cute star-shaped candy, soft yellow glow, round points, centered, no text.",
+      "width": 128,
+      "height": 128,
+      "refs": []
+    },
+    {
+      "name": "obstacle-rock",
+      "outPath": "games/pumpkin-train/assets/obstacle-rock.webp",
+      "prompt": "Cute giant pumpkin rock obstacle, round friendly pumpkin boulder, kid-safe, centered, no text.",
+      "width": 160,
+      "height": 160,
+      "refs": []
+    },
+    {
+      "name": "obstacle-web",
+      "outPath": "games/pumpkin-train/assets/obstacle-web.webp",
+      "prompt": "Cute cotton-candy spider web obstacle, soft pink fluff web, friendly, kid-safe, centered, no text.",
+      "width": 160,
+      "height": 160,
+      "refs": []
+    },
+    {
+      "name": "warp-hat",
+      "outPath": "games/pumpkin-train/assets/warp-hat.webp",
+      "prompt": "Cute witch hat magic portal, friendly Halloween hat with soft sparkles, kid-safe, centered, no text.",
+      "width": 160,
+      "height": 160,
+      "refs": []
+    },
+    {
+      "name": "goal-party",
+      "outPath": "games/pumpkin-train/assets/goal-party.webp",
+      "prompt": "Cute carnival party tent landmark for kids candy maze goal, soft circus tent, centered, no text.",
+      "width": 160,
+      "height": 160,
+      "refs": []
+    },
+    {
+      "name": "part-crown",
+      "outPath": "games/pumpkin-train/assets/part-crown.webp",
+      "prompt": "Tiny golden pumpkin crown accessory for a toy car, cute and round, centered, no text.",
+      "width": 96,
+      "height": 96,
+      "refs": []
+    },
+    {
+      "name": "part-wings",
+      "outPath": "games/pumpkin-train/assets/part-wings.webp",
+      "prompt": "Cute tiny bat wing accessory pair for a toy car, friendly Halloween bat wings, centered, no text.",
+      "width": 128,
+      "height": 96,
+      "refs": []
+    },
+    {
+      "name": "part-ribbon",
+      "outPath": "games/pumpkin-train/assets/part-ribbon.webp",
+      "prompt": "Cute candy ribbon bow accessory for a toy car, soft pink, centered, no text.",
+      "width": 96,
+      "height": 96,
+      "refs": []
+    },
+    {
+      "name": "part-star",
+      "outPath": "games/pumpkin-train/assets/part-star.webp",
+      "prompt": "Cute glowing star bumper accessory for a toy car, soft yellow star, centered, no text.",
+      "width": 96,
+      "height": 96,
+      "refs": []
+    }
+  ]
+}

@@ -8,6 +8,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="숲속 냄비 요리">
   <title>🍲 숲속 냄비 요리</title>
+  <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
 
   <script>
     (function () {
@@ -22,6 +23,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
 
+  <link rel="stylesheet" href="../_shared/kit.css">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -50,11 +52,16 @@
       <div class="flower flower-c">🍄</div>
     </div>
 
+    <div class="welcome-banner" id="welcomeBanner" hidden>
+      <span>스티커 친구들이 반겨요!</span>
+    </div>
+
     <!-- 친구 나무(먹인 친구 스티커) + 이번 놀이 그릇 -->
     <div class="scene-top">
       <div class="friends-tree" id="friendsTree" aria-label="먹인 친구들"></div>
 
       <div class="meal-trail" id="mealTrail" aria-label="오늘 만든 그릇">
+        <span class="meal-bowl">🍲</span>
         <span class="meal-bowl">🍲</span>
         <span class="meal-bowl">🍲</span>
         <span class="meal-bowl">🍲</span>
@@ -73,20 +80,28 @@
         <span id="hintText">재료를 냄비에 콕!</span>
       </div>
 
-      <div class="pot-zone" id="potZone" role="button" tabindex="0" aria-label="냄비를 뱅글뱅글 저어요">
+      <div class="pot-zone" id="potZone" role="button" tabindex="0" aria-label="냄비를 톡톡 또는 뱅글뱅글 저어요">
         <div class="pot-wrap" id="potWrap">
           <svg class="stir-ring" viewBox="0 0 100 100" aria-hidden="true">
             <circle class="ring-track" cx="50" cy="50" r="46"></circle>
             <circle class="ring-fill" id="ringFill" cx="50" cy="50" r="46"></circle>
           </svg>
 
+          <div class="stir-arrows" aria-hidden="true">
+            <span class="stir-arrow a1">↻</span>
+            <span class="stir-arrow a2">↻</span>
+            <span class="stir-hand">👆</span>
+          </div>
+
           <div class="pot-handle pot-handle-left" aria-hidden="true"></div>
           <div class="pot-handle pot-handle-right" aria-hidden="true"></div>
 
           <div class="pot-rim">
+            <div class="pot-face" id="potFace" hidden aria-hidden="true"></div>
             <div class="soup-wrap">
               <div class="soup" id="soup">
                 <div class="soup-shine" aria-hidden="true"></div>
+                <div class="soup-toppings" id="soupToppings" aria-hidden="true"></div>
                 <div class="soup-bits" id="soupBits" aria-hidden="true"></div>
                 <div class="soup-bubbles" aria-hidden="true">
                   <span></span><span></span><span></span>
@@ -140,9 +155,9 @@
     <!-- 소프트 엔딩 -->
     <div class="ending-overlay" id="endingOverlay">
       <div class="ending-card">
-        <div class="ending-ornament" id="endingOrnament">🐰🐻🦊</div>
-        <h2>냠냠! 잘 먹었어!</h2>
-        <p>숲속 친구들이 배불러요</p>
+        <div class="ending-ornament" id="endingOrnament">🐰🐻🦊🦌</div>
+        <h2 id="endingTitle">냠냠! 잘 먹었어!</h2>
+        <p id="endingSub">숲속 친구들이 배불러요</p>
         <div class="ending-actions">
           <button class="btn-pill btn-again" id="btnAgain" type="button">또 만들기 🔁</button>
           <a class="btn-pill btn-rest" href="../../index.html">쉬자 🏠</a>
@@ -151,6 +166,7 @@
     </div>
   </main>
 
+  <script src="../_shared/kit.js"></script>
   <script src="js/game.js"></script>
 </body>
 </html>

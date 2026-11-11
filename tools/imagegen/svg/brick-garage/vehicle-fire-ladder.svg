@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 240" fill="none">
+  <!-- brick fire ladder truck, short side 240 - stroke ~10 -->
+  <ellipse cx="192" cy="218" rx="130" ry="14" fill="#3D2B1F" opacity="0.12"/>
+  <rect x="48" y="108" width="240" height="72" rx="20" fill="#FF6B81" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round"/>
+  <ellipse cx="78" cy="126" rx="26" ry="12" fill="#FFF6E5" opacity="0.55"/>
+  <rect x="56" y="58" width="96" height="70" rx="18" fill="#FF9F45" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round"/>
+  <rect x="72" y="72" width="64" height="36" rx="12" fill="#7CC6FE" stroke="#3D2B1F" stroke-width="6" stroke-linejoin="round"/>
+  <ellipse cx="88" cy="82" rx="12" ry="7" fill="#FFF6E5" opacity="0.55"/>
+  <!-- ladder -->
+  <rect x="168" y="70" width="150" height="26" rx="10" fill="#FFF6E5" stroke="#3D2B1F" stroke-width="8" stroke-linejoin="round" transform="rotate(-12 243 83)"/>
+  <line x1="190" y1="66" x2="198" y2="96" stroke="#3D2B1F" stroke-width="5" stroke-linecap="round"/>
+  <line x1="220" y1="60" x2="228" y2="90" stroke="#3D2B1F" stroke-width="5" stroke-linecap="round"/>
+  <line x1="250" y1="54" x2="258" y2="84" stroke="#3D2B1F" stroke-width="5" stroke-linecap="round"/>
+  <line x1="280" y1="48" x2="288" y2="78" stroke="#3D2B1F" stroke-width="5" stroke-linecap="round"/>
+  <!-- siren -->
+  <rect x="82" y="38" width="44" height="22" rx="10" fill="#FFC94A" stroke="#3D2B1F" stroke-width="6" stroke-linejoin="round"/>
+  <circle cx="96" cy="49" r="6" fill="#FF6B81" stroke="#3D2B1F" stroke-width="3"/>
+  <circle cx="112" cy="49" r="6" fill="#7CC6FE" stroke="#3D2B1F" stroke-width="3"/>
+  <!-- studs -->
+  <circle cx="100" cy="140" r="10" fill="#E84A5F" stroke="#3D2B1F" stroke-width="4"/>
+  <circle cx="140" cy="140" r="10" fill="#E84A5F" stroke="#3D2B1F" stroke-width="4"/>
+  <circle cx="180" cy="140" r="10" fill="#E84A5F" stroke="#3D2B1F" stroke-width="4"/>
+  <circle cx="220" cy="140" r="10" fill="#E84A5F" stroke="#3D2B1F" stroke-width="4"/>
+  <circle cx="260" cy="140" r="10" fill="#E84A5F" stroke="#3D2B1F" stroke-width="4"/>
+  <!-- wheels -->
+  <circle cx="100" cy="188" r="26" fill="#3D2B1F"/>
+  <circle cx="100" cy="188" r="11" fill="#FFC94A"/>
+  <circle cx="170" cy="188" r="22" fill="#3D2B1F"/>
+  <circle cx="170" cy="188" r="9" fill="#FFC94A"/>
+  <circle cx="250" cy="188" r="26" fill="#3D2B1F"/>
+  <circle cx="250" cy="188" r="11" fill="#FFC94A"/>
+  <!-- face -->
+  <ellipse cx="92" cy="88" rx="4" ry="5" fill="#3D2B1F"/>
+  <ellipse cx="112" cy="88" rx="4" ry="5" fill="#3D2B1F"/>
+  <circle cx="93.2" cy="86.5" r="1.4" fill="#FFFFFF"/>
+  <circle cx="113.2" cy="86.5" r="1.4" fill="#FFFFFF"/>
+  <ellipse cx="84" cy="96" rx="5" ry="3" fill="#FFB3C1" opacity="0.5"/>
+  <ellipse cx="120" cy="96" rx="5" ry="3" fill="#FFB3C1" opacity="0.5"/>
+  <path d="M94 100 Q102 105 110 100" stroke="#3D2B1F" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+</svg>

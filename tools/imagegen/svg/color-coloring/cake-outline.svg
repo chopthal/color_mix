@@ -1,0 +1,13 @@
+<svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+        <ellipse class="part" data-part="plate" data-name="접시" cx="150" cy="258" rx="112" ry="16" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <rect class="part" data-part="layer1" data-name="아래 케이크" x="58" y="190" width="184" height="58" rx="12" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <rect class="part" data-part="layer2" data-name="위 케이크" x="76" y="142" width="148" height="50" rx="12" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <path class="part" data-part="frosting" data-name="크림" d="M70 146 Q70 118 100 118 Q112 104 136 112 Q150 96 168 110 Q192 100 204 116 Q234 118 234 146 L226 164 Q214 150 206 164 Q196 150 186 164 Q176 150 166 164 Q156 150 146 164 Q136 150 126 164 Q116 150 106 164 Q96 150 86 164 Z" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <rect class="part" data-part="candle" data-name="초" x="144" y="80" width="12" height="38" rx="6" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <path class="part" data-part="flame" data-name="불꽃" d="M150 56 Q140 70 150 78 Q160 70 150 56 Z" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <g class="fixed">
+          <path d="M86 208 L214 208 M86 224 L214 224" stroke="#3D2B1F" stroke-width="3" opacity="0.25" />
+          <circle cx="100" cy="196" r="4" fill="#fff" opacity="0.8" />
+          <circle cx="200" cy="196" r="4" fill="#fff" opacity="0.8" />
+        </g>
+      </svg>

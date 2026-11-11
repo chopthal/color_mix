@@ -8,6 +8,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="뾰로롱! 변신 숨바꼭질">
   <title>🪄 뾰로롱! 변신 숨바꼭질</title>
+  <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
 
   <script>
     (function () {
@@ -22,6 +23,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
 
+  <link rel="stylesheet" href="../_shared/kit.css">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -45,6 +47,7 @@
       <div class="select-head">
         <h2>누구랑 숨바꼭질?</h2>
         <p>요정 친구를 골라요</p>
+        <p class="welcome-banner" id="welcomeBanner" hidden>요정이 손을 흔들어요! 반가워~</p>
       </div>
 
       <div class="fairy-row" id="fairyRow"></div>
@@ -53,22 +56,9 @@
         숨바꼭질 시작! <span>🪄</span>
       </button>
     </section>
-
-    <!-- 소프트 엔딩 -->
-    <div class="ending-overlay" id="endingOverlay">
-      <div class="ending-card">
-        <div class="ending-ornament">🪄✨🪄</div>
-        <h2>오늘 숨바꼭질 잘했어!</h2>
-        <p>까르르! 신나게 놀았어요</p>
-        <div class="ending-actions">
-          <button class="btn-pill btn-again" id="btnAgain" type="button">또! 🔁</button>
-          <button class="btn-pill btn-change" id="btnChange" type="button">요정 바꾸기 🧚</button>
-        </div>
-        <a class="rest-link" href="../../index.html">쉬자 🏠</a>
-      </div>
-    </div>
   </main>
 
+  <script src="../_shared/kit.js"></script>
   <script src="js/data.js"></script>
   <script src="js/sound.js"></script>
   <script src="js/game.js"></script>

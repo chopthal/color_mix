@@ -1,0 +1,17 @@
+<svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+        <path class="part" data-part="cone" data-name="콘" d="M108 172 L192 172 L150 268 Z" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <circle class="part" data-part="scoop1" data-name="아이스크림" cx="122" cy="148" r="42" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <circle class="part" data-part="scoop2" data-name="아이스크림" cx="178" cy="148" r="42" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <circle class="part" data-part="scoop3" data-name="아이스크림" cx="150" cy="102" r="38" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <circle class="part" data-part="cherry" data-name="체리" cx="150" cy="58" r="12" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <g class="part" data-part="sprinkles" data-name="스프링클" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round">
+          <rect x="108" y="132" width="10" height="4" rx="2" transform="rotate(24 113 134)" />
+          <rect x="172" y="126" width="10" height="4" rx="2" transform="rotate(-30 177 128)" />
+          <rect x="138" y="94" width="10" height="4" rx="2" transform="rotate(12 143 96)" />
+          <rect x="160" y="166" width="10" height="4" rx="2" transform="rotate(40 165 168)" />
+        </g>
+        <g class="fixed">
+          <path d="M124 190 L140 236 M150 190 L150 242 M176 190 L160 236" stroke="#3D2B1F" stroke-width="3" opacity="0.3" />
+          <path d="M144 58 Q144 44 156 40" stroke="#3D2B1F" stroke-width="3" fill="none" stroke-linecap="round" />
+        </g>
+      </svg>

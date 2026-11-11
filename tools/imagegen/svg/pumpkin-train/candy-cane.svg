@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" fill="none">
+  <!-- cute candy cane with soft stripes -->
+  <ellipse cx="64" cy="118" rx="28" ry="6" fill="#3D2B1F" opacity="0.12"/>
+  <!-- thick outline cane -->
+  <path d="M46 110 C46 72 46 50 46 42 C46 24 60 16 74 16 C88 16 100 26 100 40 C100 50 92 58 82 58 C74 58 68 52 68 44"
+        fill="none" stroke="#3D2B1F" stroke-width="28" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M46 110 C46 72 46 50 46 42 C46 24 60 16 74 16 C88 16 100 26 100 40 C100 50 92 58 82 58 C74 58 68 52 68 44"
+        fill="none" stroke="#FFF6E5" stroke-width="20" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- pink stripe blobs -->
+  <path d="M46 102 C46 94 46 88 46 82" fill="none" stroke="#FF6B81" stroke-width="20" stroke-linecap="round"/>
+  <path d="M46 64 C46 56 48 48 52 42" fill="none" stroke="#FF6B81" stroke-width="20" stroke-linecap="round"/>
+  <path d="M68 18 C76 16 86 20 92 28" fill="none" stroke="#FF6B81" stroke-width="18" stroke-linecap="round"/>
+  <path d="M98 44 C96 52 90 56 82 56" fill="none" stroke="#FF6B81" stroke-width="16" stroke-linecap="round"/>
+  <ellipse cx="58" cy="50" rx="6" ry="14" fill="#FFF6E5" opacity="0.55" transform="rotate(-8 58 50)"/>
+  <!-- tiny face near hook -->
+  <ellipse cx="80" cy="36" rx="3.2" ry="4" fill="#3D2B1F"/>
+  <ellipse cx="92" cy="38" rx="3.2" ry="4" fill="#3D2B1F"/>
+  <circle cx="81" cy="35" r="1.1" fill="#FFFFFF"/>
+  <circle cx="93" cy="37" r="1.1" fill="#FFFFFF"/>
+  <path d="M82 46 Q86 50 90 46" stroke="#3D2B1F" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+</svg>

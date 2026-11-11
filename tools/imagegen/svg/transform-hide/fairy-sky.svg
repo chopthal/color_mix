@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 320" fill="none">
+  <!-- blue seeker fairy, crown, faces right, floating -->
+  <ellipse cx="128" cy="298" rx="48" ry="11" fill="#3D2B1F" opacity="0.12"/>
+  <!-- wings -->
+  <ellipse cx="52" cy="150" rx="36" ry="58" fill="#FFFFFF" opacity="0.75" stroke="#3D2B1F" stroke-width="8" transform="rotate(-18 52 150)"/>
+  <ellipse cx="204" cy="150" rx="36" ry="58" fill="#FFFFFF" opacity="0.75" stroke="#3D2B1F" stroke-width="8" transform="rotate(18 204 150)"/>
+  <ellipse cx="58" cy="130" rx="12" ry="20" fill="#7CC6FE" opacity="0.45"/>
+  <ellipse cx="198" cy="130" rx="12" ry="20" fill="#7CC6FE" opacity="0.45"/>
+  <!-- feet -->
+  <ellipse cx="100" cy="258" rx="22" ry="12" fill="#3BA4E6" stroke="#3D2B1F" stroke-width="8"/>
+  <ellipse cx="156" cy="258" rx="22" ry="12" fill="#3BA4E6" stroke="#3D2B1F" stroke-width="8"/>
+  <!-- body -->
+  <circle cx="128" cy="168" r="68" fill="#7CC6FE" stroke="#3D2B1F" stroke-width="10"/>
+  <ellipse cx="128" cy="188" rx="40" ry="30" fill="#E6F0FF"/>
+  <ellipse cx="108" cy="148" rx="18" ry="10" fill="#FFF6E5" opacity="0.55"/>
+  <!-- arms -->
+  <ellipse cx="58" cy="178" rx="18" ry="14" fill="#7CC6FE" stroke="#3D2B1F" stroke-width="8" transform="rotate(-20 58 178)"/>
+  <ellipse cx="198" cy="178" rx="18" ry="14" fill="#7CC6FE" stroke="#3D2B1F" stroke-width="8" transform="rotate(20 198 178)"/>
+  <!-- cheeks / face -->
+  <circle cx="102" cy="170" r="10" fill="#FFB3C1" opacity="0.5"/>
+  <circle cx="154" cy="170" r="10" fill="#FFB3C1" opacity="0.5"/>
+  <ellipse cx="108" cy="156" rx="8" ry="10" fill="#3D2B1F"/>
+  <ellipse cx="148" cy="156" rx="8" ry="10" fill="#3D2B1F"/>
+  <circle cx="110" cy="153" r="2.8" fill="#FFFFFF"/>
+  <circle cx="150" cy="153" r="2.8" fill="#FFFFFF"/>
+  <path d="M114 182 Q128 196 142 182" stroke="#3D2B1F" stroke-width="5" stroke-linecap="round" fill="none"/>
+  <!-- antenna + crown -->
+  <line x1="128" y1="100" x2="128" y2="68" stroke="#3BA4E6" stroke-width="8" stroke-linecap="round"/>
+  <circle cx="128" cy="58" r="10" fill="#3BA4E6" stroke="#3D2B1F" stroke-width="6"/>
+  <path d="M92 104 L104 72 L118 98 L128 78 L138 98 L152 72 L164 104 Z" fill="#FFC94A" stroke="#3D2B1F" stroke-width="7" stroke-linejoin="round"/>
+</svg>

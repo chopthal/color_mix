@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 256" width="512" height="256">
+  <!-- wooden headboard, front view, soft rounded -->
+  <rect x="28" y="36" width="456" height="188" rx="36" ry="36" fill="#B07A4F" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round"/>
+  <!-- inner panel -->
+  <rect x="64" y="68" width="384" height="124" rx="28" ry="28" fill="#C9956A" stroke="#3D2B1F" stroke-width="8" stroke-linejoin="round"/>
+  <!-- highlight -->
+  <ellipse cx="140" cy="100" rx="70" ry="28" fill="#FFF6E5" opacity="0.45"/>
+  <!-- top rail cushion strip -->
+  <rect x="88" y="48" width="336" height="28" rx="14" ry="14" fill="#FFC94A" stroke="#3D2B1F" stroke-width="7" stroke-linejoin="round"/>
+  <ellipse cx="160" cy="56" rx="40" ry="8" fill="#FFF6E5" opacity="0.55"/>
+  <!-- side posts -->
+  <rect x="40" y="24" width="36" height="208" rx="16" ry="16" fill="#8F5E3A" stroke="#3D2B1F" stroke-width="8" stroke-linejoin="round"/>
+  <rect x="436" y="24" width="36" height="208" rx="16" ry="16" fill="#8F5E3A" stroke="#3D2B1F" stroke-width="8" stroke-linejoin="round"/>
+  <ellipse cx="58" cy="48" rx="10" ry="14" fill="#FFF6E5" opacity="0.4"/>
+  <ellipse cx="454" cy="48" rx="10" ry="14" fill="#FFF6E5" opacity="0.4"/>
+</svg>

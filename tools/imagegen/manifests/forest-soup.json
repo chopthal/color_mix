@@ -1,0 +1,81 @@
+{
+  "items": [
+    {
+      "name": "pot",
+      "outPath": "games/forest-soup/assets/pot.webp",
+      "prompt": "A cute round cooking pot from above, soft metal rim, empty warm soup bowl center, kid-safe toy look, centered.",
+      "width": 512,
+      "height": 512,
+      "refs": []
+    },
+    {
+      "name": "forest-bg",
+      "outPath": "games/forest-soup/assets/forest-bg.webp",
+      "prompt": "A soft sunny forest clearing backdrop for kids, gentle trees and grass, no characters, calm daytime.",
+      "width": 768,
+      "height": 1024,
+      "refs": []
+    },
+    {
+      "name": "friends",
+      "width": 256,
+      "height": 256,
+      "refs": [],
+      "variants": [
+        {
+          "name": "friend-rabbit",
+          "outPath": "games/forest-soup/assets/friend-rabbit.webp",
+          "prompt": "A cute round rabbit character facing forward, gentle smile, soft ears, toy-like proportions."
+        },
+        {
+          "name": "friend-bear",
+          "outPath": "games/forest-soup/assets/friend-bear.webp",
+          "prompt": "A cute round bear character facing forward, gentle smile, soft belly, toy-like proportions."
+        },
+        {
+          "name": "friend-fox",
+          "outPath": "games/forest-soup/assets/friend-fox.webp",
+          "prompt": "A cute round fox character facing forward, gentle smile, soft fluffy tail tip, toy-like proportions."
+        },
+        {
+          "name": "friend-deer",
+          "outPath": "games/forest-soup/assets/friend-deer.webp",
+          "prompt": "A cute round deer character facing forward, gentle smile, soft small antlers, toy-like proportions."
+        }
+      ]
+    },
+    {
+      "name": "ingredients",
+      "width": 192,
+      "height": 192,
+      "refs": [],
+      "variants": [
+        {
+          "name": "ing-carrot",
+          "outPath": "games/forest-soup/assets/ing-carrot.webp",
+          "prompt": "A single cute round carrot with leafy top, simple silhouette, centered."
+        },
+        {
+          "name": "ing-mushroom",
+          "outPath": "games/forest-soup/assets/ing-mushroom.webp",
+          "prompt": "A single cute round mushroom with soft spotted cap, simple silhouette, centered."
+        },
+        {
+          "name": "ing-corn",
+          "outPath": "games/forest-soup/assets/ing-corn.webp",
+          "prompt": "A single cute ear of corn with husk, round kernels, simple silhouette, centered."
+        },
+        {
+          "name": "ing-broccoli",
+          "outPath": "games/forest-soup/assets/ing-broccoli.webp",
+          "prompt": "A single cute broccoli floret, soft rounded florets, simple silhouette, centered."
+        },
+        {
+          "name": "ing-apple",
+          "outPath": "games/forest-soup/assets/ing-apple.webp",
+          "prompt": "A single cute round red apple with tiny leaf, simple silhouette, centered."
+        }
+      ]
+    }
+  ]
+}

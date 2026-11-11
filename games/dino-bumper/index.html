@@ -8,11 +8,13 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="쿵쿵! 공룡 범퍼섬">
   <title>🦖 쿵쿵! 공룡 범퍼섬</title>
+  <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
 
+  <link rel="stylesheet" href="../_shared/kit.css">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -46,32 +48,37 @@
     <section class="select-screen is-on" id="selectScreen">
       <div class="select-head">
         <h2>누구랑 쿵쿵 놀까?</h2>
-        <p>내 공룡을 고르고, 친구도 골라요</p>
+        <p id="welcomeLine">내 공룡을 고르고, 친구도 골라요</p>
+        <div class="dex-strip" id="dexStrip" hidden aria-label="모은 간식"></div>
       </div>
 
-      <div class="dino-grid" id="dinoGrid"></div>
-
-      <div class="friend-pick">
-        <span class="friend-label">친구</span>
-        <div class="friend-row" id="friendRow"></div>
+      <div class="select-scroll">
+        <div class="dino-grid" id="dinoGrid"></div>
       </div>
 
-      <div class="arena-pick">
-        <span class="arena-label">놀이터</span>
-        <div class="arena-row" id="arenaRow"></div>
-      </div>
+      <div class="select-footer">
+        <div class="friend-pick">
+          <span class="friend-label">친구</span>
+          <div class="friend-row" id="friendRow"></div>
+        </div>
 
-      <button class="start-btn" id="btnStart" type="button">
-        쿵쿵! 시작 <span>💥</span>
-      </button>
+        <div class="arena-pick">
+          <span class="arena-label">놀이터</span>
+          <div class="arena-row" id="arenaRow"></div>
+        </div>
+
+        <button class="start-btn" id="btnStart" type="button">
+          쿵쿵! 시작 <span>💥</span>
+        </button>
+      </div>
     </section>
 
     <!-- 함께 성공 엔딩 -->
     <div class="ending-overlay" id="endingOverlay">
       <div class="ending-card">
         <div class="ending-dinos">🦖💥🦕</div>
-        <h2>다 같이 신나게 놀았어!</h2>
-        <p>쿵쿵! 별이 팡팡 터졌어요</p>
+        <h2 id="endingTitle">와아! 같이 이겼어!</h2>
+        <p id="endingSub">황금 열매를 반짝이 속에 넣었어</p>
         <div class="ending-actions">
           <button class="btn-pill btn-again" id="btnAgain" type="button">또! 🔁</button>
           <button class="btn-pill btn-change" id="btnChange" type="button">공룡 바꾸기 🦕</button>
@@ -81,6 +88,7 @@
     </div>
   </main>
 
+  <script src="../_shared/kit.js"></script>
   <script src="js/data.js"></script>
   <script src="js/sound.js"></script>
   <script src="js/game.js"></script>

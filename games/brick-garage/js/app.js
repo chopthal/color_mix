@@ -1,6 +1,6 @@
 /**
  * 브릭 특장차 차고 — 메인 로직
- * 흐름: 설계도 선택 → 탭 조립 → 완성 → 출동(차량별 미션) → 선반 저장
+ * 루프: 조립 → 출동 → 세차 → 차고/도감 (3~5분 세션)
  */
 (function () {
   'use strict';
@@ -8,11 +8,37 @@
   const BOARD_RATIO = 16 / 10;
   const BUILD_HINT_DELAY = 5000;
   const DRIVE_HINT_DELAY = 5000;
+  const ASSET_SLOTS = [
+    'assets/garage-bg.webp',
+    'assets/wash-bay.webp',
+    'assets/city-day.webp',
+    'assets/city-sunset.webp',
+    'assets/rock-pile.webp',
+    'assets/flame.webp',
+    'assets/welcome-car.webp',
+    'assets/vehicle-fire-ladder.webp',
+    'assets/vehicle-police.webp',
+    'assets/vehicle-excavator.webp',
+    'assets/vehicle-mixer.webp',
+    'assets/vehicle-carrier.webp',
+    'assets/vehicle-crane.webp',
+  ];
+
+  const VEHICLE_ASSET_KEY = {
+    fire_ladder: 'vehicle-fire-ladder',
+    police: 'vehicle-police',
+    excavator: 'vehicle-excavator',
+    mixer: 'vehicle-mixer',
+    carrier: 'vehicle-carrier',
+    crane: 'vehicle-crane',
+  };
 
   const state = {
     screen: 'picker',
     category: 'fire',
+    catalogCategory: 'fire',
     vehicle: null,
+    catalogVehicle: null,
     partIndex: 0,
     wheels: 'normal',
     filled: {},
@@ -22,6 +48,8 @@
     free: null,
     freeSaving: false,
     pendingUnlock: null,
+    sessionLoops: 0,
+    assets: { images: {}, failed: [] },
     save: BrickStorage.load(),
   };
 
@@ -76,8 +104,67 @@
     el.shelfGrid = document.getElementById('shelfGrid');
     el.shelfEmpty = document.getElementById('shelfEmpty');
     el.btnShelfBack = document.getElementById('btnShelfBack');
+    el.welcomeBanner = document.getElementById('welcomeBanner');
+    el.todayCard = document.getElementById('todayCard');
+    el.btnCatalog = document.getElementById('btnCatalog');
+    el.btnWash = document.getElementById('btnWash');
+    el.btnWashBack = document.getElementById('btnWashBack');
+    el.washScreen = document.getElementById('washScreen');
+    el.catalogTabs = document.getElementById('catalogTabs');
+    el.catalogGrid = document.getElementById('catalogGrid');
+    el.catalogDetail = document.getElementById('catalogDetail');
+    el.catalogBoard = document.getElementById('catalogBoard');
+    el.catalogVoice = document.getElementById('catalogVoice');
+    el.btnCatalogBack = document.getElementById('btnCatalogBack');
+    el.btnCatalogSpeak = document.getElementById('btnCatalogSpeak');
+    el.btnCatalogBuild = document.getElementById('btnCatalogBuild');
+    el.btnCatalogClose = document.getElementById('btnCatalogClose');
 
     el.toast = document.getElementById('toast');
+  }
+
+  function assetImage(key) {
+    return state.assets.images && state.assets.images[key];
+  }
+
+  function paintSlotBackground(node, key, fallbackClass) {
+    if (!node) return;
+    const img = assetImage(key);
+    // 실아트(충분히 큰 이미지)만 배경으로 쓰고, 1px 플레이스홀더는 코드 드로잉 폴백 유지
+    if (img && img.naturalWidth >= 64 && img.naturalHeight >= 64) {
+      node.style.backgroundImage = 'url(' + img.src + ')';
+      node.classList.add('has-asset');
+    } else {
+      node.style.backgroundImage = '';
+      node.classList.remove('has-asset');
+      if (fallbackClass) node.classList.add(fallbackClass);
+    }
+  }
+
+  function paintVehiclePortrait(node, vehicleId) {
+    if (!node) return false;
+    const key = VEHICLE_ASSET_KEY[vehicleId];
+    if (!key) return false;
+    const img = assetImage(key);
+    if (!img || img.naturalWidth < 64 || img.naturalHeight < 64) return false;
+    node.style.backgroundImage = 'url(' + img.src + ')';
+    node.classList.add('has-asset');
+    node.innerHTML = '';
+    return true;
+  }
+
+  function refreshAssetSurfaces() {
+    paintSlotBackground(document.getElementById('screenPicker'), 'garage-bg');
+    if (state.screen === 'drive' && state.drive && state.drive.scene) {
+      applyCityScene(state.drive.scene);
+      if (state.drive.mission === 'rock') renderRock();
+    } else {
+      renderCity();
+    }
+    if (el.welcomeBanner && !el.welcomeBanner.hidden) renderWelcomeBanner();
+    const washPlatform = document.getElementById('washPlatform');
+    if (washPlatform) paintSlotBackground(washPlatform, 'wash-bay');
+    if (state.screen === 'picker') renderPicker();
   }
 
   /* ─── 화면 ─── */
@@ -156,6 +243,24 @@
       brick.appendChild(lightB);
     }
 
+    if (part.shape === 'base') {
+      if (part.bodyStyle) brick.dataset.body = part.bodyStyle;
+      if (part.trim) {
+        brick.style.setProperty('--trim-color', part.trim);
+        const stripe = document.createElement('span');
+        stripe.className = 'brick__stripe';
+        brick.appendChild(stripe);
+      }
+      if (part.bodyStyle === 'tank') {
+        const tank = document.createElement('span');
+        tank.className = 'brick__tank';
+        brick.appendChild(tank);
+      }
+      if (part.bodyStyle === 'bike') {
+        brick.classList.add('brick--slim');
+      }
+    }
+
     return brick;
   }
 
@@ -221,8 +326,50 @@
     });
   }
 
+  function renderTodayCard() {
+    if (!el.todayCard) return;
+    const today = BrickStorage.todayDispatchVehicle(bgRoster());
+    if (!today) {
+      el.todayCard.hidden = true;
+      return;
+    }
+
+    el.todayCard.hidden = false;
+    el.todayCard.innerHTML = '';
+    el.todayCard.style.setProperty('--card-color', today.color);
+
+    const label = document.createElement('span');
+    label.className = 'today-card__label';
+    label.textContent = '오늘의 출동 1장';
+
+    const mini = document.createElement('div');
+    mini.className = 'today-card__board mini-board';
+    renderCombo(mini, makeVehicleCombo(today, 'normal'));
+
+    const name = document.createElement('span');
+    name.className = 'today-card__name';
+    name.textContent = today.icon + ' ' + today.name;
+
+    const go = document.createElement('span');
+    go.className = 'today-card__go';
+    go.textContent = '조립 출발!';
+
+    el.todayCard.appendChild(label);
+    el.todayCard.appendChild(mini);
+    el.todayCard.appendChild(name);
+    el.todayCard.appendChild(go);
+
+    el.todayCard.onclick = () => {
+      BrickSound.play('tap');
+      state.category = today.category || 'fire';
+      renderCategoryTabs();
+      startBuild(today);
+    };
+  }
+
   function renderPicker() {
     el.vehicleGrid.innerHTML = '';
+    renderTodayCard();
 
     bgRoster()
       .filter((vehicle) => (vehicle.category || 'fire') === state.category)
@@ -231,6 +378,7 @@
       card.type = 'button';
       card.className = 'vehicle-card';
       card.style.setProperty('--card-color', vehicle.color);
+      if (vehicle.bodyStyle) card.dataset.body = vehicle.bodyStyle;
 
       if (BrickStorage.isBuilt(state.save, vehicle.id)) {
         card.classList.add('is-built');
@@ -240,16 +388,18 @@
       star.className = 'vehicle-card__built';
       star.textContent = '⭐';
 
-      const icon = document.createElement('span');
-      icon.className = 'vehicle-card__icon';
-      icon.textContent = vehicle.icon;
+      const preview = document.createElement('div');
+      preview.className = 'vehicle-card__preview mini-board';
+      if (!paintVehiclePortrait(preview, vehicle.id)) {
+        renderCombo(preview, makeVehicleCombo(vehicle, 'normal'));
+      }
 
       const name = document.createElement('span');
       name.className = 'vehicle-card__name';
-      name.textContent = vehicle.name;
+      name.textContent = vehicle.icon + ' ' + vehicle.name;
 
       card.appendChild(star);
-      card.appendChild(icon);
+      card.appendChild(preview);
       card.appendChild(name);
 
       card.addEventListener('click', () => {
@@ -698,9 +848,12 @@
 
   function startDrive(combo) {
     const mission = missionFor(combo);
+    const sceneSeed = (state.save.missions || 0) + state.sessionLoops;
+    const scene = bgPickScene(mission, sceneSeed);
     state.drive = {
       combo,
       mission,
+      scene,
       done: false,
       remaining: 0,
       hintEl: null,
@@ -719,14 +872,16 @@
     el.driveActions.hidden = true;
     el.driveCar.classList.remove('is-driving');
 
-    el.rock.classList.remove('is-hint', 'is-breaking', 'is-broken');
+    el.rock.classList.remove('is-hint', 'is-breaking', 'is-broken', 'is-crack-1', 'is-crack-2', 'is-chip');
     el.rock.style.display = mission === 'rock' ? '' : 'none';
     el.missionLayer.innerHTML = '';
 
+    applyCityScene(scene);
     renderCombo(el.driveCar, combo);
 
     if (mission === 'rock') {
       renderRock();
+      state.drive.remaining = 3;
       state.drive.hintEl = el.rock;
     } else if (mission === 'water') {
       renderWaterMission();
@@ -751,10 +906,32 @@
     }, DRIVE_HINT_DELAY);
   }
 
+  function applyCityScene(scene) {
+    el.city.classList.remove('city--day', 'city--sunset', 'city--park');
+    if (scene && scene.skyClass) el.city.classList.add(scene.skyClass);
+    const palette = (scene && scene.buildings) || [
+      '#93c5fd', '#f9a8d4', '#fcd34d', '#86efac', '#c4b5fd', '#fdba74', '#a5b4fc',
+    ];
+    const heights = (scene && scene.heights) || [52, 74, 44, 88, 60, 70, 48];
+    el.cityBuildings.innerHTML = '';
+    heights.forEach((height, i) => {
+      const block = document.createElement('span');
+      block.className = 'city-block';
+      block.style.height = height + '%';
+      block.style.setProperty('--block-color', palette[i % palette.length]);
+      el.cityBuildings.appendChild(block);
+    });
+    paintSlotBackground(
+      el.city,
+      scene && scene.skyClass === 'city--sunset' ? 'city-sunset' : 'city-day'
+    );
+  }
+
   function completeMission() {
     if (!state.drive || state.drive.done) return;
     state.drive.done = true;
     recordMission();
+    state.sessionLoops += 1;
 
     clearTimeout(timers.driveHint);
     el.driveHint.classList.remove('is-on');
@@ -766,7 +943,7 @@
 
       timers.drive = setTimeout(() => {
         el.driveActions.hidden = false;
-        showToast('출동 성공! 🎉', 1800);
+        showToast('출동 성공! 세차해볼까? 🧽', 2000);
         if (state.pendingUnlock) {
           showUnlock(state.pendingUnlock);
           state.pendingUnlock = null;
@@ -822,16 +999,7 @@
   }
 
   function renderCity() {
-    const palette = ['#93c5fd', '#f9a8d4', '#fcd34d', '#86efac', '#c4b5fd', '#fdba74', '#a5b4fc'];
-    const heights = [52, 74, 44, 88, 60, 70, 48];
-    el.cityBuildings.innerHTML = '';
-    heights.forEach((height, i) => {
-      const block = document.createElement('span');
-      block.className = 'city-block';
-      block.style.height = height + '%';
-      block.style.setProperty('--block-color', palette[i % palette.length]);
-      el.cityBuildings.appendChild(block);
-    });
+    applyCityScene(bgPickScene('rock', state.save.missions || 0));
   }
 
   function renderRock() {
@@ -841,10 +1009,15 @@
       [22, 8], [48, 9], [72, 11],
       [32, 72], [58, 73], [12, 70], [84, 72],
     ];
-    const palette = ['#cbd5e1', '#94a3b8', '#a8b3c2', '#f9a826', '#60a5fa', '#ef4444', '#4ade80'];
+    const scene = (state.drive && state.drive.scene) || bgPickScene('rock', 0);
+    const palette = scene.rock || [
+      '#cbd5e1', '#94a3b8', '#a8b3c2', '#f9a826', '#60a5fa', '#ef4444', '#4ade80',
+    ];
 
     el.rock.innerHTML = '';
-    el.rock.classList.remove('is-broken', 'is-breaking', 'is-hint');
+    el.rock.className = 'rock';
+    el.rock.classList.remove('is-broken', 'is-breaking', 'is-hint', 'is-crack-1', 'is-crack-2');
+    paintSlotBackground(el.rock, 'rock-pile');
 
     layout.forEach((pos, i) => {
       const piece = document.createElement('span');
@@ -858,17 +1031,41 @@
       piece.style.setProperty('--brick-color', palette[i % palette.length]);
       el.rock.appendChild(piece);
     });
+
+    // 금(crack) 오버레이 — 탭마다 단계적으로 드러남
+    const crack = document.createElement('span');
+    crack.className = 'rock__crack';
+    crack.setAttribute('aria-hidden', 'true');
+    el.rock.appendChild(crack);
   }
 
   function breakRock() {
     if (!state.drive || state.drive.mission !== 'rock' || state.drive.done) return;
+    if (el.rock.classList.contains('is-breaking')) return;
 
     clearTimeout(timers.driveHint);
     el.driveHint.classList.remove('is-on');
     el.rock.classList.remove('is-hint');
-    el.rock.classList.add('is-breaking');
 
     BrickSound.play('smash');
+
+    const hitsLeft = state.drive.remaining;
+    // 3탭 중 1·2탭: 금이 가고 살짝 흔들림 (장애물 유지)
+    if (hitsLeft > 1) {
+      state.drive.remaining = hitsLeft - 1;
+      const crackStage = 3 - state.drive.remaining; // 1 → 2
+      el.rock.classList.remove('is-crack-1', 'is-crack-2');
+      el.rock.classList.add('is-crack-' + crackStage);
+      el.rock.classList.remove('is-chip');
+      void el.rock.offsetWidth;
+      el.rock.classList.add('is-chip');
+      setTimeout(() => el.rock.classList.remove('is-chip'), 280);
+      return;
+    }
+
+    // 3번째 탭: 완전히 부서짐
+    state.drive.remaining = 0;
+    el.rock.classList.add('is-breaking');
 
     const pieces = el.rock.querySelectorAll('.rock__piece');
     pieces.forEach((piece) => {
@@ -906,15 +1103,11 @@
 
   /* ─── 출동 A: 소방 물 발사 ─── */
   function renderWaterMission() {
+    const scene = (state.drive && state.drive.scene) || bgPickScene('water', 0);
     const building = document.createElement('div');
-    building.className = 'fire-building';
+    building.className = 'fire-building ' + (scene.buildingClass || '');
 
-    [
-      [14, 16],
-      [52, 20],
-      [30, 52],
-      [66, 56],
-    ].forEach((pos) => {
+    (scene.windows || [[14, 16], [52, 20], [30, 52], [66, 56]]).forEach((pos) => {
       const win = document.createElement('span');
       win.className = 'fire-window';
       win.style.left = pos[0] + '%';
@@ -925,12 +1118,8 @@
     const layer = document.createElement('div');
     layer.className = 'flame-layer';
 
-    const flames = [
-      [24, 12],
-      [60, 16],
-      [40, 42],
-      [70, 46],
-      [18, 62],
+    const flames = scene.flames || [
+      [24, 12], [60, 16], [40, 42], [70, 46], [18, 62],
     ];
     flames.forEach((pos) => {
       const flame = document.createElement('button');
@@ -939,10 +1128,16 @@
       flame.style.left = pos[0] + '%';
       flame.style.top = pos[1] + '%';
 
-      const emoji = document.createElement('span');
-      emoji.className = 'flame__emoji';
-      emoji.textContent = '🔥';
-      flame.appendChild(emoji);
+      const flameImg = assetImage('flame');
+      if (flameImg && flameImg.naturalWidth >= 64) {
+        flame.classList.add('has-asset');
+        flame.style.backgroundImage = 'url(' + flameImg.src + ')';
+      } else {
+        const emoji = document.createElement('span');
+        emoji.className = 'flame__emoji';
+        emoji.textContent = '🔥';
+        flame.appendChild(emoji);
+      }
       flame.addEventListener('click', () => extinguishFlame(flame));
       layer.appendChild(flame);
     });
@@ -1014,6 +1209,7 @@
 
   /* ─── 출동 B: 크레인 다리 놓기 ─── */
   function renderCraneMission() {
+    const scene = (state.drive && state.drive.scene) || bgPickScene('crane', 0);
     const bridge = document.createElement('div');
     bridge.className = 'crane-bridge';
 
@@ -1024,7 +1220,7 @@
     const gap = document.createElement('div');
     gap.className = 'bridge-gap';
 
-    const colors = ['#60a5fa', '#f9a826', '#4ade80'];
+    const colors = scene.colors || ['#60a5fa', '#f9a826', '#4ade80'];
     const slots = [];
     for (let i = 0; i < 3; i += 1) {
       const slot = document.createElement('div');
@@ -1039,11 +1235,14 @@
     bridge.appendChild(right);
     el.missionLayer.appendChild(bridge);
 
-    const positions = [
-      { left: 58, bottom: 54, color: colors[0] },
-      { left: 70, bottom: 60, color: colors[1] },
-      { left: 63, bottom: 70, color: colors[2] },
+    const basePositions = scene.positions || [
+      { left: 58, bottom: 54 },
+      { left: 70, bottom: 60 },
+      { left: 63, bottom: 70 },
     ];
+    const positions = basePositions.map((pos, i) =>
+      Object.assign({}, pos, { color: colors[i % colors.length] })
+    );
 
     const blocks = [];
     positions.forEach((pos) => {
@@ -1149,8 +1348,9 @@
 
   /* ─── 출동 C: 레미콘 길 메우기 ─── */
   function renderPourMission() {
+    const scene = (state.drive && state.drive.scene) || bgPickScene('pour', 0);
     const hole = document.createElement('div');
-    hole.className = 'pour-hole';
+    hole.className = 'pour-hole ' + (scene.holeClass || '');
     hole.addEventListener('click', () => pourIntoHole(hole));
 
     const slots = [];
@@ -1236,6 +1436,7 @@
 
   /* ─── 출동 D: 카캐리어 미니카 싣기 ─── */
   function renderLoadMission() {
+    const scene = (state.drive && state.drive.scene) || bgPickScene('load', 0);
     const positions = [
       { left: 53, top: 29 },
       { left: 71, top: 29 },
@@ -1253,8 +1454,8 @@
       return slot;
     });
 
-    const colors = ['#60a5fa', '#f9a826', '#4ade80'];
-    const floats = [
+    const colors = scene.colors || ['#60a5fa', '#f9a826', '#4ade80'];
+    const floats = scene.floats || [
       { left: 62, bottom: 58 },
       { left: 74, bottom: 66 },
       { left: 66, bottom: 74 },
@@ -1267,7 +1468,7 @@
       car.className = 'mini-car';
       car.style.left = pos.left + '%';
       car.style.bottom = pos.bottom + '%';
-      car.style.setProperty('--car-color', colors[i]);
+      car.style.setProperty('--car-color', colors[i % colors.length]);
       car.addEventListener('click', () => loadMiniCar(car, slots));
       el.missionLayer.appendChild(car);
       cars.push(car);
@@ -1391,15 +1592,64 @@
     return entries.sort((a, b) => b.at - a.at);
   }
 
+  function renderWelcomeBanner() {
+    if (!el.welcomeBanner) return;
+    const welcomeId = state.save.welcomeCarId || state.save.lastId;
+    const vehicle = welcomeId ? bgRoster().find((v) => v.id === welcomeId) : null;
+    if (!vehicle || (state.save.visits || 0) < 2) {
+      el.welcomeBanner.hidden = true;
+      return;
+    }
+
+    el.welcomeBanner.hidden = false;
+    el.welcomeBanner.innerHTML = '';
+    el.welcomeBanner.classList.add('is-wave');
+
+    const mini = document.createElement('div');
+    mini.className = 'welcome-banner__board mini-board';
+    renderCombo(mini, makeVehicleCombo(vehicle, 'normal'));
+
+    const text = document.createElement('div');
+    text.className = 'welcome-banner__text';
+    text.innerHTML =
+      '<strong>오늘 반기는 차</strong>' +
+      '<span>' +
+      vehicle.icon +
+      ' ' +
+      vehicle.name +
+      '가 손을 흔들어요!</span>';
+
+    const welcomeImg = assetImage('welcome-car');
+    el.welcomeBanner.classList.remove('has-asset');
+    el.welcomeBanner.style.backgroundImage = '';
+    if (welcomeImg && welcomeImg.naturalWidth >= 64) {
+      // 배너 전체를 덮던 배경을 없애고, 그림은 글자와 분리된 전용 칸에 담는다.
+      const art = document.createElement('div');
+      art.className = 'welcome-banner__art';
+      art.setAttribute('aria-hidden', 'true');
+      art.style.backgroundImage = 'url(' + welcomeImg.src + ')';
+      el.welcomeBanner.appendChild(art);
+    } else {
+      el.welcomeBanner.appendChild(mini);
+    }
+    el.welcomeBanner.appendChild(text);
+  }
+
   function renderShelf() {
     const entries = buildShelfEntries();
     el.shelfGrid.innerHTML = '';
     el.shelfEmpty.classList.toggle('is-on', entries.length === 0);
+    renderWelcomeBanner();
 
     entries.forEach((entry) => {
       const card = document.createElement('button');
       card.type = 'button';
       card.className = 'shelf-card';
+      const isWelcome =
+        state.save.welcomeCarId &&
+        entry.combo &&
+        entry.combo.baseId === state.save.welcomeCarId;
+      if (isWelcome) card.classList.add('is-welcome');
 
       const mini = document.createElement('div');
       mini.className = 'mini-board';
@@ -1419,6 +1669,125 @@
 
       el.shelfGrid.appendChild(card);
     });
+  }
+
+  /* ─── 세차 ─── */
+  function startWashFromDrive() {
+    if (!state.drive || !state.drive.combo) return;
+    BrickSound.play('tap');
+    switchScreen('wash');
+    BrickWash.start(state.drive.combo, {
+      renderCombo: renderCombo,
+      paintBay: function (platform) {
+        paintSlotBackground(platform, 'wash-bay');
+      },
+      onDone: finishWash,
+    });
+  }
+
+  function finishWash() {
+    showToast('반짝반짝! 🏅', 1400);
+    renderShelf();
+    switchScreen('shelf');
+    if (state.sessionLoops >= 2) {
+      setTimeout(showSoftEnding, 900);
+    }
+  }
+
+  function showSoftEnding() {
+    if (typeof KidsKit === 'undefined' || !KidsKit.softEnding) return;
+    KidsKit.softEnding({
+      title: '오늘 출동 정말 멋졌어!',
+      emoji: '🧱',
+      onAgain: () => {
+        state.sessionLoops = 0;
+        renderPicker();
+        switchScreen('picker');
+      },
+      onRest: () => {
+        window.location.href = '../../index.html';
+      },
+    });
+  }
+
+  /* ─── 열린 도감 ─── */
+  function renderCatalogTabs() {
+    if (!el.catalogTabs) return;
+    el.catalogTabs.innerHTML = '';
+    BG_CATEGORIES.forEach((category) => {
+      const tab = document.createElement('button');
+      tab.type = 'button';
+      tab.className =
+        'cat-tab' + (state.catalogCategory === category.id ? ' is-active' : '');
+      tab.style.setProperty('--cat-color', category.color);
+      const icon = document.createElement('span');
+      icon.className = 'cat-tab__icon';
+      icon.textContent = category.icon;
+      const label = document.createElement('span');
+      label.textContent = category.label;
+      tab.appendChild(icon);
+      tab.appendChild(label);
+      tab.addEventListener('click', () => {
+        BrickSound.play('tap');
+        state.catalogCategory = category.id;
+        renderCatalogTabs();
+        renderCatalogGrid();
+      });
+      el.catalogTabs.appendChild(tab);
+    });
+  }
+
+  function renderCatalogGrid() {
+    if (!el.catalogGrid) return;
+    el.catalogGrid.innerHTML = '';
+    if (el.catalogDetail) el.catalogDetail.hidden = true;
+
+    bgRoster()
+      .filter((v) => (v.category || 'fire') === state.catalogCategory)
+      .forEach((vehicle) => {
+        const card = document.createElement('button');
+        card.type = 'button';
+        card.className = 'catalog-card';
+        card.style.setProperty('--card-color', vehicle.color);
+        if (vehicle.bodyStyle) card.dataset.body = vehicle.bodyStyle;
+
+        const mini = document.createElement('div');
+        mini.className = 'mini-board';
+        renderCombo(mini, makeVehicleCombo(vehicle, 'normal'));
+
+        const name = document.createElement('span');
+        name.className = 'catalog-card__name';
+        name.textContent = vehicle.icon + ' ' + vehicle.name;
+
+        const speak = document.createElement('span');
+        speak.className = 'catalog-card__speak';
+        speak.textContent = '🔊 소개';
+
+        card.appendChild(mini);
+        card.appendChild(name);
+        card.appendChild(speak);
+
+        card.addEventListener('click', () => openCatalogDetail(vehicle));
+        el.catalogGrid.appendChild(card);
+      });
+  }
+
+  function openCatalogDetail(vehicle) {
+    state.catalogVehicle = vehicle;
+    if (!el.catalogDetail) return;
+    el.catalogDetail.hidden = false;
+    renderCombo(el.catalogBoard, makeVehicleCombo(vehicle, 'normal'));
+    const voice = bgVoiceFor(vehicle.id);
+    el.catalogVoice.textContent = voice;
+    BrickSound.play('siren');
+    BrickSound.speak(voice);
+  }
+
+  function openCatalog() {
+    state.catalogCategory = state.category || 'fire';
+    renderCatalogTabs();
+    renderCatalogGrid();
+    switchScreen('catalog');
   }
 
   /* ─── 사운드 토글 ─── */
@@ -1448,6 +1817,13 @@
       renderShelf();
       switchScreen('shelf');
     });
+
+    if (el.btnCatalog) {
+      el.btnCatalog.addEventListener('click', () => {
+        BrickSound.play('tap');
+        openCatalog();
+      });
+    }
 
     el.btnFreeBack.addEventListener('click', () => {
       BrickSound.play('pop');
@@ -1491,6 +1867,18 @@
 
     el.rock.addEventListener('click', breakRock);
 
+    if (el.btnWash) {
+      el.btnWash.addEventListener('click', startWashFromDrive);
+    }
+
+    if (el.btnWashBack) {
+      el.btnWashBack.addEventListener('click', () => {
+        BrickSound.play('pop');
+        renderShelf();
+        switchScreen('shelf');
+      });
+    }
+
     el.btnDriveAgain.addEventListener('click', () => {
       if (!state.drive) return;
       BrickSound.play('tap');
@@ -1504,9 +1892,43 @@
       clearTimeout(timers.mission);
       clearTimeout(timers.unlock);
       el.unlockCard.hidden = true;
-      renderPicker();
-      switchScreen('picker');
+      renderShelf();
+      switchScreen('shelf');
+      if (state.sessionLoops >= 2) setTimeout(showSoftEnding, 600);
     });
+
+    if (el.btnCatalogBack) {
+      el.btnCatalogBack.addEventListener('click', () => {
+        BrickSound.play('tap');
+        renderPicker();
+        switchScreen('picker');
+      });
+    }
+
+    if (el.btnCatalogSpeak) {
+      el.btnCatalogSpeak.addEventListener('click', () => {
+        if (!state.catalogVehicle) return;
+        BrickSound.play('tap');
+        BrickSound.speak(bgVoiceFor(state.catalogVehicle.id));
+      });
+    }
+
+    if (el.btnCatalogBuild) {
+      el.btnCatalogBuild.addEventListener('click', () => {
+        if (!state.catalogVehicle) return;
+        BrickSound.play('tap');
+        state.category = state.catalogVehicle.category || 'fire';
+        renderCategoryTabs();
+        startBuild(state.catalogVehicle);
+      });
+    }
+
+    if (el.btnCatalogClose) {
+      el.btnCatalogClose.addEventListener('click', () => {
+        BrickSound.play('pop');
+        if (el.catalogDetail) el.catalogDetail.hidden = true;
+      });
+    }
 
     const unlock = () => BrickSound.unlock();
     document.addEventListener('pointerdown', unlock, { once: true });
@@ -1514,12 +1936,45 @@
 
   function init() {
     cacheElements();
+    BrickStorage.noteVisit(state.save, bgRoster());
     updateSoundButton();
     renderCategoryTabs();
     renderPicker();
     renderCity();
     bindEvents();
+
+    if (typeof KidsKit !== 'undefined') {
+      if (KidsKit.restButton) {
+        KidsKit.restButton({
+          onRest: () => {
+            window.location.href = '../../index.html';
+          },
+        });
+      }
+      if (KidsKit.assets && KidsKit.assets.preload) {
+        KidsKit.assets
+          .preload(
+            ASSET_SLOTS.map((src) => ({
+              src: src,
+              key: src.replace(/^assets\//, '').replace(/\.webp$/, ''),
+            }))
+          )
+          .then((result) => {
+            state.assets = result || state.assets;
+            refreshAssetSurfaces();
+          })
+          .catch(() => {});
+      }
+    }
+
     switchScreen('picker');
+
+    if (state.save.visits > 1 && state.save.welcomeCarId) {
+      const welcome = bgRoster().find((v) => v.id === state.save.welcomeCarId);
+      if (welcome) {
+        showToast(welcome.icon + ' ' + welcome.name + '가 반겨요!', 2200);
+      }
+    }
   }
 
   init();

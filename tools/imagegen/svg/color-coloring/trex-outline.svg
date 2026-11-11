@@ -1,0 +1,15 @@
+<svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+        <path class="part" data-part="tail" data-name="꼬리" d="M92 184 Q42 198 22 232 Q54 228 72 214 Q82 200 100 196 Z" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <path class="part" data-part="leg-back" data-name="뒷다리" d="M110 206 L104 254 Q104 266 116 266 L134 266 Q142 266 140 254 L136 206 Z" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <path class="part" data-part="leg-front" data-name="앞다리" d="M162 206 L156 254 Q156 266 168 266 L186 266 Q194 266 192 254 L188 206 Z" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <ellipse class="part" data-part="body" data-name="몸통" cx="145" cy="162" rx="64" ry="60" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <ellipse class="part" data-part="belly" data-name="배" cx="152" cy="180" rx="40" ry="36" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <path class="part" data-part="head" data-name="머리" d="M176 116 Q228 96 254 124 Q266 142 252 156 L198 168 Q180 148 176 116 Z" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <path class="part" data-part="arm" data-name="팔" d="M196 158 Q220 162 224 180 Q214 186 202 178 Z" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <g class="fixed">
+          <g class="face"><circle cx="226" cy="132" r="8" fill="#fff" stroke="#3D2B1F" stroke-width="3" /><circle cx="227.28" cy="132" r="3.68" fill="#3D2B1F" /><circle cx="224.4" cy="129.92" r="1.44" fill="#fff" /><circle cx="246" cy="136" r="8" fill="#fff" stroke="#3D2B1F" stroke-width="3" /><circle cx="247.28" cy="136" r="3.68" fill="#3D2B1F" /><circle cx="244.4" cy="133.92" r="1.44" fill="#fff" /></g>
+          <path d="M227 150 Q238 158 249 150" fill="none" stroke="#3D2B1F" stroke-width="4" stroke-linecap="round" />
+          <path d="M204 140 L216 146 M198 156 L210 160" stroke="#3D2B1F" stroke-width="3" stroke-linecap="round" />
+          <path d="M112 262 L104 268 M128 262 L122 268 M166 262 L158 268 M182 262 L176 268" stroke="#3D2B1F" stroke-width="3" stroke-linecap="round" />
+        </g>
+      </svg>
