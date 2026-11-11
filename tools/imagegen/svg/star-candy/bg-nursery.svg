@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 768 1280" fill="none">
+  <!-- night candy treasure nursery  empty center play space -->
+  <defs>
+    <linearGradient id="wallN" x1="0" y1="0" x2="0" y2="920">
+      <stop offset="0%" stop-color="#2E3A6B"/>
+      <stop offset="55%" stop-color="#4A2F6B"/>
+      <stop offset="100%" stop-color="#6B3D6E"/>
+    </linearGradient>
+    <linearGradient id="floorN" x1="0" y1="920" x2="0" y2="1280">
+      <stop offset="0%" stop-color="#5C3D55"/>
+      <stop offset="100%" stop-color="#3F2A3C"/>
+    </linearGradient>
+    <radialGradient id="moonSky" cx="0.45" cy="0.4" r="0.55">
+      <stop offset="0%" stop-color="#9ECFFF"/>
+      <stop offset="100%" stop-color="#1B2A4A"/>
+    </radialGradient>
+  </defs>
+  <rect width="768" height="920" fill="url(#wallN)"/>
+  <!-- soft wall wash stripes -->
+  <g opacity="0.16">
+    <path d="M-20 0 L40 0 L10 920 L-50 920 Z" fill="#A78BFA"/>
+    <path d="M80 0 L140 0 L110 920 L50 920 Z" fill="#A78BFA"/>
+    <path d="M180 0 L240 0 L210 920 L150 920 Z" fill="#A78BFA"/>
+    <path d="M280 0 L340 0 L310 920 L250 920 Z" fill="#A78BFA"/>
+    <path d="M380 0 L440 0 L410 920 L350 920 Z" fill="#A78BFA"/>
+    <path d="M480 0 L540 0 L510 920 L450 920 Z" fill="#A78BFA"/>
+    <path d="M580 0 L640 0 L610 920 L550 920 Z" fill="#A78BFA"/>
+    <path d="M680 0 L740 0 L710 920 L650 920 Z" fill="#A78BFA"/>
+  </g>
+  <!-- wall stars -->
+  <g fill="#FFC94A" opacity="0.55">
+    <circle cx="90" cy="120" r="3"/><circle cx="180" cy="80" r="2"/><circle cx="260" cy="160" r="3"/>
+    <circle cx="340" cy="70" r="2"/><circle cx="430" cy="130" r="3"/><circle cx="520" cy="60" r="2"/>
+    <circle cx="600" cy="140" r="3"/><circle cx="680" cy="90" r="2"/><circle cx="140" cy="240" r="2"/>
+    <circle cx="300" cy="220" r="3"/><circle cx="470" cy="250" r="2"/><circle cx="640" cy="210" r="3"/>
+    <circle cx="70" cy="320" r="2"/><circle cx="220" cy="360" r="3"/><circle cx="560" cy="340" r="2"/>
+    <circle cx="700" cy="300" r="3"/><circle cx="400" cy="200" r="2"/><circle cx="120" cy="420" r="2"/>
+  </g>
+  <!-- round moon window (left) -->
+  <circle cx="150" cy="180" r="78" fill="#FFB3C1"/>
+  <circle cx="150" cy="180" r="66" fill="url(#moonSky)"/>
+  <circle cx="168" cy="168" r="22" fill="#FFF6E5"/>
+  <circle cx="180" cy="158" r="16" fill="url(#moonSky)"/>
+  <circle cx="128" cy="150" r="3" fill="#FFFFFF" opacity="0.8"/>
+  <circle cx="118" cy="190" r="2" fill="#FFFFFF" opacity="0.7"/>
+  <!-- treasure frame (right) -->
+  <rect x="600" y="110" width="100" height="86" rx="16" fill="#FFC94A"/>
+  <rect x="612" y="122" width="76" height="62" rx="12" fill="#4A2F6B"/>
+  <path d="M650 138 L656 152 L671 154 L659 164 L663 179 L650 170 L637 179 L641 164 L629 154 L644 152 Z" fill="#FFC94A"/>
+  <!-- floor -->
+  <rect y="920" width="768" height="360" fill="url(#floorN)"/>
+  <g stroke="#FFF6E5" stroke-width="2" opacity="0.1">
+    <line x1="0" y1="970" x2="768" y2="970"/>
+    <line x1="0" y1="1020" x2="768" y2="1020"/>
+    <line x1="0" y1="1070" x2="768" y2="1070"/>
+    <line x1="0" y1="1120" x2="768" y2="1120"/>
+    <line x1="0" y1="1170" x2="768" y2="1170"/>
+  </g>
+  <!-- star rug (center lower, keeps mid play clear of clutter) -->
+  <ellipse cx="384" cy="860" rx="300" ry="120" fill="#FF6B81" opacity="0.95"/>
+  <ellipse cx="384" cy="860" rx="230" ry="88" fill="#FFB3C1"/>
+  <path d="M384 820 L392 840 L414 842 L396 856 L402 878 L384 866 L366 878 L372 856 L354 842 L376 840 Z" fill="#FFC94A" opacity="0.9"/>
+  <!-- candy jars left/right edges only -->
+  <g>
+    <rect x="36" y="980" width="52" height="70" rx="14" fill="#FFFFFF" opacity="0.35"/>
+    <ellipse cx="62" cy="1005" rx="16" ry="12" fill="#FF6B81"/>
+    <rect x="46" y="968" width="32" height="14" rx="6" fill="#FFF6E5"/>
+    <rect x="100" y="1010" width="48" height="64" rx="14" fill="#FFFFFF" opacity="0.35"/>
+    <ellipse cx="124" cy="1032" rx="14" ry="11" fill="#FFC94A"/>
+    <rect x="110" y="998" width="28" height="12" rx="5" fill="#FFF6E5"/>
+    <rect x="680" y="990" width="52" height="70" rx="14" fill="#FFFFFF" opacity="0.35"/>
+    <ellipse cx="706" cy="1015" rx="16" ry="12" fill="#6EE7B7"/>
+    <rect x="690" y="978" width="32" height="14" rx="6" fill="#FFF6E5"/>
+  </g>
+</svg>

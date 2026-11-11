@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 160" fill="none">
+  <!-- shiny golden bonus fish, facing right -->
+  <ellipse cx="128" cy="148" rx="40" ry="7" fill="#3D2B1F" opacity="0.12"/>
+  <!-- soft sparkles (no text) -->
+  <circle cx="72" cy="36" r="6" fill="#FFF6E5" opacity="0.85"/>
+  <circle cx="210" cy="40" r="5" fill="#FFF6E5" opacity="0.75"/>
+  <circle cx="96" cy="128" r="4" fill="#FFF6E5" opacity="0.7"/>
+  <!-- tail left -->
+  <path d="M54 80 L14 50 Q26 80 14 110 Z" fill="#FFC94A" stroke="#3D2B1F" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+  <!-- body -->
+  <ellipse cx="148" cy="82" rx="72" ry="44" fill="#FFC94A" stroke="#3D2B1F" stroke-width="6" stroke-linejoin="round"/>
+  <!-- warm orange belly band -->
+  <ellipse cx="156" cy="100" rx="40" ry="20" fill="#FF9F45" opacity="0.55"/>
+  <ellipse cx="126" cy="64" rx="16" ry="10" fill="#FFF6E5" opacity="0.65"/>
+  <!-- sparkle diamond on body -->
+  <path d="M132 70 L140 58 L148 70 L140 82 Z" fill="#FFFFFF" opacity="0.8"/>
+  <!-- fin -->
+  <ellipse cx="150" cy="118" rx="16" ry="9" fill="#FF9F45" stroke="#3D2B1F" stroke-width="6" stroke-linejoin="round"/>
+  <!-- face -->
+  <ellipse cx="198" cy="76" rx="7" ry="9" fill="#3D2B1F"/>
+  <circle cx="200" cy="73" r="2.4" fill="#FFFFFF"/>
+  <circle cx="188" cy="92" r="7" fill="#FFB3C1" opacity="0.5"/>
+  <path d="M208 90 Q216 96 222 88" stroke="#3D2B1F" stroke-width="4" stroke-linecap="round" fill="none"/>
+</svg>

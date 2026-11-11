@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 256" fill="none">
+  <!-- cheerful brick special vehicle waving, short side 256 - stroke ~10 -->
+  <ellipse cx="192" cy="228" rx="120" ry="16" fill="#3D2B1F" opacity="0.12"/>
+  <!-- shelf plank -->
+  <rect x="24" y="198" width="336" height="28" rx="10" fill="#B07A4F" stroke="#3D2B1F" stroke-width="8" stroke-linejoin="round"/>
+  <ellipse cx="60" cy="208" rx="18" ry="6" fill="#FFF6E5" opacity="0.4"/>
+  <!-- body -->
+  <rect x="70" y="110" width="210" height="78" rx="22" fill="#FF6B81" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round"/>
+  <ellipse cx="100" cy="128" rx="28" ry="14" fill="#FFF6E5" opacity="0.55"/>
+  <!-- cab -->
+  <rect x="78" y="62" width="92" height="70" rx="20" fill="#FF9F45" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round"/>
+  <rect x="94" y="76" width="60" height="36" rx="12" fill="#7CC6FE" stroke="#3D2B1F" stroke-width="6" stroke-linejoin="round"/>
+  <ellipse cx="110" cy="86" rx="12" ry="8" fill="#FFF6E5" opacity="0.55"/>
+  <!-- ladder gimmick -->
+  <rect x="188" y="78" width="120" height="22" rx="10" fill="#FFF6E5" stroke="#3D2B1F" stroke-width="7" stroke-linejoin="round"/>
+  <line x1="210" y1="78" x2="210" y2="100" stroke="#3D2B1F" stroke-width="5" stroke-linecap="round"/>
+  <line x1="238" y1="78" x2="238" y2="100" stroke="#3D2B1F" stroke-width="5" stroke-linecap="round"/>
+  <line x1="266" y1="78" x2="266" y2="100" stroke="#3D2B1F" stroke-width="5" stroke-linecap="round"/>
+  <line x1="294" y1="78" x2="294" y2="100" stroke="#3D2B1F" stroke-width="5" stroke-linecap="round"/>
+  <!-- siren -->
+  <rect x="104" y="42" width="40" height="22" rx="10" fill="#FFC94A" stroke="#3D2B1F" stroke-width="6" stroke-linejoin="round"/>
+  <circle cx="116" cy="53" r="6" fill="#FF6B81" stroke="#3D2B1F" stroke-width="3"/>
+  <circle cx="132" cy="53" r="6" fill="#7CC6FE" stroke="#3D2B1F" stroke-width="3"/>
+  <!-- studs -->
+  <circle cx="120" cy="148" r="10" fill="#FF9F45" stroke="#3D2B1F" stroke-width="4"/>
+  <circle cx="156" cy="148" r="10" fill="#FF9F45" stroke="#3D2B1F" stroke-width="4"/>
+  <circle cx="192" cy="148" r="10" fill="#FF9F45" stroke="#3D2B1F" stroke-width="4"/>
+  <circle cx="228" cy="148" r="10" fill="#FF9F45" stroke="#3D2B1F" stroke-width="4"/>
+  <!-- wheels -->
+  <circle cx="118" cy="196" r="24" fill="#3D2B1F" stroke="#3D2B1F" stroke-width="6"/>
+  <circle cx="118" cy="196" r="10" fill="#FFC94A"/>
+  <circle cx="248" cy="196" r="24" fill="#3D2B1F" stroke="#3D2B1F" stroke-width="6"/>
+  <circle cx="248" cy="196" r="10" fill="#FFC94A"/>
+  <!-- waving arm -->
+  <path d="M278 128 Q318 90 340 70" stroke="#FFC94A" stroke-width="16" stroke-linecap="round" fill="none"/>
+  <circle cx="344" cy="64" r="18" fill="#FFC94A" stroke="#3D2B1F" stroke-width="6"/>
+  <path d="M336 56 Q344 48 352 56" stroke="#3D2B1F" stroke-width="3" stroke-linecap="round" fill="none"/>
+  <!-- cute face on cab window -->
+  <ellipse cx="116" cy="92" rx="4" ry="5" fill="#3D2B1F"/>
+  <ellipse cx="132" cy="92" rx="4" ry="5" fill="#3D2B1F"/>
+  <circle cx="117.2" cy="90.5" r="1.4" fill="#FFFFFF"/>
+  <circle cx="133.2" cy="90.5" r="1.4" fill="#FFFFFF"/>
+  <path d="M118 102 Q124 107 130 102" stroke="#3D2B1F" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+</svg>

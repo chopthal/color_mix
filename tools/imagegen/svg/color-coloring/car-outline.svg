@@ -1,0 +1,16 @@
+<svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+        <path class="part" data-part="body" data-name="차체" d="M35 205 L35 172 Q35 158 50 158 L95 158 L125 112 Q131 104 143 104 L196 104 Q209 104 216 114 L243 158 L255 158 Q270 158 270 173 L270 205 Q270 216 257 216 L48 216 Q35 216 35 205 Z" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <path class="part" data-part="window-back" data-name="뒷창문" d="M132 151 L154 117 L188 117 L188 151 Z" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <path class="part" data-part="window-front" data-name="앞창문" d="M197 151 L197 117 L225 117 L242 151 Z" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <circle class="part" data-part="wheel-back" data-name="뒷바퀴" cx="90" cy="216" r="30" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <circle class="part" data-part="wheel-front" data-name="앞바퀴" cx="222" cy="216" r="30" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <ellipse class="part" data-part="headlight" data-name="헤드라이트" cx="259" cy="180" rx="8" ry="11" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <rect class="part" data-part="taillight" data-name="미등" x="37" y="168" width="9" height="20" rx="4" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <g class="fixed">
+          <circle cx="90" cy="216" r="12" fill="#cfd8e3" stroke="#3D2B1F" stroke-width="3" />
+          <circle cx="222" cy="216" r="12" fill="#cfd8e3" stroke="#3D2B1F" stroke-width="3" />
+          <path d="M150 158 L150 210" stroke="#3D2B1F" stroke-width="3" fill="none" />
+          <rect x="160" y="176" width="18" height="6" rx="3" fill="#3D2B1F" />
+          <path d="M45 196 L260 196" stroke="#3D2B1F" stroke-width="2" opacity="0.25" />
+        </g>
+      </svg>

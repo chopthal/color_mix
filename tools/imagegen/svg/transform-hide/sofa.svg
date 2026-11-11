@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="none">
+  <ellipse cx="128" cy="232" rx="78" ry="14" fill="#3D2B1F" opacity="0.12"/>
+  <!-- back -->
+  <rect x="36" y="48" width="184" height="88" rx="36" fill="#8B5CF6" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round"/>
+  <ellipse cx="70" cy="70" rx="24" ry="14" fill="#C4B5FD" opacity="0.55"/>
+  <!-- seat -->
+  <rect x="24" y="118" width="208" height="72" rx="28" fill="#A78BFA" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round"/>
+  <!-- arms -->
+  <rect x="14" y="100" width="40" height="88" rx="18" fill="#7C3AED" stroke="#3D2B1F" stroke-width="9" stroke-linejoin="round"/>
+  <rect x="202" y="100" width="40" height="88" rx="18" fill="#7C3AED" stroke="#3D2B1F" stroke-width="9" stroke-linejoin="round"/>
+  <!-- cushions -->
+  <rect x="58" y="128" width="60" height="44" rx="16" fill="#DDD6FE" stroke="#3D2B1F" stroke-width="7" stroke-linejoin="round"/>
+  <rect x="138" y="128" width="60" height="44" rx="16" fill="#DDD6FE" stroke="#3D2B1F" stroke-width="7" stroke-linejoin="round"/>
+  <ellipse cx="78" cy="140" rx="14" ry="8" fill="#FFFFFF" opacity="0.55"/>
+  <!-- feet -->
+  <rect x="52" y="188" width="22" height="28" rx="8" fill="#6D28D9" stroke="#3D2B1F" stroke-width="7"/>
+  <rect x="182" y="188" width="22" height="28" rx="8" fill="#6D28D9" stroke="#3D2B1F" stroke-width="7"/>
+  <!-- tiny star -->
+  <path d="M90 152 L95 162 L106 163 L97 170 L100 181 L90 174 L80 181 L83 170 L74 163 L85 162 Z" fill="#FFC94A" stroke="#3D2B1F" stroke-width="4" stroke-linejoin="round"/>
+</svg>

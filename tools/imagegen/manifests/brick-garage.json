@@ -1,0 +1,98 @@
+{
+  "items": [
+    {
+      "name": "garage-bg",
+      "outPath": "games/brick-garage/assets/garage-bg.webp",
+      "prompt": "A bright kid-safe brick toy garage interior background, open shelves for toy special vehicles, soft daylight, empty foreground, no text.",
+      "width": 780,
+      "height": 1688,
+      "refs": []
+    },
+    {
+      "name": "wash-bay",
+      "outPath": "games/brick-garage/assets/wash-bay.webp",
+      "prompt": "A cheerful toy car wash bay platform with soft blue floor and gentle water sparkles, empty center for a vehicle, no text.",
+      "width": 780,
+      "height": 480,
+      "refs": []
+    },
+    {
+      "name": "city-day",
+      "outPath": "games/brick-garage/assets/city-day.webp",
+      "prompt": "A cute daytime block city skyline background with colorful toy buildings and blue sky, empty road at bottom, no text.",
+      "width": 780,
+      "height": 980,
+      "refs": []
+    },
+    {
+      "name": "city-sunset",
+      "outPath": "games/brick-garage/assets/city-sunset.webp",
+      "prompt": "A cute sunset block city skyline background with warm orange sky and toy buildings, empty road at bottom, no text.",
+      "width": 780,
+      "height": 980,
+      "refs": []
+    },
+    {
+      "name": "rock-pile",
+      "outPath": "games/brick-garage/assets/rock-pile.webp",
+      "prompt": "A pile of colorful toy brick rocks for a kids construction scene, round soft shapes, centered, transparent-ready, no text.",
+      "width": 320,
+      "height": 280,
+      "refs": []
+    },
+    {
+      "name": "flame",
+      "outPath": "games/brick-garage/assets/flame.webp",
+      "prompt": "A friendly cartoon toy flame icon, soft orange and yellow, round shapes, not scary, centered, no text.",
+      "width": 128,
+      "height": 128,
+      "refs": []
+    },
+    {
+      "name": "welcome-car",
+      "outPath": "games/brick-garage/assets/welcome-car.webp",
+      "prompt": "A cheerful toy special vehicle waving hello on a garage shelf, three-quarter front view, bold outline flat style, no text.",
+      "width": 384,
+      "height": 256,
+      "refs": []
+    },
+    {
+      "name": "vehicle-body",
+      "width": 384,
+      "height": 240,
+      "refs": [],
+      "variants": [
+        {
+          "name": "vehicle-fire-ladder",
+          "outPath": "games/brick-garage/assets/vehicle-fire-ladder.webp",
+          "prompt": "A cute brick-style fire ladder truck toy, red body, ladder attachment, three-quarter front, no text."
+        },
+        {
+          "name": "vehicle-police",
+          "outPath": "games/brick-garage/assets/vehicle-police.webp",
+          "prompt": "A cute brick-style police car toy, blue and white body, siren on roof, three-quarter front, no text."
+        },
+        {
+          "name": "vehicle-excavator",
+          "outPath": "games/brick-garage/assets/vehicle-excavator.webp",
+          "prompt": "A cute brick-style excavator toy, yellow body, digger arm, tracks, three-quarter front, no text."
+        },
+        {
+          "name": "vehicle-mixer",
+          "outPath": "games/brick-garage/assets/vehicle-mixer.webp",
+          "prompt": "A cute brick-style cement mixer truck toy, orange body, spinning drum, three-quarter front, no text."
+        },
+        {
+          "name": "vehicle-carrier",
+          "outPath": "games/brick-garage/assets/vehicle-carrier.webp",
+          "prompt": "A cute brick-style car carrier truck toy, blue body, two-level ramp, three-quarter front, no text."
+        },
+        {
+          "name": "vehicle-crane",
+          "outPath": "games/brick-garage/assets/vehicle-crane.webp",
+          "prompt": "A cute brick-style mobile crane toy, yellow and pink boom arm, three-quarter front, no text."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 240" fill="none">
+  <!-- brick mobile crane, short side 240 - stroke ~10 -->
+  <ellipse cx="170" cy="220" rx="120" ry="14" fill="#3D2B1F" opacity="0.12"/>
+  <!-- tracks -->
+  <rect x="40" y="168" width="190" height="40" rx="18" fill="#3D2B1F" stroke="#3D2B1F" stroke-width="8" stroke-linejoin="round"/>
+  <circle cx="70" cy="188" r="13" fill="#FFC94A" stroke="#3D2B1F" stroke-width="4"/>
+  <circle cx="110" cy="188" r="13" fill="#FFC94A" stroke="#3D2B1F" stroke-width="4"/>
+  <circle cx="150" cy="188" r="13" fill="#FFC94A" stroke="#3D2B1F" stroke-width="4"/>
+  <circle cx="190" cy="188" r="13" fill="#FFC94A" stroke="#3D2B1F" stroke-width="4"/>
+  <!-- body -->
+  <rect x="56" y="112" width="150" height="66" rx="18" fill="#FFC94A" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round"/>
+  <ellipse cx="82" cy="128" rx="22" ry="11" fill="#FFF6E5" opacity="0.55"/>
+  <!-- cab -->
+  <rect x="68" y="62" width="80" height="64" rx="18" fill="#FF6B81" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round"/>
+  <rect x="80" y="76" width="56" height="32" rx="11" fill="#7CC6FE" stroke="#3D2B1F" stroke-width="6" stroke-linejoin="round"/>
+  <ellipse cx="96" cy="86" rx="12" ry="7" fill="#FFF6E5" opacity="0.55"/>
+  <!-- boom -->
+  <path d="M190 120 L330 42" stroke="#FF6B81" stroke-width="22" stroke-linecap="round"/>
+  <path d="M190 120 L330 42" stroke="#3D2B1F" stroke-width="8" stroke-linecap="round" fill="none"/>
+  <rect x="176" y="104" width="36" height="36" rx="12" fill="#FF9F45" stroke="#3D2B1F" stroke-width="7" stroke-linejoin="round"/>
+  <!-- hook -->
+  <line x1="330" y1="42" x2="330" y2="110" stroke="#3D2B1F" stroke-width="5" stroke-linecap="round"/>
+  <path d="M318 110 Q330 130 342 110" stroke="#FFC94A" stroke-width="10" stroke-linecap="round" fill="none"/>
+  <path d="M318 110 Q330 130 342 110" stroke="#3D2B1F" stroke-width="5" stroke-linecap="round" fill="none"/>
+  <!-- studs -->
+  <circle cx="92" cy="140" r="9" fill="#FF9F45" stroke="#3D2B1F" stroke-width="4"/>
+  <circle cx="128" cy="140" r="9" fill="#FF9F45" stroke="#3D2B1F" stroke-width="4"/>
+  <circle cx="164" cy="140" r="9" fill="#FF9F45" stroke="#3D2B1F" stroke-width="4"/>
+  <!-- face -->
+  <ellipse cx="98" cy="90" rx="4" ry="5" fill="#3D2B1F"/>
+  <ellipse cx="118" cy="90" rx="4" ry="5" fill="#3D2B1F"/>
+  <circle cx="99.2" cy="88.5" r="1.4" fill="#FFFFFF"/>
+  <circle cx="119.2" cy="88.5" r="1.4" fill="#FFFFFF"/>
+  <ellipse cx="88" cy="98" rx="5" ry="3" fill="#FFB3C1" opacity="0.5"/>
+  <ellipse cx="128" cy="98" rx="5" ry="3" fill="#FFB3C1" opacity="0.5"/>
+  <path d="M102 102 Q108 107 114 102" stroke="#3D2B1F" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+</svg>

@@ -9,9 +9,11 @@
   <meta name="apple-mobile-web-app-title" content="색칠 놀이터">
   <meta name="theme-color" content="#bfe3fc">
   <title>알록달록 색칠 놀이터</title>
+  <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../_shared/kit.css">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -24,6 +26,19 @@
         <h1 class="picker-title">무엇을 색칠할까요?</h1>
         <div class="progress-pill"><span id="progressCount">0</span> / 50</div>
       </header>
+
+      <div id="welcomeFrame" class="welcome-frame hidden" aria-live="polite">
+        <div class="frame-shell">
+          <img id="frameMatImg" class="frame-mat-img hidden" alt="">
+          <div id="welcomeMini" class="welcome-mini"></div>
+        </div>
+        <p id="welcomeText" class="welcome-text">네 그림이 반겨 줘요!</p>
+        <div class="welcome-actions">
+          <button id="welcomeOpen" class="btn-primary" type="button">다시 볼래</button>
+          <button id="welcomeDismiss" class="btn-ghost" type="button">다른 그림</button>
+        </div>
+      </div>
+
       <div class="cat-tabs" id="catTabs"></div>
       <div class="object-grid" id="objectGrid"></div>
     </section>
@@ -38,7 +53,7 @@
         </div>
         <div class="head-actions">
           <button id="undoBtn" class="icon-btn" type="button" aria-label="되돌리기">↩️</button>
-          <button id="themeBtn" class="icon-btn" type="button" aria-label="배경 바꾸기">🌈</button>
+          <button id="themeBtn" class="icon-btn theme-hint" type="button" aria-label="배경 바꾸기">🌈</button>
           <button id="saveBtn" class="icon-btn" type="button" aria-label="작품 저장">💾</button>
           <button id="galleryBtn" class="icon-btn" type="button" aria-label="내 작품">🖼️</button>
           <button id="resetBtn" class="icon-btn" type="button" aria-label="전체 지우기">🗑️</button>
@@ -46,6 +61,7 @@
       </header>
 
       <div class="stage-wrap">
+        <div id="weatherBadge" class="weather-badge" aria-live="polite">☀️ 낮 무대</div>
         <div id="stage" class="stage theme-day">
           <div class="stage-decor">
             <span class="deco sun">☀️</span>
@@ -54,10 +70,16 @@
             <span class="deco star s2">✨</span>
             <span class="deco star s3">⭐</span>
             <span class="deco star s4">✨</span>
+            <span class="deco star s5">🌟</span>
             <span class="deco rainbow">🌈</span>
             <span class="deco cloud c1">☁️</span>
             <span class="deco cloud c2">☁️</span>
+            <span class="deco cloud c3">☁️</span>
+            <span class="deco spark s1">✨</span>
+            <span class="deco spark s2">💛</span>
+            <span class="deco spark s3">✨</span>
           </div>
+          <div id="weatherBurst" class="weather-burst" aria-hidden="true"></div>
           <div id="objectHost" class="object-host"></div>
           <div id="stickerLayer" class="sticker-layer"></div>
           <div id="celebrateLayer" class="celebrate-layer"></div>
@@ -143,8 +165,20 @@
     </div>
   </div>
 
+  <!-- 완성 액자 스티커 연출 -->
+  <div id="frameOverlay" class="frame-overlay hidden" role="dialog" aria-modal="true" aria-label="완성 액자">
+    <div class="frame-overlay-card">
+      <p class="frame-overlay-title">✨ 스티커 액자!</p>
+      <div class="frame-shell big">
+        <div id="frameOverlayMini" class="welcome-mini"></div>
+      </div>
+      <p id="frameOverlayText" class="frame-overlay-text">도감에 붙였어요</p>
+    </div>
+  </div>
+
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
+  <script src="../_shared/kit.js"></script>
   <script src="js/art-core.js"></script>
   <script src="js/art-vehicle.js"></script>
   <script src="js/art-dino.js"></script>

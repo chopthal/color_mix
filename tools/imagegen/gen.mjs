@@ -99,6 +99,7 @@ function expandItems(manifest) {
           width: variant.width ?? item.width ?? 256,
           height: variant.height ?? item.height ?? 256,
           refs: variant.refs || item.refs || [],
+          opaque: variant.opaque ?? item.opaque ?? isBackgroundName(name),
         });
       }
     } else {
@@ -109,6 +110,7 @@ function expandItems(manifest) {
         width: item.width ?? 256,
         height: item.height ?? 256,
         refs: item.refs || [],
+        opaque: item.opaque ?? isBackgroundName(item.name),
       });
     }
   }
@@ -142,6 +144,28 @@ async function resolveRefPath(ref) {
     }
   }
   throw new Error(`Reference image not found: ${ref}`);
+}
+
+// 배경·하늘·장면 이미지는 투명 키잉 없이 불투명으로 저장 (manifest의 opaque로 덮어쓰기 가능)
+function isBackgroundName(name) {
+  return /^(bg|scene|sky|stage|arena|room|city)-|-bg$|^bg$/.test(String(name));
+}
+
+// 게임 assets/ready.json에 생성된 파일명을 추가 — KidsKit.assets.preload가 이 목록만 요청한다
+async function markReady(absOut) {
+  const readyPath = path.join(path.dirname(absOut), 'ready.json');
+  let data = { ready: [] };
+  try {
+    data = JSON.parse(await fs.readFile(readyPath, 'utf8'));
+  } catch {
+    /* 없으면 새로 만든다 */
+  }
+  const key = Array.isArray(data) ? null : data.ready ? 'ready' : data.files ? 'files' : 'ready';
+  const list = Array.isArray(data) ? data : (data[key] = data[key] || []);
+  const file = path.basename(absOut);
+  if (!list.includes(file)) list.push(file);
+  list.sort();
+  await fs.writeFile(readyPath, JSON.stringify(data, null, 2) + '\n');
 }
 
 async function chromaKeyToWebp(sharp, inputBuffer, width, height, chroma) {
@@ -211,7 +235,9 @@ async function loadSdk() {
 async function generateOne(ai, sharp, item, ctx) {
   const absOut = path.resolve(REPO_ROOT, item.outPath);
   const style = ctx.stylePrefix;
-  const chromaLine = `Use a flat solid chroma-key background of exactly ${ctx.chroma.hex}. No other background elements.`;
+  const chromaLine = item.opaque
+    ? 'Fill the whole frame edge to edge as a background scene. No characters unless the prompt asks for them.'
+    : `Use a flat solid chroma-key background of exactly ${ctx.chroma.hex}. No other background elements.`;
   const fullPrompt = [style, chromaLine, item.prompt].filter(Boolean).join('\n\n');
 
   const parts = [{ text: fullPrompt }];
@@ -239,15 +265,15 @@ async function generateOne(ai, sharp, item, ctx) {
     throw new Error(`No image data returned for ${item.name}`);
   }
 
-  const webp = await chromaKeyToWebp(
-    sharp,
-    image.data,
-    item.width,
-    item.height,
-    ctx.chroma
-  );
+  const webp = item.opaque
+    ? await sharp(image.data)
+        .resize(item.width, item.height, { fit: 'cover' })
+        .webp({ quality: 82 })
+        .toBuffer()
+    : await chromaKeyToWebp(sharp, image.data, item.width, item.height, ctx.chroma);
   await fs.mkdir(path.dirname(absOut), { recursive: true });
   await fs.writeFile(absOut, webp);
+  await markReady(absOut);
   return absOut;
 }
 

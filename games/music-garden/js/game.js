@@ -2,15 +2,73 @@
   'use strict';
 
   const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const STORAGE_KEY = 'music-garden-v1';
+  const LEGACY_KEY = 'music-garden-v1';
+  const Kit = window.KidsKit || null;
+  const store = Kit && typeof Kit.store === 'function' ? Kit.store('music-garden') : null;
 
   const NOTES = [
-    { freq: 523.25, petal: '#ff9db3', petal2: '#ffc2d1', center: '#ffd43b', stem: '#4f9e48', leaf: '#6cc25f' },
-    { freq: 587.33, petal: '#ffb38a', petal2: '#ffd0b8', center: '#ffd43b', stem: '#58a54c', leaf: '#77c968' },
-    { freq: 659.25, petal: '#ffe066', petal2: '#fff0a8', center: '#ffb347', stem: '#4a9844', leaf: '#65bb58' },
-    { freq: 783.99, petal: '#8fe3b8', petal2: '#c5f5d9', center: '#ffd43b', stem: '#55a44b', leaf: '#73c465' },
-    { freq: 880.0, petal: '#b8a6ff', petal2: '#dcd4ff', center: '#ffd43b', stem: '#4c9a46', leaf: '#69bd5d' },
+    { freq: 523.25, petal: '#ff9db3', petal2: '#ffc2d1', center: '#ffd43b', stem: '#4f9e48', leaf: '#6cc25f', asset: 'flower-pink' },
+    { freq: 587.33, petal: '#ffb38a', petal2: '#ffd0b8', center: '#ffd43b', stem: '#58a54c', leaf: '#77c968', asset: 'flower-orange' },
+    { freq: 659.25, petal: '#ffe066', petal2: '#fff0a8', center: '#ffb347', stem: '#4a9844', leaf: '#65bb58', asset: 'flower-yellow' },
+    { freq: 783.99, petal: '#8fe3b8', petal2: '#c5f5d9', center: '#ffd43b', stem: '#55a44b', leaf: '#73c465', asset: 'flower-green' },
+    { freq: 880.0, petal: '#b8a6ff', petal2: '#dcd4ff', center: '#ffd43b', stem: '#4c9a46', leaf: '#69bd5d', asset: 'flower-purple' },
   ];
+
+  const SKY_THEMES = [
+    {
+      id: 'morning',
+      label: '아침이야!',
+      sky: ['#ffd6a5', '#ffe8c8', '#eef8ff'],
+      sun: '#ffc078',
+      glow0: 'rgba(255, 196, 120, 0.75)',
+      glow1: 'rgba(255, 196, 120, 0.22)',
+      fieldTop: '#b8e4a8',
+      fieldBot: '#7ec46f',
+    },
+    {
+      id: 'day',
+      label: '햇살 좋은 낮!',
+      sky: ['#c7ebff', '#e6f7ff', '#f7fbe4'],
+      sun: '#ffe066',
+      glow0: 'rgba(255, 236, 150, 0.75)',
+      glow1: 'rgba(255, 236, 150, 0.22)',
+      fieldTop: '#a8dc98',
+      fieldBot: '#7ec46f',
+    },
+    {
+      id: 'evening',
+      label: '노을이 예뻐!',
+      sky: ['#ffb4a2', '#ffd6c0', '#e8d5f2'],
+      sun: '#ff922b',
+      glow0: 'rgba(255, 146, 43, 0.7)',
+      glow1: 'rgba(255, 146, 43, 0.22)',
+      fieldTop: '#9fd48f',
+      fieldBot: '#6fb860',
+    },
+  ];
+
+  const ASSET_LIST = [
+    { key: 'cloud', src: 'assets/cloud.webp' },
+    { key: 'cloud-tap', src: 'assets/cloud-tap.webp' },
+    { key: 'raindrop', src: 'assets/raindrop.webp' },
+    { key: 'sun', src: 'assets/sun.webp' },
+    { key: 'flowerbed', src: 'assets/flowerbed.webp' },
+    { key: 'note-particle', src: 'assets/note-particle.webp' },
+    { key: 'plant-seed', src: 'assets/plant-seed.webp' },
+    { key: 'plant-sprout', src: 'assets/plant-sprout.webp' },
+    { key: 'plant-stem', src: 'assets/plant-stem.webp' },
+    { key: 'plant-bud', src: 'assets/plant-bud.webp' },
+    { key: 'flower-pink', src: 'assets/flower-pink.webp' },
+    { key: 'flower-orange', src: 'assets/flower-orange.webp' },
+    { key: 'flower-yellow', src: 'assets/flower-yellow.webp' },
+    { key: 'flower-green', src: 'assets/flower-green.webp' },
+    { key: 'flower-purple', src: 'assets/flower-purple.webp' },
+    { key: 'sky-morning', src: 'assets/sky-morning.webp' },
+    { key: 'sky-day', src: 'assets/sky-day.webp' },
+    { key: 'sky-evening', src: 'assets/sky-evening.webp' },
+  ];
+
+  const SECRET_TAP = [0, 2, 4];
 
   const els = {
     canvas: document.getElementById('gameCanvas'),
@@ -44,6 +102,15 @@
     celebrated: false,
     hintDone: false,
     playedFlower: false,
+    images: {},
+    skyIndex: 1,
+    welcomeSway: 0,
+    bloomOrder: [],
+    tapSeq: [],
+    tapSeqAge: 0,
+    foundChord: false,
+    foundPaper: false,
+    sessionRound: 0,
   };
 
   const Sound = {
@@ -152,6 +219,19 @@
       });
     },
 
+    secretChord() {
+      [523.25, 659.25, 783.99, 1046.5].forEach((f, i) => {
+        this.tone(f, 0.55, 'triangle', 0.13, i * 0.05);
+        this.tone(f * 2, 0.35, 'sine', 0.04, i * 0.05 + 0.03);
+      });
+    },
+
+    paperShower() {
+      [880, 1046.5, 1318.5, 1568].forEach((f, i) => {
+        this.tone(f, 0.18, 'sine', 0.07, i * 0.06);
+      });
+    },
+
     tap() {
       this.tone(660, 0.07, 'sine', 0.08);
     },
@@ -161,6 +241,30 @@
   const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
   const lerp = (a, b, t) => a + (b - a) * t;
   const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
+
+  function haptic(kind) {
+    if (Kit && typeof Kit.haptic === 'function') Kit.haptic(kind || 'soft');
+  }
+
+  function hasAsset(key) {
+    const img = G.images[key];
+    return !!(img && img.dataset.kidsKitPlaceholder !== '1' && img.naturalWidth > 0);
+  }
+
+  function drawAsset(ctx, key, x, y, w, h) {
+    if (!hasAsset(key)) return false;
+    const img = G.images[key];
+    ctx.drawImage(img, x - w / 2, y - h / 2, w, h);
+    return true;
+  }
+
+  function skyTheme() {
+    return SKY_THEMES[G.skyIndex % SKY_THEMES.length];
+  }
+
+  function pickSky(round) {
+    G.skyIndex = ((round % SKY_THEMES.length) + SKY_THEMES.length) % SKY_THEMES.length;
+  }
 
   function roundRectPath(ctx, x, y, w, h, r) {
     const rr = Math.max(0, Math.min(r, w / 2, h / 2));
@@ -197,6 +301,7 @@
   }
 
   function drawNoteShape(ctx, x, y, s, color) {
+    if (drawAsset(ctx, 'note-particle', x, y, s * 2.2, s * 2.2)) return;
     ctx.save();
     ctx.translate(x, y);
     ctx.fillStyle = color;
@@ -227,8 +332,9 @@
   }
 
   function plantTopAt(p, growth) {
-    const swayAmp = 3 + p.maxH * 0.025;
-    const sway = REDUCED ? 0 : Math.sin(G.time * 1.5 + p.phase) * swayAmp * growth;
+    const welcomeBoost = G.welcomeSway > 0 ? 1 + G.welcomeSway * 0.55 : 1;
+    const swayAmp = (3 + p.maxH * 0.025) * welcomeBoost;
+    const sway = REDUCED ? 0 : Math.sin(G.time * (1.5 + (G.welcomeSway > 0 ? 1.2 : 0)) + p.phase) * swayAmp * Math.max(growth, G.welcomeSway > 0 ? 0.55 : 0);
     return {
       x: p.x + sway,
       y: p.baseY - heightFor(p, growth),
@@ -258,6 +364,7 @@
         bloom: prev.bloom || 0,
         bounce: prev.bounce || 0,
         flash: prev.flash || 0,
+        squash: prev.squash || 0,
         phase: prev.phase !== undefined ? prev.phase : rand(0, Math.PI * 2),
         note: NOTES[i],
         hitR: clamp(G.W * 0.1, 42, 60),
@@ -325,35 +432,43 @@
 
     const W = G.W;
     const H = G.H;
+    const theme = skyTheme();
+    const skyKey = 'sky-' + theme.id;
 
-    const sky = ctx.createLinearGradient(0, 0, 0, H * 0.68);
-    sky.addColorStop(0, '#c7ebff');
-    sky.addColorStop(0.55, '#e6f7ff');
-    sky.addColorStop(1, '#f7fbe4');
-    ctx.fillStyle = sky;
-    ctx.fillRect(0, 0, W, H);
+    if (hasAsset(skyKey)) {
+      ctx.drawImage(G.images[skyKey], 0, 0, W, H);
+    } else {
+      const sky = ctx.createLinearGradient(0, 0, 0, H * 0.68);
+      sky.addColorStop(0, theme.sky[0]);
+      sky.addColorStop(0.55, theme.sky[1]);
+      sky.addColorStop(1, theme.sky[2]);
+      ctx.fillStyle = sky;
+      ctx.fillRect(0, 0, W, H);
+    }
 
-    const sx = W * 0.88;
-    const sy = H * 0.11;
+    const sx = theme.id === 'evening' ? W * 0.78 : W * 0.88;
+    const sy = theme.id === 'morning' ? H * 0.16 : H * 0.11;
     const sr = clamp(Math.min(W, H) * 0.055, 15, 38);
-    const glow = ctx.createRadialGradient(sx, sy, sr * 0.5, sx, sy, sr * 3.4);
-    glow.addColorStop(0, 'rgba(255, 236, 150, 0.75)');
-    glow.addColorStop(0.5, 'rgba(255, 236, 150, 0.22)');
-    glow.addColorStop(1, 'rgba(255, 236, 150, 0)');
-    ctx.fillStyle = glow;
-    ctx.beginPath();
-    ctx.arc(sx, sy, sr * 3.4, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.fillStyle = '#ffe066';
-    ctx.beginPath();
-    ctx.arc(sx, sy, sr, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.55)';
-    ctx.beginPath();
-    ctx.arc(sx - sr * 0.3, sy - sr * 0.32, sr * 0.32, 0, Math.PI * 2);
-    ctx.fill();
+    if (!drawAsset(ctx, 'sun', sx, sy, sr * 3.2, sr * 3.2)) {
+      const glow = ctx.createRadialGradient(sx, sy, sr * 0.5, sx, sy, sr * 3.4);
+      glow.addColorStop(0, theme.glow0);
+      glow.addColorStop(0.5, theme.glow1);
+      glow.addColorStop(1, 'rgba(255, 236, 150, 0)');
+      ctx.fillStyle = glow;
+      ctx.beginPath();
+      ctx.arc(sx, sy, sr * 3.4, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = theme.sun;
+      ctx.beginPath();
+      ctx.arc(sx, sy, sr, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.55)';
+      ctx.beginPath();
+      ctx.arc(sx - sr * 0.3, sy - sr * 0.32, sr * 0.32, 0, Math.PI * 2);
+      ctx.fill();
+    }
 
-    ctx.fillStyle = '#cdecc4';
+    ctx.fillStyle = theme.id === 'evening' ? '#c5dfb8' : '#cdecc4';
     ctx.beginPath();
     ctx.moveTo(0, H * 0.74);
     ctx.quadraticCurveTo(W * 0.18, H * 0.55, W * 0.4, H * 0.66);
@@ -364,7 +479,7 @@
     ctx.closePath();
     ctx.fill();
 
-    ctx.fillStyle = '#b2e2a6';
+    ctx.fillStyle = theme.id === 'morning' ? '#b8e2aa' : '#b2e2a6';
     ctx.beginPath();
     ctx.moveTo(0, H * 0.8);
     ctx.quadraticCurveTo(W * 0.22, H * 0.64, W * 0.48, H * 0.75);
@@ -375,8 +490,8 @@
     ctx.fill();
 
     const field = ctx.createLinearGradient(0, H * 0.7, 0, H);
-    field.addColorStop(0, '#a8dc98');
-    field.addColorStop(1, '#7ec46f');
+    field.addColorStop(0, theme.fieldTop);
+    field.addColorStop(1, theme.fieldBot);
     ctx.fillStyle = field;
     ctx.beginPath();
     ctx.moveTo(0, H * 0.8);
@@ -401,54 +516,142 @@
 
     const bedTop = G.groundY - 16;
     const bedH = H - bedTop + 18;
-    ctx.fillStyle = '#c79a6f';
-    roundRectPath(ctx, W * 0.025, bedTop, W * 0.95, bedH, 26);
-    ctx.fill();
-    ctx.fillStyle = '#b08256';
-    roundRectPath(ctx, W * 0.025, bedTop + 8, W * 0.95, bedH - 8, 26);
-    ctx.fill();
-    ctx.fillStyle = '#d3a97e';
-    roundRectPath(ctx, W * 0.025, bedTop, W * 0.95, 10, 8);
-    ctx.fill();
-
-    ctx.fillStyle = 'rgba(110, 70, 40, 0.16)';
-    for (let i = 0; i < 28; i += 1) {
-      const x = W * 0.06 + ((i * 97) % (W * 0.88));
-      const y = bedTop + 24 + ((i * 53) % Math.max(20, bedH * 0.6));
-      ctx.beginPath();
-      ctx.ellipse(x, y, 2 + (i % 3), 1.3 + (i % 2), 0, 0, Math.PI * 2);
+    if (!drawAsset(ctx, 'flowerbed', W * 0.5, bedTop + bedH * 0.42, W * 0.96, bedH * 1.05)) {
+      ctx.fillStyle = '#c79a6f';
+      roundRectPath(ctx, W * 0.025, bedTop, W * 0.95, bedH, 26);
       ctx.fill();
+      ctx.fillStyle = '#b08256';
+      roundRectPath(ctx, W * 0.025, bedTop + 8, W * 0.95, bedH - 8, 26);
+      ctx.fill();
+      ctx.fillStyle = '#d3a97e';
+      roundRectPath(ctx, W * 0.025, bedTop, W * 0.95, 10, 8);
+      ctx.fill();
+
+      ctx.fillStyle = 'rgba(110, 70, 40, 0.16)';
+      for (let i = 0; i < 28; i += 1) {
+        const x = W * 0.06 + ((i * 97) % (W * 0.88));
+        const y = bedTop + 24 + ((i * 53) % Math.max(20, bedH * 0.6));
+        ctx.beginPath();
+        ctx.ellipse(x, y, 2 + (i % 3), 1.3 + (i % 2), 0, 0, Math.PI * 2);
+        ctx.fill();
+      }
     }
 
     G.bg = c;
   }
 
+  function bloomColors() {
+    return G.plants.filter((p) => p.water >= 8).map((p) => p.note.petal);
+  }
+
   function saveNow() {
+    const payload = {
+      water: G.plants.map((p) => Math.round(p.water)),
+      lastBloomColors: bloomColors(),
+      skyIndex: G.skyIndex,
+      visits: store ? store.get('visits', 0) : 0,
+    };
+    if (store) {
+      store.set('garden', payload);
+      return;
+    }
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify({ water: G.plants.map((p) => Math.round(p.water)) }));
+      localStorage.setItem(LEGACY_KEY, JSON.stringify(payload));
     } catch (err) {
       return;
     }
   }
 
-  function loadSaved() {
-    let data = null;
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (raw) data = JSON.parse(raw);
-    } catch (err) {
-      data = null;
+  function readSaved() {
+    if (store) {
+      let data = store.get('garden', null);
+      if (!data) {
+        try {
+          const raw = localStorage.getItem(LEGACY_KEY);
+          if (raw) {
+            data = JSON.parse(raw);
+            store.set('garden', {
+              water: data.water || [],
+              lastBloomColors: data.lastBloomColors || [],
+              skyIndex: data.skyIndex || 1,
+              visits: 0,
+            });
+          }
+        } catch (err) {
+          data = null;
+        }
+      }
+      return data;
     }
-    if (!data || !Array.isArray(data.water)) return;
-    G.plants.forEach((p, i) => {
-      const w = clamp(Math.round(Number(data.water[i]) || 0), 0, 8);
-      p.water = w;
-      p.growth = w / 8;
-      p.bloom = w >= 8 ? 1 : 0;
-    });
-    if (G.plants.length && G.plants.every((p) => p.water >= 8)) {
-      G.celebrated = true;
-      G.hintDone = true;
+    try {
+      const raw = localStorage.getItem(LEGACY_KEY);
+      return raw ? JSON.parse(raw) : null;
+    } catch (err) {
+      return null;
+    }
+  }
+
+  function loadSaved() {
+    const data = readSaved();
+    const visits = store ? store.get('visits', 0) : 0;
+    const isReturn = visits > 0;
+    if (store) store.set('visits', visits + 1);
+
+    G.foundChord = false;
+    G.foundPaper = false;
+
+    const savedSky = data && typeof data.skyIndex === 'number' ? data.skyIndex : visits;
+    pickSky(isReturn ? savedSky + 1 : savedSky);
+    G.sessionRound = 0;
+
+    if (data && Array.isArray(data.water)) {
+      G.plants.forEach((p, i) => {
+        const w = clamp(Math.round(Number(data.water[i]) || 0), 0, 8);
+        p.water = w;
+        p.growth = w / 8;
+        p.bloom = w >= 8 ? 1 : 0;
+      });
+      if (G.plants.length && G.plants.every((p) => p.water >= 8)) {
+        G.celebrated = true;
+        G.hintDone = true;
+        G.bloomOrder = [0, 1, 2, 3, 4];
+      }
+    }
+
+    buildBackground();
+
+    if (isReturn && data && Array.isArray(data.lastBloomColors) && data.lastBloomColors.length) {
+      startWelcome(data.lastBloomColors);
+    } else {
+      announceSky();
+    }
+  }
+
+  function announceSky() {
+    const theme = skyTheme();
+    floatText(G.W * 0.5, G.H * 0.28, theme.label, theme.id === 'evening' ? '#e8590c' : '#4dabf7', clamp(G.W * 0.055, 18, 26));
+  }
+
+  function startWelcome(colors) {
+    G.welcomeSway = REDUCED ? 0.8 : 3.2;
+    const palette = colors.length ? colors : ['#ff9db3', '#ffe066', '#b8a6ff'];
+    floatText(G.W * 0.5, G.H * 0.26, '반가워~', palette[0], clamp(G.W * 0.06, 20, 28));
+    window.setTimeout(() => {
+      announceSky();
+    }, 900);
+    for (let i = 0; i < 10; i += 1) {
+      const x = G.W * (0.15 + (i / 10) * 0.7);
+      const y = G.groundY - 30;
+      burst(x, y, 2, 'petal', [palette[i % palette.length], '#ffffff'], {
+        minSpeed: 20,
+        maxSpeed: 70,
+        up: 50,
+        g: 120,
+        minLife: 0.6,
+        maxLife: 1.1,
+        minSize: 4,
+        maxSize: 7,
+      });
     }
   }
 
@@ -496,8 +699,8 @@
     }
   }
 
-  function confettiBurst() {
-    const colors = ['#ff9db3', '#ffb38a', '#ffe066', '#8fe3b8', '#b8a6ff', '#ffffff'];
+  function confettiBurst(colors) {
+    const palette = colors || ['#ff9db3', '#ffb38a', '#ffe066', '#8fe3b8', '#b8a6ff', '#ffffff'];
     for (let i = 0; i < 54; i += 1) {
       G.particles.push({
         x: rand(0, G.W),
@@ -508,7 +711,7 @@
         life: rand(1.6, 2.8),
         max: 2.8,
         size: rand(5, 9),
-        color: colors[Math.floor(rand(0, colors.length))],
+        color: palette[Math.floor(rand(0, palette.length))],
         kind: 'confetti',
         rot: rand(0, Math.PI * 2),
         vr: rand(-4, 4),
@@ -516,8 +719,28 @@
     }
   }
 
+  function paperShowerBurst() {
+    const colors = NOTES.map((n) => n.petal).concat(['#ffffff', '#fff3bf']);
+    for (let i = 0; i < 42; i += 1) {
+      G.particles.push({
+        x: rand(G.W * 0.1, G.W * 0.9),
+        y: rand(-30, G.H * 0.2),
+        vx: rand(-40, 40),
+        vy: rand(50, 140),
+        g: 40,
+        life: rand(1.4, 2.4),
+        max: 2.4,
+        size: rand(6, 12),
+        color: colors[Math.floor(rand(0, colors.length))],
+        kind: 'confetti',
+        rot: rand(0, Math.PI * 2),
+        vr: rand(-8, 8),
+      });
+    }
+  }
+
   function floatText(x, y, text, color, size) {
-    G.floats.push({ x, y, text, color, life: 1, max: 1, size: size || 0 });
+    G.floats.push({ x, y, text, color, life: 1.15, max: 1.15, size: size || 0 });
   }
 
   function spawnRing(x, y, maxR, color, width, life) {
@@ -576,6 +799,7 @@
     cloud.rainT = 0;
 
     Sound.rain();
+    haptic('light');
     spawnRing(cloud.x, cloud.y + 8, 66, 'rgba(150, 214, 255, 0.7)', 4, 0.65);
     floatText(cloud.x, cloud.y - 28, '톡!', '#4dabf7', clamp(G.W * 0.05, 16, 24));
   }
@@ -643,9 +867,55 @@
     }
   }
 
+  function triggerSecretChord() {
+    if (G.foundChord) return;
+    G.foundChord = true;
+    Sound.secretChord();
+    haptic('success');
+    floatText(G.W * 0.5, G.H * 0.32, '짠! 숨은 화음!', '#845ef7', clamp(G.W * 0.055, 18, 26));
+    confettiBurst(['#ff9db3', '#ffe066', '#8fe3b8', '#b8a6ff', '#74c0fc', '#ffffff']);
+    G.plants.forEach((p, i) => {
+      window.setTimeout(() => {
+        const top = plantTop(p);
+        spawnRing(top.x, top.y, 40, 'rgba(132, 94, 247, 0.7)', 3, 0.55);
+        p.flash = 1;
+        p.bounce = 1;
+      }, i * 90);
+    });
+    saveNow();
+  }
+
+  function triggerPaperShower() {
+    if (G.foundPaper) return;
+    G.foundPaper = true;
+    Sound.paperShower();
+    haptic('success');
+    floatText(G.W * 0.5, G.H * 0.3, '색종이!', '#f06595', clamp(G.W * 0.06, 20, 28));
+    paperShowerBurst();
+    saveNow();
+  }
+
+  function checkBloomOrder(p) {
+    if (G.bloomOrder.indexOf(p.index) === -1) G.bloomOrder.push(p.index);
+    if (G.bloomOrder.length === 5 && G.bloomOrder.every((v, i) => v === i)) {
+      triggerSecretChord();
+    }
+  }
+
+  function checkTapSecret(p) {
+    G.tapSeq.push(p.index);
+    G.tapSeqAge = 0;
+    if (G.tapSeq.length > SECRET_TAP.length) G.tapSeq.shift();
+    if (G.tapSeq.length === SECRET_TAP.length && G.tapSeq.every((v, i) => v === SECRET_TAP[i])) {
+      triggerPaperShower();
+      G.tapSeq = [];
+    }
+  }
+
   function bloomPlant(p) {
     p.bounce = 1;
     p.flash = 1;
+    p.squash = 1;
     const top = plantTopAt(p, 1);
     floatText(top.x + 10, top.y - 42, '팡!', p.note.petal, clamp(G.W * 0.065, 20, 30));
     burst(top.x, top.y, 12, 'petal', [p.note.petal, p.note.petal2, '#ffffff'], {
@@ -679,6 +949,9 @@
     });
     spawnRing(top.x, top.y, clamp(G.W * 0.17, 46, 80), 'rgba(255, 255, 255, 0.85)', 4, 0.6);
     Sound.bloom(p.note.freq);
+    haptic('medium');
+    checkBloomOrder(p);
+    saveNow();
     checkWin();
   }
 
@@ -689,7 +962,7 @@
       G.celebrated = true;
       G.winTimer = 2.6;
       Sound.win();
-      confettiBurst();
+      confettiBurst(bloomColors().concat(['#ffffff']));
     }
   }
 
@@ -717,12 +990,21 @@
     G.particles = [];
     G.floats = [];
     G.rings = [];
+    G.bloomOrder = [];
+    G.tapSeq = [];
+    G.tapSeqAge = 0;
+    G.foundChord = false;
+    G.foundPaper = false;
+    G.welcomeSway = 0;
+    G.sessionRound += 1;
+    pickSky(G.sessionRound + (store ? store.get('visits', 1) : 1));
     G.plants.forEach((p) => {
       p.water = 0;
       p.growth = 0;
       p.bloom = 0;
       p.bounce = 0;
       p.flash = 0;
+      p.squash = 0;
       p.phase = rand(0, Math.PI * 2);
     });
     G.clouds.forEach((c) => {
@@ -731,8 +1013,10 @@
       c.pulse = 0;
       c.rainT = 0;
     });
+    buildBackground();
     saveNow();
     Sound.sprout();
+    announceSky();
     G.plants.forEach((p) => {
       const top = plantTopAt(p, 0.15);
       spawnRing(top.x, top.y, 24, 'rgba(255, 255, 255, 0.55)', 2, 0.5);
@@ -743,30 +1027,45 @@
     if (!p || p.water < 8) return;
     p.flash = 1;
     p.bounce = 1;
-    Sound.note(p.note.freq, 0.2);
+    p.squash = 1;
+    Sound.note(p.note.freq, 0.24);
+    haptic('soft');
     const top = plantTop(p);
+    floatText(top.x, top.y - 36, '♬', p.note.petal, clamp(G.W * 0.07, 22, 32));
     if (withRing) {
-      spawnRing(top.x, top.y, clamp(G.W * 0.13, 34, 64), 'rgba(255, 255, 255, 0.8)', 3, 0.5);
+      spawnRing(top.x, top.y, clamp(G.W * 0.18, 42, 78), p.note.petal2, 4, 0.55);
+      spawnRing(top.x, top.y, clamp(G.W * 0.1, 28, 48), 'rgba(255, 255, 255, 0.85)', 2, 0.4);
     }
-    burst(top.x, top.y, 5, 'note', [p.note.petal, p.note.center, '#ffffff'], {
-      minSpeed: 20,
-      maxSpeed: 70,
-      up: 70,
-      g: -20,
-      minLife: 0.9,
-      maxLife: 1.4,
-      minSize: 6,
+    burst(top.x, top.y, 10, 'petal', [p.note.petal, p.note.petal2, '#ffffff'], {
+      minSpeed: 40,
+      maxSpeed: 160,
+      up: 90,
+      g: 160,
+      minLife: 0.7,
+      maxLife: 1.2,
+      minSize: 5,
       maxSize: 10,
     });
-    burst(top.x, top.y, 4, 'sparkle', ['#ffffff', '#fff3bf'], {
-      minSpeed: 30,
-      maxSpeed: 100,
-      g: 160,
-      minLife: 0.3,
-      maxLife: 0.6,
-      minSize: 2,
-      maxSize: 4,
+    burst(top.x, top.y, 7, 'note', [p.note.petal, p.note.center, '#ffffff'], {
+      minSpeed: 25,
+      maxSpeed: 90,
+      up: 90,
+      g: -25,
+      minLife: 0.9,
+      maxLife: 1.5,
+      minSize: 7,
+      maxSize: 12,
     });
+    burst(top.x, top.y, 8, 'sparkle', ['#ffffff', '#fff3bf', p.note.petal2], {
+      minSpeed: 40,
+      maxSpeed: 130,
+      g: 140,
+      minLife: 0.35,
+      maxLife: 0.75,
+      minSize: 2,
+      maxSize: 5,
+    });
+    checkTapSecret(p);
   }
 
   function playGarden() {
@@ -778,6 +1077,7 @@
       window.setTimeout(() => {
         p.flash = 1;
         p.bounce = 1;
+        p.squash = 0.8;
         const top = plantTop(p);
         spawnRing(top.x, top.y, 28, 'rgba(255, 255, 255, 0.7)', 2, 0.45);
         burst(top.x, top.y, 3, 'note', [p.note.petal, '#ffffff'], {
@@ -840,6 +1140,7 @@
       if (Math.abs(bloomTarget - p.bloom) < 0.003) p.bloom = bloomTarget;
       p.bounce = Math.max(0, p.bounce - dt * 2.4);
       p.flash = Math.max(0, p.flash - dt * 1.8);
+      p.squash = Math.max(0, p.squash - dt * 3.2);
     }
   }
 
@@ -883,6 +1184,14 @@
 
   function update(dt) {
     G.time += dt;
+    if (G.welcomeSway > 0) G.welcomeSway = Math.max(0, G.welcomeSway - dt);
+    if (G.tapSeq.length) {
+      G.tapSeqAge += dt;
+      if (G.tapSeqAge > 3.5) {
+        G.tapSeq = [];
+        G.tapSeqAge = 0;
+      }
+    }
     updateClouds(dt);
     updateDrops(dt);
     updatePlants(dt);
@@ -931,12 +1240,23 @@
     ctx.restore();
   }
 
-  function drawFlower(ctx, x, y, size, open, note, flash) {
+  function drawFlower(ctx, x, y, size, open, note, flash, squash) {
+    const sq = squash || 0;
     ctx.save();
     ctx.translate(x, y);
     const o = clamp(open, 0, 1);
-    const scale = 0.62 + o * 0.38 + flash * 0.1;
-    ctx.scale(scale, scale);
+    const scale = 0.62 + o * 0.38 + flash * 0.14;
+    const sx = scale * (1 + sq * 0.22);
+    const sy = scale * (1 - sq * 0.18);
+    ctx.scale(sx, sy);
+
+    if (hasAsset(note.asset) && o > 0.7) {
+      const img = G.images[note.asset];
+      const iw = size * 2.6;
+      ctx.drawImage(img, -iw / 2, -iw / 2, iw, iw);
+      ctx.restore();
+      return;
+    }
 
     if (o > 0.45) {
       const glow = ctx.createRadialGradient(0, 0, size * 0.2, 0, 0, size * 2.1);
@@ -1002,21 +1322,39 @@
     ctx.restore();
 
     if (g < 0.015) {
-      ctx.save();
-      ctx.fillStyle = '#7a5a3a';
-      ctx.beginPath();
-      ctx.arc(p.x, p.baseY - 2, 3 * s, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
-      ctx.beginPath();
-      ctx.arc(p.x - s, p.baseY - 3, s, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.restore();
+      if (!drawAsset(ctx, 'plant-seed', p.x, p.baseY - 8 * s, 28 * s, 36 * s)) {
+        ctx.save();
+        ctx.fillStyle = '#7a5a3a';
+        ctx.beginPath();
+        ctx.arc(p.x, p.baseY - 2, 3 * s, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
+        ctx.beginPath();
+        ctx.arc(p.x - s, p.baseY - 3, s, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+      }
       return;
     }
 
     const midX = p.x + top.sway * 0.35;
     const midY = p.baseY - top.h * 0.55;
+
+    if (p.bloom < 0.02) {
+      const budK = clamp((g - 0.55) / 0.45, 0, 1);
+      if (budK <= 0 && g < 0.35 && hasAsset('plant-sprout')) {
+        drawAsset(ctx, 'plant-sprout', top.x, p.baseY - top.h * 0.55, 42 * s, 56 * s);
+        return;
+      }
+      if (budK <= 0 && g >= 0.35 && g < 0.7 && hasAsset('plant-stem')) {
+        drawAsset(ctx, 'plant-stem', top.x, p.baseY - top.h * 0.5, 48 * s, 72 * s);
+        return;
+      }
+      if (budK > 0 && hasAsset('plant-bud')) {
+        drawAsset(ctx, 'plant-bud', top.x, top.y, 48 * s, 64 * s);
+        return;
+      }
+    }
 
     ctx.save();
     ctx.strokeStyle = p.note.stem;
@@ -1045,7 +1383,7 @@
 
     if (p.bloom > 0.02) {
       const size = clamp(p.maxH * 0.16, 14, 26) * s;
-      drawFlower(ctx, top.x, top.y, size, p.bloom, p.note, p.flash);
+      drawFlower(ctx, top.x, top.y, size, p.bloom, p.note, p.flash, p.squash);
     } else {
       const budK = clamp((g - 0.55) / 0.45, 0, 1);
       if (budK > 0) {
@@ -1058,62 +1396,66 @@
     const s = c.scale * (1 + c.puff * 0.12);
     const bob = REDUCED ? 0 : Math.sin(G.time * 1.2 + c.phase) * 3;
     const y = c.y + bob;
+    const key = c.puff > 0.15 ? 'cloud-tap' : 'cloud';
+    const drawn = drawAsset(ctx, key, c.x, y, 96 * s, 72 * s) || drawAsset(ctx, 'cloud', c.x, y, 96 * s, 72 * s);
 
-    ctx.save();
-    ctx.translate(c.x, y);
-    ctx.scale(s, s);
+    if (!drawn) {
+      ctx.save();
+      ctx.translate(c.x, y);
+      ctx.scale(s, s);
 
-    ctx.fillStyle = 'rgba(120, 170, 200, 0.16)';
-    ctx.beginPath();
-    ctx.ellipse(0, 24, 42, 9, 0, 0, Math.PI * 2);
-    ctx.fill();
-
-    ctx.fillStyle = '#e7f6ff';
-    ctx.beginPath();
-    ctx.ellipse(0, 10, 38, 10, 0, 0, Math.PI * 2);
-    ctx.fill();
-
-    ctx.fillStyle = '#ffffff';
-    const lobes = [
-      [-27, 4, 18],
-      [-13, -7, 21],
-      [8, -10, 24],
-      [28, 2, 17],
-      [4, 8, 23],
-    ];
-    lobes.forEach((l) => {
+      ctx.fillStyle = 'rgba(120, 170, 200, 0.16)';
       ctx.beginPath();
-      ctx.arc(l[0], l[1], l[2], 0, Math.PI * 2);
+      ctx.ellipse(0, 24, 42, 9, 0, 0, Math.PI * 2);
       ctx.fill();
-    });
 
-    ctx.fillStyle = '#cbe9fb';
-    ctx.beginPath();
-    ctx.ellipse(0, 12, 32, 7, 0, 0, Math.PI);
-    ctx.fill();
+      ctx.fillStyle = '#e7f6ff';
+      ctx.beginPath();
+      ctx.ellipse(0, 10, 38, 10, 0, 0, Math.PI * 2);
+      ctx.fill();
 
-    ctx.strokeStyle = '#6c8fa8';
-    ctx.lineWidth = 2.4;
-    ctx.lineCap = 'round';
-    ctx.beginPath();
-    ctx.arc(-11, -1, 5, Math.PI * 0.15, Math.PI * 0.85);
-    ctx.stroke();
-    ctx.beginPath();
-    ctx.arc(11, -1, 5, Math.PI * 0.15, Math.PI * 0.85);
-    ctx.stroke();
-    ctx.beginPath();
-    ctx.arc(0, 4, 7, Math.PI * 0.15, Math.PI * 0.85);
-    ctx.stroke();
+      ctx.fillStyle = '#ffffff';
+      const lobes = [
+        [-27, 4, 18],
+        [-13, -7, 21],
+        [8, -10, 24],
+        [28, 2, 17],
+        [4, 8, 23],
+      ];
+      lobes.forEach((l) => {
+        ctx.beginPath();
+        ctx.arc(l[0], l[1], l[2], 0, Math.PI * 2);
+        ctx.fill();
+      });
 
-    ctx.fillStyle = 'rgba(255, 160, 180, 0.45)';
-    ctx.beginPath();
-    ctx.ellipse(-20, 6, 5, 3.4, 0, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.beginPath();
-    ctx.ellipse(20, 6, 5, 3.4, 0, 0, Math.PI * 2);
-    ctx.fill();
+      ctx.fillStyle = '#cbe9fb';
+      ctx.beginPath();
+      ctx.ellipse(0, 12, 32, 7, 0, 0, Math.PI);
+      ctx.fill();
 
-    ctx.restore();
+      ctx.strokeStyle = '#6c8fa8';
+      ctx.lineWidth = 2.4;
+      ctx.lineCap = 'round';
+      ctx.beginPath();
+      ctx.arc(-11, -1, 5, Math.PI * 0.15, Math.PI * 0.85);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.arc(11, -1, 5, Math.PI * 0.15, Math.PI * 0.85);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.arc(0, 4, 7, Math.PI * 0.15, Math.PI * 0.85);
+      ctx.stroke();
+
+      ctx.fillStyle = 'rgba(255, 160, 180, 0.45)';
+      ctx.beginPath();
+      ctx.ellipse(-20, 6, 5, 3.4, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.beginPath();
+      ctx.ellipse(20, 6, 5, 3.4, 0, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.restore();
+    }
 
     if (c.pulse > 0) {
       ctx.save();
@@ -1128,6 +1470,7 @@
   }
 
   function drawDrop(ctx, d) {
+    if (drawAsset(ctx, 'raindrop', d.x, d.y, d.r * 3.2, d.r * 4.2)) return;
     ctx.save();
     ctx.fillStyle = 'rgba(126, 200, 240, 0.92)';
     ctx.beginPath();
@@ -1332,13 +1675,31 @@
       playGarden();
     });
 
+    if (Kit && typeof Kit.restButton === 'function') {
+      Kit.restButton({ parent: document.body });
+    }
+
     window.addEventListener('resize', resize);
     window.addEventListener('orientationchange', () => window.setTimeout(resize, 120));
+  }
+
+  function preloadAssets() {
+    if (!Kit || !Kit.assets || typeof Kit.assets.preload !== 'function') {
+      return Promise.resolve();
+    }
+    return Kit.assets.preload(ASSET_LIST).then((result) => {
+      G.images = (result && result.images) || {};
+    }).catch(() => {
+      G.images = {};
+    });
   }
 
   function init() {
     bindUI();
     resize();
+    preloadAssets().then(() => {
+      buildBackground();
+    });
     loadSaved();
     requestAnimationFrame(loop);
   }

@@ -67,7 +67,54 @@
    * @param {(loaded:number,total:number,item:*)=>void} [onProgress]
    * @returns {Promise<{images:Object<string,HTMLImageElement>, failed:string[]}>}
    */
+  /* assets/ready.json (페이지 기준) — 실제로 준비된 이미지 목록.
+   * 형식: ["a.webp", ...] | {ready:[...]} | {files:[...]}. 확장자 생략 가능.
+   * 파일이 있으면 목록에 없는 assets/ 이미지는 요청하지 않고 바로 폴백(404 방지).
+   * 파일이 없거나 읽기 실패면 기존처럼 전부 요청한다. */
+  var readyPromise = null;
+  function loadReadyList() {
+    if (readyPromise) return readyPromise;
+    if (typeof global.fetch !== 'function') {
+      readyPromise = Promise.resolve(null);
+      return readyPromise;
+    }
+    readyPromise = global
+      .fetch('assets/ready.json', { cache: 'no-cache' })
+      .then(function (res) {
+        return res.ok ? res.json() : null;
+      })
+      .then(function (data) {
+        if (!data) return null;
+        var arr = Array.isArray(data) ? data : data.ready || data.files || [];
+        var set = {};
+        arr.forEach(function (n) {
+          var base = String(n).split('/').pop();
+          set[base] = true;
+          set[base.replace(/\.[a-z0-9]+$/i, '')] = true;
+        });
+        return set;
+      })
+      .catch(function () {
+        return null;
+      });
+    return readyPromise;
+  }
+
+  function isGated(src, readySet) {
+    if (!readySet || !src) return false;
+    if (!/(^|\/)assets\//.test(src)) return false;
+    var base = String(src).split('?')[0].split('/').pop();
+    var stem = base.replace(/\.[a-z0-9]+$/i, '');
+    return !(readySet[base] || readySet[stem]);
+  }
+
   function preload(list, onProgress) {
+    return loadReadyList().then(function (readySet) {
+      return preloadItems(list, onProgress, readySet);
+    });
+  }
+
+  function preloadItems(list, onProgress, readySet) {
     var items = Array.isArray(list) ? list : [];
     var total = items.length;
     var loaded = 0;
@@ -100,6 +147,13 @@
         console.warn('[KidsKit] asset load failed: (empty src)', key);
         images[key] = createPlaceholderImage();
         failed.push(key);
+        tick(item);
+        return Promise.resolve();
+      }
+
+      if (isGated(src, readySet)) {
+        images[key] = createPlaceholderImage();
+        failed.push(src);
         tick(item);
         return Promise.resolve();
       }
@@ -376,6 +430,10 @@
     var btn = global.document.createElement('button');
     btn.type = 'button';
     btn.className = 'kk-rest-btn';
+    // position: 'br'(기본) | 'bl' | 'tr' | 'tl' — 게임 하단 UI와 겹치면 바꿔 쓴다
+    if (options.position && /^(bl|tr|tl)$/.test(options.position)) {
+      btn.classList.add('kk-rest-btn--' + options.position);
+    }
     btn.setAttribute('aria-label', '쉬자');
     btn.textContent = '쉬자';
     btn.addEventListener('click', function () {

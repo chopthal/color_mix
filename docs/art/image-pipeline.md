@@ -15,7 +15,7 @@
 2. 캐릭터/소품이 또렷하고, 배경은 단순할수록 이후 배치 일관성이 좋다.
 3. 파일을 `tools/imagegen/refs/`에 저장  
    예: `refs/music-garden-anchor.webp`, `refs/shared-buddy.png`
-4. 금기(괴물·어둠·폭력·분리 불안 등)가 섞였는지 사람이 눈으로 검수.
+4. 금기(`docs/PROJECT.md` §6-1: 폭력적 승리 표현·공포 분위기·아이 당사자 위기)가 섞였는지 사람이 눈으로 검수.
 
 ## 2. 매니페스트 작성
 
@@ -66,5 +66,10 @@ node gen.mjs --manifest manifest.json --force             # 기존 파일 덮어
 
 ## 5. 게임에 연결
 
-에셋이 준비되면 각 게임이 `KidsKit.assets.preload`로 로드한다.  
-**이 파이프라인 작업만으로 기존 게임 HTML을 수정하지 않는다.** 적용은 별도 작업.
+2단계에서 15개 게임에 이미지 슬롯이 이미 연결돼 있다(파일 없으면 코드 드로잉 폴백). 게임별 목록은 `tools/imagegen/manifests/<게임>.json`.
+
+- `gen.mjs`가 webp를 쓰면 같은 폴더의 `assets/ready.json`에 파일명을 **자동 추가** → 게임이 다음 로드부터 이미지를 사용.
+- 배경(`bg-`·`scene-`·`sky-`·`stage-`·`arena-`·`room-`·`city-` 접두, `-bg` 접미)은 키잉 없이 **불투명** 저장. 매니페스트 `opaque`로 덮어쓰기 가능.
+- 마음에 안 드는 이미지는 `ready.json`에서 이름만 빼면 즉시 코드 드로잉으로 돌아간다.
+
+실행 예: `cd tools/imagegen && node gen.mjs --manifest manifests/music-garden.json --dry-run` → 확인 후 `--dry-run` 제거.

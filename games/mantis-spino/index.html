@@ -8,6 +8,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="째깍 크아앙! 놀이 싸움">
   <title>⚡ 째깍 크아앙! 놀이 싸움</title>
+  <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
 
   <script>
     (function () {
@@ -22,6 +23,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
 
+  <link rel="stylesheet" href="../_shared/kit.css">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -40,11 +42,34 @@
   <main class="stage" id="stage">
     <canvas id="gameCanvas" aria-label="사마귀와 친구들의 놀이 싸움"></canvas>
 
-    <!-- 내 친구 · 적 친구 고르기 -->
+    <!-- 매치 스코어보드 (상단) -->
+    <div class="match-hud" id="matchHud" aria-label="경기 점수판">
+      <div class="hud-player">
+        <span class="hud-name" id="hudPlayerName">내 친구</span>
+        <span class="hud-stars" id="hudPlayerStars"></span>
+      </div>
+      <div class="hud-match" id="hudMatchText">1 / 3 경기</div>
+      <div class="hud-enemy">
+        <span class="hud-stars" id="hudEnemyStars"></span>
+        <span class="hud-name" id="hudEnemyName">겨룰 친구</span>
+      </div>
+    </div>
+
+    <!-- 다음 경기 안내 배너 -->
+    <div class="match-banner" id="matchBanner" aria-live="polite">
+      <div class="match-banner-card">
+        <div class="banner-icon" id="bannerIcon">🎉</div>
+        <h2 id="bannerTitle">다음 친구가 놀러왔어요!</h2>
+        <p id="bannerSub">신나게 하이파이브하고 다음 친구와 겨뤄요</p>
+        <button class="btn-pill btn-again" id="btnNextMatch" type="button">다음 겨루기! ⚡</button>
+      </div>
+    </div>
+
+    <!-- 내 친구 · 겨룰 친구 고르기 -->
     <section class="select-screen is-on" id="selectScreen">
       <div class="select-head">
         <h2>누구랑 누가 겨룰까?</h2>
-        <p>내 친구와 적 친구를 골라요</p>
+        <p>내 친구와 함께 놀 친구를 골라요</p>
       </div>
 
       <div class="pick-scroll">
@@ -53,7 +78,7 @@
           <div class="pick-row" id="myRow"></div>
         </div>
         <div class="pick-block">
-          <h3>적 친구</h3>
+          <h3>겨룰 친구</h3>
           <div class="pick-row" id="enemyRow"></div>
         </div>
       </div>
@@ -63,17 +88,18 @@
       </button>
     </section>
 
-    <!-- 공격 버튼 (캐릭터별 3개) -->
-    <div class="attack-bar" id="attackBar" aria-label="공격 기술"></div>
+    <!-- 놀이 기술 버튼 (캐릭터별 3개) -->
+    <div class="attack-bar" id="attackBar" aria-label="놀이 기술"></div>
 
     <!-- 소프트 엔딩 -->
     <div class="ending-overlay" id="endingOverlay">
       <div class="ending-card">
-        <div class="ending-ornament">⭐💛⭐</div>
-        <h2>잘 겨뤘어!</h2>
-        <p>폭신! 다 같이 깔깔 웃었어요</p>
+        <div class="ending-ornament">🏆⭐💛⭐🏆</div>
+        <h2 id="endingTitle">오늘의 놀이 챔피언!</h2>
+        <p id="endingSubtitle">모든 친구들과 즐겁게 하이파이브했어요!</p>
+        <div class="ending-stamps" id="endingStamps"></div>
         <div class="ending-actions">
-          <button class="btn-pill btn-again" id="btnAgain" type="button">또! 🔁</button>
+          <button class="btn-pill btn-again" id="btnAgain" type="button">또 겨루기! 🔁</button>
           <button class="btn-pill btn-change" id="btnChange" type="button">친구 바꾸기 🐾</button>
         </div>
         <a class="rest-link" href="../../index.html">쉬자 🏠</a>
@@ -81,6 +107,7 @@
     </div>
   </main>
 
+  <script src="../_shared/kit.js"></script>
   <script src="js/data.js"></script>
   <script src="js/sound.js"></script>
   <script src="js/game.js"></script>

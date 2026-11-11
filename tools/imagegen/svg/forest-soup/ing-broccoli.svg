@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192" fill="none">
+  <ellipse cx="96" cy="178" rx="34" ry="8" fill="#3D2B1F" opacity="0.12"/>
+  <!-- stem -->
+  <rect x="78" y="118" width="36" height="50" rx="16" fill="#C8EE8A" stroke="#3D2B1F" stroke-width="8" stroke-linejoin="round"/>
+  <ellipse cx="90" cy="136" rx="7" ry="14" fill="#FFF6E5" opacity="0.5"/>
+  <!-- florets (chunky blobs) -->
+  <circle cx="62" cy="96" r="28" fill="#3FA34D" stroke="#3D2B1F" stroke-width="8"/>
+  <circle cx="130" cy="96" r="28" fill="#3FA34D" stroke="#3D2B1F" stroke-width="8"/>
+  <circle cx="96" cy="70" r="34" fill="#7BD389" stroke="#3D2B1F" stroke-width="8"/>
+  <circle cx="96" cy="108" r="30" fill="#3FA34D" stroke="#3D2B1F" stroke-width="8"/>
+  <!-- highlights -->
+  <ellipse cx="84" cy="58" rx="12" ry="8" fill="#FFF6E5" opacity="0.5"/>
+  <ellipse cx="54" cy="86" rx="8" ry="6" fill="#FFF6E5" opacity="0.4"/>
+  <ellipse cx="120" cy="86" rx="8" ry="6" fill="#FFF6E5" opacity="0.4"/>
+  <!-- tiny face on stem -->
+  <ellipse cx="88" cy="142" rx="3.5" ry="4.5" fill="#3D2B1F"/>
+  <ellipse cx="108" cy="142" rx="3.5" ry="4.5" fill="#3D2B1F"/>
+  <circle cx="89" cy="140.5" r="1.2" fill="#FFFFFF"/>
+  <circle cx="109" cy="140.5" r="1.2" fill="#FFFFFF"/>
+  <path d="M90 154 Q98 160 106 154" stroke="#3D2B1F" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+</svg>

@@ -31,6 +31,11 @@
 - 성공 시 `{ images, failed }`
 - 이미지 실패 시 `console.warn` 후 **투명 placeholder**로 계속 (게임 중단 금지)
 - `onProgress(loaded, total, item)` 선택
+- **ready 게이트:** 페이지 기준 `assets/ready.json`(`["a.webp"]` / `{ready:[]}` / `{files:[]}`, 확장자 생략 가능)이 있으면 목록에 없는 `assets/` 이미지는 **요청하지 않고** placeholder로 돌려준다(이미지 생성 전 404 방지). 파일이 없으면 전부 요청. 게임은 placeholder(`img.dataset.kidsKitPlaceholder === '1'`)면 코드 드로잉으로 폴백한다.
+
+### `KidsKit.restButton({ onRest?, parent?, position? })`
+
+- `position`: `'br'`(기본) · `'bl'` · `'tr'` · `'tl'` — 게임 하단 UI와 겹치면 바꾼다.
 
 ### `KidsKit.sound`
 

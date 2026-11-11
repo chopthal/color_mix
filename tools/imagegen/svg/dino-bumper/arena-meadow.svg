@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 384" width="512" height="384">
+
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#E9FBE0"/>
+      <stop offset="42%" stop-color="#B8EC9A"/>
+      <stop offset="100%" stop-color="#7FD47A"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="384" fill="url(#g)"/>
+  
+  <ellipse cx="64" cy="310" rx="56" ry="26" fill="#7BD389" opacity="0.5"/>
+  <ellipse cx="448" cy="318" rx="64" ry="28" fill="#3FA34D" opacity="0.3"/>
+  <ellipse cx="80" cy="72" rx="46" ry="20" fill="#FFFFFF" opacity="0.55"/>
+  <ellipse cx="430" cy="64" rx="54" ry="22" fill="#FFFFFF" opacity="0.45"/>
+  <circle cx="48" cy="248" r="9" fill="#FF6B81" opacity="0.55"/>
+  <circle cx="470" cy="258" r="8" fill="#FFC94A" opacity="0.5"/>
+  <circle cx="36" cy="340" r="7" fill="#FFB3C1" opacity="0.45"/>
+  <circle cx="484" cy="348" r="7" fill="#FF9F45" opacity="0.4"/>
+  <ellipse cx="30" cy="200" rx="18" ry="10" fill="#7BD389" opacity="0.35"/>
+  <ellipse cx="490" cy="210" rx="16" ry="9" fill="#7BD389" opacity="0.3"/>
+
+
+</svg>

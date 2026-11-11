@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="none">
+  <!-- pink blush treasure box with a heart on the front -->
+  <ellipse cx="128" cy="228" rx="78" ry="14" fill="#3D2B1F" opacity="0.12"/>
+  <!-- body -->
+  <rect x="48" y="96" width="160" height="118" rx="28" fill="#FFB3C1" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round"/>
+  <ellipse cx="88" cy="128" rx="22" ry="14" fill="#FFF6E5" opacity="0.5"/>
+  <!-- lid -->
+  <rect x="40" y="70" width="176" height="48" rx="22" fill="#FF6B81" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round"/>
+  <ellipse cx="90" cy="86" rx="28" ry="10" fill="#FFF6E5" opacity="0.45"/>
+  <!-- vertical ribbon -->
+  <rect x="112" y="70" width="32" height="144" rx="10" fill="#FFF6E5" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round"/>
+  <!-- horizontal ribbon -->
+  <rect x="48" y="126" width="160" height="26" rx="10" fill="#FFF6E5" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round"/>
+  <!-- bow loops -->
+  <ellipse cx="98" cy="58" rx="28" ry="18" transform="rotate(-28 98 58)" fill="#FFF6E5" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round"/>
+  <ellipse cx="158" cy="58" rx="28" ry="18" transform="rotate(28 158 58)" fill="#FFF6E5" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round"/>
+  <circle cx="128" cy="62" r="14" fill="#FFB3C1" stroke="#3D2B1F" stroke-width="8"/>
+  <ellipse cx="124" cy="56" rx="6" ry="4" fill="#FFF6E5" opacity="0.6"/>
+  <!-- front motif: heart -->
+  <path d="M128 204 C106 188 98 178 98 170 C98 160 108 155 116 159 C121 161 125 164 128 169 C131 164 135 161 140 159 C148 155 158 160 158 170 C158 178 150 188 128 204 Z" fill="#FF6B81" stroke="#3D2B1F" stroke-width="7" stroke-linejoin="round"/>
+</svg>

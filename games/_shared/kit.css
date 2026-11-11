@@ -74,6 +74,22 @@
   touch-action: manipulation;
 }
 
+.kk-rest-btn--bl {
+  right: auto;
+  left: calc(12px + var(--kk-safe-left, 0px));
+}
+
+.kk-rest-btn--tr,
+.kk-rest-btn--tl {
+  bottom: auto;
+  top: calc(12px + var(--kk-safe-top, 0px));
+}
+
+.kk-rest-btn--tl {
+  right: auto;
+  left: calc(12px + var(--kk-safe-left, 0px));
+}
+
 .kk-rest-btn:active {
   transform: scale(0.97);
 }

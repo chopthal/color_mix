@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 200" fill="none">
+  <!-- cute dolphin mid-jump, facing right -->
+  <ellipse cx="150" cy="186" rx="50" ry="8" fill="#3D2B1F" opacity="0.12"/>
+  <!-- fluke left -->
+  <path d="M58 104 Q14 70 12 48 Q40 96 58 104 Q40 112 12 158 Q14 138 58 104 Z" fill="#7CC6FE" stroke="#3D2B1F" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"/>
+  <!-- body arc -->
+  <ellipse cx="160" cy="108" rx="96" ry="42" fill="#7CC6FE" stroke="#3D2B1F" stroke-width="8" stroke-linejoin="round"/>
+  <!-- dorsal -->
+  <path d="M140 74 Q160 34 186 70" fill="#3BA4E6" stroke="#3D2B1F" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"/>
+  <!-- belly -->
+  <path d="M100 118 Q160 146 230 116 Q160 130 100 118 Z" fill="#FFF6E5" opacity="0.7"/>
+  <!-- pectoral -->
+  <ellipse cx="150" cy="128" rx="28" ry="12" transform="rotate(20 150 128)" fill="#3BA4E6" stroke="#3D2B1F" stroke-width="7" stroke-linejoin="round"/>
+  <ellipse cx="130" cy="88" rx="16" ry="10" fill="#FFF6E5" opacity="0.55"/>
+  <!-- face / snout -->
+  <ellipse cx="248" cy="112" rx="28" ry="16" fill="#7CC6FE" stroke="#3D2B1F" stroke-width="8" stroke-linejoin="round"/>
+  <ellipse cx="236" cy="104" rx="7" ry="9" fill="#3D2B1F"/>
+  <circle cx="238" cy="101" r="2.4" fill="#FFFFFF"/>
+  <circle cx="226" cy="122" r="8" fill="#FFB3C1" opacity="0.5"/>
+  <path d="M250 122 Q262 132 274 120" stroke="#3D2B1F" stroke-width="5" stroke-linecap="round" fill="none"/>
+</svg>

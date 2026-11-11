@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128" fill="none">
+  <!-- empty round sticker badge frame, hollow center -->
+  <circle cx="64" cy="64" r="54" fill="#FFFFFF" stroke="#3D2B1F" stroke-width="5" stroke-linejoin="round"/>
+  <circle cx="64" cy="64" r="54" fill="none" stroke="#FFB3C1" stroke-width="8" opacity="0.7"/>
+  <!-- hollow center (transparent hole via destination - use donut ring only) -->
+  <circle cx="64" cy="64" r="34" fill="#FFFFFF" opacity="0"/>
+  <!-- soft inner ring -->
+  <circle cx="64" cy="64" r="38" fill="none" stroke="#FFF6E5" stroke-width="6"/>
+  <circle cx="64" cy="64" r="34" fill="none" stroke="#3D2B1F" stroke-width="4" opacity="0.35"/>
+  <!-- tiny sparkle -->
+  <path d="M104 28 L107 36 L115 37 L108 42 L110 50 L104 45 L98 50 L100 42 L93 37 L101 36 Z"
+        fill="#FFC94A" stroke="#3D2B1F" stroke-width="3" stroke-linejoin="round"/>
+  <ellipse cx="42" cy="40" rx="10" ry="6" fill="#FFFFFF" opacity="0.65"/>
+</svg>

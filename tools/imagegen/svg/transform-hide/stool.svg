@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="none">
+  <ellipse cx="128" cy="228" rx="58" ry="12" fill="#3D2B1F" opacity="0.12"/>
+  <!-- legs -->
+  <rect x="72" y="128" width="22" height="88" rx="10" fill="#B07A4F" stroke="#3D2B1F" stroke-width="8"/>
+  <rect x="162" y="128" width="22" height="88" rx="10" fill="#B07A4F" stroke="#3D2B1F" stroke-width="8"/>
+  <!-- seat -->
+  <ellipse cx="128" cy="118" rx="78" ry="36" fill="#FFC94A" stroke="#3D2B1F" stroke-width="10"/>
+  <ellipse cx="128" cy="110" rx="52" ry="20" fill="#FFE08A"/>
+  <ellipse cx="100" cy="100" rx="18" ry="10" fill="#FFF6E5" opacity="0.55"/>
+</svg>

@@ -1,0 +1,105 @@
+{
+  "items": [
+    {
+      "name": "bg-room",
+      "outPath": "games/cozy-night/assets/bg-room.webp",
+      "prompt": "Cozy kids bedroom night wall backdrop, soft lavender-blue gradient, gentle lamp glow, empty of characters and text, front view atmosphere panel.",
+      "width": 768,
+      "height": 1280,
+      "refs": []
+    },
+    {
+      "name": "bed",
+      "outPath": "games/cozy-night/assets/bed.webp",
+      "prompt": "Cute wooden bed headboard for a kids game, rounded soft edges, warm brown wood, simple front view, no mattress character, no text.",
+      "width": 512,
+      "height": 256,
+      "refs": []
+    },
+    {
+      "name": "moon",
+      "outPath": "games/cozy-night/assets/moon.webp",
+      "prompt": "Friendly crescent moon character, gentle closed-eye smile, soft yellow glow, round shapes, centered, kid-safe.",
+      "width": 192,
+      "height": 192,
+      "refs": []
+    },
+    {
+      "name": "animal-bear",
+      "width": 384,
+      "height": 384,
+      "refs": [],
+      "variants": [
+        {
+          "name": "animal-bear",
+          "outPath": "games/cozy-night/assets/animal-bear.webp",
+          "prompt": "Cute round teddy bear face, awake sparkling eyes, soft brown fur, rosy cheeks, front view, kid-safe plush look."
+        },
+        {
+          "name": "animal-bear-sleep",
+          "outPath": "games/cozy-night/assets/animal-bear-sleep.webp",
+          "prompt": "Same cute round teddy bear face sleeping peacefully, closed smiling eyes, soft brown fur, rosy cheeks, front view."
+        }
+      ]
+    },
+    {
+      "name": "animal-rabbit",
+      "width": 384,
+      "height": 384,
+      "refs": [],
+      "variants": [
+        {
+          "name": "animal-rabbit",
+          "outPath": "games/cozy-night/assets/animal-rabbit.webp",
+          "prompt": "Cute sleepy bunny face with long soft ears, awake eyes, white fur, pink inner ears, rosy cheeks, front view."
+        },
+        {
+          "name": "animal-rabbit-sleep",
+          "outPath": "games/cozy-night/assets/animal-rabbit-sleep.webp",
+          "prompt": "Same cute bunny face sleeping, closed smiling eyes, long soft ears relaxed, white fur, pink cheeks, front view."
+        }
+      ]
+    },
+    {
+      "name": "animal-cat",
+      "width": 384,
+      "height": 384,
+      "refs": [],
+      "variants": [
+        {
+          "name": "animal-cat",
+          "outPath": "games/cozy-night/assets/animal-cat.webp",
+          "prompt": "Cute orange tabby kitten face, awake green eyes, small pointed ears, whiskers, rosy cheeks, front view, kid-safe."
+        },
+        {
+          "name": "animal-cat-sleep",
+          "outPath": "games/cozy-night/assets/animal-cat-sleep.webp",
+          "prompt": "Same cute orange tabby kitten face sleeping, closed smiling eyes, small ears, whiskers, rosy cheeks, front view."
+        }
+      ]
+    },
+    {
+      "name": "blanket",
+      "width": 512,
+      "height": 384,
+      "refs": [],
+      "variants": [
+        {
+          "name": "blanket-yellow",
+          "outPath": "games/cozy-night/assets/blanket-yellow.webp",
+          "prompt": "Soft kids quilt blanket, warm yellow with simple round polka dots, folded top edge, no text, front view."
+        },
+        {
+          "name": "blanket-pink",
+          "outPath": "games/cozy-night/assets/blanket-pink.webp",
+          "prompt": "Soft kids quilt blanket, peachy pink with simple round polka dots, folded top edge, no text, front view."
+        },
+        {
+          "name": "blanket-blue",
+          "outPath": "games/cozy-night/assets/blanket-blue.webp",
+          "prompt": "Soft kids quilt blanket, light aqua blue with simple round polka dots, folded top edge, no text, front view."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192" width="192" height="192" fill="none">
+  <!-- soft star hard candy, yellow + pink edges -->
+  <path d="M96 22 L116 72 L170 78 L128 114 L140 168 L96 140 L52 168 L64 114 L22 78 L76 72 Z"
+        fill="#FFC94A" stroke="#3D2B1F" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"/>
+  <!-- pink edge tint via inner glow shape -->
+  <path d="M96 48 L110 78 L142 82 L116 102 L124 134 L96 116 L68 134 L76 102 L50 82 L82 78 Z"
+        fill="#FFB3C1" opacity="0.45"/>
+  <circle cx="96" cy="100" r="18" fill="#FFF6E5" stroke="#3D2B1F" stroke-width="5"/>
+  <ellipse cx="78" cy="78" rx="14" ry="10" fill="#FFF6E5" opacity="0.65"/>
+</svg>

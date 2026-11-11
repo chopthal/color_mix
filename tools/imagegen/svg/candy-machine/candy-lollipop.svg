@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 256" width="192" height="256" fill="none">
+  <!-- round swirl lollipop, pink + cream, short stick -->
+  <!-- stick -->
+  <rect x="84" y="128" width="24" height="110" rx="12" fill="#FFF6E5" stroke="#3D2B1F" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"/>
+  <!-- candy head centered upper -->
+  <circle cx="96" cy="96" r="72" fill="#FF6B81" stroke="#3D2B1F" stroke-width="8" stroke-linejoin="round"/>
+  <circle cx="96" cy="96" r="48" fill="none" stroke="#FFF6E5" stroke-width="14" stroke-linecap="round" stroke-dasharray="90 40"/>
+  <circle cx="96" cy="96" r="28" fill="#FFB3C1" stroke="#3D2B1F" stroke-width="6"/>
+  <ellipse cx="70" cy="72" rx="18" ry="12" fill="#FFF6E5" opacity="0.6"/>
+</svg>

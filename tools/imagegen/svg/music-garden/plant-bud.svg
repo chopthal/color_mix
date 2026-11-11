@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 256" width="192" height="256" fill="none">
+  <ellipse cx="96" cy="230" rx="20" ry="7" fill="#3D2B1F" opacity="0.12"/>
+  <!-- stem -->
+  <path d="M96 222 Q96 160 96 120" stroke="#3D2B1F" stroke-width="20" stroke-linecap="round" fill="none"/>
+  <path d="M96 220 Q96 160 96 122" stroke="#3FA34D" stroke-width="12" stroke-linecap="round" fill="none"/>
+  <!-- side leaf -->
+  <ellipse cx="58" cy="160" rx="30" ry="18" fill="#7BD389" stroke="#3D2B1F" stroke-width="8"
+           stroke-linejoin="round" transform="rotate(-40 58 160)"/>
+  <ellipse cx="52" cy="154" rx="10" ry="6" fill="#FFF6E5" opacity="0.55" transform="rotate(-40 52 154)"/>
+  <!-- closed soft bud -->
+  <ellipse cx="96" cy="78" rx="36" ry="48" fill="#7BD389" stroke="#3D2B1F" stroke-width="8" stroke-linejoin="round"/>
+  <ellipse cx="96" cy="70" rx="24" ry="34" fill="#FF6B81" opacity="0.55"/>
+  <ellipse cx="96" cy="66" rx="16" ry="24" fill="#FFB3C1" opacity="0.65"/>
+  <!-- sepal folds -->
+  <path d="M72 96 Q96 110 120 96" stroke="#3FA34D" stroke-width="6" stroke-linecap="round" fill="none"/>
+  <!-- highlight -->
+  <ellipse cx="84" cy="58" rx="10" ry="14" fill="#FFF6E5" opacity="0.55"/>
+</svg>

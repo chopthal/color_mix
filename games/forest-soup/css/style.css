@@ -84,6 +84,20 @@ body {
   color: inherit;
 }
 
+/* 공용 restButton이 하단 재료 트레이를 가리지 않도록 이 게임만 상단으로 이동 */
+body > .kk-rest-btn {
+  top: calc(56px + env(safe-area-inset-top, 0px));
+  bottom: auto;
+  right: calc(10px + env(safe-area-inset-right, 0px));
+  z-index: 12;
+  min-width: 64px;
+  min-height: 44px;
+  padding: 0.45rem 0.85rem;
+  font-size: 0.95rem;
+  background: #e6f7d9;
+  color: #3f7d4a;
+}
+
 /* ---------------- 무대 ---------------- */
 
 .stage {
@@ -269,11 +283,83 @@ body {
 .friend-spot.is-tasting .friend-emoji {
   animation: friend-chomp 0.36s ease-in-out infinite;
 }
+.friend-spot.is-love-taste .friend-emoji {
+  animation: friend-chomp 0.3s ease-in-out infinite;
+  filter: drop-shadow(0 0 10px rgba(255, 180, 80, 0.55));
+}
 .friend-spot.is-happy .friend-emoji {
   animation: friend-happy 0.5s ease-in-out infinite;
 }
+.friend-spot.is-love .friend-emoji {
+  animation: friend-love 0.45s ease-in-out infinite;
+}
+.friend-spot.is-peek .friend-emoji {
+  animation: friend-peek 0.55s ease-out;
+}
 .friend-spot.is-arriving .friend-emoji {
   animation: friend-arrive 0.6s ease-out;
+}
+
+.welcome-banner {
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-12px);
+  z-index: 6;
+  padding: 6px 14px;
+  border-radius: 16px;
+  background: rgba(255, 253, 245, 0.95);
+  border: 3px solid #ffe08a;
+  color: #7a5416;
+  font-size: clamp(12px, 3.2vw, 15px);
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.welcome-banner.is-on {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.friends-tree.is-welcome .friend-sticker {
+  animation: sticker-welcome 0.7s ease-in-out infinite;
+}
+.friends-tree.is-welcome .friend-sticker:nth-child(2) { animation-delay: 0.1s; }
+.friends-tree.is-welcome .friend-sticker:nth-child(3) { animation-delay: 0.2s; }
+.friends-tree.is-welcome .friend-sticker:nth-child(4) { animation-delay: 0.3s; }
+
+.slot-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+  display: block;
+}
+.friend-emoji.has-slot-img,
+.ing-emoji.has-slot-img,
+.friend-sticker.has-slot-img,
+.soup-bit.has-slot-img,
+.flying-ing.has-slot-img {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.friend-emoji.has-slot-img { width: clamp(44px, 13vw, 76px); height: clamp(44px, 13vw, 76px); }
+.ing-emoji.has-slot-img { width: clamp(26px, 7.6vw, 38px); height: clamp(26px, 7.6vw, 38px); }
+.friend-sticker.has-slot-img .slot-img { width: 22px; height: 22px; }
+.soup-bit.has-slot-img { width: clamp(15px, 4.4vw, 22px); height: clamp(15px, 4.4vw, 22px); }
+.flying-ing.has-slot-img { width: clamp(26px, 7vw, 36px); height: clamp(26px, 7vw, 36px); }
+
+.forest-bg.has-slot-bg {
+  background-size: cover;
+  background-position: center bottom;
+  background-repeat: no-repeat;
+}
+.forest-bg.has-slot-bg .tree,
+.forest-bg.has-slot-bg .bush,
+.forest-bg.has-slot-bg .flower {
+  opacity: 0.35;
 }
 
 /* ---------------- 조리대 ---------------- */
@@ -395,7 +481,31 @@ body {
   inset: 0;
   border-radius: 50%;
   background: radial-gradient(circle at 36% 30%, #fff3cf 0%, #f2dfb0 48%, #d8bb80 100%);
-  transition: background 0.45s ease, transform 0.45s ease;
+  transition: background 0.45s ease, transform 0.45s ease, box-shadow 0.45s ease;
+}
+.soup.is-rich {
+  box-shadow: inset 0 0 18px rgba(255, 255, 255, 0.28);
+}
+
+.pot-face {
+  position: absolute;
+  inset: -4%;
+  z-index: 0;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.pot-wrap.has-pot-art .pot-face {
+  /* SVG 손잡이가 원래 CSS 손잡이(-4% of wrap)만큼 밖으로 나오게 */
+  inset: -14%;
+}
+.pot-wrap.has-pot-art .pot-rim {
+  background: transparent;
+  box-shadow: none;
+}
+.pot-wrap.has-pot-art .pot-handle {
+  opacity: 0;
 }
 
 .soup-shine {
@@ -408,12 +518,40 @@ body {
   background: rgba(255, 255, 255, 0.42);
   filter: blur(3px);
   pointer-events: none;
+  z-index: 2;
+}
+
+.soup-toppings {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+.soup-topping {
+  position: absolute;
+  left: var(--tx, 40%);
+  top: var(--ty, 40%);
+  font-size: clamp(10px, 2.8vw, 14px);
+  transform: translate(-50%, -50%);
+  opacity: 0.85;
+  animation: topping-bob 2.4s ease-in-out infinite;
+  filter: drop-shadow(0 1px 1px rgba(80, 50, 20, 0.25));
+}
+.soup-swirl {
+  position: absolute;
+  inset: 18%;
+  border-radius: 50%;
+  background: conic-gradient(from 40deg, var(--swirl-a, transparent), transparent 35%, var(--swirl-b, transparent), transparent 70%);
+  opacity: 0.45;
+  mix-blend-mode: soft-light;
+  animation: swirl-spin 7s linear infinite;
 }
 
 .soup-bits {
   position: absolute;
   inset: 0;
   pointer-events: none;
+  z-index: 3;
 }
 
 .soup-bit {
@@ -500,6 +638,45 @@ body {
   animation: spoon-orbit 3.2s linear infinite;
 }
 
+/* 젓기 시각 힌트 (화살표·손) */
+.stir-arrows {
+  position: absolute;
+  inset: -2%;
+  z-index: 5;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+.pot-wrap.is-stir-ready .stir-arrows,
+.pot-wrap.is-tap-friendly.is-cookable .stir-arrows {
+  opacity: 1;
+}
+.stir-arrow {
+  position: absolute;
+  font-size: clamp(18px, 5vw, 26px);
+  color: #c07c12;
+  text-shadow: 0 1px 0 #fff;
+  animation: arrow-orbit 2.4s linear infinite;
+}
+.stir-arrow.a1 { left: 8%; top: 18%; animation-delay: 0s; }
+.stir-arrow.a2 { right: 10%; bottom: 22%; animation-delay: 1.2s; }
+.stir-hand {
+  position: absolute;
+  left: 50%;
+  top: 58%;
+  font-size: clamp(20px, 5.5vw, 28px);
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  filter: drop-shadow(0 2px 2px rgba(80, 60, 20, 0.25));
+}
+.pot-wrap.is-tap-friendly.is-stir-ready .stir-hand {
+  opacity: 1;
+  animation: tap-hand 0.9s ease-in-out infinite;
+}
+.pot-wrap.is-stirring .stir-arrows {
+  opacity: 0;
+}
+
 /* 뱅글뱅글 힌트 */
 .stir-cue {
   position: absolute;
@@ -521,6 +698,10 @@ body {
 .pot-wrap.is-cookable .stir-cue {
   opacity: 1;
   animation: cue-pulse 1.2s ease-in-out infinite;
+}
+.pot-wrap.is-tap-friendly .stir-cue {
+  background: rgba(255, 244, 210, 0.95);
+  border: 2px solid #ffd166;
 }
 
 /* 퐁당 물결 */
@@ -739,9 +920,39 @@ body {
   40% { transform: translateY(-12px) scale(1.08) rotate(-6deg); }
   70% { transform: translateY(-4px) scale(1.04) rotate(6deg); }
 }
+@keyframes friend-love {
+  0%, 100% { transform: translateY(0) scale(1.05) rotate(-4deg); }
+  35% { transform: translateY(-16px) scale(1.18) rotate(8deg); }
+  70% { transform: translateY(-6px) scale(1.12) rotate(-8deg); }
+}
+@keyframes friend-peek {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.2) rotate(-8deg); }
+  100% { transform: scale(1) rotate(0deg); }
+}
 @keyframes friend-arrive {
   0% { transform: translateX(36px) scale(0.7); opacity: 0; }
   100% { transform: translateX(0) scale(1); opacity: 1; }
+}
+@keyframes sticker-welcome {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-5px) scale(1.08); }
+}
+@keyframes topping-bob {
+  0%, 100% { transform: translate(-50%, -50%) rotate(-8deg); }
+  50% { transform: translate(-50%, -62%) rotate(8deg); }
+}
+@keyframes swirl-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+@keyframes arrow-orbit {
+  0%, 100% { transform: scale(1); opacity: 0.75; }
+  50% { transform: scale(1.15); opacity: 1; }
+}
+@keyframes tap-hand {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); }
+  50% { transform: translate(-50%, -62%) scale(0.9); }
 }
 @keyframes bubble-float {
   0%, 100% { transform: translateY(0); }

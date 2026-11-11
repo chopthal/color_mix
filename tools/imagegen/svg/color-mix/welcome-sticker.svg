@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 128" fill="none">
+  <!-- Friendly ribbon badge - blank center for swatch beside it - Style A -->
+  <!-- Left ribbon tail -->
+  <path d="M28 64 L8 40 L8 88 Z"
+        fill="#FF9F45" stroke="#3D2B1F" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>
+  <!-- Right ribbon tail -->
+  <path d="M228 64 L248 40 L248 88 Z"
+        fill="#FF9F45" stroke="#3D2B1F" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>
+  <!-- Main badge body -->
+  <rect x="28" y="28" width="200" height="72" rx="28" ry="28"
+        fill="#FFC94A" stroke="#3D2B1F" stroke-width="5" stroke-linejoin="round"/>
+  <!-- Inner blank panel (neutral cream - swatch sits next to sticker in UI) -->
+  <rect x="52" y="44" width="152" height="40" rx="16" ry="16"
+        fill="#FFF6E5" stroke="#3D2B1F" stroke-width="4" stroke-linejoin="round"/>
+  <!-- Soft highlight -->
+  <ellipse cx="78" cy="48" rx="28" ry="8" fill="#FFFFFF" opacity="0.55"/>
+  <!-- Tiny decorative dots (no text) -->
+  <circle cx="70" cy="64" r="5" fill="#FF6B81" stroke="#3D2B1F" stroke-width="3"/>
+  <circle cx="128" cy="64" r="5" fill="#7CC6FE" stroke="#3D2B1F" stroke-width="3"/>
+  <circle cx="186" cy="64" r="5" fill="#7BD389" stroke="#3D2B1F" stroke-width="3"/>
+</svg>

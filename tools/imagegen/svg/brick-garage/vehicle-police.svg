@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 240" fill="none">
+  <!-- brick police car, short side 240 - stroke ~10 -->
+  <ellipse cx="192" cy="218" rx="120" ry="14" fill="#3D2B1F" opacity="0.12"/>
+  <rect x="54" y="118" width="260" height="62" rx="22" fill="#3BA4E6" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round"/>
+  <ellipse cx="86" cy="134" rx="24" ry="11" fill="#FFF6E5" opacity="0.55"/>
+  <!-- white doors band -->
+  <rect x="120" y="128" width="120" height="42" rx="12" fill="#FFF6E5" stroke="#3D2B1F" stroke-width="6" stroke-linejoin="round"/>
+  <!-- cab -->
+  <rect x="78" y="62" width="140" height="70" rx="22" fill="#7CC6FE" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round"/>
+  <rect x="96" y="76" width="104" height="40" rx="14" fill="#FFF6E5" stroke="#3D2B1F" stroke-width="6" stroke-linejoin="round"/>
+  <ellipse cx="118" cy="88" rx="16" ry="9" fill="#7CC6FE" opacity="0.45"/>
+  <!-- siren bar -->
+  <rect x="118" y="40" width="70" height="24" rx="11" fill="#FF6B81" stroke="#3D2B1F" stroke-width="6" stroke-linejoin="round"/>
+  <circle cx="136" cy="52" r="7" fill="#7CC6FE" stroke="#3D2B1F" stroke-width="3"/>
+  <circle cx="170" cy="52" r="7" fill="#FFC94A" stroke="#3D2B1F" stroke-width="3"/>
+  <!-- bumper -->
+  <rect x="48" y="148" width="28" height="22" rx="8" fill="#FFC94A" stroke="#3D2B1F" stroke-width="5" stroke-linejoin="round"/>
+  <rect x="292" y="148" width="28" height="22" rx="8" fill="#FFC94A" stroke="#3D2B1F" stroke-width="5" stroke-linejoin="round"/>
+  <!-- studs -->
+  <circle cx="140" cy="148" r="9" fill="#3BA4E6" stroke="#3D2B1F" stroke-width="4"/>
+  <circle cx="180" cy="148" r="9" fill="#3BA4E6" stroke="#3D2B1F" stroke-width="4"/>
+  <circle cx="220" cy="148" r="9" fill="#3BA4E6" stroke="#3D2B1F" stroke-width="4"/>
+  <!-- wheels -->
+  <circle cx="110" cy="188" r="26" fill="#3D2B1F"/>
+  <circle cx="110" cy="188" r="11" fill="#FFC94A"/>
+  <circle cx="260" cy="188" r="26" fill="#3D2B1F"/>
+  <circle cx="260" cy="188" r="11" fill="#FFC94A"/>
+  <!-- face -->
+  <ellipse cx="126" cy="94" rx="4.5" ry="5.5" fill="#3D2B1F"/>
+  <ellipse cx="158" cy="94" rx="4.5" ry="5.5" fill="#3D2B1F"/>
+  <circle cx="127.4" cy="92.4" r="1.5" fill="#FFFFFF"/>
+  <circle cx="159.4" cy="92.4" r="1.5" fill="#FFFFFF"/>
+  <ellipse cx="116" cy="104" rx="6" ry="3.5" fill="#FFB3C1" opacity="0.5"/>
+  <ellipse cx="168" cy="104" rx="6" ry="3.5" fill="#FFB3C1" opacity="0.5"/>
+  <path d="M132 108 Q142 114 152 108" stroke="#3D2B1F" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+</svg>

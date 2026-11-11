@@ -1,0 +1,13 @@
+<svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+        <path class="part" data-part="wing-ul" data-name="왼쪽 윗날개" d="M146 136 Q108 76 62 78 Q48 118 92 150 Q120 162 146 150 Z" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <path class="part" data-part="wing-ur" data-name="오른쪽 윗날개" d="M154 136 Q192 76 238 78 Q252 118 208 150 Q180 162 154 150 Z" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <path class="part" data-part="wing-ll" data-name="왼쪽 아랫날개" d="M146 156 Q104 172 92 210 Q110 244 146 214 Q154 194 146 156 Z" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <path class="part" data-part="wing-lr" data-name="오른쪽 아랫날개" d="M154 156 Q196 172 208 210 Q190 244 154 214 Q146 194 154 156 Z" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <ellipse class="part" data-part="body" data-name="몸통" cx="150" cy="168" rx="14" ry="60" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <g class="fixed">
+          <path d="M144 114 Q132 92 118 84 M156 114 Q168 92 182 84" stroke="#3D2B1F" stroke-width="3" fill="none" stroke-linecap="round" />
+          <circle cx="118" cy="84" r="5" fill="#3D2B1F" /><circle cx="182" cy="84" r="5" fill="#3D2B1F" />
+          <circle cx="144" cy="122" r="5" fill="#fff" stroke="#3D2B1F" stroke-width="2" />
+          <circle cx="156" cy="122" r="5" fill="#fff" stroke="#3D2B1F" stroke-width="2" />
+        </g>
+      </svg>

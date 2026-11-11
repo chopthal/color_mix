@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 240" fill="none">
+  <!-- brick car carrier, short side 240 - stroke ~10 -->
+  <ellipse cx="192" cy="218" rx="130" ry="14" fill="#3D2B1F" opacity="0.12"/>
+  <!-- lower deck -->
+  <rect x="50" y="132" width="260" height="40" rx="14" fill="#3BA4E6" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round"/>
+  <ellipse cx="78" cy="146" rx="22" ry="10" fill="#FFF6E5" opacity="0.5"/>
+  <!-- upper deck -->
+  <rect x="100" y="78" width="210" height="28" rx="12" fill="#7CC6FE" stroke="#3D2B1F" stroke-width="8" stroke-linejoin="round"/>
+  <!-- posts -->
+  <rect x="120" y="100" width="16" height="40" rx="6" fill="#FFF6E5" stroke="#3D2B1F" stroke-width="5"/>
+  <rect x="260" y="100" width="16" height="40" rx="6" fill="#FFF6E5" stroke="#3D2B1F" stroke-width="5"/>
+  <!-- mini cars on decks -->
+  <rect x="140" y="56" width="52" height="24" rx="8" fill="#FF6B81" stroke="#3D2B1F" stroke-width="5" stroke-linejoin="round"/>
+  <circle cx="152" cy="80" r="7" fill="#3D2B1F"/>
+  <circle cx="178" cy="80" r="7" fill="#3D2B1F"/>
+  <rect x="220" y="56" width="52" height="24" rx="8" fill="#FFC94A" stroke="#3D2B1F" stroke-width="5" stroke-linejoin="round"/>
+  <circle cx="232" cy="80" r="7" fill="#3D2B1F"/>
+  <circle cx="258" cy="80" r="7" fill="#3D2B1F"/>
+  <rect x="150" y="114" width="48" height="20" rx="7" fill="#7BD389" stroke="#3D2B1F" stroke-width="5" stroke-linejoin="round"/>
+  <circle cx="162" cy="136" r="6" fill="#3D2B1F"/>
+  <circle cx="184" cy="136" r="6" fill="#3D2B1F"/>
+  <!-- cab -->
+  <rect x="48" y="78" width="78" height="68" rx="18" fill="#4361EE" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round"/>
+  <rect x="60" y="90" width="54" height="32" rx="11" fill="#7CC6FE" stroke="#3D2B1F" stroke-width="6" stroke-linejoin="round"/>
+  <ellipse cx="74" cy="100" rx="12" ry="7" fill="#FFF6E5" opacity="0.55"/>
+  <!-- ramp hint -->
+  <path d="M300 150 L340 176 L310 176 L280 156 Z" fill="#90E0EF" stroke="#3D2B1F" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+  <!-- wheels -->
+  <circle cx="90" cy="188" r="24" fill="#3D2B1F"/>
+  <circle cx="90" cy="188" r="10" fill="#FFC94A"/>
+  <circle cx="170" cy="188" r="22" fill="#3D2B1F"/>
+  <circle cx="170" cy="188" r="9" fill="#FFC94A"/>
+  <circle cx="250" cy="188" r="24" fill="#3D2B1F"/>
+  <circle cx="250" cy="188" r="10" fill="#FFC94A"/>
+  <!-- face -->
+  <ellipse cx="76" cy="104" rx="4" ry="5" fill="#3D2B1F"/>
+  <ellipse cx="96" cy="104" rx="4" ry="5" fill="#3D2B1F"/>
+  <circle cx="77.2" cy="102.5" r="1.4" fill="#FFFFFF"/>
+  <circle cx="97.2" cy="102.5" r="1.4" fill="#FFFFFF"/>
+  <path d="M80 114 Q86 118 92 114" stroke="#3D2B1F" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+</svg>

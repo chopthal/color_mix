@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 384" width="512" height="384">
+
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#E2F7FF"/>
+      <stop offset="42%" stop-color="#A9E3F0"/>
+      <stop offset="100%" stop-color="#6CC6DD"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="384" fill="url(#g)"/>
+  
+  <ellipse cx="256" cy="330" rx="210" ry="42" fill="#3BA4E6" opacity="0.25"/>
+  <path d="M 0 285 Q 90 248 170 278 Q 270 318 370 268 Q 450 240 512 278"
+        fill="none" stroke="#FFFFFF" stroke-width="12" stroke-linecap="round" opacity="0.5"/>
+  <path d="M 0 310 Q 120 285 220 305 Q 340 335 512 300"
+        fill="none" stroke="#FFFFFF" stroke-width="7" stroke-linecap="round" opacity="0.35"/>
+  <ellipse cx="70" cy="68" rx="44" ry="18" fill="#FFFFFF" opacity="0.5"/>
+  <ellipse cx="430" cy="76" rx="50" ry="20" fill="#FFFFFF" opacity="0.4"/>
+  <ellipse cx="44" cy="340" rx="40" ry="18" fill="#7BD389" opacity="0.35"/>
+  <ellipse cx="472" cy="348" rx="44" ry="18" fill="#7BD389" opacity="0.3"/>
+
+
+</svg>

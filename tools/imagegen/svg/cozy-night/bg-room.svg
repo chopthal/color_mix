@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 768 1280" width="768" height="1280">
+  <defs>
+    <linearGradient id="wall" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2E3A6B"/>
+      <stop offset="45%" stop-color="#3A4578"/>
+      <stop offset="100%" stop-color="#4A3F6B"/>
+    </linearGradient>
+    <linearGradient id="floor" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3D2B1F" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#2A1C14" stop-opacity="0.55"/>
+    </linearGradient>
+    <radialGradient id="lampGlow" cx="78%" cy="28%" r="32%">
+      <stop offset="0%" stop-color="#FFC94A" stop-opacity="0.45"/>
+      <stop offset="55%" stop-color="#FF9F45" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#FF9F45" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <!-- wall -->
+  <rect width="768" height="1280" fill="url(#wall)"/>
+  <!-- soft ceiling band -->
+  <rect y="0" width="768" height="160" fill="#2E3A6B" opacity="0.55"/>
+  <!-- lamp glow (no characters) -->
+  <ellipse cx="600" cy="320" rx="220" ry="260" fill="url(#lampGlow)"/>
+  <!-- wall trim strip -->
+  <rect y="720" width="768" height="28" fill="#A78BFA" opacity="0.28"/>
+  <rect y="748" width="768" height="12" fill="#FFF6E5" opacity="0.12"/>
+  <!-- floor -->
+  <rect y="900" width="768" height="380" fill="url(#floor)"/>
+  <ellipse cx="384" cy="980" rx="280" ry="36" fill="#3D2B1F" opacity="0.12"/>
+  <!-- soft side curtains suggestion -->
+  <path d="M0 120 Q40 400 20 900 L0 900 Z" fill="#A78BFA" opacity="0.18"/>
+  <path d="M768 120 Q728 400 748 900 L768 900 Z" fill="#A78BFA" opacity="0.18"/>
+  <!-- empty play space center intentionally left clear -->
+</svg>

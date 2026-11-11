@@ -1,0 +1,12 @@
+<svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+        <path class="part" data-part="wing-left" data-name="왼쪽 날개" d="M142 152 Q82 88 22 104 Q56 152 118 188 Z" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <path class="part" data-part="wing-right" data-name="오른쪽 날개" d="M158 152 Q218 88 278 104 Q244 152 182 188 Z" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <ellipse class="part" data-part="body" data-name="몸통" cx="150" cy="168" rx="26" ry="44" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <path class="part" data-part="head" data-name="머리" d="M150 84 Q176 84 178 108 Q178 126 150 126 Q122 126 122 108 Q122 84 150 84 Z" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <path class="part" data-part="beak" data-name="부리" d="M150 108 L214 128 L154 136 Z" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <path class="part" data-part="crest" data-name="볏" d="M138 86 L100 58 L146 72 Z" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <path class="part" data-part="legs" data-name="발" d="M136 204 L126 226 L140 226 L144 208 Z M164 204 L174 226 L160 226 L156 208 Z" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <g class="fixed">
+          <g class="face"><circle cx="140" cy="104" r="7" fill="#fff" stroke="#3D2B1F" stroke-width="3" /><circle cx="141.12" cy="104" r="3.22" fill="#3D2B1F" /><circle cx="138.6" cy="102.18" r="1.26" fill="#fff" /><circle cx="160" cy="104" r="7" fill="#fff" stroke="#3D2B1F" stroke-width="3" /><circle cx="161.12" cy="104" r="3.22" fill="#3D2B1F" /><circle cx="158.6" cy="102.18" r="1.26" fill="#fff" /></g>
+        </g>
+      </svg>

@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 224 224" fill="none">
+  <!-- pink angelfish tall fins, facing right -->
+  <ellipse cx="112" cy="208" rx="38" ry="8" fill="#3D2B1F" opacity="0.12"/>
+  <!-- tall fins rounded -->
+  <path d="M96 108 Q128 18 148 108 Z" fill="#FF6B81" stroke="#3D2B1F" stroke-width="9" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M96 118 Q124 206 146 118 Z" fill="#FF6B81" stroke="#3D2B1F" stroke-width="9" stroke-linejoin="round" stroke-linecap="round"/>
+  <!-- tail left -->
+  <path d="M58 112 L18 82 Q30 112 18 142 Z" fill="#FFB3C1" stroke="#3D2B1F" stroke-width="9" stroke-linejoin="round" stroke-linecap="round"/>
+  <!-- diamond body -->
+  <path d="M70 112 L118 66 L168 112 L118 158 Z" fill="#FFB3C1" stroke="#3D2B1F" stroke-width="9" stroke-linejoin="round"/>
+  <!-- soft stripes -->
+  <path d="M102 78 L102 146" stroke="#FF6B81" stroke-width="8" stroke-linecap="round" opacity="0.7"/>
+  <path d="M128 74 L128 150" stroke="#FF6B81" stroke-width="8" stroke-linecap="round" opacity="0.7"/>
+  <ellipse cx="108" cy="96" rx="12" ry="8" fill="#FFF6E5" opacity="0.55"/>
+  <!-- face -->
+  <ellipse cx="148" cy="108" rx="7" ry="9" fill="#3D2B1F"/>
+  <circle cx="150" cy="105" r="2.4" fill="#FFFFFF"/>
+  <circle cx="138" cy="124" r="7" fill="#FFB3C1" opacity="0.55"/>
+  <path d="M156 122 Q164 128 170 120" stroke="#3D2B1F" stroke-width="5" stroke-linecap="round" fill="none"/>
+</svg>

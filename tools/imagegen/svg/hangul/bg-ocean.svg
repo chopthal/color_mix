@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 768 512" width="768" height="512" fill="none">
+  <defs>
+    <linearGradient id="oceanSky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#D9F0FF"/>
+      <stop offset="42%" stop-color="#E8F7FF"/>
+      <stop offset="100%" stop-color="#E6F7F2"/>
+    </linearGradient>
+    <linearGradient id="oceanWater" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#9AD8F2" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#6EC4E8" stop-opacity="0.5"/>
+    </linearGradient>
+  </defs>
+  <rect width="768" height="512" fill="url(#oceanSky)"/>
+  <!-- soft water band lower half -->
+  <ellipse cx="384" cy="430" rx="460" ry="120" fill="url(#oceanWater)"/>
+  <!-- gentle wave lines (very faint) -->
+  <path d="M40 380 Q120 360 200 380 T360 380 T520 380 T700 380" stroke="#3BA4E6" stroke-width="8" opacity="0.12" fill="none" stroke-linecap="round"/>
+  <path d="M20 420 Q110 400 200 420 T380 420 T560 420 T760 420" stroke="#3BA4E6" stroke-width="7" opacity="0.1" fill="none" stroke-linecap="round"/>
+  <!-- sand shelf bottom -->
+  <ellipse cx="384" cy="500" rx="420" ry="40" fill="#FFF6E5" opacity="0.55"/>
+  <!-- left shell -->
+  <ellipse cx="90" cy="450" rx="28" ry="18" fill="#FFB3C1" opacity="0.35"/>
+  <ellipse cx="90" cy="450" rx="14" ry="8" fill="#FFF6E5" opacity="0.4"/>
+  <!-- right fish (edge, soft) -->
+  <ellipse cx="680" cy="390" rx="28" ry="16" fill="#7CC6FE" opacity="0.32"/>
+  <ellipse cx="702" cy="390" rx="8" ry="8" fill="#7CC6FE" opacity="0.32"/>
+  <circle cx="668" cy="386" r="3" fill="#3D2B1F" opacity="0.25"/>
+  <!-- soft sun -->
+  <circle cx="140" cy="90" r="34" fill="#FFC94A" opacity="0.26"/>
+  <circle cx="140" cy="90" r="20" fill="#FFF6E5" opacity="0.35"/>
+  <!-- soft clouds -->
+  <ellipse cx="360" cy="70" rx="48" ry="18" fill="#FFFFFF" opacity="0.4"/>
+  <ellipse cx="390" cy="64" rx="26" ry="14" fill="#FFFFFF" opacity="0.35"/>
+  <ellipse cx="560" cy="90" rx="40" ry="16" fill="#FFFFFF" opacity="0.32"/>
+  <!-- calm open center for stroke roads -->
+</svg>

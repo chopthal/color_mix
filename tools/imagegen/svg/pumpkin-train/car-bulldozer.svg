@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192" fill="none">
+  <!-- cute pumpkin bulldozer, faces right -->
+  <ellipse cx="96" cy="176" rx="54" ry="10" fill="#3D2B1F" opacity="0.12"/>
+  <!-- wheels -->
+  <ellipse cx="58" cy="148" rx="22" ry="18" fill="#3D2B1F" stroke="#3D2B1F" stroke-width="8" stroke-linejoin="round"/>
+  <ellipse cx="58" cy="148" rx="10" ry="8" fill="#B07A4F"/>
+  <ellipse cx="118" cy="148" rx="22" ry="18" fill="#3D2B1F" stroke="#3D2B1F" stroke-width="8" stroke-linejoin="round"/>
+  <ellipse cx="118" cy="148" rx="10" ry="8" fill="#B07A4F"/>
+  <!-- blade (front-right) -->
+  <rect x="148" y="108" width="28" height="44" rx="12" fill="#A78BFA" stroke="#3D2B1F" stroke-width="8" stroke-linejoin="round"/>
+  <ellipse cx="162" cy="118" rx="8" ry="5" fill="#FFF6E5" opacity="0.55"/>
+  <!-- body pumpkin -->
+  <ellipse cx="92" cy="100" rx="62" ry="58" fill="#FF9F45" stroke="#3D2B1F" stroke-width="8" stroke-linejoin="round"/>
+  <path d="M92 46 Q78 100 92 152" stroke="#E07A30" stroke-width="5" stroke-linecap="round" fill="none" opacity="0.55"/>
+  <path d="M70 54 Q60 100 70 146" stroke="#E07A30" stroke-width="4" stroke-linecap="round" fill="none" opacity="0.4"/>
+  <path d="M114 54 Q124 100 114 146" stroke="#E07A30" stroke-width="4" stroke-linecap="round" fill="none" opacity="0.4"/>
+  <ellipse cx="72" cy="78" rx="22" ry="14" fill="#FFF6E5" opacity="0.55"/>
+  <!-- stem -->
+  <rect x="84" y="34" width="16" height="22" rx="7" fill="#7BD389" stroke="#3D2B1F" stroke-width="6" stroke-linejoin="round"/>
+  <ellipse cx="100" cy="38" rx="14" ry="8" fill="#3FA34D" stroke="#3D2B1F" stroke-width="5" stroke-linejoin="round"/>
+  <!-- cabin bump -->
+  <ellipse cx="92" cy="72" rx="28" ry="16" fill="#FFC94A" stroke="#3D2B1F" stroke-width="6" stroke-linejoin="round"/>
+  <ellipse cx="82" cy="68" rx="10" ry="6" fill="#FFF6E5" opacity="0.5"/>
+  <!-- face (lower half) -->
+  <ellipse cx="78" cy="108" rx="7" ry="9" fill="#3D2B1F"/>
+  <ellipse cx="110" cy="108" rx="7" ry="9" fill="#3D2B1F"/>
+  <circle cx="80" cy="105" r="2.4" fill="#FFFFFF"/>
+  <circle cx="112" cy="105" r="2.4" fill="#FFFFFF"/>
+  <circle cx="66" cy="120" r="8" fill="#FFB3C1" opacity="0.5"/>
+  <circle cx="122" cy="120" r="8" fill="#FFB3C1" opacity="0.5"/>
+  <path d="M82 128 Q94 140 106 128" stroke="#3D2B1F" stroke-width="5" stroke-linecap="round" fill="none"/>
+</svg>

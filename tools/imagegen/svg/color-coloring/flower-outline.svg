@@ -1,0 +1,17 @@
+<svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+        <circle class="part" data-part="petal1" data-name="꽃잎" cx="150" cy="92" r="30" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <circle class="part" data-part="petal2" data-name="꽃잎" cx="190" cy="124" r="30" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <circle class="part" data-part="petal3" data-name="꽃잎" cx="174" cy="172" r="30" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <circle class="part" data-part="petal4" data-name="꽃잎" cx="126" cy="172" r="30" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <circle class="part" data-part="petal5" data-name="꽃잎" cx="110" cy="124" r="30" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <circle class="part" data-part="center" data-name="꽃 가운데" cx="150" cy="132" r="26" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <rect class="part" data-part="stem" data-name="줄기" x="145" y="156" width="10" height="110" rx="5" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <g class="part" data-part="leaves" data-name="잎" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round">
+          <path d="M150 210 Q118 198 108 218 Q128 236 150 220 Z" />
+          <path d="M150 234 Q182 222 192 242 Q172 260 150 244 Z" />
+        </g>
+        <g class="fixed">
+          <g class="face"><circle cx="140" cy="126" r="6" fill="#fff" stroke="#3D2B1F" stroke-width="3" /><circle cx="140.96" cy="126" r="2.7600000000000002" fill="#3D2B1F" /><circle cx="138.8" cy="124.44" r="1.08" fill="#fff" /><circle cx="160" cy="126" r="6" fill="#fff" stroke="#3D2B1F" stroke-width="3" /><circle cx="160.96" cy="126" r="2.7600000000000002" fill="#3D2B1F" /><circle cx="158.8" cy="124.44" r="1.08" fill="#fff" /></g>
+          <path d="M143 142 Q150 147 157 142" fill="none" stroke="#3D2B1F" stroke-width="4" stroke-linecap="round" />
+        </g>
+      </svg>

@@ -1,0 +1,196 @@
+{
+  "items": [
+    {
+      "name": "car-outline",
+      "outPath": "games/color-coloring/assets/car-outline.webp",
+      "prompt": "Coloring-book outline of a cute round cartoon car, thick black outlines only, empty white interiors for coloring regions (body, windows, wheels, lights), front three-quarter view, centered, no fill colors, no text.",
+      "width": 600,
+      "height": 600,
+      "refs": []
+    },
+    {
+      "name": "bus-outline",
+      "outPath": "games/color-coloring/assets/bus-outline.webp",
+      "prompt": "Coloring-book outline of a cute round cartoon bus, thick black outlines only, empty white interiors (body, stripe, windows, door, wheels), side view, centered, no fill colors, no text.",
+      "width": 600,
+      "height": 600,
+      "refs": []
+    },
+    {
+      "name": "plane-outline",
+      "outPath": "games/color-coloring/assets/plane-outline.webp",
+      "prompt": "Coloring-book outline of a cute round cartoon airplane, thick black outlines only, empty white interiors (fuselage, wing, tail, windows, stripe), side view, centered, no fill colors, no text.",
+      "width": 600,
+      "height": 600,
+      "refs": []
+    },
+    {
+      "name": "firetruck-outline",
+      "outPath": "games/color-coloring/assets/firetruck-outline.webp",
+      "prompt": "Coloring-book outline of a cute round cartoon fire truck, thick black outlines only, empty white interiors (cab, body, ladder, wheels, lights), side view, centered, no fill colors, no text.",
+      "width": 600,
+      "height": 600,
+      "refs": []
+    },
+    {
+      "name": "trex-outline",
+      "outPath": "games/color-coloring/assets/trex-outline.webp",
+      "prompt": "Coloring-book outline of a cute friendly T-rex dinosaur, thick black outlines only, empty white interiors for body parts, big round head, soft claws, centered, no fill colors, no text, not scary.",
+      "width": 600,
+      "height": 600,
+      "refs": []
+    },
+    {
+      "name": "triceratops-outline",
+      "outPath": "games/color-coloring/assets/triceratops-outline.webp",
+      "prompt": "Coloring-book outline of a cute friendly triceratops, thick black outlines only, empty white interiors, round frill and soft horns, centered, no fill colors, no text, not scary.",
+      "width": 600,
+      "height": 600,
+      "refs": []
+    },
+    {
+      "name": "brachiosaurus-outline",
+      "outPath": "games/color-coloring/assets/brachiosaurus-outline.webp",
+      "prompt": "Coloring-book outline of a cute friendly brachiosaurus with long neck, thick black outlines only, empty white interiors, rounded shapes, centered, no fill colors, no text, not scary.",
+      "width": 600,
+      "height": 600,
+      "refs": []
+    },
+    {
+      "name": "pteranodon-outline",
+      "outPath": "games/color-coloring/assets/pteranodon-outline.webp",
+      "prompt": "Coloring-book outline of a cute friendly pteranodon with wide wings, thick black outlines only, empty white interiors, rounded beak crest, centered, no fill colors, no text, not scary.",
+      "width": 600,
+      "height": 600,
+      "refs": []
+    },
+    {
+      "name": "lion-outline",
+      "outPath": "games/color-coloring/assets/lion-outline.webp",
+      "prompt": "Coloring-book outline of a cute friendly lion with fluffy mane, thick black outlines only, empty white interiors (mane, face, body, paws), centered, no fill colors, no text.",
+      "width": 600,
+      "height": 600,
+      "refs": []
+    },
+    {
+      "name": "elephant-outline",
+      "outPath": "games/color-coloring/assets/elephant-outline.webp",
+      "prompt": "Coloring-book outline of a cute friendly elephant with big ears and trunk, thick black outlines only, empty white interiors, centered, no fill colors, no text.",
+      "width": 600,
+      "height": 600,
+      "refs": []
+    },
+    {
+      "name": "rabbit-outline",
+      "outPath": "games/color-coloring/assets/rabbit-outline.webp",
+      "prompt": "Coloring-book outline of a cute round rabbit with long ears, thick black outlines only, empty white interiors, centered, no fill colors, no text.",
+      "width": 600,
+      "height": 600,
+      "refs": []
+    },
+    {
+      "name": "dog-outline",
+      "outPath": "games/color-coloring/assets/dog-outline.webp",
+      "prompt": "Coloring-book outline of a cute friendly puppy dog, thick black outlines only, empty white interiors, floppy ears, centered, no fill colors, no text.",
+      "width": 600,
+      "height": 600,
+      "refs": []
+    },
+    {
+      "name": "apple-outline",
+      "outPath": "games/color-coloring/assets/apple-outline.webp",
+      "prompt": "Coloring-book outline of a cute cartoon apple with leaf and stem, thick black outlines only, empty white interiors, centered, no fill colors, no text.",
+      "width": 600,
+      "height": 600,
+      "refs": []
+    },
+    {
+      "name": "banana-outline",
+      "outPath": "games/color-coloring/assets/banana-outline.webp",
+      "prompt": "Coloring-book outline of a cute cartoon banana, thick black outlines only, empty white interiors, centered, no fill colors, no text.",
+      "width": 600,
+      "height": 600,
+      "refs": []
+    },
+    {
+      "name": "icecream-outline",
+      "outPath": "games/color-coloring/assets/icecream-outline.webp",
+      "prompt": "Coloring-book outline of a cute ice cream cone with scoops, thick black outlines only, empty white interiors (scoops, cone, cherry), centered, no fill colors, no text.",
+      "width": 600,
+      "height": 600,
+      "refs": []
+    },
+    {
+      "name": "cake-outline",
+      "outPath": "games/color-coloring/assets/cake-outline.webp",
+      "prompt": "Coloring-book outline of a cute birthday cake with frosting and candle, thick black outlines only, empty white interiors, centered, no fill colors, no text.",
+      "width": 600,
+      "height": 600,
+      "refs": []
+    },
+    {
+      "name": "robot-outline",
+      "outPath": "games/color-coloring/assets/robot-outline.webp",
+      "prompt": "Coloring-book outline of a cute friendly round robot, thick black outlines only, empty white interiors (head, body, arms, antenna), centered, no fill colors, no text.",
+      "width": 600,
+      "height": 600,
+      "refs": []
+    },
+    {
+      "name": "castle-outline",
+      "outPath": "games/color-coloring/assets/castle-outline.webp",
+      "prompt": "Coloring-book outline of a cute fairy-tale castle with towers and door, thick black outlines only, empty white interiors, centered, no fill colors, no text.",
+      "width": 600,
+      "height": 600,
+      "refs": []
+    },
+    {
+      "name": "butterfly-outline",
+      "outPath": "games/color-coloring/assets/butterfly-outline.webp",
+      "prompt": "Coloring-book outline of a cute butterfly with big wing panels, thick black outlines only, empty white interiors for wing sections and body, centered, no fill colors, no text.",
+      "width": 600,
+      "height": 600,
+      "refs": []
+    },
+    {
+      "name": "flower-outline",
+      "outPath": "games/color-coloring/assets/flower-outline.webp",
+      "prompt": "Coloring-book outline of a cute flower with petals, center, stem and leaf, thick black outlines only, empty white interiors, centered, no fill colors, no text.",
+      "width": 600,
+      "height": 600,
+      "refs": []
+    },
+    {
+      "name": "stage-day",
+      "outPath": "games/color-coloring/assets/stage-day.webp",
+      "prompt": "Soft kids stage backdrop for daytime: gentle blue sky fading to pale green ground, fluffy white clouds, warm sun glow, empty center for a coloring subject, no characters, no text.",
+      "width": 800,
+      "height": 800,
+      "refs": []
+    },
+    {
+      "name": "stage-night",
+      "outPath": "games/color-coloring/assets/stage-night.webp",
+      "prompt": "Soft kids stage backdrop for nighttime: deep blue-purple sky, gentle crescent moon, soft twinkling stars, calm gradient, empty center for a coloring subject, not scary, no characters, no text.",
+      "width": 800,
+      "height": 800,
+      "refs": []
+    },
+    {
+      "name": "stage-rainbow",
+      "outPath": "games/color-coloring/assets/stage-rainbow.webp",
+      "prompt": "Soft kids stage backdrop with a pastel rainbow arc and candy-colored sky bands, fluffy clouds, empty center for a coloring subject, gentle and bright, no characters, no text.",
+      "width": 800,
+      "height": 800,
+      "refs": []
+    },
+    {
+      "name": "frame-mat",
+      "outPath": "games/color-coloring/assets/frame-mat.webp",
+      "prompt": "Empty ornate picture frame mat for kids artwork, warm wood-like rounded frame with soft inner cream mat, hollow transparent center for placing a drawing, front view, no text.",
+      "width": 512,
+      "height": 512,
+      "refs": []
+    }
+  ]
+}

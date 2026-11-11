@@ -1,6 +1,8 @@
 :root {
   --ink: #4a3f52;
   --font-main: "Jua", "Malgun Gothic", sans-serif;
+  --candy-deep: #3d2a5c;
+  --candy-glow: #ff8fc4;
 }
 
 * {
@@ -20,7 +22,7 @@ body {
 body {
   font-family: var(--font-main);
   color: var(--ink);
-  background: #fff2f7;
+  background: linear-gradient(180deg, #2a1a40 0%, #4a2a55 40%, #fff2f7 40%);
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -91,7 +93,7 @@ body {
   flex: 1 1 auto;
   min-height: 0;
   overflow: hidden;
-  background: #ffe9f1;
+  background: #3d2a5c;
 }
 
 #gameCanvas {
@@ -110,8 +112,83 @@ body {
   display: none;
   flex-direction: column;
   padding: 14px 14px max(16px, env(safe-area-inset-bottom));
-  background: radial-gradient(circle at 50% 0%, #fffdf6 0%, #fff0f6 55%, #ffe2ee 100%);
+  background:
+    radial-gradient(circle at 22% 10%, rgba(255, 212, 59, 0.16), transparent 38%),
+    radial-gradient(circle at 80% 8%, rgba(255, 143, 196, 0.34), transparent 38%),
+    linear-gradient(180deg, #3a2456 0%, #6b3d6e 38%, #fff0f6 38%, #ffe2ee 100%);
   overflow: hidden;
+}
+
+.welcome-banner {
+  flex: 0 0 auto;
+  margin: 0 0 8px;
+  padding: 10px 12px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.92);
+  border: 3px solid #ffd6e7;
+  box-shadow: 0 8px 18px rgba(80, 40, 90, 0.18);
+  text-align: center;
+}
+
+.welcome-banner[hidden] {
+  display: none !important;
+}
+
+.welcome-text {
+  font-size: clamp(14px, 3.6vw, 17px);
+  color: #7a2c4e;
+  margin-bottom: 8px;
+}
+
+.sticker-album {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.sticker-slot {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  background: #fff7fb;
+  border: 2px dashed #ffc9de;
+}
+
+.sticker-slot.is-owned {
+  border-style: solid;
+  border-color: #ff8fc4;
+  background: #ffe9f3;
+  box-shadow: 0 0 0 3px rgba(255, 143, 196, 0.22);
+  animation: sticker-pop 0.55s cubic-bezier(0.2, 1.4, 0.4, 1);
+}
+
+@keyframes sticker-pop {
+  from {
+    transform: scale(0.6);
+    opacity: 0.4;
+  }
+}
+
+.place-hint {
+  flex: 0 0 auto;
+  text-align: center;
+  margin: 4px 0 0;
+  font-size: clamp(13px, 3.2vw, 15px);
+  color: #8a4f6b;
+}
+
+.ending-stickers {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  min-height: 28px;
+  margin-top: 8px;
+  font-size: 22px;
 }
 
 .select-screen.is-on {
@@ -119,9 +196,18 @@ body {
 }
 
 .select-head {
+  position: relative;
+  z-index: 2;
   flex: 0 0 auto;
+  align-self: center;
+  max-width: 100%;
   text-align: center;
-  margin: 6px 0 18px;
+  margin: 4px 0 14px;
+  padding: 8px 24px 10px;
+  border-radius: 24px;
+  background: linear-gradient(180deg, #fffaf3 0%, #ffeef7 100%);
+  border: 3px solid #ffd6e7;
+  box-shadow: 0 10px 22px rgba(38, 18, 58, 0.32);
 }
 
 .select-head h2 {
@@ -130,9 +216,9 @@ body {
 }
 
 .select-head p {
-  margin-top: 4px;
+  margin-top: 2px;
   font-size: clamp(13px, 3.4vw, 16px);
-  color: #b07a94;
+  color: #8a4f6b;
 }
 
 .fairy-row {
@@ -217,6 +303,20 @@ body {
 .start-btn:active {
   transform: translateY(5px);
   box-shadow: 0 3px 0 #d6336c;
+}
+
+/* 하단 고정 '쉬자' 버튼과 겹치지 않게 시작 버튼 자리를 비켜 둔다 */
+@media (orientation: portrait) and (max-width: 574px) {
+  .start-btn {
+    margin-bottom: calc(84px + env(safe-area-inset-bottom));
+  }
+}
+
+@media (orientation: landscape) and (max-width: 574px) {
+  .start-btn {
+    margin-left: auto;
+    margin-right: 92px;
+  }
 }
 
 /* ---------------- 엔딩 ---------------- */
@@ -365,6 +465,80 @@ body {
 @media (min-width: 760px) {
   .fairy-row {
     gap: 22px;
+  }
+}
+
+/* 가로·낮은 화면: 제목 띠와 요정 카드가 겹치지 않게 압축한다 */
+@media (max-height: 520px) and (orientation: landscape) {
+  .select-screen {
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+
+  .welcome-banner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 4px;
+    padding: 5px 12px;
+    border-radius: 16px;
+  }
+
+  .welcome-text {
+    margin-bottom: 0;
+    font-size: 13px;
+  }
+
+  .sticker-album {
+    flex-wrap: nowrap;
+    gap: 6px;
+  }
+
+  .sticker-slot {
+    width: 32px;
+    height: 32px;
+    font-size: 18px;
+    border-radius: 10px;
+  }
+
+  .select-head {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin: 0 0 6px;
+    padding: 4px 18px 6px;
+    border-radius: 20px;
+  }
+
+  .select-head h2 {
+    font-size: clamp(19px, 3.6vw, 24px);
+  }
+
+  .select-head p {
+    margin-top: 0;
+    font-size: clamp(12px, 2.4vw, 14px);
+    white-space: nowrap;
+  }
+
+  .fairy-card {
+    padding: 8px 6px 6px;
+  }
+
+  .fairy-thumb {
+    width: 72px;
+    height: 72px;
+  }
+
+  .place-hint {
+    margin-top: 2px;
+    font-size: 13px;
+  }
+
+  .start-btn {
+    margin-top: 8px;
+    padding: 12px 20px;
+    font-size: clamp(20px, 3.6vw, 24px);
   }
 }
 

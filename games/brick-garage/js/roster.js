@@ -163,6 +163,41 @@ const BG_GIMMICK_TEMPLATES = {
   },
 };
 
+/** 같은 카테고리 차 변별용 — id 해시로 안정적 변형 */
+function bgHash(str) {
+  let h = 0;
+  for (let i = 0; i < str.length; i += 1) h = (h * 31 + str.charCodeAt(i)) | 0;
+  return Math.abs(h);
+}
+
+function bgDeriveBodyStyle(id, track) {
+  if (/bike/.test(id)) return 'bike';
+  if (/bus/.test(id)) return 'bus';
+  if (/tanker|fuel_|water_tank|tank_/.test(id) || /_tank$/.test(id)) return 'tank';
+  if (/roller/.test(id)) return 'roller';
+  if (track) return 'crawler';
+  if (/ambulance|van|csi|command|icu|eod/.test(id)) return 'van';
+  if (/dump|carrier|transporter|garbage|rollback/.test(id)) return 'long';
+  if (/skid|police_patrol|patrol/.test(id)) return 'compact';
+  const styles = ['standard', 'long', 'tall', 'compact'];
+  return styles[bgHash(id) % styles.length];
+}
+
+function bgVaryGimmick(template, id, trim) {
+  const h = bgHash(id);
+  const slot = Object.assign({}, template.slot);
+  slot.x = Math.max(40, Math.min(58, slot.x + ((h % 7) - 3)));
+  slot.y = Math.max(6, Math.min(42, slot.y + ((h % 5) - 2)));
+  slot.w = Math.max(30, Math.min(52, slot.w + ((h % 5) - 2)));
+  const rotate = (template.rotate || 0) + ((h % 9) - 4);
+  return Object.assign({}, template, {
+    id: template.id || 'gimmick',
+    slot,
+    color: trim || template.color,
+    rotate,
+  });
+}
+
 const BG_GENERATED = BG_ROSTER_SEED.map(
   ([id, name, icon, category, color, trim, action, track]) => {
     const type = BG_ACTION_GIMMICK[action] || 'net';
@@ -174,12 +209,21 @@ const BG_GENERATED = BG_ROSTER_SEED.map(
       category,
       color,
       trim,
+      bodyStyle: bgDeriveBodyStyle(id, track),
       driver: BG_CATEGORY_DRIVER[category] || '🧑‍🔧',
       track: Boolean(track),
       sirenColor: BG_CATEGORY_SIREN[category] || '#f59e0b',
-      gimmick: Object.assign({}, template, { id: type }),
+      gimmick: bgVaryGimmick(
+        Object.assign({}, template, { id: type }),
+        id,
+        trim
+      ),
     };
   }
 );
+
+BG_FEATURED.forEach((v) => {
+  if (!v.bodyStyle) v.bodyStyle = bgDeriveBodyStyle(v.id, v.track);
+});
 
 const BG_ROSTER = BG_FEATURED.concat(BG_GENERATED);

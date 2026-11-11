@@ -1,0 +1,15 @@
+<svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+        <path class="part" data-part="tail" data-name="꼬리" d="M92 192 Q40 196 20 226 Q54 224 74 214 Q84 204 100 202 Z" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <path class="part" data-part="leg-back" data-name="뒷다리" d="M116 200 L110 252 Q110 264 122 264 L140 264 Q148 264 146 252 L142 200 Z" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <path class="part" data-part="leg-front" data-name="앞다리" d="M178 200 L172 252 Q172 264 184 264 L202 264 Q210 264 208 252 L204 200 Z" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <ellipse class="part" data-part="body" data-name="몸통" cx="156" cy="182" rx="72" ry="48" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <path class="part" data-part="neck" data-name="목" d="M190 166 Q216 104 220 58 L252 62 Q248 126 214 190 Z" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <ellipse class="part" data-part="head" data-name="머리" cx="244" cy="52" rx="30" ry="20" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <g class="part" data-part="spots" data-name="무늬" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round">
+          <circle cx="140" cy="166" r="8" /><circle cx="168" cy="156" r="6" /><circle cx="186" cy="180" r="7" /><circle cx="126" cy="192" r="6" />
+        </g>
+        <g class="fixed">
+          <g class="face"><circle cx="240" cy="46" r="7" fill="#fff" stroke="#3D2B1F" stroke-width="3" /><circle cx="241.12" cy="46" r="3.22" fill="#3D2B1F" /><circle cx="238.6" cy="44.18" r="1.26" fill="#fff" /><circle cx="256" cy="48" r="7" fill="#fff" stroke="#3D2B1F" stroke-width="3" /><circle cx="257.12" cy="48" r="3.22" fill="#3D2B1F" /><circle cx="254.6" cy="46.18" r="1.26" fill="#fff" /></g>
+          <path d="M238 60 Q246 66 254 60" fill="none" stroke="#3D2B1F" stroke-width="4" stroke-linecap="round" />
+        </g>
+      </svg>

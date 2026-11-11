@@ -1,0 +1,19 @@
+<svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+        <rect class="part" data-part="tower-mid" data-name="가운데 탑" x="112" y="128" width="76" height="140" rx="6" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <path class="part" data-part="roof-mid" data-name="가운데 지붕" d="M104 132 L150 62 L196 132 Z" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <rect class="part" data-part="tower-left" data-name="왼쪽 탑" x="52" y="162" width="56" height="106" rx="6" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <path class="part" data-part="roof-left" data-name="왼쪽 지붕" d="M46 166 L80 116 L114 166 Z" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <rect class="part" data-part="tower-right" data-name="오른쪽 탑" x="192" y="162" width="56" height="106" rx="6" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <path class="part" data-part="roof-right" data-name="오른쪽 지붕" d="M186 166 L220 116 L254 166 Z" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <path class="part" data-part="door" data-name="문" d="M136 268 L136 216 Q136 196 150 196 Q164 196 164 216 L164 268 Z" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <g class="part" data-part="windows" data-name="창문" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round">
+          <rect x="82" y="190" width="18" height="24" rx="8" />
+          <rect x="200" y="190" width="18" height="24" rx="8" />
+          <rect x="141" y="152" width="18" height="24" rx="8" />
+        </g>
+        <path class="part" data-part="flag" data-name="깃발" d="M150 62 L150 34 L184 42 L150 52 Z" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <g class="fixed">
+          <path d="M120 148 L120 250 M180 148 L180 250 M60 180 L60 250 M240 180 L240 250" stroke="#3D2B1F" stroke-width="2" opacity="0.22" />
+          <circle cx="150" cy="250" r="5" fill="#ffe144" stroke="#3D2B1F" stroke-width="2" />
+        </g>
+      </svg>

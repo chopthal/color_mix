@@ -1,0 +1,44 @@
+{
+  "items": [
+    {
+      "name": "car",
+      "outPath": "games/hangul/assets/car.webp",
+      "prompt": "Cute round toy car facing right, big friendly headlights like eyes, soft wheels, kid play vehicle, centered, single subject.",
+      "width": 128,
+      "height": 128,
+      "refs": []
+    },
+    {
+      "name": "stamp",
+      "outPath": "games/hangul/assets/stamp.webp",
+      "prompt": "Cute round rubber stamp mark like a star seal badge, soft orange and cream, no letters or numbers, centered.",
+      "width": 128,
+      "height": 128,
+      "refs": []
+    },
+    {
+      "name": "bg-classroom",
+      "outPath": "games/hangul/assets/bg-classroom.webp",
+      "prompt": "Soft kids classroom chalkboard surface, warm cream and light green chalk dust feel, empty board area in center, no writing, gentle school mood.",
+      "width": 768,
+      "height": 512,
+      "refs": []
+    },
+    {
+      "name": "bg-playground",
+      "outPath": "games/hangul/assets/bg-playground.webp",
+      "prompt": "Soft outdoor playground backdrop for kids, light blue sky and gentle green grass feel, empty open center space, no text, cheerful daytime.",
+      "width": 768,
+      "height": 512,
+      "refs": []
+    },
+    {
+      "name": "bg-ocean",
+      "outPath": "games/hangul/assets/bg-ocean.webp",
+      "prompt": "Soft ocean play backdrop for kids, gentle teal water and sandy cream tones, empty open center space, no text, calm sunny sea.",
+      "width": 768,
+      "height": 512,
+      "refs": []
+    }
+  ]
+}

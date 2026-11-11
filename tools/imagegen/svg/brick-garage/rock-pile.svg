@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 280" fill="none">
+  <!-- brick rock pile, short side 280 - stroke ~11 -->
+  <ellipse cx="160" cy="252" rx="110" ry="18" fill="#3D2B1F" opacity="0.12"/>
+  <!-- back row -->
+  <rect x="48" y="86" width="78" height="62" rx="14" fill="#A8B3C2" stroke="#3D2B1F" stroke-width="11" stroke-linejoin="round"/>
+  <ellipse cx="68" cy="100" rx="14" ry="8" fill="#FFF6E5" opacity="0.5"/>
+  <circle cx="72" cy="98" r="8" fill="#94A3B8" stroke="#3D2B1F" stroke-width="4"/>
+  <circle cx="96" cy="98" r="8" fill="#94A3B8" stroke="#3D2B1F" stroke-width="4"/>
+  <rect x="118" y="64" width="90" height="72" rx="16" fill="#CBD5E1" stroke="#3D2B1F" stroke-width="11" stroke-linejoin="round"/>
+  <ellipse cx="140" cy="80" rx="16" ry="9" fill="#FFF6E5" opacity="0.55"/>
+  <circle cx="144" cy="78" r="9" fill="#94A3B8" stroke="#3D2B1F" stroke-width="4"/>
+  <circle cx="170" cy="78" r="9" fill="#94A3B8" stroke="#3D2B1F" stroke-width="4"/>
+  <circle cx="196" cy="78" r="9" fill="#94A3B8" stroke="#3D2B1F" stroke-width="4"/>
+  <rect x="198" y="92" width="74" height="58" rx="14" fill="#94A3B8" stroke="#3D2B1F" stroke-width="11" stroke-linejoin="round"/>
+  <ellipse cx="216" cy="106" rx="12" ry="7" fill="#FFF6E5" opacity="0.5"/>
+  <circle cx="220" cy="104" r="8" fill="#64748B" stroke="#3D2B1F" stroke-width="4"/>
+  <circle cx="244" cy="104" r="8" fill="#64748B" stroke="#3D2B1F" stroke-width="4"/>
+  <!-- mid accent bricks -->
+  <rect x="72" y="128" width="70" height="54" rx="13" fill="#FFC94A" stroke="#3D2B1F" stroke-width="11" stroke-linejoin="round"/>
+  <ellipse cx="90" cy="142" rx="12" ry="7" fill="#FFF6E5" opacity="0.55"/>
+  <circle cx="94" cy="140" r="8" fill="#FF9F45" stroke="#3D2B1F" stroke-width="4"/>
+  <circle cx="118" cy="140" r="8" fill="#FF9F45" stroke="#3D2B1F" stroke-width="4"/>
+  <rect x="158" y="118" width="82" height="60" rx="14" fill="#7CC6FE" stroke="#3D2B1F" stroke-width="11" stroke-linejoin="round"/>
+  <ellipse cx="178" cy="134" rx="14" ry="8" fill="#FFF6E5" opacity="0.55"/>
+  <circle cx="182" cy="132" r="8" fill="#3BA4E6" stroke="#3D2B1F" stroke-width="4"/>
+  <circle cx="208" cy="132" r="8" fill="#3BA4E6" stroke="#3D2B1F" stroke-width="4"/>
+  <!-- front row -->
+  <rect x="36" y="168" width="88" height="66" rx="15" fill="#FF6B81" stroke="#3D2B1F" stroke-width="11" stroke-linejoin="round"/>
+  <ellipse cx="56" cy="184" rx="14" ry="8" fill="#FFF6E5" opacity="0.55"/>
+  <circle cx="60" cy="182" r="9" fill="#FFB3C1" stroke="#3D2B1F" stroke-width="4"/>
+  <circle cx="88" cy="182" r="9" fill="#FFB3C1" stroke="#3D2B1F" stroke-width="4"/>
+  <rect x="116" y="158" width="96" height="74" rx="16" fill="#7BD389" stroke="#3D2B1F" stroke-width="11" stroke-linejoin="round"/>
+  <ellipse cx="138" cy="176" rx="16" ry="9" fill="#FFF6E5" opacity="0.55"/>
+  <circle cx="142" cy="174" r="9" fill="#3FA34D" stroke="#3D2B1F" stroke-width="4"/>
+  <circle cx="168" cy="174" r="9" fill="#3FA34D" stroke="#3D2B1F" stroke-width="4"/>
+  <circle cx="194" cy="174" r="9" fill="#3FA34D" stroke="#3D2B1F" stroke-width="4"/>
+  <rect x="208" y="172" width="78" height="62" rx="14" fill="#A78BFA" stroke="#3D2B1F" stroke-width="11" stroke-linejoin="round"/>
+  <ellipse cx="226" cy="188" rx="12" ry="7" fill="#FFF6E5" opacity="0.5"/>
+  <circle cx="230" cy="186" r="8" fill="#7C6AD6" stroke="#3D2B1F" stroke-width="4"/>
+  <circle cx="254" cy="186" r="8" fill="#7C6AD6" stroke="#3D2B1F" stroke-width="4"/>
+</svg>

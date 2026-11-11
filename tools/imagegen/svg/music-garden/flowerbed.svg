@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 192" width="512" height="192" fill="none">
+  <!-- wooden planter box, empty of plants -->
+  <rect x="24" y="48" width="464" height="120" rx="28" ry="28"
+        fill="#B07A4F" stroke="#3D2B1F" stroke-width="8" stroke-linejoin="round"/>
+  <!-- front face darker -->
+  <path d="M40 92 H472 V148 C472 160 460 168 448 168 H64 C52 168 40 160 40 148 Z"
+        fill="#8E5F3A" opacity="0.55"/>
+  <!-- soil fill -->
+  <ellipse cx="256" cy="100" rx="210" ry="42" fill="#6B4A32"/>
+  <ellipse cx="256" cy="96" rx="200" ry="34" fill="#8B6342"/>
+  <!-- soft soil bumps -->
+  <ellipse cx="120" cy="96" rx="28" ry="12" fill="#6B4A32" opacity="0.35"/>
+  <ellipse cx="220" cy="90" rx="34" ry="14" fill="#6B4A32" opacity="0.28"/>
+  <ellipse cx="340" cy="94" rx="30" ry="12" fill="#6B4A32" opacity="0.32"/>
+  <ellipse cx="420" cy="98" rx="22" ry="10" fill="#6B4A32" opacity="0.3"/>
+  <!-- top rim highlight -->
+  <rect x="24" y="48" width="464" height="22" rx="14" ry="14"
+        fill="#D4A574" stroke="#3D2B1F" stroke-width="8" stroke-linejoin="round"/>
+  <ellipse cx="160" cy="56" rx="60" ry="6" fill="#FFF6E5" opacity="0.45"/>
+  <!-- wood grain hints -->
+  <path d="M70 130 Q140 122 200 132" stroke="#3D2B1F" stroke-width="3" opacity="0.2" stroke-linecap="round" fill="none"/>
+  <path d="M280 136 Q360 128 440 134" stroke="#3D2B1F" stroke-width="3" opacity="0.2" stroke-linecap="round" fill="none"/>
+</svg>

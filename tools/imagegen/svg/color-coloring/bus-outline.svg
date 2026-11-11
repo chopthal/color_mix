@@ -1,0 +1,16 @@
+<svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+        <rect class="part" data-part="body" data-name="차체" x="40" y="82" width="220" height="156" rx="26" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <rect class="part" data-part="stripe" data-name="띠" x="40" y="170" width="220" height="20" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <rect class="part" data-part="window1" data-name="창문" x="58" y="108" width="44" height="44" rx="8" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <rect class="part" data-part="window2" data-name="창문" x="112" y="108" width="44" height="44" rx="8" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <rect class="part" data-part="window3" data-name="창문" x="166" y="108" width="44" height="44" rx="8" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <rect class="part" data-part="door" data-name="문" x="216" y="108" width="30" height="96" rx="8" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <circle class="part" data-part="wheel1" data-name="바퀴" cx="92" cy="234" r="28" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <circle class="part" data-part="wheel2" data-name="바퀴" cx="208" cy="234" r="28" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <g class="fixed">
+          <circle cx="92" cy="234" r="11" fill="#cfd8e3" stroke="#3D2B1F" stroke-width="3" />
+          <circle cx="208" cy="234" r="11" fill="#cfd8e3" stroke="#3D2B1F" stroke-width="3" />
+          <rect x="222" y="140" width="18" height="6" rx="3" fill="#3D2B1F" />
+          <circle cx="246" cy="204" r="8" fill="#fff3a8" stroke="#3D2B1F" stroke-width="3" />
+        </g>
+      </svg>

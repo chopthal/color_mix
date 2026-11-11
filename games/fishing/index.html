@@ -8,6 +8,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="바다 낚시">
   <title>🎣 두근두근 바다 낚시 놀이</title>
+  <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../_shared/kit.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
@@ -31,6 +33,79 @@
       display: flex;
       flex-direction: column;
       position: relative;
+      transition: background 0.8s ease;
+    }
+
+    /* 시간대 배경 변주 (속도↑ 대신) */
+    body.theme-morning {
+      background: linear-gradient(180deg, #7dd3fc 0%, #38bdf8 45%, #0284c7 100%);
+    }
+    body.theme-noon {
+      background: linear-gradient(180deg, #3aa8f7 0%, #1572c8 50%, #0a4382 100%);
+    }
+    body.theme-afternoon {
+      background: linear-gradient(180deg, #67e8f9 0%, #0ea5e9 40%, #0369a1 100%);
+    }
+    body.theme-sunset {
+      background: linear-gradient(180deg, #fda4af 0%, #fb7185 35%, #7c3aed 70%, #1e3a8a 100%);
+    }
+    body.theme-night {
+      background: linear-gradient(180deg, #1e3a5f 0%, #0f2744 45%, #0b1324 100%);
+    }
+
+    .sea-bg-slot {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 0;
+      transition: opacity 0.6s ease;
+    }
+    .sea-bg-slot.visible {
+      opacity: 0.35;
+    }
+
+    .welcome-toast {
+      position: fixed;
+      top: max(72px, calc(env(safe-area-inset-top) + 64px));
+      left: 50%;
+      transform: translateX(-50%) translateY(-12px);
+      background: rgba(255, 250, 224, 0.96);
+      color: #92400e;
+      padding: 10px 18px;
+      border-radius: 22px;
+      border: 3px solid #fbbf24;
+      font-size: clamp(14px, 3.4vw, 18px);
+      font-weight: 800;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      z-index: 110;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s ease, transform 0.35s ease;
+      white-space: nowrap;
+      max-width: 92vw;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .welcome-toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .night-sparkle {
+      position: absolute;
+      pointer-events: none;
+      z-index: 3;
+      font-size: 14px;
+      animation: sparkle-twinkle 2.4s ease-in-out infinite;
+      opacity: 0.7;
+    }
+    @keyframes sparkle-twinkle {
+      0%, 100% { opacity: 0.25; transform: scale(0.8); }
+      50% { opacity: 0.9; transform: scale(1.15); }
     }
 
     /* 상단 네비게이션 & 미션 바 (HUD) */
@@ -159,22 +234,56 @@
       box-shadow: none;
     }
 
-    /* 진행도 (잡은 물고기 수) */
-    .score-badge {
-      background: #fffae0;
-      border: 2px solid #ffd43b;
-      padding: 6px 14px;
-      border-radius: 20px;
-      font-size: clamp(15px, 3.4vw, 20px);
-      font-weight: 800;
-      color: #e67700;
+    /* 진행도: 물고기 아이콘 슬롯 채우기 */
+    .progress-icons {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 4px;
+      background: #fffae0;
+      border: 2px solid #ffd43b;
+      padding: 5px 10px;
+      border-radius: 20px;
       box-shadow: 0 3px 0 #fcc419;
-      white-space: nowrap;
       flex: 0 0 auto;
       max-width: 100%;
+    }
+
+    .progress-slot {
+      width: clamp(22px, 5.5vw, 30px);
+      height: clamp(22px, 5.5vw, 30px);
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.7);
+      border: 2px dashed #fbbf24;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: clamp(12px, 3vw, 16px);
+      opacity: 0.45;
+      transition: transform 0.25s ease, opacity 0.25s ease, background 0.25s ease;
+    }
+
+    .progress-slot.filled {
+      opacity: 1;
+      background: #fff3bf;
+      border-style: solid;
+      border-color: #f59e0b;
+      transform: scale(1.08);
+      animation: slot-pop 0.35s ease-out;
+    }
+
+    @keyframes slot-pop {
+      0% { transform: scale(0.6); }
+      70% { transform: scale(1.2); }
+      100% { transform: scale(1.08); }
+    }
+
+    .asset-img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      pointer-events: none;
+      user-select: none;
     }
 
     /* 좁은 폭(320~430): HUD가 한 줄에 넘치지 않게 미션을 다음 줄로 */
@@ -216,10 +325,15 @@
         font-size: clamp(10px, 2.6vw, 12px);
       }
 
-      .score-badge {
-        padding: 5px 10px;
-        font-size: clamp(13px, 3.4vw, 17px);
-        gap: 4px;
+      .progress-icons {
+        padding: 4px 8px;
+        gap: 3px;
+      }
+
+      .progress-slot {
+        width: 22px;
+        height: 22px;
+        font-size: 12px;
       }
 
       .speak-mission-btn {
@@ -235,6 +349,17 @@
       position: relative;
       overflow: hidden;
       touch-action: none;
+      z-index: 1;
+    }
+
+    .aquarium-overlay.party .aquarium-box {
+      border-color: #fbbf24;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5), 0 0 40px rgba(251, 191, 36, 0.45), inset 0 0 40px rgba(255, 255, 255, 0.15);
+      animation: party-glow 1.2s ease-in-out infinite alternate;
+    }
+    @keyframes party-glow {
+      0% { filter: brightness(1); }
+      100% { filter: brightness(1.08); }
     }
 
     .sun-rays {
@@ -771,16 +896,17 @@
       </div>
     </div>
 
-    <!-- 점수 / 진행 -->
-    <div class="score-badge" id="scoreBadge">
-      <span>⭐</span>
-      <span id="scoreText">0 / 3</span>
-    </div>
+    <!-- 진행: 물고기 아이콘 채우기 -->
+    <div class="progress-icons" id="progressIcons" aria-label="잡은 물고기 진행"></div>
   </header>
+
+  <div class="welcome-toast" id="welcomeToast" role="status">어항 친구들이 반겨요! 🫧</div>
 
   <!-- 바닷속 플레이 공간 -->
   <main class="sea-container" id="seaArea">
-    <div class="sun-rays"></div>
+    <img class="sea-bg-slot" id="seaBgSlot" alt="" aria-hidden="true">
+    <div class="sun-rays" id="sunRays"></div>
+    <div id="nightSparkles" aria-hidden="true"></div>
     <div id="bgCreaturesGroup"></div>
     <div class="sea-floor"></div>
 
@@ -821,7 +947,59 @@
     </div>
   </div>
 
+  <script src="../_shared/kit.js"></script>
   <script>
+    // ==========================================
+    // 0. KidsKit 저장·에셋 슬롯 (파일 없으면 SVG 폴백)
+    // ==========================================
+    const fishStore = (window.KidsKit && KidsKit.store)
+      ? KidsKit.store('fishing')
+      : { get: (_k, fb) => fb, set: () => false, update: (_k, u, fb) => (typeof u === 'function' ? u(fb) : u) };
+
+    const ASSET_SLOTS = [
+      { key: 'bg-morning', src: 'assets/bg-morning.webp' },
+      { key: 'bg-noon', src: 'assets/bg-noon.webp' },
+      { key: 'bg-afternoon', src: 'assets/bg-afternoon.webp' },
+      { key: 'bg-sunset', src: 'assets/bg-sunset.webp' },
+      { key: 'bg-night', src: 'assets/bg-night.webp' },
+      { key: 'puffer', src: 'assets/fish-puffer.webp' },
+      { key: 'clownfish', src: 'assets/fish-clownfish.webp' },
+      { key: 'bluetang', src: 'assets/fish-bluetang.webp' },
+      { key: 'angelfish', src: 'assets/fish-angelfish.webp' },
+      { key: 'greenfish', src: 'assets/fish-greenfish.webp' },
+      { key: 'golden', src: 'assets/fish-golden.webp' },
+      { key: 'octopus', src: 'assets/baby-octopus.webp' },
+      { key: 'whale', src: 'assets/baby-whale.webp' },
+      { key: 'turtle', src: 'assets/sea-turtle.webp' },
+      { key: 'dolphin', src: 'assets/dolphin.webp' },
+      { key: 'net', src: 'assets/fishing-net.webp' }
+    ];
+
+    let assetImages = {};
+
+    function isUsableAsset(img) {
+      return !!(img && img.dataset && img.dataset.kidsKitPlaceholder !== '1' && img.naturalWidth > 0);
+    }
+
+    function assetMarkup(key, fallbackSvg) {
+      const img = assetImages[key];
+      if (isUsableAsset(img)) {
+        return `<img class="asset-img" src="${img.src}" alt="" draggable="false">`;
+      }
+      return fallbackSvg;
+    }
+
+    function preloadGameAssets() {
+      if (!window.KidsKit || !KidsKit.assets || !KidsKit.assets.preload) {
+        return Promise.resolve();
+      }
+      return KidsKit.assets.preload(ASSET_SLOTS).then((result) => {
+        assetImages = result.images || {};
+      }).catch(() => {
+        assetImages = {};
+      });
+    }
+
     // ==========================================
     // 1. 진동(햅틱) 헬퍼 - 안드로이드 완벽 지원, iOS 안전 무시
     // ==========================================
@@ -954,6 +1132,25 @@
         osc.start(t);
         osc.stop(t + item.d + 0.05);
         t += item.d;
+      });
+    }
+
+    // 돌고래 폴짝 사운드
+    function playDolphinSound() {
+      resumeAudio();
+      const notes = [660, 880, 990];
+      notes.forEach((freq, idx) => {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        const start = audioCtx.currentTime + idx * 0.07;
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, start);
+        gain.gain.setValueAtTime(0.22, start);
+        gain.gain.exponentialRampToValueAtTime(0.001, start + 0.18);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(start);
+        osc.stop(start + 0.2);
       });
     }
 
@@ -1209,8 +1406,22 @@
       </svg>
     `;
 
+    // 발견 레이어: 돌고래 SVG 🐬 (4단계 이후)
+    const DOLPHIN_SVG = `
+      <svg viewBox="0 0 150 90" xmlns="http://www.w3.org/2000/svg">
+        <path d="M118 48 Q145 28 142 12 Q128 40 118 48 Q132 52 145 78 Q142 62 118 48 Z" fill="#64b5f6" stroke="#1565c0" stroke-width="2.5" />
+        <ellipse cx="70" cy="50" rx="52" ry="26" fill="#90caf9" stroke="#1565c0" stroke-width="3" />
+        <path d="M55 28 Q70 8 88 26" fill="#64b5f6" stroke="#1565c0" stroke-width="2.5" />
+        <ellipse cx="58" cy="62" rx="16" ry="7" fill="#64b5f6" stroke="#1565c0" stroke-width="2" transform="rotate(18 58 62)" />
+        <circle cx="36" cy="46" r="4.5" fill="#0d47a1" />
+        <circle cx="35" cy="44.5" r="1.5" fill="#fff" />
+        <path d="M22 52 Q30 60 40 54" stroke="#0d47a1" stroke-width="2.2" fill="none" stroke-linecap="round" />
+        <ellipse cx="48" cy="56" rx="5" ry="3" fill="#ffab91" opacity="0.85" />
+      </svg>
+    `;
+
     // ==========================================
-    // 4. 점진적 난이도 5단계 스테이지 정의
+    // 4. 5단계 스테이지 — 변주=시간대·친구, 속도는 완만
     // ==========================================
     const STAGES = [
       {
@@ -1221,12 +1432,14 @@
         sub: '느리고 커다란 복어를 잡아보아요!',
         speakPrompt: '느리고 커다란 노란색 통통 복어를 잡아보세요!',
         goal: 3,
-        speedMult: 0.75, // 매우 느림
-        sizeMult: 1.3,   // 큼직해서 터치 쉬움
+        speedMult: 0.8,
+        sizeMult: 1.3,
+        timeTheme: 'morning',
         unlockedIds: ['puffer'],
         allowGolden: false,
         allowOctopus: false,
-        nextMsg: '우와! 복어를 모두 잡았어요! 이번엔 살랑살랑 헤엄치는 주황 물고기(니모)가 찾아왔어요!'
+        allowDolphin: false,
+        nextMsg: '우와! 복어를 모두 잡았어요! 이번엔 살랑살랑 헤엄치는 주황 물고기가 찾아왔어요!'
       },
       {
         level: 2,
@@ -1236,12 +1449,14 @@
         sub: '살랑살랑 헤엄치는 주황 물고기를 잡아요!',
         speakPrompt: '살랑살랑 주황색 줄무늬 물고기를 잡아보세요!',
         goal: 3,
-        speedMult: 1.0,
+        speedMult: 0.9,
         sizeMult: 1.1,
+        timeTheme: 'noon',
         unlockedIds: ['puffer', 'clownfish'],
-        allowGolden: true, // 황금 물고기 첫 출몰!
+        allowGolden: true,
         allowOctopus: false,
-        nextMsg: '멋져요! 이번엔 물결을 타며 빠르게 헤엄치는 파란 동글 물고기가 합류했어요!'
+        allowDolphin: false,
+        nextMsg: '멋져요! 이번엔 오후 바다에 파란 동글 물고기가 합류했어요!'
       },
       {
         level: 3,
@@ -1251,42 +1466,48 @@
         sub: '물결을 타는 파란색 물고기를 잡아요!',
         speakPrompt: '물결을 타는 파란색 동글이 물고기를 잡아보세요!',
         goal: 4,
-        speedMult: 1.25,
+        speedMult: 1.0,
         sizeMult: 1.0,
+        timeTheme: 'afternoon',
         unlockedIds: ['puffer', 'clownfish', 'bluetang'],
         allowGolden: true,
-        allowOctopus: true, // 아기 문어 첫 출몰!
-        nextMsg: '대단해요! 이번엔 날개 달린 예쁜 엔젤피쉬가 나타났어요!'
+        allowOctopus: true,
+        allowDolphin: false,
+        nextMsg: '대단해요! 노을 바다에 예쁜 엔젤피쉬가 나타났어요!'
       },
       {
         level: 4,
         name: '4단계 💖',
         targetId: 'angelfish',
         title: '분홍 날개 엔젤피쉬',
-        sub: '빠르게 헤엄치는 예쁜 엔젤피쉬를 잡아요!',
-        speakPrompt: '빠르게 헤엄치는 분홍색 날개 엔젤피쉬를 잡아보세요!',
+        sub: '노을 바다의 예쁜 엔젤피쉬를 잡아요!',
+        speakPrompt: '노을 바다의 분홍색 날개 엔젤피쉬를 잡아보세요!',
         goal: 4,
-        speedMult: 1.45,
-        sizeMult: 0.95,
+        speedMult: 1.05,
+        sizeMult: 0.98,
+        timeTheme: 'sunset',
         unlockedIds: ['puffer', 'clownfish', 'bluetang', 'angelfish', 'greenfish'],
         allowGolden: true,
         allowOctopus: true,
-        nextMsg: '최고예요! 온 바다 친구들이 모두 모여 대축제를 열어요!'
+        allowDolphin: true,
+        nextMsg: '최고예요! 반짝 밤바다에서 친구들과 대축제를 열어요!'
       },
       {
         level: 5,
         name: '5단계 🌊',
         targetId: 'all',
         title: '신나는 바다 대축제!',
-        sub: '바닷속 모든 물고기를 자유롭게 잡아보아요!',
-        speakPrompt: '신나는 바다 대축제! 마음에 드는 물고기를 자유롭게 잡아보세요!',
+        sub: '밤바다 친구들을 자유롭게 잡아보아요!',
+        speakPrompt: '신나는 밤바다 축제! 마음에 드는 물고기를 자유롭게 잡아보세요!',
         goal: 5,
-        speedMult: 1.5,
+        speedMult: 1.1,
         sizeMult: 1.0,
+        timeTheme: 'night',
         unlockedIds: ['puffer', 'clownfish', 'bluetang', 'angelfish', 'greenfish'],
         allowGolden: true,
         allowOctopus: true,
-        nextMsg: '바다 낚시 마스터 달성! 👑 내 어항에서 친구들과 놀아보아요!'
+        allowDolphin: true,
+        nextMsg: '수족관 파티가 시작돼요! 🫧'
       }
     ];
 
@@ -1301,6 +1522,8 @@
     let animationFrameId = null;
     let caughtFishHistory = []; // 지금까지 잡은 물고기들 (수족관용)
     let catchInputLocked = false; // 목표 도달 직후 추가 잡기 방지
+    let softEndingShown = false;
+    let partyMode = false;
 
     // DOM 참조
     const seaArea = document.getElementById('seaArea');
@@ -1308,7 +1531,10 @@
     const missionSub = document.getElementById('missionSub');
     const targetFishGraphic = document.getElementById('targetFishGraphic');
     const targetFishName = document.getElementById('targetFishName');
-    const scoreText = document.getElementById('scoreText');
+    const progressIcons = document.getElementById('progressIcons');
+    const welcomeToast = document.getElementById('welcomeToast');
+    const seaBgSlot = document.getElementById('seaBgSlot');
+    const nightSparkles = document.getElementById('nightSparkles');
     const successModal = document.getElementById('successModal');
     const successTitle = document.getElementById('successTitle');
     const successDesc = document.getElementById('successDesc');
@@ -1325,6 +1551,82 @@
     const aquariumTank = document.getElementById('aquariumTank');
     const closeAquariumBtn = document.getElementById('closeAquariumBtn');
     const aquariumTotalCount = document.getElementById('aquariumTotalCount');
+
+    function speciesById(id) {
+      if (id === 'golden') return GOLDEN_FISH;
+      if (id === 'octopus') return BABY_OCTOPUS;
+      return FISH_SPECIES.find((s) => s.id === id) || null;
+    }
+
+    function speciesVisual(species) {
+      if (!species) return '';
+      return assetMarkup(species.id, species.svg);
+    }
+
+    function saveAquarium() {
+      const ids = caughtFishHistory
+        .map((s) => s && s.id)
+        .filter(Boolean)
+        .slice(-24);
+      fishStore.set('aquarium', ids);
+    }
+
+    function loadAquariumFromStore() {
+      const ids = fishStore.get('aquarium', []);
+      if (!Array.isArray(ids) || ids.length === 0) return [];
+      return ids.map(speciesById).filter(Boolean);
+    }
+
+    function showWelcomeToast(message) {
+      if (!welcomeToast) return;
+      welcomeToast.textContent = message;
+      welcomeToast.classList.add('show');
+      setTimeout(() => welcomeToast.classList.remove('show'), 3200);
+    }
+
+    function applyTimeTheme(theme) {
+      const themes = ['morning', 'noon', 'afternoon', 'sunset', 'night'];
+      themes.forEach((t) => document.body.classList.remove('theme-' + t));
+      document.body.classList.add('theme-' + (theme || 'noon'));
+
+      if (seaBgSlot) {
+        const key = 'bg-' + (theme || 'noon');
+        const img = assetImages[key];
+        if (isUsableAsset(img)) {
+          seaBgSlot.src = img.src;
+          seaBgSlot.classList.add('visible');
+        } else {
+          seaBgSlot.removeAttribute('src');
+          seaBgSlot.classList.remove('visible');
+        }
+      }
+
+      if (nightSparkles) {
+        nightSparkles.innerHTML = '';
+        if (theme === 'night') {
+          for (let i = 0; i < 10; i++) {
+            const s = document.createElement('div');
+            s.className = 'night-sparkle';
+            s.textContent = i % 2 === 0 ? '✨' : '⭐';
+            s.style.left = `${8 + Math.random() * 84}%`;
+            s.style.top = `${6 + Math.random() * 55}%`;
+            s.style.animationDelay = `${Math.random() * 2}s`;
+            nightSparkles.appendChild(s);
+          }
+        }
+      }
+    }
+
+    function rebuildBowlIcons() {
+      if (!bowlWater) return;
+      bowlWater.innerHTML = '';
+      caughtFishHistory.slice(-8).forEach((sp) => {
+        const mini = document.createElement('span');
+        mini.className = 'bowl-icon';
+        mini.textContent = (sp && sp.icon) || '🐟';
+        bowlWater.appendChild(mini);
+      });
+    }
 
     // TTS 읽어주기
     function speakText(text) {
@@ -1413,12 +1715,13 @@
       net.className = 'fishing-net';
       net.style.left = `${x}px`;
       net.style.top = `${y}px`;
-      net.innerHTML = `
+      const netFallback = `
         <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
           <circle cx="36" cy="36" r="28" fill="rgba(255,255,255,0.4)" stroke="#ff7043" stroke-width="4" stroke-dasharray="4,4" />
           <line x1="56" y1="56" x2="78" y2="78" stroke="#8d6e63" stroke-width="6" stroke-linecap="round" />
         </svg>
       `;
+      net.innerHTML = assetMarkup('net', netFallback);
       seaArea.appendChild(net);
       setTimeout(() => net.remove(), 500);
     }
@@ -1434,7 +1737,7 @@
       flyer.style.height = '42px';
       flyer.style.left = `${startX - 30}px`;
       flyer.style.top = `${startY - 21}px`;
-      flyer.innerHTML = species.svg;
+      flyer.innerHTML = speciesVisual(species);
       document.body.appendChild(flyer);
 
       requestAnimationFrame(() => {
@@ -1477,13 +1780,14 @@
     // ==========================================
     class BgCreature {
       constructor(type) {
-        this.type = type; // 'whale' | 'turtle'
+        this.type = type; // 'whale' | 'turtle' | 'dolphin'
         const bounds = seaArea.getBoundingClientRect();
         this.dir = Math.random() > 0.5 ? 1 : -1;
-        this.speed = (type === 'whale' ? 0.75 : 0.9) * this.dir;
+        const base = type === 'whale' ? 0.7 : (type === 'dolphin' ? 1.05 : 0.85);
+        this.speed = base * this.dir;
 
-        this.width = type === 'whale' ? 160 : 130;
-        this.height = type === 'whale' ? 100 : 90;
+        this.width = type === 'whale' ? 160 : (type === 'dolphin' ? 150 : 130);
+        this.height = type === 'whale' ? 100 : (type === 'dolphin' ? 90 : 90);
         this.x = this.dir === 1 ? -this.width - 40 : bounds.width + 40;
         this.y = Math.random() * (bounds.height - 240) + 40;
         this.wave = Math.random() * Math.PI * 2;
@@ -1492,7 +1796,13 @@
         this.el.className = 'bg-creature';
         this.el.style.width = `${this.width}px`;
         this.el.style.height = `${this.height}px`;
-        this.el.innerHTML = type === 'whale' ? BABY_WHALE_SVG : SEA_TURTLE_SVG;
+        if (type === 'whale') {
+          this.el.innerHTML = assetMarkup('whale', BABY_WHALE_SVG);
+        } else if (type === 'dolphin') {
+          this.el.innerHTML = assetMarkup('dolphin', DOLPHIN_SVG);
+        } else {
+          this.el.innerHTML = assetMarkup('turtle', SEA_TURTLE_SVG);
+        }
 
         this.el.addEventListener('pointerdown', (e) => this.onInteract(e));
         bgCreaturesGroup.appendChild(this.el);
@@ -1500,8 +1810,9 @@
 
       update(width) {
         this.x += this.speed;
-        this.wave += 0.02;
-        const currentY = this.y + Math.sin(this.wave) * 15;
+        this.wave += this.type === 'dolphin' ? 0.035 : 0.02;
+        const amp = this.type === 'dolphin' ? 28 : 15;
+        const currentY = this.y + Math.sin(this.wave) * amp;
         const flip = this.dir === -1 ? 'scaleX(-1)' : 'scaleX(1)';
         this.el.style.transform = `translate3d(${this.x}px, ${currentY}px, 0) ${flip}`;
 
@@ -1513,29 +1824,42 @@
       onInteract(e) {
         e.stopPropagation();
         triggerHaptic('light');
+        const theme = STAGES[currentStageIdx].timeTheme;
 
         if (this.type === 'whale') {
           playWhaleSound();
-
-          // 무지개 물분수 발사 🌈 💦
           const fountain = document.createElement('div');
           fountain.className = 'fountain-spray';
           fountain.style.left = `${this.x + (this.dir === 1 ? this.width * 0.45 : this.width * 0.55)}px`;
           fountain.style.top = `${this.y + 15}px`;
-          fountain.innerHTML = '🌊 🌈 ✨ 💖';
+          fountain.innerHTML = theme === 'night' ? '✨ 🌊 💖' : '🌊 🌈 ✨ 💖';
           seaArea.appendChild(fountain);
           setTimeout(() => fountain.remove(), 1300);
-
           this.speed *= 1.8;
-          speakText('뿌우우-! 아기 고래가 물분수를 뿜었어요!');
+          speakText(theme === 'sunset' ? '노을 바다 고래가 뿌우우-!' : '뿌우우-! 아기 고래가 물분수를 뿜었어요!');
+        } else if (this.type === 'dolphin') {
+          playDolphinSound();
+          for (let i = 0; i < 7; i++) {
+            const b = document.createElement('div');
+            b.className = 'particle';
+            b.textContent = i % 2 === 0 ? '💖' : '✨';
+            b.style.left = `${e.clientX}px`;
+            b.style.top = `${e.clientY}px`;
+            const angle = (Math.PI * 2 / 7) * i;
+            b.style.setProperty('--dx', `${Math.cos(angle) * 55}px`);
+            b.style.setProperty('--dy', `${Math.sin(angle) * 55 - 20}px`);
+            document.body.appendChild(b);
+            setTimeout(() => b.remove(), 650);
+          }
+          this.y -= 18;
+          this.speed *= 1.6;
+          speakText('폴짝! 돌고래가 인사해요!');
         } else {
           playTurtleSound();
-
-          // 거품 퐁퐁 뿜기 🫧
           for (let i = 0; i < 6; i++) {
             const b = document.createElement('div');
             b.className = 'particle';
-            b.textContent = '🫧';
+            b.textContent = theme === 'morning' ? '☀️' : '🫧';
             b.style.left = `${e.clientX}px`;
             b.style.top = `${e.clientY}px`;
             const angle = (Math.PI * 2 / 6) * i;
@@ -1544,8 +1868,10 @@
             document.body.appendChild(b);
             setTimeout(() => b.remove(), 600);
           }
-
           this.speed *= 2.0;
+          if (theme === 'afternoon') {
+            speakText('거북이가 천천히 인사해요!');
+          }
         }
       }
 
@@ -1557,7 +1883,15 @@
     }
 
     let activeBgCreature = null;
-    let nextCreatureTimer = 8000; // 8초 뒤 첫 등장
+    let nextCreatureTimer = 7000;
+
+    function pickBgCreatureType() {
+      const stage = STAGES[currentStageIdx];
+      const roll = Math.random();
+      if (stage.allowDolphin && roll > 0.62) return 'dolphin';
+      if (roll > 0.5) return 'whale';
+      return 'turtle';
+    }
 
     function checkBgCreature(delta) {
       if (activeBgCreature) {
@@ -1566,13 +1900,12 @@
         if (!alive) {
           activeBgCreature.destroy();
           activeBgCreature = null;
-          nextCreatureTimer = Math.random() * 10000 + 12000; // 12~22초 뒤 재출현
+          nextCreatureTimer = Math.random() * 9000 + 9000;
         }
       } else {
         nextCreatureTimer -= delta;
         if (nextCreatureTimer <= 0) {
-          const type = Math.random() > 0.5 ? 'whale' : 'turtle';
-          activeBgCreature = new BgCreature(type);
+          activeBgCreature = new BgCreature(pickBgCreatureType());
         }
       }
     }
@@ -1608,7 +1941,7 @@
         this.el.className = 'fish-swimmer';
         this.el.style.width = `${this.width}px`;
         this.el.style.height = `${this.height}px`;
-        this.el.innerHTML = species.svg;
+        this.el.innerHTML = speciesVisual(species);
 
         this.el.addEventListener('pointerdown', (e) => this.onInteract(e));
         seaArea.appendChild(this.el);
@@ -1645,6 +1978,7 @@
 
           // 수족관 기록에 추가! ⭐
           caughtFishHistory.push(this.species);
+          saveAquarium();
 
           currentScore++;
           updateScoreDisplay();
@@ -1670,9 +2004,10 @@
           flyFishToBowl(e.clientX, e.clientY, this.species);
 
           caughtFishHistory.push(this.species);
+          saveAquarium();
           currentScore++;
           updateScoreDisplay();
-          speakText('대박! 황금 물고기를 잡았어요!');
+          speakText('반짝! 황금 물고기를 잡았어요!');
 
           this.el.remove();
           this.destroy();
@@ -1718,7 +2053,18 @@
     }
 
     function updateScoreDisplay() {
-      scoreText.textContent = `${currentScore} / ${targetGoal}`;
+      if (!progressIcons) return;
+      const stage = STAGES[currentStageIdx];
+      const icon = (currentTarget && currentTarget.icon) || (stage && stage.targetId === 'all' ? '🐠' : '🐟');
+      progressIcons.innerHTML = '';
+      for (let i = 0; i < targetGoal; i++) {
+        const slot = document.createElement('div');
+        slot.className = 'progress-slot' + (i < currentScore ? ' filled' : '');
+        slot.textContent = i < currentScore ? icon : '○';
+        slot.setAttribute('aria-hidden', 'true');
+        progressIcons.appendChild(slot);
+      }
+      progressIcons.setAttribute('aria-label', `잡은 물고기 ${currentScore}분의 ${targetGoal}`);
     }
 
     // 물고기 스폰 제어 (스테이지별 잠금 해제 반영)
@@ -1826,13 +2172,17 @@
     });
 
     function startStage(stageIdx) {
-      currentStageIdx = stageIdx % STAGES.length;
+      currentStageIdx = ((stageIdx % STAGES.length) + STAGES.length) % STAGES.length;
       const stage = STAGES[currentStageIdx];
 
       successModal.classList.remove('active');
+      aquariumModal.classList.remove('party');
+      partyMode = false;
+      softEndingShown = false;
       catchInputLocked = false;
       currentScore = 0;
       targetGoal = stage.goal;
+      applyTimeTheme(stage.timeTheme);
       updateScoreDisplay();
 
       // 상단 HUD 업데이트
@@ -1849,7 +2199,7 @@
         currentTarget = null;
       } else {
         currentTarget = FISH_SPECIES.find(s => s.id === stage.targetId);
-        targetFishGraphic.innerHTML = currentTarget.svg;
+        targetFishGraphic.innerHTML = speciesVisual(currentTarget);
         targetFishName.textContent = currentTarget.name;
       }
 
@@ -1863,6 +2213,12 @@
       });
       activeFishList = [];
 
+      if (activeBgCreature) {
+        activeBgCreature.destroy();
+        activeBgCreature = null;
+      }
+      nextCreatureTimer = stage.allowDolphin ? 5000 : 8000;
+
       const bounds = seaArea.getBoundingClientRect();
       const initialCount = Math.min(8, Math.max(5, Math.floor(bounds.width / 130)));
       for (let i = 0; i < initialCount; i++) {
@@ -1871,23 +2227,48 @@
       }
     }
 
+    function showAquariumPartyEnding() {
+      if (softEndingShown) return;
+      softEndingShown = true;
+      saveAquarium();
+      openAquarium({ party: true });
+      speakText('수족관 파티예요! 친구들이 기뻐해요!');
+
+      setTimeout(() => {
+        if (!window.KidsKit || !KidsKit.softEnding) return;
+        KidsKit.softEnding({
+          title: '수족관 파티 끝! 다음에 또 놀자',
+          emoji: '🫧🐠✨',
+          onAgain: () => {
+            closeAquarium();
+            startStage(0);
+          },
+          onRest: () => {
+            window.location.href = '../../index.html';
+          }
+        });
+      }, 2200);
+    }
+
     function showVictory() {
       playFanfare();
       triggerHaptic('bonus');
+      saveAquarium();
 
       const stage = STAGES[currentStageIdx];
       const isLastStage = currentStageIdx >= STAGES.length - 1;
 
-      successTitle.textContent = `${stage.name} 완료! 🎉`;
-      successDesc.textContent = stage.nextMsg;
-      successEmoji.textContent = '🎉 🏆 🐠 🫧';
-
       if (isLastStage) {
-        btnNextRound.textContent = '신나는 바다 축제 계속하기! 🎣';
-      } else {
-        const nextStage = STAGES[currentStageIdx + 1];
-        btnNextRound.textContent = `${nextStage.name} 하러 가기! ➜`;
+        showAquariumPartyEnding();
+        return;
       }
+
+      successTitle.textContent = `${stage.name} 완료!`;
+      successDesc.textContent = stage.nextMsg;
+      successEmoji.textContent = '🎉 🐠 🫧';
+
+      const nextStage = STAGES[currentStageIdx + 1];
+      btnNextRound.textContent = `${nextStage.name} 하러 가기! ➜`;
 
       successModal.classList.add('active');
       speakText(`우와! ${stage.name}를 멋지게 클리어했어요!`);
@@ -1916,7 +2297,7 @@
         this.el.className = 'aquarium-fish';
         this.el.style.width = `${this.width}px`;
         this.el.style.height = `${this.height}px`;
-        this.el.innerHTML = species.svg;
+        this.el.innerHTML = speciesVisual(species);
 
         // 콕콕 찌르면 간지럼 타며 뾱 튀어오름!
         this.el.addEventListener('pointerdown', (e) => {
@@ -1931,7 +2312,7 @@
           // 하트 뿅
           const heart = document.createElement('div');
           heart.className = 'particle';
-          heart.textContent = '💖';
+          heart.textContent = partyMode ? '🎉' : '💖';
           heart.style.left = `${e.clientX}px`;
           heart.style.top = `${e.clientY}px`;
           heart.style.setProperty('--dx', '0px');
@@ -2007,9 +2388,17 @@
     let aquariumFoodList = [];
     let aquariumAnimId = null;
 
-    function openAquarium() {
+    function openAquarium(opts) {
+      opts = opts || {};
+      partyMode = !!opts.party;
       aquariumModal.classList.add('active');
-      aquariumTank.innerHTML = '<div class="aquarium-hint">👆 화면을 톡톡 누르면 별사탕 밥을 줄 수 있어요! 🍩</div>';
+      if (partyMode) aquariumModal.classList.add('party');
+      else aquariumModal.classList.remove('party');
+
+      const hint = partyMode
+        ? '🎉 수족관 파티! 친구를 톡톡 건드려 보아요!'
+        : '👆 화면을 톡톡 누르면 별사탕 밥을 줄 수 있어요! 🍩';
+      aquariumTank.innerHTML = `<div class="aquarium-hint">${hint}</div>`;
       aquariumFishList = [];
       aquariumFoodList = [];
 
@@ -2018,17 +2407,21 @@
       const tankHeight = rect.height || 300;
 
       // 지금까지 잡은 물고기들 (최대 14마리까지 전시)
-      const listToDisplay = caughtFishHistory.length > 0 
+      const listToDisplay = caughtFishHistory.length > 0
         ? caughtFishHistory.slice(-14)
-        : [FISH_SPECIES[0], FISH_SPECIES[1]]; // 아직 안 잡았으면 귀여운 2마리 기본 전시
+        : [FISH_SPECIES[0], FISH_SPECIES[1]];
 
-      aquariumTotalCount.textContent = `지금까지 잡은 물고기: ${caughtFishHistory.length}마리 🏆`;
+      aquariumTotalCount.textContent = partyMode
+        ? `파티 중인 친구 ${listToDisplay.length}마리 🎉`
+        : `지금까지 잡은 물고기: ${caughtFishHistory.length}마리`;
 
       listToDisplay.forEach(sp => {
         aquariumFishList.push(new AquariumSwimmer(sp, tankWidth, tankHeight));
       });
 
-      speakText('나의 반짝반짝 수족관이에요! 화면을 눌러 맛있는 밥을 주어 보세요!');
+      speakText(partyMode
+        ? '수족관 파티예요! 친구들이 기뻐해요!'
+        : '나의 반짝반짝 수족관이에요! 화면을 눌러 맛있는 밥을 주어 보세요!');
 
       if (aquariumAnimId) cancelAnimationFrame(aquariumAnimId);
       aquariumLoop();
@@ -2036,6 +2429,8 @@
 
     function closeAquarium() {
       aquariumModal.classList.remove('active');
+      aquariumModal.classList.remove('party');
+      partyMode = false;
       if (aquariumAnimId) cancelAnimationFrame(aquariumAnimId);
       aquariumFishList.forEach(f => f.destroy());
       aquariumFishList = [];
@@ -2103,9 +2498,42 @@
     // ==========================================
     // 12. 게임 초기화 및 시작
     // ==========================================
-    initBubbles();
-    startStage(0);
-    requestAnimationFrame(gameLoop);
+    function greetReturningFriends() {
+      const saved = loadAquariumFromStore();
+      const visits = fishStore.get('visits', 0) || 0;
+      fishStore.set('visits', visits + 1);
+
+      if (saved.length > 0) {
+        caughtFishHistory = saved.slice();
+        rebuildBowlIcons();
+        fishBowl.classList.add('bounce-bowl');
+        showWelcomeToast('어항 친구들이 반겨요! 🫧');
+        // 미션 TTS(약 0.5s) 뒤에 반김 — 겹침 방지
+        setTimeout(() => {
+          speakText('어서 와! 어항 친구들이 반겨요!');
+        }, 2600);
+      }
+    }
+
+    function bootGame() {
+      if (window.KidsKit && KidsKit.restButton) {
+        KidsKit.restButton({
+          // 오른쪽 아래는 '내 어항' 버튼 자리 → 왼쪽 아래 빈 물가로 옮긴다
+          position: 'bl',
+          onRest: () => {
+            saveAquarium();
+            window.location.href = '../../index.html';
+          }
+        });
+      }
+
+      initBubbles();
+      greetReturningFriends();
+      startStage(0);
+      requestAnimationFrame(gameLoop);
+    }
+
+    preloadGameAssets().then(bootGame).catch(bootGame);
   </script>
 </body>
 </html>

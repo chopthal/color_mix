@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" fill="none">
+  <!-- cute cotton-candy spider web fluff -->
+  <ellipse cx="80" cy="148" rx="46" ry="8" fill="#3D2B1F" opacity="0.12"/>
+  <!-- soft fluff blobs -->
+  <circle cx="52" cy="70" r="34" fill="#FFB3C1" stroke="#3D2B1F" stroke-width="6.5" stroke-linejoin="round"/>
+  <circle cx="108" cy="70" r="34" fill="#FFB3C1" stroke="#3D2B1F" stroke-width="6.5" stroke-linejoin="round"/>
+  <circle cx="80" cy="100" r="40" fill="#FFF6E5" stroke="#3D2B1F" stroke-width="6.5" stroke-linejoin="round"/>
+  <circle cx="80" cy="58" r="30" fill="#FF6B81" stroke="#3D2B1F" stroke-width="6" stroke-linejoin="round"/>
+  <ellipse cx="64" cy="48" rx="14" ry="9" fill="#FFF6E5" opacity="0.55"/>
+  <!-- soft web threads (round, not sharp) -->
+  <path d="M50 88 Q80 78 110 88" stroke="#A78BFA" stroke-width="4" stroke-linecap="round" fill="none" opacity="0.7"/>
+  <path d="M56 104 Q80 96 104 104" stroke="#A78BFA" stroke-width="4" stroke-linecap="round" fill="none" opacity="0.7"/>
+  <path d="M62 118 Q80 112 98 118" stroke="#A78BFA" stroke-width="3.5" stroke-linecap="round" fill="none" opacity="0.65"/>
+  <path d="M80 70 Q80 96 80 122" stroke="#A78BFA" stroke-width="3.5" stroke-linecap="round" fill="none" opacity="0.65"/>
+  <path d="M64 76 Q72 100 68 122" stroke="#A78BFA" stroke-width="3" stroke-linecap="round" fill="none" opacity="0.55"/>
+  <path d="M96 76 Q88 100 92 122" stroke="#A78BFA" stroke-width="3" stroke-linecap="round" fill="none" opacity="0.55"/>
+  <!-- tiny friendly spider (cute, not scary) -->
+  <ellipse cx="80" cy="96" rx="12" ry="10" fill="#A78BFA" stroke="#3D2B1F" stroke-width="4.5" stroke-linejoin="round"/>
+  <circle cx="80" cy="84" r="8" fill="#A78BFA" stroke="#3D2B1F" stroke-width="4" stroke-linejoin="round"/>
+  <ellipse cx="76" cy="82" rx="2.2" ry="2.8" fill="#3D2B1F"/>
+  <ellipse cx="84" cy="82" rx="2.2" ry="2.8" fill="#3D2B1F"/>
+  <circle cx="76.8" cy="81" r="0.8" fill="#FFFFFF"/>
+  <circle cx="84.8" cy="81" r="0.8" fill="#FFFFFF"/>
+  <path d="M76 90 Q80 94 84 90" stroke="#3D2B1F" stroke-width="2" stroke-linecap="round" fill="none"/>
+</svg>

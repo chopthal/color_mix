@@ -56,9 +56,26 @@ body {
   overflow: hidden;
 }
 
+/* 래스터 방 배경 — 가운데 놀이 공간은 에셋이 비워 둠 */
+.night-room.has-bg-raster {
+  background-image: linear-gradient(180deg, rgba(21, 25, 54, 0.28), rgba(44, 52, 99, 0.12)), var(--room-bg);
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+}
+
 /* 방 조명 껐을 때 (더 어둡고 아늑함) */
 .night-room.is-lights-off {
   background: linear-gradient(180deg, #0b0e1f 0%, #12162d 55%, #181d38 100%);
+}
+
+.night-room.has-bg-raster.is-lights-off {
+  background-image:
+    linear-gradient(180deg, rgba(11, 14, 31, 0.62) 0%, rgba(24, 29, 56, 0.48) 100%),
+    var(--room-bg);
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
 }
 
 .night-room.is-lights-off .window-frame {
@@ -217,6 +234,31 @@ body {
   transform: scale(1.25) rotate(-10deg);
 }
 
+.moon-body {
+  display: inline-block;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.moon-wink {
+  position: absolute;
+  font-size: 2rem;
+  opacity: 0;
+  transform: scale(0.6);
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.25s ease;
+}
+
+.moon-btn.is-winking .moon-body,
+.moon-btn.is-winking .moon-asset {
+  opacity: 0;
+  transform: scale(0.5) rotate(-12deg);
+}
+
+.moon-btn.is-winking .moon-wink {
+  opacity: 1;
+  transform: scale(1.15);
+}
+
 .moon-sparkle {
   position: absolute;
   top: -4px;
@@ -224,6 +266,152 @@ body {
   font-size: 1rem;
   opacity: 0.8;
   animation: twinkle 2.5s infinite;
+}
+
+/* 이미지 슬롯 (파일 없으면 hidden 유지 → 코드 드로잉 폴백) */
+.asset-img {
+  display: block;
+  max-width: 100%;
+  pointer-events: none;
+  user-select: none;
+}
+
+.moon-asset {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+}
+
+.animal-asset {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  object-fit: contain;
+  object-position: center top;
+  z-index: 2;
+  filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.3));
+  animation: breathing 4.5s ease-in-out infinite;
+}
+
+/* 래스터 얼굴은 이불 접힘(z4) 위로 보이도록 기준점을 올린다. 터치 영역(animalStage)은 유지. */
+.animal-stage.has-raster .animal-asset {
+  left: 50%;
+  margin-left: -112px;
+  top: -28px;
+  width: 224px;
+  height: 224px;
+}
+
+.animal-stage.has-raster .animal-svg {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.bed-asset {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 16px 16px 0 0;
+}
+
+.blanket-asset {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 28px 28px 12px 12px;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.blanket.has-raster .blanket-body {
+  opacity: 0.15;
+}
+
+/* 재방문 반김 배너 */
+.welcome-banner {
+  position: absolute;
+  top: max(56px, calc(var(--safe-top) + 48px));
+  left: 50%;
+  transform: translateX(-50%) translateY(-8px);
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: min(88%, 320px);
+  padding: 10px 16px;
+  background: rgba(255, 234, 167, 0.95);
+  color: #2c2c54;
+  border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease, transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.welcome-banner.is-visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.welcome-emoji {
+  font-size: 1.8rem;
+  animation: stretch-greet 1.2s ease-in-out 2;
+}
+
+.welcome-text {
+  font-size: 1rem;
+  line-height: 1.35;
+}
+
+@keyframes stretch-greet {
+  0%, 100% { transform: scaleY(1) translateY(0); }
+  35% { transform: scaleY(1.18) translateY(-4px); }
+  55% { transform: scaleY(0.92) translateY(2px); }
+}
+
+/* 기지개 동물 연출 */
+.animal-stage.is-stretching .animal-svg,
+.animal-stage.is-stretching .animal-asset {
+  animation: animal-stretch 1.4s ease-in-out;
+}
+
+@keyframes animal-stretch {
+  0% { transform: scale(1, 1) rotate(0deg); }
+  25% { transform: scale(1.08, 0.92) rotate(-4deg); }
+  55% { transform: scale(0.94, 1.12) rotate(3deg); }
+  100% { transform: scale(1, 1) rotate(0deg); }
+}
+
+/* 귀 쫑긋 */
+.animal-svg.is-ear-perk .ear-left {
+  transform-origin: 65px 100px;
+  animation: ear-perk-left 0.7s ease;
+}
+
+.animal-svg.is-ear-perk .ear-right {
+  transform-origin: 175px 100px;
+  animation: ear-perk-right 0.7s ease;
+}
+
+@keyframes ear-perk-left {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  40% { transform: translateY(-8px) rotate(-14deg); }
+}
+
+@keyframes ear-perk-right {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  40% { transform: translateY(-8px) rotate(14deg); }
+}
+
+.animal-stage.is-ear-perk .animal-asset {
+  animation: ear-perk-raster 0.7s ease;
+}
+
+@keyframes ear-perk-raster {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  40% { transform: translateY(-6px) rotate(-3deg); }
 }
 
 .stars-cluster {
@@ -346,6 +534,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-wrap: wrap;
   gap: 8px;
   margin: 2px 0 6px;
   flex-shrink: 0;
@@ -355,6 +544,14 @@ body {
   font-size: 0.95rem;
   color: #dcdde1;
   opacity: 0.9;
+  width: 100%;
+  text-align: center;
+  margin-bottom: 2px;
+  transition: color 0.3s ease;
+}
+
+.gauge-hint.is-next-step {
+  color: #ffeaa7;
 }
 
 .gauge-stars {
@@ -364,6 +561,33 @@ body {
   padding: 4px 10px;
   border-radius: 16px;
   border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.ritual-dots {
+  display: inline-flex;
+  gap: 6px;
+  margin-left: 6px;
+}
+
+.ritual-dot {
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.25);
+  opacity: 0.35;
+  filter: grayscale(1);
+  transition: opacity 0.3s ease, filter 0.3s ease, transform 0.3s ease;
+}
+
+.ritual-dot.is-done {
+  opacity: 1;
+  filter: none;
+  transform: scale(1.08);
+  background: rgba(255, 234, 167, 0.28);
 }
 
 .gauge-star {
@@ -605,6 +829,11 @@ body {
   transform: translateY(0);
 }
 
+/* 래스터 이불은 불투명이라 얼굴을 더 가림 → 덮음 높이만 살짝 낮춤(접힘·하단 히트 유지) */
+.blanket.has-raster.is-tucked {
+  height: 152px;
+}
+
 /* 이불 내림 상태 */
 .blanket.is-lowered {
   height: 90px;
@@ -659,6 +888,60 @@ body {
   box-shadow: 0 4px 12px rgba(255, 234, 167, 0.3);
 }
 
+.btn-animal {
+  position: relative;
+}
+
+.btn-animal.is-asleep {
+  opacity: 0.85;
+}
+
+.btn-animal .asleep-badge {
+  position: absolute;
+  top: 2px;
+  right: 4px;
+  font-size: 0.85rem;
+}
+
+.combo-toast,
+.friend-asleep-toast {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 12;
+  padding: 8px 14px;
+  background: rgba(255, 234, 167, 0.95);
+  color: #2c2c54;
+  border-radius: 16px;
+  font-size: 0.95rem;
+  text-align: center;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.35s ease;
+}
+
+.combo-toast {
+  bottom: 48px;
+}
+
+.combo-toast.is-visible,
+.friend-asleep-toast.is-visible {
+  opacity: 1;
+}
+
+.friend-asleep-toast {
+  position: fixed;
+  bottom: max(100px, calc(var(--safe-bottom) + 90px));
+  z-index: 30;
+  min-width: min(80%, 300px);
+  transform: translateX(-50%) translateY(8px);
+}
+
+.friend-asleep-toast.is-visible {
+  transform: translateX(-50%) translateY(0);
+}
+
 .action-row {
   display: flex;
   gap: 8px;
@@ -685,6 +968,26 @@ body {
 .btn-pill:active {
   transform: scale(0.96);
   background: rgba(255, 255, 255, 0.25);
+}
+
+/* 공용 '쉬자' 버튼(오른쪽 아래)이 하단 버튼(친구 선택·코 잘 시간이야)을 가리지 않도록 여백 확보 */
+@media (orientation: portrait) {
+  .bottom-controls {
+    padding-right: 70px;
+  }
+
+  .btn-pill {
+    padding: 8px 10px;
+    white-space: nowrap;
+  }
+}
+
+/* 아주 좁은 세로 화면에서는 두 버튼 글자가 한 줄에 남도록 살짝 줄인다 */
+@media (orientation: portrait) and (max-width: 380px) {
+  .btn-pill {
+    gap: 4px;
+    font-size: 0.85rem;
+  }
 }
 
 .btn-bedtime {

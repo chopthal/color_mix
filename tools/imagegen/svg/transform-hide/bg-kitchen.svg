@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 1688">
+  <defs>
+    <linearGradient id="kwall" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FFF8F0"/>
+      <stop offset="100%" stop-color="#FFE8D6"/>
+    </linearGradient>
+    <linearGradient id="kfloor" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F0E0C8"/>
+      <stop offset="100%" stop-color="#E0C8A0"/>
+    </linearGradient>
+  </defs>
+  <rect width="780" height="1215" fill="url(#kwall)"/>
+  <!-- soft upper cabinet band (no door grid — avoids looking like UI slots) -->
+  <rect y="0" width="780" height="160" fill="#FFD8B8" opacity="0.55"/>
+  <rect y="150" width="780" height="18" fill="#F08C5A" opacity="0.25"/>
+  <!-- soft side tiles only -->
+  <g opacity="0.14" fill="#F08C5A">
+    <rect x="24" y="220" width="70" height="44" rx="8"/>
+    <rect x="104" y="220" width="70" height="44" rx="8"/>
+    <rect x="24" y="276" width="70" height="44" rx="8"/>
+    <rect x="104" y="276" width="70" height="44" rx="8"/>
+    <rect x="606" y="220" width="70" height="44" rx="8"/>
+    <rect x="686" y="220" width="70" height="44" rx="8"/>
+    <rect x="606" y="276" width="70" height="44" rx="8"/>
+    <rect x="686" y="276" width="70" height="44" rx="8"/>
+  </g>
+  <!-- square window with pink curtains -->
+  <rect x="290" y="260" width="200" height="180" rx="18" fill="#B8E0FF" opacity="0.85"/>
+  <rect x="310" y="280" width="160" height="140" rx="12" fill="#7CC6FE" opacity="0.4"/>
+  <rect x="268" y="250" width="40" height="200" rx="14" fill="#FFB3C1" opacity="0.85"/>
+  <rect x="472" y="250" width="40" height="200" rx="14" fill="#FFB3C1" opacity="0.85"/>
+  <ellipse cx="340" cy="310" rx="24" ry="16" fill="#FFFFFF" opacity="0.4"/>
+  <!-- soft sink silhouette left wall, low -->
+  <ellipse cx="140" cy="1050" rx="70" ry="22" fill="#CBD5E1" opacity="0.55"/>
+  <rect x="90" y="1040" width="100" height="36" rx="14" fill="#94A3B8" opacity="0.45"/>
+  <!-- floor -->
+  <rect y="1215" width="780" height="473" fill="url(#kfloor)"/>
+  <line x1="0" y1="1280" x2="780" y2="1280" stroke="#AA825A" stroke-opacity="0.25" stroke-width="3"/>
+  <line x1="0" y1="1350" x2="780" y2="1350" stroke="#AA825A" stroke-opacity="0.25" stroke-width="3"/>
+  <line x1="0" y1="1420" x2="780" y2="1420" stroke="#AA825A" stroke-opacity="0.25" stroke-width="3"/>
+  <line x1="0" y1="1490" x2="780" y2="1490" stroke="#AA825A" stroke-opacity="0.25" stroke-width="3"/>
+  <line x1="0" y1="1560" x2="780" y2="1560" stroke="#AA825A" stroke-opacity="0.25" stroke-width="3"/>
+  <ellipse cx="390" cy="1450" rx="200" ry="80" fill="#FFE0C0" opacity="0.9"/>
+  <ellipse cx="390" cy="1450" rx="140" ry="50" fill="#FFF4E6" opacity="0.95"/>
+</svg>

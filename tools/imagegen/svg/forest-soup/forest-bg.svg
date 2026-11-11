@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 768 1024" fill="none">
+  <!-- soft sunny forest clearing; center left open for pot play -->
+  <defs>
+    <linearGradient id="sky" x1="384" y1="0" x2="384" y2="520" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#7CC6FE"/>
+      <stop offset="0.55" stop-color="#B8E4FF"/>
+      <stop offset="1" stop-color="#E8F7C8"/>
+    </linearGradient>
+    <linearGradient id="ground" x1="384" y1="480" x2="384" y2="1024" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#A8E06A"/>
+      <stop offset="0.45" stop-color="#7BD389"/>
+      <stop offset="1" stop-color="#3FA34D"/>
+    </linearGradient>
+  </defs>
+  <rect width="768" height="1024" fill="url(#sky)"/>
+  <!-- sun -->
+  <circle cx="620" cy="140" r="78" fill="#FFC94A" opacity="0.95"/>
+  <circle cx="620" cy="140" r="52" fill="#FFF6E5" opacity="0.55"/>
+  <!-- distant hills -->
+  <ellipse cx="120" cy="520" rx="220" ry="90" fill="#6EE7B7" opacity="0.55"/>
+  <ellipse cx="650" cy="510" rx="240" ry="100" fill="#7BD389" opacity="0.5"/>
+  <rect y="500" width="768" height="524" fill="url(#ground)"/>
+  <!-- clearing soft oval -->
+  <ellipse cx="384" cy="620" rx="260" ry="180" fill="#C8EE8A" opacity="0.55"/>
+  <ellipse cx="384" cy="640" rx="180" ry="110" fill="#E8F7C8" opacity="0.4"/>
+  <!-- left trees (simple blob canopy + trunk) -->
+  <ellipse cx="70" cy="780" rx="28" ry="90" fill="#B07A4F"/>
+  <ellipse cx="70" cy="620" rx="110" ry="130" fill="#3FA34D"/>
+  <ellipse cx="70" cy="560" rx="90" ry="90" fill="#7BD389"/>
+  <ellipse cx="40" cy="530" rx="36" ry="24" fill="#FFF6E5" opacity="0.35"/>
+  <ellipse cx="160" cy="860" rx="22" ry="70" fill="#B07A4F"/>
+  <ellipse cx="160" cy="740" rx="80" ry="95" fill="#3FA34D"/>
+  <ellipse cx="160" cy="690" rx="60" ry="60" fill="#7BD389"/>
+  <!-- right trees -->
+  <ellipse cx="700" cy="800" rx="30" ry="95" fill="#B07A4F"/>
+  <ellipse cx="700" cy="640" rx="120" ry="140" fill="#3FA34D"/>
+  <ellipse cx="700" cy="570" rx="95" ry="95" fill="#7BD389"/>
+  <ellipse cx="660" cy="540" rx="40" ry="26" fill="#FFF6E5" opacity="0.35"/>
+  <ellipse cx="600" cy="880" rx="20" ry="65" fill="#B07A4F"/>
+  <ellipse cx="600" cy="770" rx="70" ry="85" fill="#3FA34D"/>
+  <ellipse cx="600" cy="720" rx="52" ry="52" fill="#6EE7B7"/>
+  <!-- bushes -->
+  <ellipse cx="40" cy="960" rx="140" ry="80" fill="#7BD389"/>
+  <ellipse cx="200" cy="990" rx="100" ry="55" fill="#6EE7B7"/>
+  <ellipse cx="730" cy="970" rx="150" ry="85" fill="#7BD389"/>
+  <ellipse cx="560" cy="1000" rx="110" ry="50" fill="#6EE7B7"/>
+  <!-- soft flowers at edges -->
+  <circle cx="100" cy="880" r="14" fill="#FF6B81"/>
+  <circle cx="100" cy="880" r="6" fill="#FFC94A"/>
+  <circle cx="240" cy="920" r="12" fill="#A78BFA"/>
+  <circle cx="240" cy="920" r="5" fill="#FFC94A"/>
+  <circle cx="660" cy="900" r="14" fill="#FF9F45"/>
+  <circle cx="660" cy="900" r="6" fill="#FFC94A"/>
+  <circle cx="520" cy="940" r="11" fill="#FFB3C1"/>
+  <circle cx="520" cy="940" r="5" fill="#FFC94A"/>
+</svg>

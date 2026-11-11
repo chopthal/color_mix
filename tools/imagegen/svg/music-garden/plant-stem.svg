@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 256" width="192" height="256" fill="none">
+  <ellipse cx="96" cy="228" rx="22" ry="8" fill="#3D2B1F" opacity="0.12"/>
+  <!-- tall stem -->
+  <path d="M96 220 Q88 150 96 70" stroke="#3D2B1F" stroke-width="22" stroke-linecap="round" fill="none"/>
+  <path d="M96 218 Q88 150 96 72" stroke="#3FA34D" stroke-width="14" stroke-linecap="round" fill="none"/>
+  <path d="M92 210 Q86 150 93 80" stroke="#7BD389" stroke-width="4" stroke-linecap="round" fill="none" opacity="0.55"/>
+  <!-- lower leaf -->
+  <ellipse cx="54" cy="150" rx="36" ry="22" fill="#7BD389" stroke="#3D2B1F" stroke-width="8"
+           stroke-linejoin="round" transform="rotate(-35 54 150)"/>
+  <ellipse cx="48" cy="142" rx="12" ry="7" fill="#FFF6E5" opacity="0.55" transform="rotate(-35 48 142)"/>
+  <!-- upper leaf -->
+  <ellipse cx="140" cy="110" rx="34" ry="20" fill="#6EE7B7" stroke="#3D2B1F" stroke-width="8"
+           stroke-linejoin="round" transform="rotate(32 140 110)"/>
+  <ellipse cx="134" cy="102" rx="11" ry="6" fill="#FFF6E5" opacity="0.55" transform="rotate(32 134 102)"/>
+  <!-- tiny tip leaf -->
+  <ellipse cx="108" cy="62" rx="18" ry="12" fill="#7BD389" stroke="#3D2B1F" stroke-width="7"
+           stroke-linejoin="round" transform="rotate(18 108 62)"/>
+</svg>

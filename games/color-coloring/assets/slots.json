@@ -1,0 +1,29 @@
+{
+  "ready": [
+    "apple-outline",
+    "banana-outline",
+    "brachiosaurus-outline",
+    "bus-outline",
+    "butterfly-outline",
+    "cake-outline",
+    "car-outline",
+    "castle-outline",
+    "dog-outline",
+    "elephant-outline",
+    "firetruck-outline",
+    "flower-outline",
+    "frame-mat",
+    "icecream-outline",
+    "lion-outline",
+    "plane-outline",
+    "pteranodon-outline",
+    "rabbit-outline",
+    "robot-outline",
+    "stage-day",
+    "stage-night",
+    "stage-rainbow",
+    "trex-outline",
+    "triceratops-outline"
+  ],
+  "_comment": "이미지 생성 후 준비된 키만 넣는다. 예: car-outline, stage-day, frame-mat. 비어 있으면 전부 SVG/CSS 폴백."
+}

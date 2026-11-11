@@ -1,0 +1,16 @@
+<svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+        <path class="part" data-part="tail" data-name="꼬리" d="M212 190 Q258 194 278 216 Q252 222 236 210 Q224 202 210 200 Z" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <path class="part" data-part="leg-back" data-name="뒷다리" d="M118 208 L112 254 Q112 264 124 264 L140 264 Q148 264 146 254 L142 208 Z" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <path class="part" data-part="leg-front" data-name="앞다리" d="M180 208 L174 254 Q174 264 186 264 L202 264 Q210 264 208 254 L204 208 Z" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <ellipse class="part" data-part="body" data-name="몸통" cx="168" cy="176" rx="66" ry="50" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <path class="part" data-part="frill" data-name="프릴" d="M96 118 Q58 98 52 142 Q54 184 94 190 Q124 192 128 150 Z" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <path class="part" data-part="head" data-name="머리" d="M96 130 Q142 110 174 142 Q182 162 160 178 L110 178 Q88 160 96 130 Z" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <path class="part" data-part="horn1" data-name="뿔" d="M102 138 L78 122 L94 154 Z" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <path class="part" data-part="horn2" data-name="뿔" d="M112 124 L98 104 L120 126 Z" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <path class="part" data-part="nosehorn" data-name="코뿔" d="M84 156 L62 158 L82 168 Z" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <g class="fixed">
+          <g class="face"><circle cx="132" cy="146" r="8" fill="#fff" stroke="#3D2B1F" stroke-width="3" /><circle cx="133.28" cy="146" r="3.68" fill="#3D2B1F" /><circle cx="130.4" cy="143.92" r="1.44" fill="#fff" /><circle cx="154" cy="148" r="8" fill="#fff" stroke="#3D2B1F" stroke-width="3" /><circle cx="155.28" cy="148" r="3.68" fill="#3D2B1F" /><circle cx="152.4" cy="145.92" r="1.44" fill="#fff" /></g>
+          <path d="M132 164 Q142 171 152 164" fill="none" stroke="#3D2B1F" stroke-width="4" stroke-linecap="round" />
+          <g class="face"><ellipse cx="120" cy="160" rx="9" ry="5" fill="#ff9db2" opacity="0.75" /><ellipse cx="166" cy="162" rx="9" ry="5" fill="#ff9db2" opacity="0.75" /></g>
+        </g>
+      </svg>

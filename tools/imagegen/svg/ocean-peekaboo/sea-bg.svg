@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 768 1280" fill="none">
+  <defs>
+    <linearGradient id="water" x1="384" y1="0" x2="384" y2="1280" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#7CC6FE"/>
+      <stop offset="45%" stop-color="#3BA4E6"/>
+      <stop offset="100%" stop-color="#2E3A6B"/>
+    </linearGradient>
+    <linearGradient id="sand" x1="384" y1="1000" x2="384" y2="1280" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FFF6E5" stop-opacity="0"/>
+      <stop offset="35%" stop-color="#FFC94A" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#B07A4F" stop-opacity="0.85"/>
+    </linearGradient>
+    <linearGradient id="ray" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.28"/>
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <rect width="768" height="1280" fill="url(#water)"/>
+  <!-- light rays from above -->
+  <g opacity="0.55">
+    <path d="M180 -40 L260 520 L220 520 L140 -40 Z" fill="url(#ray)"/>
+    <path d="M320 -60 L380 560 L340 560 L280 -60 Z" fill="url(#ray)"/>
+    <path d="M480 -40 L540 500 L500 500 L440 -40 Z" fill="url(#ray)"/>
+  </g>
+  <!-- distant soft kelp silhouettes at sides, center open -->
+  <path d="M40 980 C20 820, 30 700, 55 560 C70 480, 40 450, 48 540 C58 680, 70 820, 80 980 Z" fill="#3FA34D" opacity="0.18"/>
+  <path d="M90 1000 C80 860, 100 720, 110 600 C118 540, 95 520, 100 600 C108 740, 120 880, 130 1000 Z" fill="#7BD389" opacity="0.14"/>
+  <path d="M700 980 C720 820, 710 700, 690 560 C678 480, 710 450, 700 540 C688 680, 680 820, 670 980 Z" fill="#3FA34D" opacity="0.18"/>
+  <path d="M650 1000 C660 860, 640 720, 630 600 C622 540, 645 520, 640 600 C632 740, 620 880, 610 1000 Z" fill="#7BD389" opacity="0.14"/>
+  <!-- sandy bottom -->
+  <path d="M0 1080 C120 1020, 280 1000, 384 1010 C520 1024, 640 1060, 768 1040 L768 1280 L0 1280 Z" fill="url(#sand)"/>
+  <ellipse cx="180" cy="1180" rx="50" ry="18" fill="#FFF6E5" opacity="0.2"/>
+  <ellipse cx="520" cy="1200" rx="70" ry="22" fill="#FFF6E5" opacity="0.15"/>
+  <!-- faint floating particles -->
+  <circle cx="220" cy="320" r="4" fill="#FFFFFF" opacity="0.35"/>
+  <circle cx="560" cy="280" r="3" fill="#FFFFFF" opacity="0.3"/>
+  <circle cx="420" cy="480" r="5" fill="#FFFFFF" opacity="0.25"/>
+  <circle cx="300" cy="620" r="3" fill="#FFFFFF" opacity="0.28"/>
+  <circle cx="600" cy="700" r="4" fill="#FFFFFF" opacity="0.22"/>
+</svg>

@@ -8,9 +8,11 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="한글 쓰기">
   <title>✏️ 신나는 마법 한글 쓰기</title>
+  <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../_shared/kit.css">
   <style>
     * {
       box-sizing: border-box;
@@ -31,6 +33,220 @@
       display: flex;
       flex-direction: column;
       position: relative;
+      transition: background 0.45s ease;
+    }
+
+    /* 장소 테마 변주 (같은 획 놀이, 배경·무대만) */
+    body.theme-classroom {
+      background: linear-gradient(180deg, #fff3d6 0%, #fff9ec 50%, #f0fdf4 100%);
+      color: #3b2c1a;
+    }
+    body.theme-playground {
+      background: linear-gradient(180deg, #dbeafe 0%, #ecfdf5 55%, #fef9c3 100%);
+      color: #14532d;
+    }
+    body.theme-ocean {
+      background: linear-gradient(180deg, #e0f2fe 0%, #cffafe 45%, #fef3c7 100%);
+      color: #0c4a6e;
+    }
+
+    body.theme-classroom .top-bar {
+      border-bottom-color: #fed7aa;
+      box-shadow: 0 4px 14px rgba(180, 83, 9, 0.08);
+    }
+    body.theme-playground .top-bar {
+      border-bottom-color: #86efac;
+      box-shadow: 0 4px 14px rgba(22, 163, 74, 0.1);
+    }
+    body.theme-ocean .top-bar {
+      border-bottom-color: #7dd3fc;
+      box-shadow: 0 4px 14px rgba(2, 132, 199, 0.12);
+    }
+
+    body.theme-classroom .board-stage {
+      border-color: #ffedd5;
+      box-shadow: 0 16px 36px rgba(180, 83, 9, 0.12);
+    }
+    body.theme-playground .board-stage {
+      border-color: #bbf7d0;
+      box-shadow: 0 16px 36px rgba(22, 163, 74, 0.14);
+    }
+    body.theme-ocean .board-stage {
+      border-color: #bae6fd;
+      box-shadow: 0 16px 36px rgba(2, 132, 199, 0.16);
+    }
+
+    .board-stage.has-asset-bg {
+      background-size: cover;
+      background-position: center;
+    }
+    .board-stage.has-asset-bg .board-grid-pattern {
+      opacity: 0.35;
+    }
+
+    .theme-deco {
+      position: absolute;
+      top: 10px;
+      left: 14px;
+      right: 14px;
+      display: flex;
+      justify-content: space-between;
+      pointer-events: none;
+      z-index: 3;
+      font-size: clamp(22px, 5vw, 32px);
+      opacity: 0.92;
+    }
+
+    .welcome-banner {
+      position: fixed;
+      top: max(12px, env(safe-area-inset-top));
+      left: 50%;
+      transform: translateX(-50%) translateY(-120%);
+      z-index: 9000;
+      max-width: min(92vw, 420px);
+      padding: 14px 18px;
+      border-radius: 22px;
+      background: #fff7ed;
+      border: 3px solid #fdba74;
+      box-shadow: 0 10px 28px rgba(154, 52, 18, 0.18);
+      text-align: center;
+      font-size: clamp(16px, 4vw, 20px);
+      font-weight: 800;
+      color: #9a3412;
+      transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+      pointer-events: none;
+    }
+    .welcome-banner.show {
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .album-btn {
+      flex-shrink: 0;
+      min-width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      border: 3px solid #fed7aa;
+      background: #fff7ed;
+      color: #9a3412;
+      font-size: 18px;
+      font-family: inherit;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 3px 0 #fde68a;
+    }
+    .album-btn:active {
+      transform: translateY(2px);
+      box-shadow: 0 1px 0 #fde68a;
+    }
+
+    .theme-chip {
+      flex-shrink: 0;
+      font-size: 12px;
+      font-weight: 800;
+      padding: 6px 10px;
+      border-radius: 14px;
+      background: #fff7ed;
+      color: #9a3412;
+      border: 2px solid #fed7aa;
+      white-space: nowrap;
+    }
+
+    .album-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 9500;
+      background: rgba(40, 48, 64, 0.45);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+    .album-overlay.open {
+      display: flex;
+    }
+    .album-card {
+      width: min(94vw, 440px);
+      max-height: min(86vh, 560px);
+      overflow: auto;
+      background: #fffdf8;
+      border-radius: 28px;
+      padding: 18px 16px 20px;
+      box-shadow: 0 16px 40px rgba(58, 58, 69, 0.2);
+      text-align: center;
+    }
+    .album-card h2 {
+      font-size: clamp(22px, 5vw, 28px);
+      color: #ea580c;
+      margin-bottom: 6px;
+    }
+    .album-card p {
+      font-size: 15px;
+      color: #7c2d12;
+      margin-bottom: 14px;
+    }
+    .stamp-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .stamp-slot {
+      aspect-ratio: 1;
+      border-radius: 18px;
+      border: 3px dashed #fdba74;
+      background: #fff7ed;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      font-size: 22px;
+      font-weight: 800;
+      color: #c2410c;
+      position: relative;
+    }
+    .stamp-slot.filled {
+      border-style: solid;
+      background: #ffedd5;
+      box-shadow: inset 0 0 0 2px #fb923c;
+    }
+    .stamp-slot .stamp-mark {
+      font-size: 14px;
+      line-height: 1;
+    }
+    .stamp-slot img.stamp-img {
+      width: 28px;
+      height: 28px;
+      object-fit: contain;
+    }
+    .album-close {
+      font-family: inherit;
+      font-size: 18px;
+      font-weight: 800;
+      padding: 12px 28px;
+      border: none;
+      border-radius: 28px;
+      background: #10b981;
+      color: #fff;
+      box-shadow: 0 4px 0 #059669;
+      cursor: pointer;
+    }
+
+    .car-handle img.car-asset {
+      width: 34px;
+      height: 34px;
+      object-fit: contain;
+      pointer-events: none;
+    }
+
+    .letter-tab-btn .star-count {
+      position: absolute;
+      bottom: -4px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 9px;
+      line-height: 1;
+      white-space: nowrap;
     }
 
     /* 상단 네비게이션 & 자음 탭 바 (ㄱ ~ ㅎ) */
@@ -109,12 +325,13 @@
       transform: translateY(-2px);
     }
 
-    .letter-tab-btn.cleared::after {
-      content: '⭐';
-      position: absolute;
-      top: -6px;
-      right: -6px;
-      font-size: 12px;
+    .letter-tab-btn.cleared {
+      border-color: #fbbf24;
+      background: #fffbeb;
+    }
+    .letter-tab-btn.cleared.active {
+      background: #f97316;
+      border-color: #ea580c;
     }
 
     /* 진행도 바 (기본 ➔ 단어1 ➔ 단어2 ➔ 3단계) */
@@ -478,10 +695,14 @@
     }
   </style>
 </head>
-<body>
+<body class="theme-classroom">
+  <div class="welcome-banner" id="welcomeBanner" aria-live="polite"></div>
+
   <header class="top-bar">
     <a href="../../index.html" class="home-btn" title="놀이터 홈으로">🏠 놀이터</a>
+    <button type="button" class="album-btn" id="albumBtn" title="도장 도감">📒</button>
     <div class="letter-tabs" id="letterTabs"></div>
+    <span class="theme-chip" id="themeChip">🏫 교실</span>
   </header>
 
   <div class="step-header">
@@ -500,6 +721,10 @@
   <main class="main-board-container">
     <div class="board-stage" id="boardStage">
       <div class="board-grid-pattern"></div>
+      <div class="theme-deco" id="themeDeco" aria-hidden="true">
+        <span id="themeDecoLeft">✏️</span>
+        <span id="themeDecoRight">📚</span>
+      </div>
       <div class="board-emoji" id="boardEmoji">✂️</div>
       <div class="word-letters-stage" id="wordLettersStage"></div>
 
@@ -512,6 +737,16 @@
     </div>
   </main>
 
+  <div class="album-overlay" id="albumOverlay" role="dialog" aria-modal="true" aria-label="도장 도감">
+    <div class="album-card">
+      <h2>글자 도장 도감</h2>
+      <p id="albumSummary">아직 도장이 없어요. 글자를 끝까지 그려 보아요!</p>
+      <div class="stamp-grid" id="stampGrid"></div>
+      <button type="button" class="album-close" id="albumCloseBtn">닫기</button>
+    </div>
+  </div>
+
+  <script src="../_shared/kit.js"></script>
   <script>
     // ==========================================
     // 1. 원형 궤도 생성 헬퍼 (반시계 정통 획순 완벽한 원)
@@ -840,15 +1075,46 @@
     }
 
     // ==========================================
-    // 4. 상태 관리
+    // 4. 상태 관리 · 영속 · 테마 · 도장
     // ==========================================
+    const store = window.KidsKit ? KidsKit.store('hangul') : {
+      get: function (_k, fb) { return fb; },
+      set: function () {},
+      update: function (_k, up, fb) { return typeof up === 'function' ? up(fb) : up; }
+    };
+
+    const THEMES = [
+      { id: 'classroom', label: '교실', chip: '🏫 교실', car: '🚗', deco: ['✏️', '📚'], bgKey: 'bg-classroom' },
+      { id: 'playground', label: '놀이터', chip: '🛝 놀이터', car: '🚙', deco: ['🌳', '🎈'], bgKey: 'bg-playground' },
+      { id: 'ocean', label: '바다', chip: '🌊 바다', car: '🚤', deco: ['🐚', '🐟'], bgKey: 'bg-ocean' }
+    ];
+
+    const ASSET_LIST = [
+      { src: 'assets/car.webp', key: 'car' },
+      { src: 'assets/stamp.webp', key: 'stamp' },
+      { src: 'assets/bg-classroom.webp', key: 'bg-classroom' },
+      { src: 'assets/bg-playground.webp', key: 'bg-playground' },
+      { src: 'assets/bg-ocean.webp', key: 'bg-ocean' }
+    ];
+
+    const SESSION_CLEAR_GOAL = 2; // 세션 3~5분: 글자 2개 풀클리어 후 소프트 엔딩
+
+    let assetImages = {};
     let currentChar = 'ㄱ';
     let currentStepIdx = 0;
-    let currentStrokeIdx = 0;   // 현재 진행 중인 획 번호 (0 ~ strokes.length - 1)
-    let currentWaypointIdx = 0; // 현재 획 내의 웨이포인트 번호
+    let currentStrokeIdx = 0;
+    let currentWaypointIdx = 0;
     let isDragging = false;
+    let themeIndex = 0;
+    let sessionClears = 0;
+    let softEndingOpen = false;
+    let softEndingTimer = null;
+    let pendingSoftEnding = false;
+    let starsMap = {};
+    let clearedChars = [];
 
     const letterTabs = document.getElementById('letterTabs');
+    const boardStage = document.getElementById('boardStage');
     const boardEmoji = document.getElementById('boardEmoji');
     const wordLettersStage = document.getElementById('wordLettersStage');
     const guidePromptText = document.getElementById('guidePromptText');
@@ -858,18 +1124,133 @@
     const transformTitle = document.getElementById('transformTitle');
     const transformDesc = document.getElementById('transformDesc');
     const nextStepBtn = document.getElementById('nextStepBtn');
+    const themeChip = document.getElementById('themeChip');
+    const themeDecoLeft = document.getElementById('themeDecoLeft');
+    const themeDecoRight = document.getElementById('themeDecoRight');
+    const welcomeBanner = document.getElementById('welcomeBanner');
+    const albumBtn = document.getElementById('albumBtn');
+    const albumOverlay = document.getElementById('albumOverlay');
+    const albumSummary = document.getElementById('albumSummary');
+    const stampGrid = document.getElementById('stampGrid');
+    const albumCloseBtn = document.getElementById('albumCloseBtn');
+
+    function loadProgress() {
+      starsMap = store.get('stars', {}) || {};
+      clearedChars = store.get('clearedChars', []) || [];
+      const savedTheme = store.get('themeId', 'classroom');
+      const idx = THEMES.findIndex(t => t.id === savedTheme);
+      themeIndex = idx >= 0 ? idx : 0;
+      const visits = (store.get('visitCount', 0) || 0) + 1;
+      store.set('visitCount', visits);
+    }
+
+    function saveStars(char, stepCount) {
+      const prev = starsMap[char] || 0;
+      if (stepCount > prev) {
+        starsMap[char] = stepCount;
+        store.set('stars', starsMap);
+      }
+    }
+
+    function markCharCleared(char) {
+      saveStars(char, 4);
+      if (clearedChars.indexOf(char) === -1) {
+        clearedChars.push(char);
+        store.set('clearedChars', clearedChars);
+        return true;
+      }
+      return false;
+    }
+
+    function todayKey() {
+      const d = new Date();
+      return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
+    }
+
+    function pickTodayFriend() {
+      const today = todayKey();
+      const saved = store.get('todayFriend', null);
+      if (saved && saved.date === today && saved.char) return saved.char;
+
+      let char = null;
+      if (clearedChars.length > 0) {
+        char = clearedChars[Math.floor(Math.random() * clearedChars.length)];
+      } else {
+        const unfinished = HANGUL_LIST.find(c => (starsMap[c] || 0) < 4);
+        char = unfinished || 'ㄱ';
+      }
+      store.set('todayFriend', { date: today, char: char });
+      return char;
+    }
+
+    function applyTheme() {
+      const theme = THEMES[themeIndex];
+      document.body.classList.remove('theme-classroom', 'theme-playground', 'theme-ocean');
+      document.body.classList.add('theme-' + theme.id);
+      themeChip.textContent = theme.chip;
+      themeDecoLeft.textContent = theme.deco[0];
+      themeDecoRight.textContent = theme.deco[1];
+      store.set('themeId', theme.id);
+
+      const bgImg = assetImages[theme.bgKey];
+      if (bgImg && bgImg.naturalWidth > 1) {
+        boardStage.classList.add('has-asset-bg');
+        boardStage.style.backgroundImage = 'url(' + bgImg.src + ')';
+      } else {
+        boardStage.classList.remove('has-asset-bg');
+        boardStage.style.backgroundImage = '';
+      }
+    }
+
+    function cycleTheme() {
+      themeIndex = (themeIndex + 1) % THEMES.length;
+      applyTheme();
+    }
+
+    function carEmoji() {
+      return THEMES[themeIndex].car;
+    }
+
+    function setCarHandleContent(el) {
+      if (!el) return;
+      const img = assetImages.car;
+      if (img && img.naturalWidth > 1) {
+        el.innerHTML = '';
+        const node = document.createElement('img');
+        node.className = 'car-asset';
+        node.alt = '';
+        node.src = img.src;
+        el.appendChild(node);
+      } else {
+        el.textContent = carEmoji();
+      }
+    }
+
+    function starLabel(n) {
+      if (!n || n <= 0) return '';
+      return '⭐'.repeat(Math.min(4, n));
+    }
 
     function initTabs() {
       letterTabs.innerHTML = '';
       HANGUL_LIST.forEach(char => {
         const btn = document.createElement('button');
         btn.type = 'button';
-        btn.className = `letter-tab-btn ${char === currentChar ? 'active' : ''}`;
+        btn.className = 'letter-tab-btn';
         btn.dataset.char = char;
-        btn.textContent = char;
+        const starN = starsMap[char] || 0;
+        btn.innerHTML = char + (starN > 0 ? '<span class="star-count">' + starLabel(starN) + '</span>' : '');
+        if (clearedChars.indexOf(char) !== -1) btn.classList.add('cleared');
+        if (char === currentChar) btn.classList.add('active');
         btn.addEventListener('click', () => {
+          if (char !== currentChar) {
+            // 발견 레이어: 글자를 바꿀 때 장소도 살짝 바뀜
+            cycleTheme();
+          }
           currentChar = char;
-          currentStepIdx = 0;
+          currentStepIdx = Math.min(starsMap[char] || 0, 3);
+          // 미완이면 이어서, 완료면 처음부터 다시 즐기기
+          if ((starsMap[char] || 0) >= 4) currentStepIdx = 0;
           updateActiveTab();
           renderStep();
         });
@@ -877,10 +1258,105 @@
       });
     }
 
-    function updateActiveTab() {
+    function refreshTabStars() {
       document.querySelectorAll('.letter-tab-btn').forEach(btn => {
-        btn.classList.toggle('active', btn.dataset.char === currentChar);
+        const char = btn.dataset.char;
+        const starN = starsMap[char] || 0;
+        btn.innerHTML = char + (starN > 0 ? '<span class="star-count">' + starLabel(starN) + '</span>' : '');
+        btn.classList.toggle('cleared', clearedChars.indexOf(char) !== -1);
+        btn.classList.toggle('active', char === currentChar);
       });
+    }
+
+    function updateActiveTab() {
+      refreshTabStars();
+    }
+
+    function openAlbum() {
+      const n = clearedChars.length;
+      albumSummary.textContent = n === 0
+        ? '아직 도장이 없어요. 글자를 끝까지 그려 보아요!'
+        : '도장 ' + n + '개! 글자 친구들이 기다리고 있어요.';
+      stampGrid.innerHTML = '';
+      HANGUL_LIST.forEach(char => {
+        const slot = document.createElement('div');
+        const filled = clearedChars.indexOf(char) !== -1;
+        slot.className = 'stamp-slot' + (filled ? ' filled' : '');
+        const mark = document.createElement('span');
+        mark.className = 'stamp-mark';
+        if (filled) {
+          const stampImg = assetImages.stamp;
+          if (stampImg && stampImg.naturalWidth > 1) {
+            const img = document.createElement('img');
+            img.className = 'stamp-img';
+            img.alt = '';
+            img.src = stampImg.src;
+            mark.appendChild(img);
+          } else {
+            mark.textContent = '💮';
+          }
+        } else {
+          mark.textContent = '·';
+        }
+        slot.appendChild(document.createTextNode(char));
+        slot.appendChild(mark);
+        stampGrid.appendChild(slot);
+      });
+      albumOverlay.classList.add('open');
+    }
+
+    function closeAlbum() {
+      albumOverlay.classList.remove('open');
+    }
+
+    function showWelcomeBanner(friendChar) {
+      const name = (HANGUL_COURSES[friendChar] && HANGUL_COURSES[friendChar].name) || friendChar;
+      welcomeBanner.textContent = '오늘 이 글자 친구는 ' + friendChar + '(' + name + ')야! 반가워~';
+      welcomeBanner.classList.add('show');
+      speakText('오늘 이 글자 친구는 ' + name + '야! 반가워!');
+      setTimeout(() => welcomeBanner.classList.remove('show'), 4200);
+    }
+
+    function clearSoftEndingTimer() {
+      if (softEndingTimer) {
+        clearTimeout(softEndingTimer);
+        softEndingTimer = null;
+      }
+    }
+
+    function showSoftEnding() {
+      if (softEndingOpen || !window.KidsKit) return;
+      clearSoftEndingTimer();
+      pendingSoftEnding = false;
+      softEndingOpen = true;
+      KidsKit.softEnding({
+        title: '글자 친구랑 잘 놀았어!',
+        emoji: '🌟',
+        onAgain: function () {
+          softEndingOpen = false;
+          sessionClears = 0;
+          cycleTheme();
+          // 축하 레이어 닫고 다음 글자로 자연스럽게 이어가기
+          transformLayer.classList.remove('active');
+          const nextIdx = (HANGUL_LIST.indexOf(currentChar) + 1) % HANGUL_LIST.length;
+          currentChar = HANGUL_LIST[nextIdx];
+          currentStepIdx = 0;
+          updateActiveTab();
+          renderStep();
+          speakText('또 그려 볼까?');
+        },
+        onRest: function () {
+          softEndingOpen = false;
+          window.location.href = '../../index.html';
+        }
+      });
+      speakText('글자 친구랑 잘 놀았어! 또 할래, 아니면 쉴까?');
+    }
+
+    function scheduleSoftEnding() {
+      pendingSoftEnding = true;
+      clearSoftEndingTimer();
+      softEndingTimer = setTimeout(showSoftEnding, 700);
     }
 
     function generatePathD(points) {
@@ -921,7 +1397,7 @@
               <g id="goalIndicatorGroup"></g>
               <g id="paintedRoadGroup"></g>
             </svg>
-            <div class="car-handle" id="carHandle">🚗</div>
+              <div class="car-handle" id="carHandle"></div>
           </div>
         `;
       } else if (step.layout === 'initial-h') {
@@ -938,7 +1414,7 @@
                 <g id="goalIndicatorGroup"></g>
                 <g id="paintedRoadGroup"></g>
               </svg>
-              <div class="car-handle" id="carHandle">🚗</div>
+              <div class="car-handle" id="carHandle"></div>
             </div>
             <span class="huge-char-text">${step.vowel}</span>
           </div>
@@ -958,7 +1434,7 @@
                 <g id="goalIndicatorGroup"></g>
                 <g id="paintedRoadGroup"></g>
               </svg>
-              <div class="car-handle" id="carHandle">🚗</div>
+              <div class="car-handle" id="carHandle"></div>
             </div>
             <span class="huge-vowel-bottom">${step.vowel}</span>
           </div>
@@ -979,13 +1455,14 @@
                 <g id="goalIndicatorGroup"></g>
                 <g id="paintedRoadGroup"></g>
               </svg>
-              <div class="car-handle" id="carHandle">🚗</div>
+              <div class="car-handle" id="carHandle"></div>
             </div>
           </div>
           ${nextSuffix}
         `;
       }
 
+      setCarHandleContent(document.getElementById('carHandle'));
       setupMultiStrokeTracks();
 
       setTimeout(() => {
@@ -1246,6 +1723,11 @@
 
       playVictorySound();
       triggerHaptic('success');
+      if (window.KidsKit) KidsKit.haptic('success');
+
+      // 단계 ⭐ 영속 (1~4)
+      saveStars(currentChar, currentStepIdx + 1);
+      refreshTabStars();
 
       transformEmoji.textContent = step.emoji;
       transformTitle.textContent = `${step.word} 완성! 🎉`;
@@ -1253,17 +1735,30 @@
 
       if (currentStepIdx >= 3) {
         nextStepBtn.textContent = '다음 글자로 가기! ➜';
-        const tabBtn = Array.from(document.querySelectorAll('.letter-tab-btn')).find(b => b.dataset.char === currentChar);
-        if (tabBtn) tabBtn.classList.add('cleared');
+        const wasNew = markCharCleared(currentChar);
+        sessionClears += 1;
+        refreshTabStars();
+        if (wasNew) {
+          transformDesc.textContent = step.speak + ' 도장 찍었어!';
+        }
       } else {
         nextStepBtn.textContent = `다음 단어 (${currentStepIdx + 2}/4) ➜`;
       }
 
       transformLayer.classList.add('active');
       speakText(step.speak);
+
+      if (currentStepIdx >= 3 && sessionClears >= SESSION_CLEAR_GOAL) {
+        scheduleSoftEnding();
+      }
     }
 
     nextStepBtn.addEventListener('click', () => {
+      // 세션 목표가 찼으면 다음 대신 소프트 엔딩으로 안내
+      if (pendingSoftEnding || softEndingOpen) {
+        showSoftEnding();
+        return;
+      }
       if (currentStepIdx < 3) {
         currentStepIdx++;
         renderStep();
@@ -1271,6 +1766,7 @@
         const nextIdx = (HANGUL_LIST.indexOf(currentChar) + 1) % HANGUL_LIST.length;
         currentChar = HANGUL_LIST[nextIdx];
         currentStepIdx = 0;
+        cycleTheme();
         updateActiveTab();
         renderStep();
       }
@@ -1282,6 +1778,12 @@
       speakText(step.prompt);
     });
 
+    albumBtn.addEventListener('click', openAlbum);
+    albumCloseBtn.addEventListener('click', closeAlbum);
+    albumOverlay.addEventListener('click', (e) => {
+      if (e.target === albumOverlay) closeAlbum();
+    });
+
     window.addEventListener('resize', () => {
       const strokes = CHAR_STROKES[currentChar];
       if (strokes && strokes[currentStrokeIdx]) {
@@ -1291,8 +1793,36 @@
     });
 
     // 시작
+    loadProgress();
+    const todayFriend = pickTodayFriend();
+    currentChar = todayFriend;
+    // 이어서 그리기: 미완 단계는 이어가고, 완료 글자는 처음부터
+    const savedStars = starsMap[currentChar] || 0;
+    currentStepIdx = savedStars >= 4 ? 0 : Math.min(savedStars, 3);
+
+    applyTheme();
     initTabs();
     renderStep();
+
+    if (window.KidsKit) {
+      KidsKit.restButton({
+        onRest: function () {
+          window.location.href = '../../index.html';
+        }
+      });
+      KidsKit.assets.preload(ASSET_LIST).then(function (result) {
+        assetImages = result.images || {};
+        applyTheme();
+        setCarHandleContent(document.getElementById('carHandle'));
+      });
+    }
+
+    // 재방문 반김: 도장이 있거나 두 번째 방문부터
+    if (clearedChars.length > 0 || (store.get('visitCount', 1) || 1) > 1) {
+      setTimeout(function () {
+        showWelcomeBanner(todayFriend);
+      }, 500);
+    }
   </script>
 </body>
 </html>

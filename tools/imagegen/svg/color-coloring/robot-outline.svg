@@ -1,0 +1,22 @@
+<svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+        <rect class="part" data-part="antenna" data-name="안테나" x="146" y="36" width="8" height="26" rx="4" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <circle class="part" data-part="antenna-ball" data-name="안테나 방울" cx="150" cy="32" r="12" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <g class="part" data-part="arms" data-name="팔" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round">
+          <rect x="58" y="150" width="32" height="90" rx="14" />
+          <rect x="210" y="150" width="32" height="90" rx="14" />
+        </g>
+        <g class="part" data-part="legs" data-name="다리" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round">
+          <rect x="112" y="238" width="32" height="48" rx="12" />
+          <rect x="156" y="238" width="32" height="48" rx="12" />
+        </g>
+        <rect class="part" data-part="body" data-name="몸통" x="96" y="146" width="108" height="100" rx="18" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <rect class="part" data-part="head" data-name="머리" x="102" y="68" width="96" height="76" rx="18" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <circle class="part" data-part="chest" data-name="가슴 버튼" cx="150" cy="192" r="22" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <g class="fixed">
+          <g class="face"><circle cx="130" cy="104" r="9" fill="#fff" stroke="#3D2B1F" stroke-width="3" /><circle cx="131.44" cy="104" r="4.140000000000001" fill="#3D2B1F" /><circle cx="128.2" cy="101.66" r="1.6199999999999999" fill="#fff" /><circle cx="170" cy="104" r="9" fill="#fff" stroke="#3D2B1F" stroke-width="3" /><circle cx="171.44" cy="104" r="4.140000000000001" fill="#3D2B1F" /><circle cx="168.2" cy="101.66" r="1.6199999999999999" fill="#fff" /></g>
+          <rect x="128" y="126" width="44" height="6" rx="3" fill="#3D2B1F" />
+          <circle cx="150" cy="192" r="8" fill="#ffe144" stroke="#3D2B1F" stroke-width="3" />
+          <circle cx="76" cy="150" r="8" fill="#cfd8e3" stroke="#3D2B1F" stroke-width="3" />
+          <circle cx="224" cy="150" r="8" fill="#cfd8e3" stroke="#3D2B1F" stroke-width="3" />
+        </g>
+      </svg>

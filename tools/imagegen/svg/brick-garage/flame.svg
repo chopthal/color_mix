@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" fill="none">
+  <!-- friendly toy flame, short side 128 - stroke ~5 -->
+  <ellipse cx="64" cy="112" rx="28" ry="8" fill="#3D2B1F" opacity="0.12"/>
+  <path d="M64 18 C78 34 96 48 96 72 C96 92 82 108 64 108 C46 108 32 92 32 72 C32 52 46 38 52 28 C56 38 60 42 64 42 C68 34 66 24 64 18 Z"
+        fill="#FF9F45" stroke="#3D2B1F" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M64 46 C72 56 82 64 82 78 C82 90 74 98 64 98 C54 98 46 90 46 78 C46 66 54 58 58 52 C60 58 62 60 64 60 C66 54 65 48 64 46 Z"
+        fill="#FFC94A" stroke="#3D2B1F" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <ellipse cx="58" cy="78" rx="10" ry="14" fill="#FFF6E5" opacity="0.55"/>
+  <!-- cute face -->
+  <ellipse cx="56" cy="82" rx="4.5" ry="5.5" fill="#3D2B1F"/>
+  <ellipse cx="72" cy="82" rx="4.5" ry="5.5" fill="#3D2B1F"/>
+  <circle cx="57.5" cy="80.5" r="1.6" fill="#FFFFFF"/>
+  <circle cx="73.5" cy="80.5" r="1.6" fill="#FFFFFF"/>
+  <ellipse cx="52" cy="90" rx="5" ry="3.5" fill="#FFB3C1" opacity="0.5"/>
+  <ellipse cx="76" cy="90" rx="5" ry="3.5" fill="#FFB3C1" opacity="0.5"/>
+  <path d="M58 94 Q64 99 70 94" stroke="#3D2B1F" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+</svg>

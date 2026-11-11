@@ -258,4 +258,41 @@
   DINO.TOTAL_SPECIES = DINO.SPECIES.length;
   DINO.TOTAL_HEARTS = DINO.TOTAL_SPECIES * 3;
   DINO.LINE = '#34455c';
+
+  /* 은신처별 숨는 연출(난이도 변화 없음) */
+  DINO.HIDE_STYLE = {
+    tree: 'peek',
+    bush: 'rustle',
+    grass: 'rustle',
+    flower: 'rustle',
+    lily: 'ripple',
+    reed: 'ripple',
+    rock: 'nudge',
+    hay: 'nudge',
+    shell: 'nudge',
+    coral: 'nudge',
+    cloud: 'float'
+  };
+
+  /* 이미지 슬롯 — 파일 없으면 코드 드로잉 폴백 */
+  DINO.ASSET_SLOTS = [
+    { key: 'scene-forest', src: 'assets/scene-forest.webp' },
+    { key: 'scene-meadow', src: 'assets/scene-meadow.webp' },
+    { key: 'scene-lake', src: 'assets/scene-lake.webp' },
+    { key: 'spot-bush', src: 'assets/spot-bush.webp' },
+    { key: 'spot-tree', src: 'assets/spot-tree.webp' },
+    { key: 'spot-rock', src: 'assets/spot-rock.webp' },
+    { key: 'spot-cloud', src: 'assets/spot-cloud.webp' },
+    { key: 'spot-grass', src: 'assets/spot-grass.webp' },
+    { key: 'spot-flower', src: 'assets/spot-flower.webp' },
+    { key: 'spot-hay', src: 'assets/spot-hay.webp' },
+    { key: 'spot-reed', src: 'assets/spot-reed.webp' },
+    { key: 'spot-lily', src: 'assets/spot-lily.webp' },
+    { key: 'spot-shell', src: 'assets/spot-shell.webp' },
+    { key: 'spot-coral', src: 'assets/spot-coral.webp' },
+    { key: 'night-moon', src: 'assets/night-moon.webp' },
+    { key: 'night-firefly', src: 'assets/night-firefly.webp' }
+  ].concat(DINO.SPECIES.map(function (d) {
+    return { key: 'dino-' + d.id, src: 'assets/dino-' + d.id + '.webp' };
+  }));
 })();

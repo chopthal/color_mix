@@ -1,0 +1,162 @@
+{
+  "items": [
+    {
+      "name": "kid",
+      "outPath": "games/transform-hide/assets/kid.webp",
+      "prompt": "A cute round child character holding a short magic wand with a star tip, gentle smile, short purple tunic with a star on the belly, big head, soft shapes, front three-quarter view, centered.",
+      "width": 256,
+      "height": 320,
+      "refs": []
+    },
+    {
+      "name": "fairy",
+      "width": 256,
+      "height": 320,
+      "refs": [],
+      "variants": [
+        {
+          "name": "fairy-sky",
+          "outPath": "games/transform-hide/assets/fairy-sky.webp",
+          "prompt": "A cute round blue seeker fairy with tiny translucent wings and a small gold crown, gentle smile, floating pose, centered."
+        },
+        {
+          "name": "fairy-peach",
+          "outPath": "games/transform-hide/assets/fairy-peach.webp",
+          "prompt": "A cute round peach-orange seeker fairy with tiny translucent wings and a pink bow on the head, gentle smile, bouncy standing pose, centered."
+        },
+        {
+          "name": "fairy-lilac",
+          "outPath": "games/transform-hide/assets/fairy-lilac.webp",
+          "prompt": "A cute round lilac-purple seeker fairy with tiny translucent wings and a yellow star on an antenna, gentle smile, gliding pose with soft sparkles near feet, centered."
+        }
+      ]
+    },
+    {
+      "name": "bg",
+      "width": 780,
+      "height": 1688,
+      "refs": [],
+      "variants": [
+        {
+          "name": "bg-living",
+          "outPath": "games/transform-hide/assets/bg-living.webp",
+          "prompt": "A magical kids living room backdrop, soft lavender walls with tiny star dots, a glowing purple arch portal in the center top, round star window on the right, oval star rug on wooden floor, empty of characters and hide objects, front view."
+        },
+        {
+          "name": "bg-kitchen",
+          "outPath": "games/transform-hide/assets/bg-kitchen.webp",
+          "prompt": "A cozy kids kitchen backdrop, warm cream walls, upper cabinets strip, tile pattern, square window with pink curtains, simple sink silhouette, soft orange table mat on floor, empty of characters and hide objects, front view."
+        },
+        {
+          "name": "bg-garden",
+          "outPath": "games/transform-hide/assets/bg-garden.webp",
+          "prompt": "A bright kids garden backdrop, soft blue sky with round clouds and a gentle sun, wooden fence, green grass hill in the foreground, empty of characters and hide objects, front view."
+        }
+      ]
+    },
+    {
+      "name": "sofa",
+      "outPath": "games/transform-hide/assets/sofa.webp",
+      "prompt": "A cute purple magical sofa with two soft cushions and a tiny yellow star, rounded kids toy style, centered.",
+      "width": 256,
+      "height": 256,
+      "refs": []
+    },
+    {
+      "name": "gift",
+      "outPath": "games/transform-hide/assets/gift.webp",
+      "prompt": "A cute lilac gift box with a yellow ribbon bow and a tiny star, rounded kids toy style, centered.",
+      "width": 256,
+      "height": 256,
+      "refs": []
+    },
+    {
+      "name": "teddy",
+      "outPath": "games/transform-hide/assets/teddy.webp",
+      "prompt": "A cute brown teddy bear sitting with a visible belly button, gentle smile, rounded kids toy style, centered.",
+      "width": 256,
+      "height": 256,
+      "refs": []
+    },
+    {
+      "name": "piano",
+      "outPath": "games/transform-hide/assets/piano.webp",
+      "prompt": "A cute small purple upright piano with simple white keys and a tiny star on top, rounded kids toy style, centered.",
+      "width": 256,
+      "height": 256,
+      "refs": []
+    },
+    {
+      "name": "fridge",
+      "outPath": "games/transform-hide/assets/fridge.webp",
+      "prompt": "A cute rounded refrigerator with a small blue freezer door window and simple handles, kids toy style, centered.",
+      "width": 256,
+      "height": 320,
+      "refs": []
+    },
+    {
+      "name": "pot",
+      "outPath": "games/transform-hide/assets/pot.webp",
+      "prompt": "A cute cooking pot with a lid and two side handles, tiny orange steam puffs above, kids toy style, centered.",
+      "width": 256,
+      "height": 256,
+      "refs": []
+    },
+    {
+      "name": "stool",
+      "outPath": "games/transform-hide/assets/stool.webp",
+      "prompt": "A cute round yellow wooden stool with short legs, kids toy style, centered.",
+      "width": 256,
+      "height": 256,
+      "refs": []
+    },
+    {
+      "name": "jar",
+      "outPath": "games/transform-hide/assets/jar.webp",
+      "prompt": "A cute cookie jar with an orange lid and round cookies visible inside, kids toy style, centered.",
+      "width": 256,
+      "height": 256,
+      "refs": []
+    },
+    {
+      "name": "bush",
+      "outPath": "games/transform-hide/assets/bush.webp",
+      "prompt": "A cute round green garden bush with three tiny pink flowers, kids toy style, centered.",
+      "width": 256,
+      "height": 256,
+      "refs": []
+    },
+    {
+      "name": "planter",
+      "outPath": "games/transform-hide/assets/planter.webp",
+      "prompt": "A cute terracotta flower pot with green leaves and one pink flower on top, kids toy style, centered.",
+      "width": 256,
+      "height": 256,
+      "refs": []
+    },
+    {
+      "name": "swing",
+      "outPath": "games/transform-hide/assets/swing.webp",
+      "prompt": "A cute simple wooden garden swing seat hanging from two ropes under a short top bar, kids toy style, centered.",
+      "width": 256,
+      "height": 256,
+      "refs": []
+    },
+    {
+      "name": "can",
+      "outPath": "games/transform-hide/assets/can.webp",
+      "prompt": "A cute blue watering can with a curved spout and tiny water drops, kids toy style, centered.",
+      "width": 256,
+      "height": 256,
+      "refs": []
+    },
+    {
+      "name": "sparkle",
+      "outPath": "games/transform-hide/assets/sparkle.webp",
+      "prompt": "A single soft yellow-lilac sparkle star particle, simple silhouette, centered.",
+      "width": 96,
+      "height": 96,
+      "refs": []
+    }
+  ]
+}

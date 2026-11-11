@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 640" width="512" height="640" fill="none">
+  <!-- pink candy vending machine - empty shelves, door closed, no text -->
+  <ellipse cx="256" cy="618" rx="170" ry="14" fill="#3D2B1F" opacity="0.12"/>
+  <!-- body -->
+  <rect x="36" y="28" width="440" height="572" rx="48" fill="#FF6B81" stroke="#3D2B1F" stroke-width="20" stroke-linejoin="round"/>
+  <rect x="36" y="28" width="440" height="548" rx="48" fill="#FF8FC4" opacity="0.55"/>
+  <!-- highlight strip -->
+  <ellipse cx="120" cy="120" rx="48" ry="90" fill="#FFF6E5" opacity="0.35"/>
+  <!-- header light bar (no lettering) -->
+  <rect x="72" y="48" width="368" height="58" rx="22" fill="#FFF6E5" stroke="#3D2B1F" stroke-width="12" stroke-linejoin="round"/>
+  <ellipse cx="160" cy="70" rx="40" ry="14" fill="#FFFFFF" opacity="0.55"/>
+  <!-- ready lamp -->
+  <circle cx="96" cy="77" r="12" fill="#FFC94A" stroke="#3D2B1F" stroke-width="8"/>
+  <circle cx="92" cy="73" r="4" fill="#FFF6E5" opacity="0.7"/>
+  <!-- coin slot -->
+  <rect x="378" y="70" width="72" height="36" rx="12" fill="#B07A4F" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round"/>
+  <rect x="408" y="76" width="12" height="24" rx="4" fill="#3D2B1F"/>
+  <!-- glass display -->
+  <rect x="64" y="128" width="384" height="160" rx="22" fill="#E8F6FF" stroke="#3D2B1F" stroke-width="14" stroke-linejoin="round"/>
+  <rect x="64" y="128" width="384" height="160" rx="22" fill="#7CC6FE" opacity="0.18"/>
+  <!-- empty shelf lines -->
+  <line x1="90" y1="180" x2="422" y2="180" stroke="#3BA4E6" stroke-width="6" stroke-linecap="round" opacity="0.35"/>
+  <line x1="90" y1="230" x2="422" y2="230" stroke="#3BA4E6" stroke-width="6" stroke-linecap="round" opacity="0.35"/>
+  <!-- glass shine -->
+  <ellipse cx="140" cy="170" rx="50" ry="55" fill="#FFFFFF" opacity="0.45"/>
+  <!-- button panel backdrop (code draws the 12 candy buttons on top) -->
+  <rect x="72" y="310" width="368" height="200" rx="28" fill="#FFB3C1" stroke="#3D2B1F" stroke-width="12" stroke-linejoin="round"/>
+  <ellipse cx="140" cy="340" rx="36" ry="18" fill="#FFF6E5" opacity="0.4"/>
+  <!-- tray recess (matches code trayPos ~y 0.855 h 0.13) -->
+  <rect x="156" y="542" width="200" height="78" rx="18" fill="#E05A8A" stroke="#3D2B1F" stroke-width="12" stroke-linejoin="round"/>
+  <!-- closed door -->
+  <rect x="168" y="552" width="176" height="54" rx="14" fill="#FF8FC4" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round"/>
+  <rect x="180" y="562" width="152" height="16" rx="7" fill="#FFB3C1"/>
+  <ellipse cx="220" cy="568" rx="24" ry="6" fill="#FFF6E5" opacity="0.5"/>
+</svg>

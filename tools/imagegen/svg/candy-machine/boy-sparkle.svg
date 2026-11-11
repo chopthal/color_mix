@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 384" width="384" height="384" fill="none">
+  <!-- delighted sparkling eyes + big smile + tiny stars -->
+  <ellipse cx="192" cy="350" rx="78" ry="16" fill="#3D2B1F" opacity="0.12"/>
+  <ellipse cx="192" cy="168" rx="128" ry="120" fill="#B07A4F" stroke="#3D2B1F" stroke-width="15" stroke-linejoin="round"/>
+  <circle cx="192" cy="200" r="118" fill="#FFD8B0" stroke="#3D2B1F" stroke-width="15"/>
+  <ellipse cx="150" cy="160" rx="36" ry="22" fill="#FFF6E5" opacity="0.55"/>
+  <path d="M90 175 C95 95 145 78 192 78 C245 78 290 100 294 175 C275 125 235 118 192 118 C148 118 110 128 90 175 Z"
+        fill="#B07A4F" stroke="#3D2B1F" stroke-width="15" stroke-linejoin="round" stroke-linecap="round"/>
+  <ellipse cx="132" cy="118" rx="34" ry="28" fill="#B07A4F" stroke="#3D2B1F" stroke-width="12" stroke-linejoin="round"/>
+  <ellipse cx="252" cy="118" rx="34" ry="28" fill="#B07A4F" stroke="#3D2B1F" stroke-width="12" stroke-linejoin="round"/>
+  <!-- big sparkle eyes -->
+  <ellipse cx="152" cy="208" rx="16" ry="20" fill="#3D2B1F"/>
+  <ellipse cx="232" cy="208" rx="16" ry="20" fill="#3D2B1F"/>
+  <circle cx="157" cy="200" r="6" fill="#FFFFFF"/>
+  <circle cx="237" cy="200" r="6" fill="#FFFFFF"/>
+  <circle cx="148" cy="214" r="3" fill="#FFFFFF" opacity="0.8"/>
+  <circle cx="228" cy="214" r="3" fill="#FFFFFF" opacity="0.8"/>
+  <circle cx="118" cy="238" r="24" fill="#FFB3C1" opacity="0.55"/>
+  <circle cx="266" cy="238" r="24" fill="#FFB3C1" opacity="0.55"/>
+  <!-- big smile -->
+  <path d="M152 255 Q192 292 232 255" stroke="#3D2B1F" stroke-width="12" stroke-linecap="round" fill="none"/>
+  <!-- tiny star sparkles near cheeks -->
+  <path d="M78 200 L82 210 L93 211 L84 218 L87 229 L78 223 L69 229 L72 218 L63 211 L74 210 Z"
+        fill="#FFC94A" stroke="#3D2B1F" stroke-width="6" stroke-linejoin="round"/>
+  <path d="M306 188 L309 196 L318 197 L311 203 L313 212 L306 207 L299 212 L301 203 L294 197 L303 196 Z"
+        fill="#FFC94A" stroke="#3D2B1F" stroke-width="5" stroke-linejoin="round"/>
+  <circle cx="98" cy="160" r="6" fill="#FFF6E5" opacity="0.85"/>
+  <circle cx="300" cy="155" r="5" fill="#FFF6E5" opacity="0.85"/>
+</svg>

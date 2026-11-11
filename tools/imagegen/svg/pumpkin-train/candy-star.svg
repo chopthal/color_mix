@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" fill="none">
+  <!-- soft round-point star candy -->
+  <ellipse cx="64" cy="116" rx="28" ry="6" fill="#3D2B1F" opacity="0.12"/>
+  <path d="M64 22 L74 50 L104 52 L80 72 L88 102 L64 86 L40 102 L48 72 L24 52 L54 50 Z"
+        fill="#FFC94A" stroke="#3D2B1F" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>
+  <ellipse cx="54" cy="48" rx="14" ry="9" fill="#FFF6E5" opacity="0.55"/>
+  <!-- face -->
+  <ellipse cx="54" cy="62" rx="4.5" ry="5.5" fill="#3D2B1F"/>
+  <ellipse cx="74" cy="62" rx="4.5" ry="5.5" fill="#3D2B1F"/>
+  <circle cx="55.5" cy="60" r="1.5" fill="#FFFFFF"/>
+  <circle cx="75.5" cy="60" r="1.5" fill="#FFFFFF"/>
+  <circle cx="44" cy="72" r="6" fill="#FFB3C1" opacity="0.5"/>
+  <circle cx="84" cy="72" r="6" fill="#FFB3C1" opacity="0.5"/>
+  <path d="M56 78 Q64 86 72 78" stroke="#3D2B1F" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+</svg>

@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 384" width="512" height="384">
+  <!-- quilt body -->
+  <rect x="24" y="48" width="464" height="312" rx="40" ry="40" fill="#FFC94A" stroke="#3D2B1F" stroke-width="15" stroke-linejoin="round"/>
+  <!-- polka dots -->
+  <circle cx="100" cy="140" r="16" fill="#FF9F45"/>
+  <circle cx="180" cy="180" r="14" fill="#FF9F45"/>
+  <circle cx="260" cy="150" r="15" fill="#FF9F45"/>
+  <circle cx="340" cy="190" r="14" fill="#FF9F45"/>
+  <circle cx="420" cy="155" r="16" fill="#FF9F45"/>
+  <circle cx="120" cy="250" r="14" fill="#FF9F45"/>
+  <circle cx="220" cy="280" r="15" fill="#FF9F45"/>
+  <circle cx="320" cy="260" r="14" fill="#FF9F45"/>
+  <circle cx="400" cy="290" r="15" fill="#FF9F45"/>
+  <circle cx="160" cy="320" r="12" fill="#FF9F45"/>
+  <circle cx="280" cy="330" r="13" fill="#FF9F45"/>
+  <!-- folded top edge -->
+  <path d="M40 48 Q256 110 472 48 L472 100 Q256 160 40 100 Z" fill="#FFF6E5" stroke="#3D2B1F" stroke-width="12" stroke-linejoin="round"/>
+  <ellipse cx="160" cy="88" rx="50" ry="14" fill="#FFFFFF" opacity="0.55"/>
+</svg>

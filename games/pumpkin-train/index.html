@@ -8,6 +8,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="호박 특장차">
   <title>🎃 칙칙폭폭 호박 특장차와 사탕 미로 대모험</title>
+  <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
 
   <!-- 웹 폰트 -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,6 +16,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
 
   <!-- 스타일시트 -->
+  <link rel="stylesheet" href="../_shared/kit.css">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -171,7 +173,7 @@
         <button class="btn-close-modal" id="btnCloseGarage">✕</button>
       </div>
 
-      <p class="garage-desc">원하는 파츠를 톡 눌러 차를 멋지게 꾸며봐요!</p>
+      <p class="garage-desc" id="garageDesc">원하는 파츠를 톡 눌러 차를 멋지게 꾸며봐요!</p>
 
       <!-- 차고 차량 미리보기 뷰 -->
       <div class="garage-car-display">
@@ -190,6 +192,7 @@
   </div>
 
   <!-- 스크립트 모듈 로드 -->
+  <script src="../_shared/kit.js"></script>
   <script src="js/audio.js"></script>
   <script src="js/game.js"></script>
 </body>

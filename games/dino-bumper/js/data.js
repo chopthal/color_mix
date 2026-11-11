@@ -109,6 +109,7 @@ const DB_ARENAS = [
     friction: 0.93,
     sky: ['#e9fbe0', '#c9f2bd'],
     ground: ['#b8ec9a', '#7fd47a'],
+    prop: 'flower',
   },
   {
     id: 'river',
@@ -117,6 +118,7 @@ const DB_ARENAS = [
     friction: 0.962,
     sky: ['#e2f7ff', '#bde9fb'],
     ground: ['#a9e3f0', '#6cc6dd'],
+    prop: 'wave',
   },
   {
     id: 'ice',
@@ -125,5 +127,16 @@ const DB_ARENAS = [
     friction: 0.984,
     sky: ['#f3fbff', '#d8efff'],
     ground: ['#e4f5ff', '#a9d4f5'],
+    prop: 'spark',
   },
+];
+
+/** 간식 도감용 이모지 (수집 시 저장) */
+const DB_SNACKS = ['🍎', '🍇', '🍊', '🍓', '🍋', '🍉', '🍑', '🍐'];
+
+/** 3번째 부딪힘마다 순환하는 숨은 리액션 */
+const DB_SECRET_REACTIONS = [
+  { id: 'sit', toast: '엉덩방아! 깔깔!' },
+  { id: 'jump', toast: '같이 폴짝!' },
+  { id: 'wiggle', toast: '빙글빙글 간질!' },
 ];

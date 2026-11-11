@@ -1,0 +1,13 @@
+<svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+        <path class="part" data-part="body" data-name="동체" d="M38 158 Q38 130 70 124 L210 124 Q248 124 262 146 Q268 156 258 164 L70 186 Q42 186 38 166 Z" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <path class="part" data-part="wing" data-name="날개" d="M128 164 L100 222 L162 214 L178 166 Z" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <path class="part" data-part="tail" data-name="꼬리날개" d="M48 156 L22 108 L58 112 L74 150 Z" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <circle class="part" data-part="window1" data-name="창문" cx="212" cy="143" r="8" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <circle class="part" data-part="window2" data-name="창문" cx="184" cy="147" r="8" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <circle class="part" data-part="window3" data-name="창문" cx="156" cy="151" r="8" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <path class="part" data-part="stripe" data-name="띠" d="M60 168 Q150 152 250 150 L252 160 Q160 162 62 178 Z" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <g class="fixed">
+          <circle cx="266" cy="154" r="7" fill="#cfd8e3" stroke="#3D2B1F" stroke-width="3" />
+          <path d="M92 150 L116 150" stroke="#3D2B1F" stroke-width="3" stroke-linecap="round" />
+        </g>
+      </svg>

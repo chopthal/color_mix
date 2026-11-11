@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192" fill="none">
+  <ellipse cx="96" cy="178" rx="36" ry="8" fill="#3D2B1F" opacity="0.12"/>
+  <!-- leafy top -->
+  <ellipse cx="72" cy="42" rx="18" ry="28" fill="#7BD389" stroke="#3D2B1F" stroke-width="8" stroke-linejoin="round" transform="rotate(-18 72 42)"/>
+  <ellipse cx="96" cy="34" rx="16" ry="30" fill="#3FA34D" stroke="#3D2B1F" stroke-width="8" stroke-linejoin="round"/>
+  <ellipse cx="120" cy="42" rx="18" ry="28" fill="#7BD389" stroke="#3D2B1F" stroke-width="8" stroke-linejoin="round" transform="rotate(18 120 42)"/>
+  <ellipse cx="90" cy="28" rx="6" ry="10" fill="#FFF6E5" opacity="0.5"/>
+  <!-- carrot body -->
+  <path d="M96 52 C128 58 138 100 118 150 C108 172 84 172 74 150 C54 100 64 58 96 52 Z"
+        fill="#FF9F45" stroke="#3D2B1F" stroke-width="8" stroke-linejoin="round"/>
+  <ellipse cx="100" cy="90" rx="14" ry="22" fill="#FFC94A" opacity="0.55"/>
+  <!-- soft rings -->
+  <path d="M78 90 Q96 98 114 90" stroke="#3D2B1F" stroke-width="3" stroke-linecap="round" opacity="0.25" fill="none"/>
+  <path d="M80 118 Q96 126 112 118" stroke="#3D2B1F" stroke-width="3" stroke-linecap="round" opacity="0.25" fill="none"/>
+  <!-- tiny face -->
+  <ellipse cx="88" cy="108" rx="4" ry="5" fill="#3D2B1F"/>
+  <ellipse cx="108" cy="108" rx="4" ry="5" fill="#3D2B1F"/>
+  <circle cx="89" cy="106.5" r="1.4" fill="#FFFFFF"/>
+  <circle cx="109" cy="106.5" r="1.4" fill="#FFFFFF"/>
+  <path d="M90 120 Q98 126 106 120" stroke="#3D2B1F" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+</svg>

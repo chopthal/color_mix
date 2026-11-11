@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 1688" width="780" height="1688">
+  <defs>
+    <linearGradient id="kWater" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2E3A6B"/>
+      <stop offset="40%" stop-color="#243456"/>
+      <stop offset="75%" stop-color="#1A2A48"/>
+      <stop offset="100%" stop-color="#121C30"/>
+    </linearGradient>
+    <linearGradient id="kSand" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3A4A5C"/>
+      <stop offset="100%" stop-color="#2A3544"/>
+    </linearGradient>
+    <radialGradient id="kTeal" cx="50%" cy="40%" r="45%">
+      <stop offset="0%" stop-color="#6EE7B7" stop-opacity="0.18"/>
+      <stop offset="70%" stop-color="#3BA4E6" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#3BA4E6" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="780" height="1688" fill="url(#kWater)"/>
+  <ellipse cx="390" cy="620" rx="280" ry="320" fill="url(#kTeal)"/>
+  <!-- tiny gentle sparkles (not scary) -->
+  <circle cx="120" cy="220" r="3" fill="#FFF6E5" opacity="0.55"/>
+  <circle cx="200" cy="340" r="2" fill="#FFF6E5" opacity="0.45"/>
+  <circle cx="560" cy="180" r="3" fill="#FFF6E5" opacity="0.5"/>
+  <circle cx="640" cy="300" r="2.5" fill="#FFF6E5" opacity="0.4"/>
+  <circle cx="420" cy="260" r="2" fill="#FFF6E5" opacity="0.35"/>
+  <circle cx="300" cy="480" r="2.5" fill="#6EE7B7" opacity="0.35"/>
+  <circle cx="500" cy="520" r="2" fill="#7CC6FE" opacity="0.35"/>
+  <circle cx="160" cy="600" r="2" fill="#FFF6E5" opacity="0.3"/>
+  <circle cx="680" cy="580" r="3" fill="#FFF6E5" opacity="0.35"/>
+  <!-- soft side plants -->
+  <path d="M40 1100 Q70 980 50 860 Q90 940 80 1100 Q60 1300 40 1500" fill="#3FA34D" opacity="0.22"/>
+  <path d="M740 1080 Q710 960 730 840 Q690 920 700 1080 Q720 1280 740 1480" fill="#3FA34D" opacity="0.22"/>
+  <path d="M0 1410 Q220 1350 390 1390 Q560 1430 780 1360 L780 1688 L0 1688 Z" fill="url(#kSand)"/>
+  <ellipse cx="250" cy="1520" rx="40" ry="10" fill="#6EE7B7" opacity="0.08"/>
+  <ellipse cx="540" cy="1550" rx="50" ry="12" fill="#7CC6FE" opacity="0.08"/>
+</svg>

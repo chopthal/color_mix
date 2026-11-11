@@ -1,0 +1,16 @@
+<svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+        <rect class="part" data-part="body" data-name="차체" x="36" y="128" width="228" height="84" rx="14" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <rect class="part" data-part="cabin" data-name="운전실" x="196" y="88" width="68" height="62" rx="10" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <rect class="part" data-part="window" data-name="창문" x="208" y="100" width="44" height="32" rx="6" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <rect class="part" data-part="ladder" data-name="사다리" x="58" y="94" width="122" height="18" rx="8" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <rect class="part" data-part="stripe" data-name="띠" x="36" y="178" width="228" height="16" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <circle class="part" data-part="wheel1" data-name="바퀴" cx="88" cy="212" r="26" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <circle class="part" data-part="wheel2" data-name="바퀴" cx="214" cy="212" r="26" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <circle class="part" data-part="light" data-name="경광등" cx="150" cy="86" r="12" fill="none" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
+        <g class="fixed">
+          <circle cx="88" cy="212" r="10" fill="#cfd8e3" stroke="#3D2B1F" stroke-width="3" />
+          <circle cx="214" cy="212" r="10" fill="#cfd8e3" stroke="#3D2B1F" stroke-width="3" />
+          <path d="M84 94 L84 112 M108 94 L108 112 M132 94 L132 112 M156 94 L156 112" stroke="#3D2B1F" stroke-width="3" />
+          <path d="M200 134 L200 210" stroke="#3D2B1F" stroke-width="3" />
+        </g>
+      </svg>

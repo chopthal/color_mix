@@ -1,24 +1,43 @@
 /**
  * 숲속 냄비 요리
- * 재료를 냄비에 퐁당 넣고, 뱅글뱅글 저어서, 숲속 친구에게 냠냠 먹인다.
- * 정답·실패·타이머 압박 없음. 모든 입력은 바로 시청각 반응으로 돌아온다.
+ * 재료를 냄비에 퐁당 넣고, 뱅글뱅글·톡톡으로 저어서, 숲속 친구에게 냠냠 먹인다.
+ * 정답·실패·타이머 압박 없음. 좋아하는 재료가 들어가면 친구가 더 크게 기뻐한다.
  */
 (() => {
   'use strict';
 
   const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const STORAGE_KEY = 'forest-soup-fed';
+  const LEGACY_FED_KEY = 'forest-soup-fed';
   const RING_LENGTH = 289;
   const TURNS_TO_FINISH = 1.5;
+  const BOWLS_PER_SESSION = 4;
+  const ASSET_BASE = 'assets/';
+
+  const store = window.KidsKit
+    ? window.KidsKit.store('forest-soup')
+    : {
+        get(_k, fallback) {
+          return fallback;
+        },
+        set() {
+          return false;
+        },
+        update(_k, updater, fallback) {
+          return typeof updater === 'function' ? updater(fallback) : updater;
+        },
+      };
 
   const els = {
     stage: document.getElementById('stage'),
     potZone: document.getElementById('potZone'),
     potWrap: document.getElementById('potWrap'),
+    potFace: document.getElementById('potFace'),
     soup: document.getElementById('soup'),
     soupBits: document.getElementById('soupBits'),
+    soupToppings: document.getElementById('soupToppings'),
     ringFill: document.getElementById('ringFill'),
     splashRing: document.getElementById('splashRing'),
+    stirCue: document.getElementById('stirCue'),
     tray: document.getElementById('tray'),
     fxLayer: document.getElementById('fxLayer'),
     hintBubble: document.getElementById('hintBubble'),
@@ -28,8 +47,11 @@
     friendBubble: document.getElementById('friendBubble'),
     friendsTree: document.getElementById('friendsTree'),
     mealTrail: document.getElementById('mealTrail'),
+    welcomeBanner: document.getElementById('welcomeBanner'),
     endingOverlay: document.getElementById('endingOverlay'),
     endingOrnament: document.getElementById('endingOrnament'),
+    endingTitle: document.getElementById('endingTitle'),
+    endingSub: document.getElementById('endingSub'),
     btnAgain: document.getElementById('btnAgain'),
     btnSound: document.getElementById('btnSound'),
   };
@@ -40,21 +62,63 @@
   };
 
   const INGREDIENTS = [
-    { id: 'carrot', emoji: '🥕', name: '당근', color: '#ff9b4a' },
-    { id: 'mushroom', emoji: '🍄', name: '버섯', color: '#e07a5f' },
-    { id: 'corn', emoji: '🌽', name: '옥수수', color: '#ffd166' },
-    { id: 'broccoli', emoji: '🥦', name: '브로콜리', color: '#7ac74f' },
-    { id: 'apple', emoji: '🍎', name: '사과', color: '#ff7a7a' },
+    { id: 'carrot', emoji: '🥕', name: '당근', color: '#ff9b4a', topping: '🧡' },
+    { id: 'mushroom', emoji: '🍄', name: '버섯', color: '#e07a5f', topping: '🤎' },
+    { id: 'corn', emoji: '🌽', name: '옥수수', color: '#ffd166', topping: '💛' },
+    { id: 'broccoli', emoji: '🥦', name: '브로콜리', color: '#7ac74f', topping: '💚' },
+    { id: 'apple', emoji: '🍎', name: '사과', color: '#ff7a7a', topping: '❤️' },
   ].map((ing) => ({ ...ing, rgb: hexToRgb(ing.color) }));
 
   const FRIENDS = [
-    { id: 'rabbit', emoji: '🐰', name: '토끼' },
-    { id: 'bear', emoji: '🐻', name: '곰' },
-    { id: 'fox', emoji: '🦊', name: '여우' },
-    { id: 'deer', emoji: '🦌', name: '사슴' },
+    {
+      id: 'rabbit',
+      emoji: '🐰',
+      name: '토끼',
+      favorite: 'carrot',
+      yum: ['맛있다!', '고마워!', '쭉쭉~'],
+      love: ['당근 최고!', '와아 좋아!', '당근 수프!'],
+    },
+    {
+      id: 'bear',
+      emoji: '🐻',
+      name: '곰',
+      favorite: 'mushroom',
+      yum: ['맛있다!', '배불러!', '냠냠~'],
+      love: ['버섯 최고!', '우와 맛있다!', '버섯 수프!'],
+    },
+    {
+      id: 'fox',
+      emoji: '🦊',
+      name: '여우',
+      favorite: 'apple',
+      yum: ['맛있다!', '고마워!', '달콤해~'],
+      love: ['사과 최고!', '달콤하다!', '사과 수프!'],
+    },
+    {
+      id: 'deer',
+      emoji: '🦌',
+      name: '사슴',
+      favorite: 'broccoli',
+      yum: ['맛있다!', '고마워!', '신선해~'],
+      love: ['초록 최고!', '싱싱하다!', '브로콜리!'],
+    },
   ];
 
   const SOUP_BASE = { r: 242, g: 223, b: 176 };
+
+  const ASSET_KEYS = [
+    'pot',
+    'friend-rabbit',
+    'friend-bear',
+    'friend-fox',
+    'friend-deer',
+    'ing-carrot',
+    'ing-mushroom',
+    'ing-corn',
+    'ing-broccoli',
+    'ing-apple',
+    'forest-bg',
+  ];
 
   const G = {
     state: 'cook',
@@ -73,6 +137,12 @@
     timers: [],
     idleTimer: null,
     nudgeHintTimer: null,
+    visitCount: 0,
+    firstVisit: true,
+    tapBoost: true,
+    lovedThisBowl: false,
+    pointerMoved: false,
+    assets: {},
   };
 
   const rand = (a, b) => a + Math.random() * (b - a);
@@ -173,6 +243,12 @@
             this.tone(f, 0.18, 'sine', 0.12, i * 0.07);
           });
           break;
+        case 'love':
+          [784, 988, 1175, 1318].forEach((f, i) => {
+            this.tone(f, 0.2, 'triangle', 0.13, i * 0.08);
+          });
+          this.noise(0.2, 0.04, 2200);
+          break;
         case 'win':
           [523, 659, 784, 1046, 1318].forEach((f, i) => {
             this.tone(f, 0.24, 'triangle', 0.11, i * 0.1);
@@ -234,6 +310,27 @@
     if (onDone) setTimeout(onDone, Math.min(opts.duration || 300, 300));
   }
 
+  function isRealAsset(img) {
+    return !!(img && img.dataset && img.dataset.kidsKitPlaceholder !== '1' && img.naturalWidth > 1);
+  }
+
+  function fillVisual(el, key, fallbackEmoji) {
+    if (!el) return;
+    const img = G.assets[key];
+    if (isRealAsset(img)) {
+      el.textContent = '';
+      const node = img.cloneNode(true);
+      node.className = 'slot-img';
+      node.alt = '';
+      node.setAttribute('draggable', 'false');
+      el.appendChild(node);
+      el.classList.add('has-slot-img');
+    } else {
+      el.textContent = fallbackEmoji;
+      el.classList.remove('has-slot-img');
+    }
+  }
+
   /* ------------------------------------------------------------------ */
   /* 힌트·스캐폴딩                                                        */
   /* ------------------------------------------------------------------ */
@@ -263,8 +360,20 @@
         els.tray.classList.add('nudge');
       } else {
         els.potWrap.classList.add('nudge');
+        refreshStirCue();
       }
-    }, 6000);
+    }, G.tapBoost ? 4500 : 6000);
+  }
+
+  function refreshStirCue() {
+    if (!els.stirCue) return;
+    if (G.tapBoost && !G.hasStirred) {
+      els.stirCue.textContent = '톡톡·뱅글뱅글';
+      els.potWrap.classList.add('is-tap-friendly');
+    } else {
+      els.stirCue.textContent = '뱅글뱅글';
+      els.potWrap.classList.remove('is-tap-friendly');
+    }
   }
 
   /* ------------------------------------------------------------------ */
@@ -278,6 +387,62 @@
     if (!G.hasStirred) {
       els.potWrap.classList.toggle('is-stir-ready', has);
     }
+    refreshStirCue();
+  }
+
+  function hasFavorite() {
+    return G.ingredients.some((ing) => ing.id === G.friend.favorite);
+  }
+
+  function recomputeSoupColor() {
+    if (G.ingredients.length === 0) {
+      G.soupColor = { ...SOUP_BASE };
+      return;
+    }
+    let c = { ...SOUP_BASE };
+    G.ingredients.forEach((ing, i) => {
+      const t = 0.42 + Math.min(0.18, i * 0.04);
+      c = mixColor(c, ing.rgb, t);
+    });
+    G.soupColor = c;
+  }
+
+  function updateSoupVisual() {
+    recomputeSoupColor();
+    els.soup.style.background = soupBackground(G.soupColor);
+    els.soup.style.setProperty('--soup-rgb', rgbCss(G.soupColor));
+    renderToppings();
+  }
+
+  function renderToppings() {
+    if (!els.soupToppings) return;
+    els.soupToppings.innerHTML = '';
+    if (G.ingredients.length === 0) return;
+
+    const unique = [];
+    G.ingredients.forEach((ing) => {
+      if (!unique.find((u) => u.id === ing.id)) unique.push(ing);
+    });
+
+    unique.slice(0, 4).forEach((ing, i) => {
+      const flake = document.createElement('span');
+      flake.className = `soup-topping topping-${ing.id}`;
+      flake.textContent = ing.topping;
+      flake.style.setProperty('--tx', `${18 + i * 18 + rand(-4, 4)}%`);
+      flake.style.setProperty('--ty', `${22 + ((i * 23) % 50) + rand(-6, 6)}%`);
+      flake.style.animationDelay = `${rand(0, 1.2)}s`;
+      els.soupToppings.appendChild(flake);
+    });
+
+    if (unique.length >= 2) {
+      const swirl = document.createElement('span');
+      swirl.className = 'soup-swirl';
+      swirl.style.setProperty('--swirl-a', rgbCss(mixColor(unique[0].rgb, { r: 255, g: 255, b: 255 }, 0.35)));
+      swirl.style.setProperty('--swirl-b', rgbCss(mixColor(unique[1].rgb, { r: 255, g: 255, b: 255 }, 0.35)));
+      els.soupToppings.appendChild(swirl);
+    }
+
+    els.soup.classList.toggle('is-rich', G.ingredients.length >= 3);
   }
 
   function addIngredient(ing) {
@@ -285,13 +450,21 @@
     clearIdle();
     SOUND.unlock();
     SOUND.play('pop');
+    if (window.KidsKit) window.KidsKit.haptic('soft');
 
     G.ingredients.push(ing);
-    G.soupColor = mixColor(G.soupColor, ing.rgb, 0.5);
-    els.soup.style.background = soupBackground(G.soupColor);
+    updateSoupVisual();
     syncPotClasses();
 
-    if (G.ingredients.length === 1) setHint('냄비를 뱅글뱅글!');
+    if (G.ingredients.length === 1) {
+      setHint(G.tapBoost ? '냄비를 톡톡!' : '냄비를 뱅글뱅글!');
+    }
+
+    if (ing.id === G.friend.favorite) {
+      els.friendBubble.textContent = pick(['오!', '좋아!', '와!']);
+      els.friendSpot.classList.add('is-peek');
+      schedule(() => els.friendSpot.classList.remove('is-peek'), 700);
+    }
 
     const btn = els.tray.querySelector(`.ingredient[data-id="${ing.id}"]`);
     if (btn) flyIngredient(ing, btn);
@@ -308,7 +481,8 @@
 
     const el = document.createElement('span');
     el.className = 'flying-ing';
-    el.textContent = ing.emoji;
+    fillVisual(el, `ing-${ing.id}`, ing.emoji);
+    if (!el.classList.contains('has-slot-img')) el.textContent = ing.emoji;
     el.style.left = `${start.x}px`;
     el.style.top = `${start.y}px`;
     els.fxLayer.appendChild(el);
@@ -344,8 +518,9 @@
 
   function addSoupBit(ing) {
     const bit = document.createElement('span');
-    bit.className = 'soup-bit';
-    bit.textContent = ing.emoji;
+    bit.className = `soup-bit bit-${ing.id}`;
+    fillVisual(bit, `ing-${ing.id}`, ing.emoji);
+    if (!bit.classList.contains('has-slot-img')) bit.textContent = ing.emoji;
     bit.style.left = `${rand(20, 80)}%`;
     bit.style.top = `${rand(20, 80)}%`;
     bit.style.animationDelay = `${rand(0, 1.4)}s`;
@@ -374,6 +549,13 @@
     return Math.atan2(e.clientY - (r.top + r.height / 2), e.clientX - (r.left + r.width / 2));
   }
 
+  /** 첫 방문·첫 그릇은 톡톡 연타만으로도 충분히 차오르게 한다. */
+  function tapStirAmount() {
+    if (G.tapBoost) return 0.17;
+    if (G.visitCount <= 1) return 0.11;
+    return 0.08;
+  }
+
   function nudgeIngredientsHint() {
     els.tray.classList.remove('nudge');
     void els.tray.offsetWidth;
@@ -392,7 +574,6 @@
     clearIdle();
     SOUND.unlock();
 
-    // 재료 없이 저으면 진행하지 않고 재료 버튼만 통통 힌트
     if (G.ingredients.length === 0) {
       nudgeIngredientsHint();
       return;
@@ -400,9 +581,11 @@
 
     G.stirring = true;
     G.hasStirred = true;
+    G.pointerMoved = false;
     G.lastAngle = angleAt(e);
     els.potWrap.classList.remove('is-stir-ready', 'nudge');
     els.potWrap.classList.add('is-stirring');
+    refreshStirCue();
 
     try {
       els.potZone.setPointerCapture(e.pointerId);
@@ -410,7 +593,8 @@
       /* Safari 구형: 캡처 실패해도 아래 move 로 처리 */
     }
 
-    addStir(0.05);
+    addStir(tapStirAmount());
+    if (window.KidsKit) window.KidsKit.haptic('light');
   }
 
   function onPotMove(e) {
@@ -422,6 +606,7 @@
       while (d < -Math.PI) d += Math.PI * 2;
 
       if (Math.abs(d) > 0.01) {
+        G.pointerMoved = true;
         addStir(Math.abs(d) / (Math.PI * 2 * TURNS_TO_FINISH));
         G.stirAngle = (a * 180) / Math.PI;
         els.potWrap.style.setProperty('--spoon-angle', `${G.stirAngle}deg`);
@@ -432,6 +617,10 @@
 
   function onPotUp(e) {
     if (!G.stirring) return;
+    // 짧은 톡(거의 안 움직임)이면 한 번 더 살짝 보태 연타 친숙을 돕는다
+    if (!G.pointerMoved && G.state === 'cook' && G.ingredients.length > 0) {
+      addStir(tapStirAmount() * 0.35);
+    }
     G.stirring = false;
     G.lastAngle = null;
     els.potWrap.classList.remove('is-stirring');
@@ -469,7 +658,7 @@
     G.progress = 1;
     updateRing();
 
-    els.potWrap.classList.remove('is-stirring', 'is-stir-ready', 'is-cookable', 'nudge');
+    els.potWrap.classList.remove('is-stirring', 'is-stir-ready', 'is-cookable', 'nudge', 'is-tap-friendly');
     els.potWrap.classList.add('is-full', 'has-ingredients');
     els.tray.classList.add('is-dim');
     setHint('보글보글~');
@@ -486,7 +675,6 @@
 
   function serveSoup() {
     if (G.state !== 'serving') return;
-    G.state = 'serving';
 
     const start = stagePoint(els.soup.getBoundingClientRect());
     const end = stagePoint(els.friendEmoji.getBoundingClientRect());
@@ -496,6 +684,7 @@
     bowl.textContent = '🥣';
     bowl.style.left = `${start.x}px`;
     bowl.style.top = `${start.y}px`;
+    bowl.style.setProperty('--bowl-tint', rgbCss(G.soupColor));
     els.fxLayer.appendChild(bowl);
 
     const dx = end.x - start.x;
@@ -526,8 +715,10 @@
   function beginBites() {
     if (G.state === 'ending') return;
     G.state = 'tasting';
+    G.lovedThisBowl = hasFavorite();
     els.friendSpot.classList.add('is-tasting');
-    els.friendBubble.textContent = '냠냠!';
+    if (G.lovedThisBowl) els.friendSpot.classList.add('is-love-taste');
+    els.friendBubble.textContent = G.lovedThisBowl ? '우와 냠냠!' : '냠냠!';
 
     let bites = 0;
     const bite = () => {
@@ -556,29 +747,42 @@
   function finishTaste() {
     if (G.state !== 'tasting') return;
     G.state = 'roundEnd';
-    els.friendSpot.classList.remove('is-tasting');
+    els.friendSpot.classList.remove('is-tasting', 'is-love-taste');
     els.friendSpot.classList.add('is-happy');
-    els.friendBubble.textContent = pick(['맛있다!', '고마워!', '쭉쭉~']);
+    if (G.lovedThisBowl) els.friendSpot.classList.add('is-love');
 
-    SOUND.play('yum');
-    spawnHearts();
+    const lines = G.lovedThisBowl ? G.friend.love : G.friend.yum;
+    els.friendBubble.textContent = pick(lines);
+
+    if (G.lovedThisBowl) {
+      SOUND.play('love');
+      spawnHearts(14);
+      if (window.KidsKit) window.KidsKit.haptic('success');
+      setHint(`${G.friend.name}가 정말 좋아해!`);
+    } else {
+      SOUND.play('yum');
+      spawnHearts(8);
+      setHint('냠냠!');
+    }
+
     recordFed(G.friend);
-    G.sessionFriends.push(G.friend);
+    G.sessionFriends.push({ friend: G.friend, loved: G.lovedThisBowl });
     G.round += 1;
     updateMealTrail();
-    setHint('냠냠!');
 
-    schedule(nextRound, 1500);
+    schedule(nextRound, G.lovedThisBowl ? 1900 : 1500);
   }
 
   function nextRound() {
     if (G.state !== 'roundEnd') return;
-    if (G.round >= 3) {
+    if (G.round >= BOWLS_PER_SESSION) {
       showEnding();
       return;
     }
     G.state = 'cook';
-    els.friendSpot.classList.remove('is-happy');
+    // 첫 방문·첫 그릇만 강한 톡톡 보정(이미 round가 올라간 뒤이므로 이후는 완화).
+    G.tapBoost = false;
+    els.friendSpot.classList.remove('is-happy', 'is-love');
     resetPot();
     chooseFriend();
     els.tray.classList.remove('is-dim');
@@ -595,14 +799,26 @@
     G.lastAngle = null;
     G.stirAngle = 0;
     G.swishAcc = 0;
+    G.lovedThisBowl = false;
+    G.pointerMoved = false;
 
-    els.potWrap.classList.remove('has-ingredients', 'is-full', 'is-stirring', 'is-stir-ready', 'nudge');
-    els.potWrap.classList.remove('is-cookable');
+    els.potWrap.classList.remove(
+      'has-ingredients',
+      'is-full',
+      'is-stirring',
+      'is-stir-ready',
+      'nudge',
+      'is-cookable',
+      'is-tap-friendly'
+    );
     els.potWrap.style.setProperty('--spoon-angle', '0deg');
     els.soup.style.background = soupBackground(SOUP_BASE);
     els.soup.style.transform = 'scale(1)';
+    els.soup.classList.remove('is-rich');
     els.soupBits.innerHTML = '';
+    if (els.soupToppings) els.soupToppings.innerHTML = '';
     updateRing();
+    refreshStirCue();
   }
 
   function chooseFriend() {
@@ -612,9 +828,9 @@
     }
     G.friend = next;
     G.lastFriendId = next.id;
-    els.friendEmoji.textContent = next.emoji;
+    fillVisual(els.friendEmoji, `friend-${next.id}`, next.emoji);
     els.friendBubble.textContent = '냠냠?';
-    els.friendSpot.classList.remove('is-happy', 'is-tasting');
+    els.friendSpot.classList.remove('is-happy', 'is-tasting', 'is-love', 'is-love-taste', 'is-peek');
     els.friendSpot.classList.remove('is-arriving');
     void els.friendSpot.offsetWidth;
     els.friendSpot.classList.add('is-arriving');
@@ -643,7 +859,10 @@
         el,
         [
           { transform: 'translate(-50%, -50%) scale(0.6)', opacity: 0.95 },
-          { transform: `translate(calc(-50% + ${rand(-16, 16)}px), calc(-50% - ${rand(18, 40)}px)) scale(1.1)`, opacity: 0 },
+          {
+            transform: `translate(calc(-50% + ${rand(-16, 16)}px), calc(-50% - ${rand(18, 40)}px)) scale(1.1)`,
+            opacity: 0,
+          },
         ],
         { duration: rand(420, 700), easing: 'ease-out' },
         () => el.remove()
@@ -653,7 +872,7 @@
 
   function spawnBiteCrumbs() {
     const f = stagePoint(els.friendEmoji.getBoundingClientRect());
-    const colors = ['#ffcf6b', '#ff9b4a', '#ffe08a', '#cdeab8'];
+    const colors = ['#ffcf6b', '#ff9b4a', '#ffe08a', '#cdeab8', rgbCss(G.soupColor)];
     for (let i = 0; i < (REDUCED ? 3 : 7); i += 1) {
       const el = document.createElement('span');
       el.className = 'bite-crumb';
@@ -676,12 +895,13 @@
     }
   }
 
-  function spawnHearts() {
+  function spawnHearts(count) {
     const f = stagePoint(els.friendEmoji.getBoundingClientRect());
-    for (let i = 0; i < (REDUCED ? 3 : 8); i += 1) {
+    const glyphs = G.lovedThisBowl ? ['💛', '💚', '💖', '✨', '⭐'] : ['💛', '💚', '💖', '✨'];
+    for (let i = 0; i < (REDUCED ? Math.min(3, count) : count); i += 1) {
       const el = document.createElement('span');
       el.className = 'fx-spark';
-      el.textContent = pick(['💛', '💚', '💖', '✨']);
+      el.textContent = pick(glyphs);
       el.style.left = `${f.x + rand(-30, 30)}px`;
       el.style.top = `${f.y + rand(-10, 22)}px`;
       els.fxLayer.appendChild(el);
@@ -689,7 +909,10 @@
         el,
         [
           { transform: 'translate(-50%, -50%) scale(0.7)', opacity: 1 },
-          { transform: `translate(calc(-50% + ${rand(-30, 30)}px), calc(-50% - ${rand(46, 90)}px)) scale(1.25)`, opacity: 0 },
+          {
+            transform: `translate(calc(-50% + ${rand(-30, 30)}px), calc(-50% - ${rand(46, 90)}px)) scale(1.25)`,
+            opacity: 0,
+          },
         ],
         { duration: rand(650, 1000), easing: 'ease-out' },
         () => el.remove()
@@ -715,7 +938,10 @@
         el,
         [
           { transform: 'translateY(0) rotate(0deg)', opacity: 1 },
-          { transform: `translateY(${els.stage.getBoundingClientRect().height + 40}px) rotate(${rand(360, 900)}deg)`, opacity: 0 },
+          {
+            transform: `translateY(${els.stage.getBoundingClientRect().height + 40}px) rotate(${rand(360, 900)}deg)`,
+            opacity: 0,
+          },
         ],
         { duration: rand(1300, 2200), easing: 'linear' },
         () => el.remove()
@@ -724,26 +950,30 @@
   }
 
   /* ------------------------------------------------------------------ */
-  /* 친구 스티커 저장                                                     */
+  /* 친구 스티커 저장 (KidsKit.store + 레거시 마이그레이션)                 */
   /* ------------------------------------------------------------------ */
 
   function loadFed() {
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (!raw) return {};
-      const parsed = JSON.parse(raw);
-      return parsed && typeof parsed === 'object' ? parsed : {};
-    } catch (err) {
-      return {};
+    let data = store.get('fed', null);
+    if (!data || typeof data !== 'object') {
+      try {
+        const raw = localStorage.getItem(LEGACY_FED_KEY);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (parsed && typeof parsed === 'object') {
+            data = parsed;
+            store.set('fed', data);
+          }
+        }
+      } catch (err) {
+        data = null;
+      }
     }
+    return data && typeof data === 'object' ? data : {};
   }
 
   function saveFed(data) {
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-    } catch (err) {
-      /* 저장 불가(사생활 모드)여도 놀이는 계속된다 */
-    }
+    store.set('fed', data);
   }
 
   function recordFed(friend) {
@@ -760,7 +990,8 @@
       if (!count) return;
       const chip = document.createElement('span');
       chip.className = 'friend-sticker';
-      chip.textContent = friend.emoji;
+      fillVisual(chip, `friend-${friend.id}`, friend.emoji);
+      if (!chip.classList.contains('has-slot-img')) chip.textContent = friend.emoji;
       chip.title = `${friend.name}와 ${count}번 먹었어요`;
       if (count > 1) {
         const badge = document.createElement('span');
@@ -770,6 +1001,22 @@
       }
       els.friendsTree.appendChild(chip);
     });
+  }
+
+  function showWelcomeIfReturning() {
+    const data = loadFed();
+    const hasStickers = FRIENDS.some((f) => (data[f.id] || 0) > 0);
+    if (!G.firstVisit && hasStickers && els.welcomeBanner) {
+      els.welcomeBanner.hidden = false;
+      els.welcomeBanner.classList.add('is-on');
+      els.friendsTree.classList.add('is-welcome');
+      setHint('친구 스티커가 반겨요!');
+      schedule(() => {
+        els.welcomeBanner.classList.remove('is-on');
+        els.welcomeBanner.hidden = true;
+        els.friendsTree.classList.remove('is-welcome');
+      }, 2800);
+    }
   }
 
   /* ------------------------------------------------------------------ */
@@ -788,6 +1035,7 @@
     G.round = 0;
     G.sessionFriends = [];
     G.state = 'cook';
+    G.tapBoost = G.firstVisit;
     els.endingOverlay.classList.remove('is-on');
     els.tray.classList.remove('is-dim');
     updateMealTrail();
@@ -800,11 +1048,77 @@
   function showEnding() {
     G.state = 'ending';
     els.tray.classList.add('is-dim');
-    els.endingOrnament.textContent =
-      G.sessionFriends.length > 0 ? G.sessionFriends.map((f) => f.emoji).join('') : '🐰🐻🦊';
+    const lovedCount = G.sessionFriends.filter((s) => s.loved).length;
+    const faces =
+      G.sessionFriends.length > 0
+        ? G.sessionFriends.map((s) => s.friend.emoji).join('')
+        : '🐰🐻🦊🦌';
+    els.endingOrnament.textContent = faces;
+    if (els.endingTitle) {
+      els.endingTitle.textContent = lovedCount > 0 ? '친구가 정말 좋아했어!' : '냠냠! 잘 먹었어!';
+    }
+    if (els.endingSub) {
+      els.endingSub.textContent =
+        lovedCount > 0 ? '좋아하는 재료가 들어간 수프예요' : '숲속 친구들이 배불러요';
+    }
     els.endingOverlay.classList.add('is-on');
     SOUND.play('win');
     spawnConfetti();
+
+    if (window.KidsKit && typeof window.KidsKit.softEnding === 'function') {
+      // 테마 엔딩 카드를 유지하되, 킷 소프트 엔딩 API도 동일 흐름으로 보강 가능.
+      // 커스텀 오버레이를 이미 쓰므로 여기서는 호출하지 않고 rest/again만 유지.
+    }
+  }
+
+  /* ------------------------------------------------------------------ */
+  /* 에셋 슬롯                                                            */
+  /* ------------------------------------------------------------------ */
+
+  function applyIngredientSlots() {
+    els.tray.querySelectorAll('.ingredient').forEach((btn) => {
+      const id = btn.dataset.id;
+      const face = btn.querySelector('.ing-emoji');
+      const ing = INGREDIENTS.find((item) => item.id === id);
+      if (face && ing) fillVisual(face, `ing-${id}`, ing.emoji);
+    });
+  }
+
+  function applyPotSlot() {
+    if (!els.potFace) return;
+    fillVisual(els.potFace, 'pot', '');
+    if (!els.potFace.classList.contains('has-slot-img')) {
+      els.potFace.hidden = true;
+    } else {
+      els.potFace.hidden = false;
+      els.potWrap.classList.add('has-pot-art');
+    }
+  }
+
+  function applyForestBg() {
+    const bg = document.querySelector('.forest-bg');
+    const img = G.assets['forest-bg'];
+    if (!bg || !isRealAsset(img)) return;
+    bg.classList.add('has-slot-bg');
+    bg.style.backgroundImage = `url("${img.src}")`;
+  }
+
+  function preloadAssets() {
+    if (!window.KidsKit || !window.KidsKit.assets) {
+      return Promise.resolve();
+    }
+    const list = ASSET_KEYS.map((key) => ({
+      key,
+      src: `${ASSET_BASE}${key}.webp`,
+    }));
+    return window.KidsKit.assets.preload(list).then((result) => {
+      G.assets = result.images || {};
+      applyIngredientSlots();
+      applyPotSlot();
+      applyForestBg();
+      fillVisual(els.friendEmoji, `friend-${G.friend.id}`, G.friend.emoji);
+      renderFriendsTree(loadFed());
+    });
   }
 
   /* ------------------------------------------------------------------ */
@@ -830,9 +1144,14 @@
       if (e.key !== 'Enter' && e.key !== ' ') return;
       e.preventDefault();
       if (G.state !== 'cook') return;
+      if (G.ingredients.length === 0) {
+        nudgeIngredientsHint();
+        return;
+      }
       SOUND.unlock();
       SOUND.play('swish');
-      addStir(0.08);
+      G.hasStirred = true;
+      addStir(tapStirAmount());
     });
 
     els.btnAgain.addEventListener('click', () => {
@@ -843,6 +1162,9 @@
 
     els.btnSound.addEventListener('click', () => {
       SOUND.muted = !SOUND.muted;
+      if (window.KidsKit && window.KidsKit.sound) {
+        window.KidsKit.sound.setMuted(SOUND.muted);
+      }
       els.btnSound.textContent = SOUND.muted ? '🔇' : '🔊';
       els.btnSound.setAttribute('aria-label', SOUND.muted ? '소리 켜기' : '소리 끄기');
       if (!SOUND.muted) SOUND.play('tap');
@@ -851,14 +1173,31 @@
     window.addEventListener('resize', () => {
       els.soup.style.background = soupBackground(G.soupColor);
     });
+
+    if (window.KidsKit && typeof window.KidsKit.restButton === 'function') {
+      window.KidsKit.restButton({ parent: document.body });
+    }
   }
 
   function init() {
+    G.visitCount = store.get('visits', 0) || 0;
+    G.firstVisit = G.visitCount === 0;
+    G.tapBoost = G.firstVisit;
+    store.set('visits', G.visitCount + 1);
+
+    if (window.KidsKit && window.KidsKit.sound && window.KidsKit.sound.isMuted()) {
+      SOUND.muted = true;
+      els.btnSound.textContent = '🔇';
+      els.btnSound.setAttribute('aria-label', '소리 켜기');
+    }
+
     renderFriendsTree(loadFed());
     updateMealTrail();
     updateRing();
     bind();
     startSession();
+    showWelcomeIfReturning();
+    preloadAssets();
   }
 
   if (document.readyState === 'loading') {

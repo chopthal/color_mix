@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="none">
+  <!-- sunny yellow treasure box with a big star on the front -->
+  <ellipse cx="128" cy="228" rx="78" ry="14" fill="#3D2B1F" opacity="0.12"/>
+  <!-- body -->
+  <rect x="48" y="96" width="160" height="118" rx="28" fill="#FFC94A" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round"/>
+  <ellipse cx="88" cy="128" rx="22" ry="14" fill="#FFF6E5" opacity="0.45"/>
+  <!-- lid -->
+  <rect x="40" y="70" width="176" height="48" rx="22" fill="#FF9F45" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round"/>
+  <ellipse cx="90" cy="86" rx="28" ry="10" fill="#FFF6E5" opacity="0.4"/>
+  <!-- vertical ribbon -->
+  <rect x="112" y="70" width="32" height="144" rx="10" fill="#FF6B81" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round"/>
+  <!-- horizontal ribbon -->
+  <rect x="48" y="126" width="160" height="26" rx="10" fill="#FF6B81" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round"/>
+  <!-- bow loops -->
+  <ellipse cx="98" cy="58" rx="28" ry="18" transform="rotate(-28 98 58)" fill="#FF6B81" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round"/>
+  <ellipse cx="158" cy="58" rx="28" ry="18" transform="rotate(28 158 58)" fill="#FF6B81" stroke="#3D2B1F" stroke-width="10" stroke-linejoin="round"/>
+  <circle cx="128" cy="62" r="14" fill="#FFC94A" stroke="#3D2B1F" stroke-width="8"/>
+  <ellipse cx="124" cy="56" rx="6" ry="4" fill="#FFF6E5" opacity="0.6"/>
+  <!-- front motif: star -->
+  <path d="M128 158 L133.9 173.9 L150.8 174.6 L137.5 185.1 L142.1 201.4 L128 192 L113.9 201.4 L118.5 185.1 L105.2 174.6 L122.1 173.9 Z" fill="#FFF6E5" stroke="#3D2B1F" stroke-width="7" stroke-linejoin="round"/>
+</svg>

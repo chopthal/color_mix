@@ -1,0 +1,372 @@
+{
+  "items": [
+    {
+      "name": "scene-forest",
+      "outPath": "games/dino-hide-seek/assets/scene-forest.webp",
+      "prompt": "Cute kids game landscape: lush prehistoric forest ground with soft green hills and rounded trees, empty foreground for play, no characters, no text.",
+      "width": 512,
+      "height": 360,
+      "refs": []
+    },
+    {
+      "name": "scene-meadow",
+      "outPath": "games/dino-hide-seek/assets/scene-meadow.webp",
+      "prompt": "Cute kids game landscape: warm prehistoric meadow with soft grass hills and tiny flowers, empty foreground, no characters, no text.",
+      "width": 512,
+      "height": 360,
+      "refs": []
+    },
+    {
+      "name": "scene-lake",
+      "outPath": "games/dino-hide-seek/assets/scene-lake.webp",
+      "prompt": "Cute kids game landscape: gentle lakeside with soft water, sandy shore and reeds, empty foreground, no characters, no text.",
+      "width": 512,
+      "height": 360,
+      "refs": []
+    },
+    {
+      "name": "spot-bush",
+      "outPath": "games/dino-hide-seek/assets/spot-bush.webp",
+      "prompt": "A cute round cartoon bush with soft green leaves, simple silhouette, centered.",
+      "width": 192,
+      "height": 192,
+      "refs": []
+    },
+    {
+      "name": "spot-tree",
+      "outPath": "games/dino-hide-seek/assets/spot-tree.webp",
+      "prompt": "A cute short cartoon tree with round leafy canopy and stubby trunk, centered.",
+      "width": 192,
+      "height": 192,
+      "refs": []
+    },
+    {
+      "name": "spot-rock",
+      "outPath": "games/dino-hide-seek/assets/spot-rock.webp",
+      "prompt": "A soft rounded cartoon gray rock, friendly shape, centered.",
+      "width": 192,
+      "height": 192,
+      "refs": []
+    },
+    {
+      "name": "spot-cloud",
+      "outPath": "games/dino-hide-seek/assets/spot-cloud.webp",
+      "prompt": "A fluffy white cartoon cloud, soft and round, centered.",
+      "width": 192,
+      "height": 192,
+      "refs": []
+    },
+    {
+      "name": "spot-grass",
+      "outPath": "games/dino-hide-seek/assets/spot-grass.webp",
+      "prompt": "A small clump of soft cartoon grass blades, rounded tips, centered.",
+      "width": 192,
+      "height": 192,
+      "refs": []
+    },
+    {
+      "name": "spot-flower",
+      "outPath": "games/dino-hide-seek/assets/spot-flower.webp",
+      "prompt": "A cute round cartoon flower with soft petals, centered.",
+      "width": 192,
+      "height": 192,
+      "refs": []
+    },
+    {
+      "name": "spot-hay",
+      "outPath": "games/dino-hide-seek/assets/spot-hay.webp",
+      "prompt": "A soft cartoon haystack mound, warm yellow, centered.",
+      "width": 192,
+      "height": 192,
+      "refs": []
+    },
+    {
+      "name": "spot-reed",
+      "outPath": "games/dino-hide-seek/assets/spot-reed.webp",
+      "prompt": "A few soft cartoon reeds with brown tops, centered.",
+      "width": 192,
+      "height": 192,
+      "refs": []
+    },
+    {
+      "name": "spot-lily",
+      "outPath": "games/dino-hide-seek/assets/spot-lily.webp",
+      "prompt": "A cute green lily pad with tiny pink center, centered.",
+      "width": 192,
+      "height": 192,
+      "refs": []
+    },
+    {
+      "name": "spot-shell",
+      "outPath": "games/dino-hide-seek/assets/spot-shell.webp",
+      "prompt": "A cute pink cartoon seashell, soft curves, centered.",
+      "width": 192,
+      "height": 192,
+      "refs": []
+    },
+    {
+      "name": "spot-coral",
+      "outPath": "games/dino-hide-seek/assets/spot-coral.webp",
+      "prompt": "A soft pink cartoon coral shape with rounded tips, centered.",
+      "width": 192,
+      "height": 192,
+      "refs": []
+    },
+    {
+      "name": "night-moon",
+      "outPath": "games/dino-hide-seek/assets/night-moon.webp",
+      "prompt": "A friendly soft glowing full moon, pale cream and blue, gentle face optional but calm, no text.",
+      "width": 192,
+      "height": 192,
+      "refs": []
+    },
+    {
+      "name": "night-firefly",
+      "outPath": "games/dino-hide-seek/assets/night-firefly.webp",
+      "prompt": "A tiny cute glowing firefly spark, soft yellow-green light, simple round body, no text.",
+      "width": 96,
+      "height": 96,
+      "refs": []
+    },
+    {
+      "name": "dino-tri",
+      "outPath": "games/dino-hide-seek/assets/dino-tri.webp",
+      "prompt": "Cute round chibi dinosaur character named pose standing friendly smile, species vibe of 트리케라톱스, body color soft, big head short limbs, centered, no text, no sharp teeth menace.",
+      "width": 256,
+      "height": 256,
+      "refs": []
+    },
+    {
+      "name": "dino-stego",
+      "outPath": "games/dino-hide-seek/assets/dino-stego.webp",
+      "prompt": "Cute round chibi dinosaur character named pose standing friendly smile, species vibe of 스테고사우루스, body color soft, big head short limbs, centered, no text, no sharp teeth menace.",
+      "width": 256,
+      "height": 256,
+      "refs": []
+    },
+    {
+      "name": "dino-dilo",
+      "outPath": "games/dino-hide-seek/assets/dino-dilo.webp",
+      "prompt": "Cute round chibi dinosaur character named pose standing friendly smile, species vibe of 딜로포사우루스, body color soft, big head short limbs, centered, no text, no sharp teeth menace.",
+      "width": 256,
+      "height": 256,
+      "refs": []
+    },
+    {
+      "name": "dino-pachy",
+      "outPath": "games/dino-hide-seek/assets/dino-pachy.webp",
+      "prompt": "Cute round chibi dinosaur character named pose standing friendly smile, species vibe of 파키케팔로사우루스, body color soft, big head short limbs, centered, no text, no sharp teeth menace.",
+      "width": 256,
+      "height": 256,
+      "refs": []
+    },
+    {
+      "name": "dino-theri",
+      "outPath": "games/dino-hide-seek/assets/dino-theri.webp",
+      "prompt": "Cute round chibi dinosaur character named pose standing friendly smile, species vibe of 테리지노사우루스, body color soft, big head short limbs, centered, no text, no sharp teeth menace.",
+      "width": 256,
+      "height": 256,
+      "refs": []
+    },
+    {
+      "name": "dino-tino",
+      "outPath": "games/dino-hide-seek/assets/dino-tino.webp",
+      "prompt": "Cute round chibi dinosaur character named pose standing friendly smile, species vibe of 티라노사우루스, body color soft, big head short limbs, centered, no text, no sharp teeth menace.",
+      "width": 256,
+      "height": 256,
+      "refs": []
+    },
+    {
+      "name": "dino-velo",
+      "outPath": "games/dino-hide-seek/assets/dino-velo.webp",
+      "prompt": "Cute round chibi dinosaur character named pose standing friendly smile, species vibe of 벨로키랍토르, body color soft, big head short limbs, centered, no text, no sharp teeth menace.",
+      "width": 256,
+      "height": 256,
+      "refs": []
+    },
+    {
+      "name": "dino-ankylo",
+      "outPath": "games/dino-hide-seek/assets/dino-ankylo.webp",
+      "prompt": "Cute round chibi dinosaur character named pose standing friendly smile, species vibe of 안킬로사우루스, body color soft, big head short limbs, centered, no text, no sharp teeth menace.",
+      "width": 256,
+      "height": 256,
+      "refs": []
+    },
+    {
+      "name": "dino-ovi",
+      "outPath": "games/dino-hide-seek/assets/dino-ovi.webp",
+      "prompt": "Cute round chibi dinosaur character named pose standing friendly smile, species vibe of 오비랍토르, body color soft, big head short limbs, centered, no text, no sharp teeth menace.",
+      "width": 256,
+      "height": 256,
+      "refs": []
+    },
+    {
+      "name": "dino-compso",
+      "outPath": "games/dino-hide-seek/assets/dino-compso.webp",
+      "prompt": "Cute round chibi dinosaur character named pose standing friendly smile, species vibe of 콤프소그나투스, body color soft, big head short limbs, centered, no text, no sharp teeth menace.",
+      "width": 256,
+      "height": 256,
+      "refs": []
+    },
+    {
+      "name": "dino-braki",
+      "outPath": "games/dino-hide-seek/assets/dino-braki.webp",
+      "prompt": "Cute round chibi dinosaur character named pose standing friendly smile, species vibe of 브라키오사우루스, body color soft, big head short limbs, centered, no text, no sharp teeth menace.",
+      "width": 256,
+      "height": 256,
+      "refs": []
+    },
+    {
+      "name": "dino-diplo",
+      "outPath": "games/dino-hide-seek/assets/dino-diplo.webp",
+      "prompt": "Cute round chibi dinosaur character named pose standing friendly smile, species vibe of 디플로도쿠스, body color soft, big head short limbs, centered, no text, no sharp teeth menace.",
+      "width": 256,
+      "height": 256,
+      "refs": []
+    },
+    {
+      "name": "dino-para",
+      "outPath": "games/dino-hide-seek/assets/dino-para.webp",
+      "prompt": "Cute round chibi dinosaur character named pose standing friendly smile, species vibe of 파라사우롤로푸스, body color soft, big head short limbs, centered, no text, no sharp teeth menace.",
+      "width": 256,
+      "height": 256,
+      "refs": []
+    },
+    {
+      "name": "dino-maia",
+      "outPath": "games/dino-hide-seek/assets/dino-maia.webp",
+      "prompt": "Cute round chibi dinosaur character named pose standing friendly smile, species vibe of 마이아사우루스, body color soft, big head short limbs, centered, no text, no sharp teeth menace.",
+      "width": 256,
+      "height": 256,
+      "refs": []
+    },
+    {
+      "name": "dino-argen",
+      "outPath": "games/dino-hide-seek/assets/dino-argen.webp",
+      "prompt": "Cute round chibi dinosaur character named pose standing friendly smile, species vibe of 아르헨티노사우루스, body color soft, big head short limbs, centered, no text, no sharp teeth menace.",
+      "width": 256,
+      "height": 256,
+      "refs": []
+    },
+    {
+      "name": "dino-allo",
+      "outPath": "games/dino-hide-seek/assets/dino-allo.webp",
+      "prompt": "Cute round chibi dinosaur character named pose standing friendly smile, species vibe of 알로사우루스, body color soft, big head short limbs, centered, no text, no sharp teeth menace.",
+      "width": 256,
+      "height": 256,
+      "refs": []
+    },
+    {
+      "name": "dino-carno",
+      "outPath": "games/dino-hide-seek/assets/dino-carno.webp",
+      "prompt": "Cute round chibi dinosaur character named pose standing friendly smile, species vibe of 카르노타우루스, body color soft, big head short limbs, centered, no text, no sharp teeth menace.",
+      "width": 256,
+      "height": 256,
+      "refs": []
+    },
+    {
+      "name": "dino-cerato",
+      "outPath": "games/dino-hide-seek/assets/dino-cerato.webp",
+      "prompt": "Cute round chibi dinosaur character named pose standing friendly smile, species vibe of 케라토사우루스, body color soft, big head short limbs, centered, no text, no sharp teeth menace.",
+      "width": 256,
+      "height": 256,
+      "refs": []
+    },
+    {
+      "name": "dino-giga",
+      "outPath": "games/dino-hide-seek/assets/dino-giga.webp",
+      "prompt": "Cute round chibi dinosaur character named pose standing friendly smile, species vibe of 기가노토사우루스, body color soft, big head short limbs, centered, no text, no sharp teeth menace.",
+      "width": 256,
+      "height": 256,
+      "refs": []
+    },
+    {
+      "name": "dino-deino",
+      "outPath": "games/dino-hide-seek/assets/dino-deino.webp",
+      "prompt": "Cute round chibi dinosaur character named pose standing friendly smile, species vibe of 데이노니쿠스, body color soft, big head short limbs, centered, no text, no sharp teeth menace.",
+      "width": 256,
+      "height": 256,
+      "refs": []
+    },
+    {
+      "name": "dino-spino",
+      "outPath": "games/dino-hide-seek/assets/dino-spino.webp",
+      "prompt": "Cute round chibi dinosaur character named pose standing friendly smile, species vibe of 스피노사우루스, body color soft, big head short limbs, centered, no text, no sharp teeth menace.",
+      "width": 256,
+      "height": 256,
+      "refs": []
+    },
+    {
+      "name": "dino-baryo",
+      "outPath": "games/dino-hide-seek/assets/dino-baryo.webp",
+      "prompt": "Cute round chibi dinosaur character named pose standing friendly smile, species vibe of 바리오닉스, body color soft, big head short limbs, centered, no text, no sharp teeth menace.",
+      "width": 256,
+      "height": 256,
+      "refs": []
+    },
+    {
+      "name": "dino-plesio",
+      "outPath": "games/dino-hide-seek/assets/dino-plesio.webp",
+      "prompt": "Cute round chibi dinosaur character named pose standing friendly smile, species vibe of 플레시오사우루스, body color soft, big head short limbs, centered, no text, no sharp teeth menace.",
+      "width": 256,
+      "height": 256,
+      "refs": []
+    },
+    {
+      "name": "dino-ptera",
+      "outPath": "games/dino-hide-seek/assets/dino-ptera.webp",
+      "prompt": "Cute round chibi dinosaur character named pose standing friendly smile, species vibe of 프테라노돈, body color soft, big head short limbs, centered, no text, no sharp teeth menace.",
+      "width": 256,
+      "height": 256,
+      "refs": []
+    },
+    {
+      "name": "dino-archaeo",
+      "outPath": "games/dino-hide-seek/assets/dino-archaeo.webp",
+      "prompt": "Cute round chibi dinosaur character named pose standing friendly smile, species vibe of 아르케옵테릭스, body color soft, big head short limbs, centered, no text, no sharp teeth menace.",
+      "width": 256,
+      "height": 256,
+      "refs": []
+    },
+    {
+      "name": "dino-sucho",
+      "outPath": "games/dino-hide-seek/assets/dino-sucho.webp",
+      "prompt": "Cute round chibi dinosaur character named pose standing friendly smile, species vibe of 수코미무스, body color soft, big head short limbs, centered, no text, no sharp teeth menace.",
+      "width": 256,
+      "height": 256,
+      "refs": []
+    },
+    {
+      "name": "dino-elasm",
+      "outPath": "games/dino-hide-seek/assets/dino-elasm.webp",
+      "prompt": "Cute round chibi dinosaur character named pose standing friendly smile, species vibe of 엘라스모사우루스, body color soft, big head short limbs, centered, no text, no sharp teeth menace.",
+      "width": 256,
+      "height": 256,
+      "refs": []
+    },
+    {
+      "name": "dino-mosa",
+      "outPath": "games/dino-hide-seek/assets/dino-mosa.webp",
+      "prompt": "Cute round chibi dinosaur character named pose standing friendly smile, species vibe of 모사사우루스, body color soft, big head short limbs, centered, no text, no sharp teeth menace.",
+      "width": 256,
+      "height": 256,
+      "refs": []
+    },
+    {
+      "name": "dino-ichthyo",
+      "outPath": "games/dino-hide-seek/assets/dino-ichthyo.webp",
+      "prompt": "Cute round chibi dinosaur character named pose standing friendly smile, species vibe of 이크티오사우루스, body color soft, big head short limbs, centered, no text, no sharp teeth menace.",
+      "width": 256,
+      "height": 256,
+      "refs": []
+    },
+    {
+      "name": "dino-rhamph",
+      "outPath": "games/dino-hide-seek/assets/dino-rhamph.webp",
+      "prompt": "Cute round chibi dinosaur character named pose standing friendly smile, species vibe of 람포링쿠스, body color soft, big head short limbs, centered, no text, no sharp teeth menace.",
+      "width": 256,
+      "height": 256,
+      "refs": []
+    }
+  ]
+}

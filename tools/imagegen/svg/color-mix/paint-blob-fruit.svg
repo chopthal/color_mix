@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192" fill="none">
+  <!-- Soft apple/berry silhouette - white fill for multiply tint -->
+  <!-- Body -->
+  <path d="M96 36
+           C128 36 156 58 156 96
+           C156 142 128 168 96 168
+           C64 168 36 142 36 96
+           C36 58 64 36 96 36Z"
+        fill="#FFFFFF" stroke="#3D2B1F" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"/>
+  <!-- Soft dent at top (apple) -->
+  <path d="M78 48 Q96 62 114 48"
+        fill="none" stroke="#3D2B1F" stroke-width="5" stroke-linecap="round" opacity="0.35"/>
+  <!-- Stem -->
+  <path d="M96 40 C96 28 104 22 112 20"
+        fill="none" stroke="#3D2B1F" stroke-width="7" stroke-linecap="round"/>
+  <!-- Leaf (white so it tints with paint) -->
+  <ellipse cx="124" cy="28" rx="16" ry="9"
+           fill="#FFFFFF" stroke="#3D2B1F" stroke-width="6" stroke-linejoin="round"
+           transform="rotate(25 124 28)"/>
+  <!-- Highlight crescent (light gray so multiply softens) -->
+  <ellipse cx="72" cy="78" rx="18" ry="26" fill="#E8E8E8" opacity="0.7"/>
+</svg>
