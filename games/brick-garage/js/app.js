@@ -1620,13 +1620,19 @@
       '가 손을 흔들어요!</span>';
 
     const welcomeImg = assetImage('welcome-car');
+    el.welcomeBanner.classList.remove('has-asset');
+    el.welcomeBanner.style.backgroundImage = '';
     if (welcomeImg && welcomeImg.naturalWidth >= 64) {
-      paintSlotBackground(el.welcomeBanner, 'welcome-car');
-      el.welcomeBanner.appendChild(text);
+      // 배너 전체를 덮던 배경을 없애고, 그림은 글자와 분리된 전용 칸에 담는다.
+      const art = document.createElement('div');
+      art.className = 'welcome-banner__art';
+      art.setAttribute('aria-hidden', 'true');
+      art.style.backgroundImage = 'url(' + welcomeImg.src + ')';
+      el.welcomeBanner.appendChild(art);
     } else {
       el.welcomeBanner.appendChild(mini);
-      el.welcomeBanner.appendChild(text);
     }
+    el.welcomeBanner.appendChild(text);
   }
 
   function renderShelf() {

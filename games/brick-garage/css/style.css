@@ -1830,11 +1830,14 @@ button {
 .wash-tool-btn .tool-emoji { font-size: 28px; }
 .wash-tool-btn:active { transform: scale(0.96); }
 
-/* 선반 반김 */
-.welcome-banner.has-asset {
-  background-size: cover;
-  background-position: center left;
-  min-height: 88px;
+/* 선반 반김: 그림은 글자와 겹치지 않는 전용 칸에 contain으로 담는다 */
+.welcome-banner__art {
+  width: 110px;
+  height: 72px;
+  flex: 0 0 auto;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .welcome-banner {
@@ -1861,7 +1864,8 @@ button {
   gap: 2px;
   font-size: 15px;
 }
-.welcome-banner.is-wave .welcome-banner__board {
+.welcome-banner.is-wave .welcome-banner__board,
+.welcome-banner.is-wave .welcome-banner__art {
   animation: welcome-wave 1.4s ease-in-out infinite;
 }
 @keyframes welcome-wave {
@@ -1952,6 +1956,12 @@ button {
   gap: 8px;
   justify-content: center;
 }
+.catalog-detail__actions .btn-pill {
+  flex: 0 1 auto;
+  padding: 12px 12px;
+  font-size: clamp(15px, 4vw, 20px);
+  white-space: nowrap;
+}
 
 .drive-actions {
   flex-wrap: wrap;
@@ -1988,6 +1998,15 @@ button {
   /* 가로 화면은 세로가 짧아 '오늘의 출동' 카드를 접고 차 그리드에 자리를 준다 */
   #todayCard {
     display: none;
+  }
+
+  /* 가로 화면에서는 높이 기준으로 보드를 줄여 아래 컨베이어와 겹치지 않게 한다 */
+  .board {
+    width: auto;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    flex: 0 0 auto;
   }
 
   /* 가로 화면은 세로가 짧아 카드가 화면을 다 먹지 않게 미리보기 높이만 캡한다 (보드 비율은 유지) */

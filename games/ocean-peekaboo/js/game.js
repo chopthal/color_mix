@@ -42,13 +42,12 @@
     { src: 'assets/sea-bg.webp', key: 'sea-bg' }
   ];
 
+  // 은신처 3개가 어떤 조합으로 뽑혀도 서로 겹치지 않도록 폭(22%)보다 넓은 간격의 4개 열만 쓴다.
   var HIDE_LAYOUTS = [
-    { left: '6%', right: 'auto', bottom: '16%' },
-    { left: '38%', right: 'auto', bottom: '12%' },
-    { left: 'auto', right: '6%', bottom: '15%' },
-    { left: '18%', right: 'auto', bottom: '14%' },
-    { left: 'auto', right: '18%', bottom: '13%' },
-    { left: '42%', right: 'auto', bottom: '11%' }
+    { left: '2%', right: 'auto', bottom: '16%' },
+    { left: '26%', right: 'auto', bottom: '12%' },
+    { left: '50%', right: 'auto', bottom: '14%' },
+    { left: '74%', right: 'auto', bottom: '11%' }
   ];
 
   var SPOT_TINTS = {

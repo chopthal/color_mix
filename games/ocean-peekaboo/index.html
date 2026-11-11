@@ -235,7 +235,7 @@
     .hide-spot {
       position: absolute;
       z-index: 12;
-      min-width: 88px;
+      min-width: 76px;
       min-height: 96px;
       display: flex;
       flex-direction: column;
@@ -263,9 +263,9 @@
       pointer-events: none;
     }
 
-    .spot-kelp { left: 6%; bottom: 16%; width: 22%; }
-    .spot-coral { left: 38%; bottom: 12%; width: 24%; }
-    .spot-rock { right: 6%; bottom: 15%; width: 22%; }
+    .spot-kelp { left: 2%; bottom: 16%; width: 22%; }
+    .spot-coral { left: 26%; bottom: 12%; width: 22%; }
+    .spot-rock { right: 2%; bottom: 15%; width: 22%; }
 
     /* 위치는 JS 셔플이 인라인으로 덮어씀 — 초기값만 CSS */
 
@@ -475,12 +475,15 @@
       100% { transform: translateY(0) rotate(0) scale(1); }
     }
 
+    /* 말풍선은 HUD 바로 아래(위쪽)에 둔다. 아래쪽 은신처(산호·미역·바위)와
+       '쉬자' 버튼을 가리지 않도록 바닥 고정을 쓰지 않는다. */
     .speech {
       position: absolute;
       z-index: 22;
-      left: calc(var(--safe-left) + 88px);
-      bottom: calc(var(--safe-bottom) + 56px);
-      max-width: min(68vw, 320px);
+      top: calc(var(--safe-top) + 78px);
+      left: calc(var(--safe-left) + 10px);
+      bottom: auto;
+      max-width: min(72vw, 340px);
       background: rgba(255, 255, 255, 0.95);
       border: 3px solid #cfeaf7;
       border-radius: 22px;
@@ -490,7 +493,7 @@
       color: var(--ink);
       box-shadow: 0 6px 0 rgba(31, 74, 99, 0.1);
       opacity: 0;
-      transform: translateY(8px);
+      transform: translateY(-8px);
       transition: opacity 0.25s ease, transform 0.25s ease;
       pointer-events: none;
     }
@@ -503,11 +506,11 @@
     .speech::after {
       content: '';
       position: absolute;
-      left: -10px;
-      bottom: 18px;
+      left: 28px;
+      top: 100%;
       border: 8px solid transparent;
-      border-right-color: #fff;
-      filter: drop-shadow(-2px 0 0 #cfeaf7);
+      border-top-color: #fff;
+      filter: drop-shadow(0 2px 0 #cfeaf7);
     }
 
     /* ===== TELEGRAPH HINTS ===== */
@@ -693,7 +696,25 @@
     @media (orientation: landscape) and (max-height: 500px) {
       #diver { width: 64px; }
       #turtle { width: 72px; }
-      .speech { font-size: 14px; bottom: calc(var(--safe-bottom) + 40px); }
+      /* 가로에서는 은신처 폭을 줄이고 고래도 조금 위로 올려
+         고래·말풍선·은신처가 서로 겹치지 않게 한다 */
+      .spot-kelp,
+      .spot-coral,
+      .spot-rock { width: 10%; }
+      #whale { top: 28%; width: min(26vw, 150px); min-height: 0; }
+      /* 말풍선(왼쪽)과 고래가 가로로 겹치지 않도록 고래 정착 위치를 오른쪽으로 */
+      @keyframes swim-in-left {
+        to { left: 42%; }
+      }
+      @keyframes swim-in-right {
+        to { right: 34%; }
+      }
+      .speech {
+        top: calc(var(--safe-top) + 76px);
+        font-size: 13px;
+        padding: 6px 10px;
+        max-width: min(34vw, 190px);
+      }
       .hide-spot { min-height: 72px; }
       .spot-hint { display: none; }
     }

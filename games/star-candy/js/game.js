@@ -335,9 +335,10 @@
     if (hasImg(bgKey)) {
       ctx.drawImage(G.images[bgKey], 0, 0, W, H);
       // 배경 webp는 가운데 놀이 공간을 비우므로, 문 슬롯을 위에 겹친다.
-      const dw = Math.min(W * 0.22, H * 0.28);
+      // door.webp(512x640, 0.8) 원본 비율을 유지해 세로로 늘어나지 않게 그린다.
       const dh = H * 0.28;
-      drawSprite(ctx, 'door', W / 2, dh * 0.55, dw * 1.1, dh * 1.05);
+      const dw = dh * 0.8;
+      drawSprite(ctx, 'door', W / 2, dh * 0.55, dw, dh);
       G.bg = c;
       return;
     }
@@ -398,10 +399,11 @@
     ctx.fill();
 
     // 사각 요새 문 (아치 문과 구분) + 별 손잡이
-    const dw = Math.min(W * 0.22, H * 0.28);
+    // 원본 비율(0.8) 유지 — 세로로 긴 액자처럼 늘어나지 않게 한다
     const dh = H * 0.28;
+    const dw = dh * 0.8;
     const dx = W / 2 - dw / 2;
-    if (!drawSprite(ctx, 'door', W / 2, dh * 0.55, dw * 1.1, dh * 1.05)) {
+    if (!drawSprite(ctx, 'door', W / 2, dh * 0.55, dw, dh)) {
       ctx.fillStyle = place.door;
       roundRectPath(ctx, dx, 8, dw, dh, 14);
       ctx.fill();
@@ -633,6 +635,7 @@
 
     els.select.classList.remove('is-on');
     els.ending.classList.remove('is-on');
+    document.body.classList.remove('is-ending');
 
     if (!opts.continueSession) {
       G.sessionRound = 0;
@@ -691,6 +694,7 @@
     G.sessionRound = 0;
     G.betweenTimer = 0;
     els.ending.classList.remove('is-on');
+    document.body.classList.remove('is-ending');
     showWelcomeIfReturning();
     pickPlaceForRound();
     els.select.classList.add('is-on');
@@ -719,6 +723,8 @@
     }
 
     els.ending.classList.add('is-on');
+    // 엔딩 카드 안의 '쉬자 🏠' 링크와 중복되지 않게 공용 '쉬자' 버튼을 숨긴다.
+    document.body.classList.add('is-ending');
     SC_SOUND.play('win');
     confettiBurst();
     if (window.KidsKit) KidsKit.haptic('success');

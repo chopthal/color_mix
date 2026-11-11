@@ -380,10 +380,20 @@
     G.face.cy = H * (H < 420 ? 0.28 : 0.34);
 
     const M = G.machine;
+    // 자판기 원본(machine.webp 1024x1280) 비율 0.8을 유지한다.
+    // 가로 모드처럼 높이가 짧으면 세로 기준으로 폭을 줄이고 가운데 정렬한다.
+    const machineAspect = 0.8;
+    const maxMachineW = clamp(W * 0.92, 260, 430);
     // 짧은 높이(가로 모드)에서도 동전·트레이가 화면 안에 남도록 상한
     const maxMachineH = Math.max(200, H - clamp(H * 0.18, 56, 100));
-    M.w = clamp(W * 0.92, 260, 430);
-    M.h = Math.min(clamp(H * 0.72, 260, 620), maxMachineH);
+    let machineH = Math.min(clamp(H * 0.72, 260, 620), maxMachineH);
+    let machineW = machineH * machineAspect;
+    if (machineW > maxMachineW) {
+      machineW = maxMachineW;
+      machineH = machineW / machineAspect;
+    }
+    M.w = machineW;
+    M.h = machineH;
     M.x = (W - M.w) / 2;
     M.y = clamp(H * 0.02, 4, 16);
 

@@ -1487,3 +1487,10 @@ button {
     padding-bottom: calc(84px + var(--safe-bottom));
   }
 }
+
+/* 가로(짧은 높이)에서는 오른쪽 아래 '쉬자' 버튼 자리를 비워 현재 색 표시와 겹치지 않게 한다 */
+@media (orientation: landscape) and (max-height: 560px) {
+  .bottom-panel {
+    padding-right: calc(84px + var(--safe-right));
+  }
+}

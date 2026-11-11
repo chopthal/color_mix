@@ -338,6 +338,11 @@ body {
   display: flex;
 }
 
+/* 엔딩 카드의 '쉬자 🏠' 링크와 중복되지 않게 화면 고정 공용 버튼은 숨긴다 */
+body.is-ending .kk-rest-btn {
+  display: none;
+}
+
 .ending-card {
   width: 100%;
   max-width: 400px;

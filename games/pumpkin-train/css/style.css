@@ -1181,6 +1181,13 @@ body {
   }
 }
 
+/* 360폭에서 블록 5개가 한 줄에 들어가도록 간격을 6px로 줄인다(312px → 304px) */
+@media (max-width: 380px) {
+  .palette-wrap {
+    gap: 6px;
+  }
+}
+
 @media (max-height: 700px) {
   .garage-modal-box {
     padding: 12px;
