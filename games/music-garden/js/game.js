@@ -719,6 +719,8 @@
     G.rings = [];
     G.plants.forEach((p) => {
       p.water = 0;
+      p.growth = 0;
+      p.bloom = 0;
       p.bounce = 0;
       p.flash = 0;
       p.phase = rand(0, Math.PI * 2);
@@ -732,7 +734,7 @@
     saveNow();
     Sound.sprout();
     G.plants.forEach((p) => {
-      const top = plantTopAt(p, Math.max(0.15, p.growth));
+      const top = plantTopAt(p, 0.15);
       spawnRing(top.x, top.y, 24, 'rgba(255, 255, 255, 0.55)', 2, 0.5);
     });
   }

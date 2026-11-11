@@ -114,6 +114,12 @@
     }
   };
 
+  // 차량 액션 ↔ 장애물 타입 매칭 (불도저=바위, 주스차=솜사탕)
+  const ACTION_CLEARS = {
+    push: 'rock',
+    spray: 'web'
+  };
+
   // 파츠 목록
   const PARTS = [
     {
@@ -240,6 +246,7 @@
       this.btnNextStage = document.getElementById('btnNextStage');
       this.btnReplay = document.getElementById('btnReplay');
       this.hintBubble = document.getElementById('hintBubble');
+      this.hintText = document.getElementById('hintText');
       this.btnSound = document.getElementById('btnSound');
 
       // 차고 모달 엘리먼트
@@ -618,8 +625,11 @@
         else if (block === 'right') nextX++;
 
         if (block === 'action') {
+          const v = VEHICLES[this.currentVehicle];
+          const neededType = ACTION_CLEARS[v.actionType];
           const adjObs = stage.obstacles.find(o =>
             !simCleared.has(`${o.x},${o.y}`) &&
+            o.type === neededType &&
             Math.abs(o.x - simX) + Math.abs(o.y - simY) <= 1
           );
           if (adjObs) {
@@ -648,10 +658,20 @@
               tile.appendChild(fp);
             }
 
-            // 워프 타일이면 시뮬레이션 좌표를 출구로 순간 이동!
+            // 워프 타일이면 출구 칸에도 발자국을 찍고 좌표를 출구로 이동
             if (warpConfig) {
               simX = warpConfig.out.x;
               simY = warpConfig.out.y;
+              const exitTile = document.getElementById(`tile-${simX}-${simY}`);
+              if (exitTile) {
+                const exitFp = document.createElement('div');
+                exitFp.className = 'footprint-preview';
+                exitFp.innerHTML = `
+                  <span class="fp-icon">🎃</span>
+                  <span class="fp-num">${idx + 1}</span>
+                `;
+                exitTile.appendChild(exitFp);
+              }
             }
           } else {
             const targetTile = inBounds ? document.getElementById(`tile-${nextX}-${nextY}`) : document.getElementById(`tile-${simX}-${simY}`);
@@ -781,13 +801,27 @@
       const v = VEHICLES[this.currentVehicle];
       const curX = this.carState.x;
       const curY = this.carState.y;
+      const neededType = ACTION_CLEARS[v.actionType];
 
       const adjObs = stage.obstacles.find(o =>
         !this.clearedObstacles.has(`${o.x},${o.y}`) &&
         Math.abs(o.x - curX) + Math.abs(o.y - curY) <= 1
       );
 
-      if (adjObs) {
+      // 인접 장애물이 있지만 차량 타입이 안 맞으면: 귀엽게 흔들림만, 장애물 유지
+      if (adjObs && adjObs.type !== neededType) {
+        this.wiggleCar();
+        if (v.actionType === 'push') {
+          window.soundManager.playPush();
+          this.showHint("호박 삽을 번쩍! 튼튼하게 준비 완료! 🚜");
+        } else {
+          window.soundManager.playSplash();
+          this.showHint("달콤한 오렌지 주스 퐁퐁 발사! 💦");
+        }
+        return;
+      }
+
+      if (adjObs && adjObs.type === neededType) {
         this.clearedObstacles.add(`${adjObs.x},${adjObs.y}`);
         if (v.actionType === 'push') {
           window.soundManager.playPush();
@@ -806,6 +840,16 @@
           this.showHint("달콤한 오렌지 주스 퐁퐁 발사! 💦");
         }
       }
+    }
+
+    wiggleCar() {
+      const car = document.getElementById('pumpkinCar');
+      if (!car) return;
+      car.classList.remove('cute-wiggle');
+      // 같은 클래스 재적용을 위해 리플로우
+      void car.offsetWidth;
+      car.classList.add('cute-wiggle');
+      setTimeout(() => car.classList.remove('cute-wiggle'), 400);
     }
 
     bumpWall() {
@@ -978,7 +1022,17 @@
 
     showHint(msg) {
       if (!this.hintBubble) return;
-      this.hintBubble.textContent = msg;
+      if (this.hintText) {
+        this.hintText.textContent = msg;
+      } else {
+        // fallback: 기존 텍스트 노드만 갱신 (아이콘 span 유지)
+        const spans = this.hintBubble.querySelectorAll('span');
+        if (spans.length >= 2) {
+          spans[spans.length - 1].textContent = msg;
+        } else {
+          this.hintBubble.textContent = msg;
+        }
+      }
       this.hintBubble.classList.add('pop-hint');
       setTimeout(() => this.hintBubble.classList.remove('pop-hint'), 300);
     }

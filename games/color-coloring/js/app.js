@@ -790,7 +790,7 @@
   function undo() {
     var action = history.pop();
     if (!action) {
-      playError();
+      playTap();
       return;
     }
 
@@ -1267,10 +1267,31 @@
 
     var svg = wrap.querySelector('svg');
     if (svg && st && st.parts) {
+      // 갤러리 여러 미니가 한 DOM에 공존하므로 pattern id는 인스턴스별로 고유해야 함
+      var uid = 'm' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+      var defs = svg.querySelector('defs');
+      if (!defs) {
+        defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+        svg.insertBefore(defs, svg.firstChild);
+      }
+      var defsHTML = '';
+      Object.keys(st.parts).forEach(function (pid) {
+        var ps = st.parts[pid];
+        if (ps && ps.mode === 'pattern') {
+          defsHTML += patternDef('mini-pat-' + uid + '-' + pid, ps.pattern, ps.color);
+        }
+      });
+      defs.innerHTML = defsHTML;
+
       Object.keys(st.parts).forEach(function (pid) {
         var ps = st.parts[pid];
         var el = svg.querySelector('[data-part="' + pid + '"]');
-        if (el && ps) el.style.fill = ps.color;
+        if (!el || !ps) return;
+        if (ps.mode === 'pattern') {
+          el.style.fill = 'url(#mini-pat-' + uid + '-' + pid + ')';
+        } else {
+          el.style.fill = ps.color;
+        }
       });
     }
 

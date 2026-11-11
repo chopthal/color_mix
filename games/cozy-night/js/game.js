@@ -513,8 +513,9 @@
     handlePat(e);
   });
 
-  // 이불 덮어주기 인터랙션
-  blanket.addEventListener('pointerdown', () => {
+  // 이불 토글: 접힘·아랫단 히트만 수신(몸통은 CSS로 animalStage에 통과 → 토닥)
+  blanket.addEventListener('pointerdown', (e) => {
+    e.stopPropagation();
     sound.playBlanketSound();
     state.blanketState = (state.blanketState === 'tucked') ? 'lowered' : 'tucked';
     updateBlanketUI();

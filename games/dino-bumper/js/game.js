@@ -909,8 +909,9 @@
     G.fruits.push({
       x: from.x + rand(-0.3, 0.3) * G.baseR,
       y: from.y - G.baseR * 0.9,
-      vx: rand(-170, 170),
-      vy: rand(-340, -200),
+      // 튕김을 줄여 유아가 가까이서 줍기 쉽게
+      vx: rand(-85, 85),
+      vy: rand(-200, -110),
       r: G.baseR * 0.36,
       emoji: emojis[Math.floor(Math.random() * emojis.length)],
       angle: 0,
@@ -924,6 +925,8 @@
   function updateFruits(dt) {
     const p = G.player;
     const f = G.friend;
+    const magnetRange = 120;
+    const magnetPull = 110;
 
     for (let i = G.fruits.length - 1; i >= 0; i -= 1) {
       const fr = G.fruits[i];
@@ -931,6 +934,14 @@
       fr.age += dt;
       fr.vx *= fric;
       fr.vy *= fric;
+
+      const dPlayer = dist(p, fr);
+      // 플레이어 근처면 천천히 끌어당김(자석)
+      if (fr.age > 0.2 && dPlayer > 1 && dPlayer < magnetRange) {
+        fr.vx += ((p.x - fr.x) / dPlayer) * magnetPull * dt;
+        fr.vy += ((p.y - fr.y) / dPlayer) * magnetPull * dt;
+      }
+
       fr.x += fr.vx * dt;
       fr.y += fr.vy * dt;
       fr.angle += (fr.vx * 0.002 + fr.spin * dt);
@@ -951,7 +962,8 @@
         fr.vy = -Math.abs(fr.vy) * 0.6;
       }
 
-      if (fr.age > 0.28 && dist(p, fr) < p.r + fr.r * 0.7) {
+      // 수집 반경 확대
+      if (fr.age > 0.28 && dPlayer < p.r + fr.r * 1.45) {
         collectFruit(fr);
         continue;
       }
@@ -968,7 +980,7 @@
     const min = e.r + fr.r;
     fr.x = e.x + (dx / d) * min;
     fr.y = e.y + (dy / d) * min;
-    const sp = Math.max(120, Math.hypot(e.vx, e.vy) * 0.8);
+    const sp = Math.max(55, Math.hypot(e.vx, e.vy) * 0.4);
     fr.vx = (dx / d) * sp;
     fr.vy = (dy / d) * sp;
   }

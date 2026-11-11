@@ -753,8 +753,12 @@
     // ==========================================
     // 3. 오디오 & 햅틱
     // ==========================================
-    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    let audioCtx = null;
     function resumeAudio() {
+      // 첫 사용자 제스처 시점에만 AudioContext 생성 (브라우저 autoplay 정책)
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
       if (audioCtx.state === 'suspended') audioCtx.resume();
     }
 
@@ -1040,7 +1044,7 @@
       carHandle.addEventListener('pointerdown', (e) => {
         e.preventDefault();
         isDragging = true;
-        carHandle.setPointerCapture(e.pointerId);
+        try { carHandle.setPointerCapture(e.pointerId); } catch (err) {}
         resumeAudio();
         triggerHaptic('light');
       });
@@ -1086,6 +1090,29 @@
       carHandle.style.top = `${svgY * scaleY}px`;
     }
 
+    // 손가락은 자유, 자동차만 현재 획 폴리라인 위 최근접점으로 스냅
+    function nearestPointOnStroke(points, x, y) {
+      let best = { x: points[0].x, y: points[0].y };
+      let bestDist = Infinity;
+      for (let i = 0; i < points.length - 1; i++) {
+        const a = points[i];
+        const b = points[i + 1];
+        const dx = b.x - a.x;
+        const dy = b.y - a.y;
+        const len2 = dx * dx + dy * dy;
+        let t = len2 === 0 ? 0 : ((x - a.x) * dx + (y - a.y) * dy) / len2;
+        t = Math.max(0, Math.min(1, t));
+        const px = a.x + t * dx;
+        const py = a.y + t * dy;
+        const d = Math.hypot(x - px, y - py);
+        if (d < bestDist) {
+          bestDist = d;
+          best = { x: px, y: py };
+        }
+      }
+      return best;
+    }
+
     function onDragMove(clientX, clientY) {
       const activeRoadSlot = document.getElementById('activeRoadSlot');
       if (!activeRoadSlot) return;
@@ -1125,7 +1152,8 @@
           }
         }
       } else {
-        updateCarPos(svgX, svgY);
+        const snapped = nearestPointOnStroke(currentStrokePoints.slice(currentWaypointIdx, currentWaypointIdx + 2), svgX, svgY);
+        updateCarPos(snapped.x, snapped.y);
       }
     }
 

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>KidsKit 데모</title>
+  <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="kit.css">
+  <style>
+    body {
+      margin: 0;
+      min-height: 100dvh;
+      font-family: var(--kk-font);
+      color: var(--kk-ink);
+      background:
+        radial-gradient(circle at 20% 15%, #ffe9b8 0%, transparent 42%),
+        radial-gradient(circle at 85% 10%, #c9ecff 0%, transparent 38%),
+        linear-gradient(180deg, #fff8ef 0%, #eef8f3 100%);
+      padding: calc(16px + env(safe-area-inset-top, 0px)) 16px
+        calc(88px + env(safe-area-inset-bottom, 0px));
+      box-sizing: border-box;
+    }
+    h1 {
+      margin: 0 0 0.35rem;
+      font-size: 1.7rem;
+      font-weight: 400;
+    }
+    p.lead {
+      margin: 0 0 1.2rem;
+      color: var(--kk-ink-soft);
+      font-size: 1rem;
+    }
+    section {
+      margin-bottom: 1.25rem;
+    }
+    section h2 {
+      margin: 0 0 0.55rem;
+      font-size: 1.15rem;
+      font-weight: 400;
+    }
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55rem;
+    }
+    .log {
+      min-height: 3.2rem;
+      margin-top: 0.75rem;
+      padding: 0.75rem 0.9rem;
+      border-radius: var(--kk-radius-md);
+      background: rgba(255, 255, 255, 0.72);
+      box-shadow: var(--kk-shadow);
+      font-size: 0.95rem;
+      color: var(--kk-ink-soft);
+      word-break: break-word;
+    }
+    .preview {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-top: 0.5rem;
+    }
+    .preview img {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: #fff;
+      box-shadow: var(--kk-shadow);
+      object-fit: contain;
+    }
+  </style>
+</head>
+<body>
+  <h1>KidsKit 데모</h1>
+  <p class="lead">버튼을 눌러 공용 키트 기능을 확인해요.</p>
+
+  <section>
+    <h2>사운드</h2>
+    <div class="row">
+      <button type="button" class="kk-btn" id="btnPop">pop</button>
+      <button type="button" class="kk-btn" id="btnChime">chime</button>
+      <button type="button" class="kk-btn" id="btnWhoosh">whoosh</button>
+      <button type="button" class="kk-btn" id="btnBoing">boing</button>
+      <button type="button" class="kk-btn" id="btnSparkle">sparkle</button>
+      <button type="button" class="kk-btn kk-btn--rest" id="btnMute">음소거</button>
+    </div>
+  </section>
+
+  <section>
+    <h2>프리로드 / 저장 / 햅틱</h2>
+    <div class="row">
+      <button type="button" class="kk-btn kk-btn--primary" id="btnPreload">프리로드</button>
+      <button type="button" class="kk-btn" id="btnStore">store +1</button>
+      <button type="button" class="kk-btn" id="btnHaptic">햅틱</button>
+      <button type="button" class="kk-btn kk-btn--primary" id="btnEnding">소프트 엔딩</button>
+    </div>
+    <div class="preview" id="preview"></div>
+  </section>
+
+  <div class="log" id="log">준비됨</div>
+
+  <script src="kit.js"></script>
+  <script>
+    (function () {
+      var logEl = document.getElementById('log');
+      var preview = document.getElementById('preview');
+      var demoStore = KidsKit.store('kit-demo');
+
+      function log(msg) {
+        logEl.textContent = msg;
+      }
+
+      function refreshMuteLabel() {
+        document.getElementById('btnMute').textContent =
+          KidsKit.sound.isMuted() ? '소리 켜기' : '음소거';
+      }
+
+      KidsKit.restButton({
+        onRest: function () {
+          log('쉬자 버튼: 데모에서는 로비로 가지 않고 로그만 남겨요');
+        },
+      });
+
+      refreshMuteLabel();
+      log('카운트: ' + demoStore.get('count', 0));
+
+      document.getElementById('btnPop').addEventListener('click', function () {
+        KidsKit.sound.play('pop');
+        log('sound: pop');
+      });
+      document.getElementById('btnChime').addEventListener('click', function () {
+        KidsKit.sound.play('chime');
+        log('sound: chime');
+      });
+      document.getElementById('btnWhoosh').addEventListener('click', function () {
+        KidsKit.sound.play('whoosh');
+        log('sound: whoosh');
+      });
+      document.getElementById('btnBoing').addEventListener('click', function () {
+        KidsKit.sound.play('boing');
+        log('sound: boing');
+      });
+      document.getElementById('btnSparkle').addEventListener('click', function () {
+        KidsKit.sound.play('sparkle');
+        log('sound: sparkle');
+      });
+      document.getElementById('btnMute').addEventListener('click', function () {
+        KidsKit.sound.toggleMute();
+        refreshMuteLabel();
+        log('muted=' + KidsKit.sound.isMuted());
+      });
+
+      document.getElementById('btnPreload').addEventListener('click', function () {
+        preview.innerHTML = '';
+        KidsKit.assets
+          .preload(
+            [
+              { key: 'ok', src: '../../favicon.svg' },
+              // src 없음 → 네트워크/콘솔 ERROR 없이 placeholder 폴백 검증
+              { key: 'missing' },
+            ],
+            function (loaded, total) {
+              log('preload ' + loaded + '/' + total);
+            }
+          )
+          .then(function (result) {
+            Object.keys(result.images).forEach(function (key) {
+              var img = result.images[key].cloneNode(true);
+              preview.appendChild(img);
+            });
+            log(
+              'preload done. failed=' +
+                result.failed.length +
+                ' (실패해도 게임은 계속)'
+            );
+          });
+      });
+
+      document.getElementById('btnStore').addEventListener('click', function () {
+        var next = demoStore.update('count', function (n) {
+          return (n || 0) + 1;
+        }, 0);
+        log('store count=' + next);
+      });
+
+      document.getElementById('btnHaptic').addEventListener('click', function () {
+        KidsKit.haptic('light');
+        log('haptic: light (미지원 기기는 무시)');
+      });
+
+      document.getElementById('btnEnding').addEventListener('click', function () {
+        KidsKit.softEnding({
+          title: '오늘도 잘 놀았어',
+          emoji: '🌸',
+          onAgain: function () {
+            log('또 할래');
+          },
+          onRest: function () {
+            log('소프트 엔딩 쉬자 (데모: 로비 이동 없음)');
+          },
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

@@ -72,6 +72,7 @@
     lastFriendId: null,
     timers: [],
     idleTimer: null,
+    nudgeHintTimer: null,
   };
 
   const rand = (a, b) => a + Math.random() * (b - a);
@@ -248,6 +249,8 @@
   function clearIdle() {
     clearTimeout(G.idleTimer);
     G.idleTimer = null;
+    clearTimeout(G.nudgeHintTimer);
+    G.nudgeHintTimer = null;
     els.tray.classList.remove('nudge');
     els.potWrap.classList.remove('nudge');
   }
@@ -371,11 +374,29 @@
     return Math.atan2(e.clientY - (r.top + r.height / 2), e.clientX - (r.left + r.width / 2));
   }
 
+  function nudgeIngredientsHint() {
+    els.tray.classList.remove('nudge');
+    void els.tray.offsetWidth;
+    els.tray.classList.add('nudge');
+    clearTimeout(G.nudgeHintTimer);
+    G.nudgeHintTimer = setTimeout(() => {
+      G.nudgeHintTimer = null;
+      els.tray.classList.remove('nudge');
+      if (G.state === 'cook' && !G.stirring) scheduleIdle();
+    }, 1100);
+  }
+
   function onPotDown(e) {
     if (G.state !== 'cook') return;
     e.preventDefault();
     clearIdle();
     SOUND.unlock();
+
+    // 재료 없이 저으면 진행하지 않고 재료 버튼만 통통 힌트
+    if (G.ingredients.length === 0) {
+      nudgeIngredientsHint();
+      return;
+    }
 
     G.stirring = true;
     G.hasStirred = true;
@@ -427,6 +448,7 @@
 
   function addStir(amount) {
     if (G.state !== 'cook' || amount <= 0) return;
+    if (G.ingredients.length === 0) return;
     G.progress = Math.min(1, G.progress + amount);
     updateRing();
 

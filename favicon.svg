@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="color mix">
+  <circle cx="32" cy="32" r="30" fill="#7EC8E3"/>
+  <circle cx="24" cy="28" r="12" fill="#FFB58A" opacity="0.95"/>
+  <circle cx="40" cy="28" r="12" fill="#8FD6B5" opacity="0.95"/>
+  <circle cx="32" cy="38" r="11" fill="#FFE08A" opacity="0.95"/>
+</svg>

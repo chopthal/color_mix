@@ -228,9 +228,18 @@
       animation: pop-in 0.35s ease;
     }
 
+    .color-btn.pulse-paint {
+      animation: paint-pulse 0.45s ease;
+    }
+
     @keyframes pop-in {
       from { transform: scale(0.6); }
       to { transform: scale(1); }
+    }
+
+    @keyframes paint-pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.12); }
     }
 
     .again-btn {
@@ -703,12 +712,32 @@
       againBtn.hidden = false;
     }
 
+    function highlightMadePaint(paintId) {
+      const button = madeButtons.querySelector('[data-paint-id="' + paintId + '"]');
+      if (!button) {
+        return;
+      }
+      button.classList.remove("pulse-paint");
+      void button.offsetWidth;
+      button.classList.add("pulse-paint");
+    }
+
     function saveMixedPaintIfNew() {
       if (bowlPaints.length < 2) {
         return;
       }
 
       const mixedPaint = mixBowl();
+
+      // 같은 이름 또는 비슷한 색이면 중복 추가 대신 기존 항목만 펄스
+      const existingMade = madePaints.find((paint) =>
+        paint.name === mixedPaint.name || colorDistance(paint.rgb, mixedPaint.rgb) < 22
+      );
+      if (existingMade) {
+        highlightMadePaint(existingMade.id);
+        return;
+      }
+
       if (isSimilarToKnownPaint(mixedPaint.rgb)) {
         return;
       }
@@ -730,6 +759,7 @@
         const button = document.createElement("button");
         button.type = "button";
         button.className = "color-btn";
+        button.dataset.paintId = paint.id;
         if (needsDarkLabel(paint.rgb)) {
           button.classList.add("dark-label");
         }

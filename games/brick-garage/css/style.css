@@ -867,6 +867,57 @@ button {
   transition: transform 0.5s ease, opacity 0.5s ease;
 }
 
+/* 탭마다 금이 가는 오버레이 (3탭 중 1·2단계) */
+.rock__crack {
+  position: absolute;
+  inset: 8% 12%;
+  z-index: 3;
+  pointer-events: none;
+  opacity: 0;
+  background:
+    linear-gradient(115deg, transparent 46%, rgba(15, 23, 42, 0.55) 48%, transparent 50%),
+    linear-gradient(55deg, transparent 42%, rgba(15, 23, 42, 0.45) 49%, transparent 52%),
+    linear-gradient(160deg, transparent 55%, rgba(15, 23, 42, 0.4) 57%, transparent 60%);
+  transition: opacity 0.2s ease;
+}
+
+.rock.is-crack-1 .rock__crack {
+  opacity: 0.55;
+}
+
+.rock.is-crack-2 .rock__crack {
+  opacity: 0.95;
+  background:
+    linear-gradient(115deg, transparent 44%, rgba(15, 23, 42, 0.7) 48%, transparent 52%),
+    linear-gradient(55deg, transparent 38%, rgba(15, 23, 42, 0.6) 49%, transparent 56%),
+    linear-gradient(160deg, transparent 50%, rgba(15, 23, 42, 0.55) 57%, transparent 64%),
+    linear-gradient(20deg, transparent 48%, rgba(15, 23, 42, 0.5) 50%, transparent 53%);
+}
+
+.rock.is-crack-1 .rock__piece:nth-child(3),
+.rock.is-crack-1 .rock__piece:nth-child(9) {
+  transform: translate(4px, -3px) rotate(6deg);
+  opacity: 0.85;
+}
+
+.rock.is-crack-2 .rock__piece:nth-child(3),
+.rock.is-crack-2 .rock__piece:nth-child(9),
+.rock.is-crack-2 .rock__piece:nth-child(6),
+.rock.is-crack-2 .rock__piece:nth-child(12) {
+  transform: translate(8px, -6px) rotate(12deg);
+  opacity: 0.7;
+}
+
+.rock.is-chip {
+  animation: rock-chip 0.28s ease;
+}
+
+@keyframes rock-chip {
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  30% { transform: scale(1.04) rotate(-3deg); }
+  60% { transform: scale(0.98) rotate(3deg); }
+}
+
 .rock.is-breaking {
   pointer-events: none;
 }

@@ -297,10 +297,22 @@ button {
 }
 
 .head-actions .icon-btn {
-  width: 36px;
-  height: 36px;
+  position: relative;
+  width: 40px;
+  height: 40px;
   border-radius: 12px;
   font-size: 17px;
+}
+
+/* 시각 크기와 별도로 히트 영역을 최소 48px로 확보 */
+.head-actions .icon-btn::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 48px;
+  height: 48px;
+  transform: translate(-50%, -50%);
 }
 
 .stage-wrap {
@@ -1193,8 +1205,8 @@ button {
 
 @media (max-width: 360px) {
   .head-actions .icon-btn {
-    width: 32px;
-    height: 32px;
+    width: 34px;
+    height: 34px;
     border-radius: 10px;
     font-size: 15px;
   }

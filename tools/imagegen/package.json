@@ -1,0 +1,18 @@
+{
+  "name": "color-mix-imagegen",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Gemini batch image generation for color_mix game assets (folder-local deps only)",
+  "scripts": {
+    "gen": "node gen.mjs",
+    "dry-run": "node gen.mjs --dry-run"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "dependencies": {
+    "@google/genai": "^3.0.0",
+    "sharp": "^0.34.4"
+  }
+}

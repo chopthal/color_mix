@@ -59,6 +59,8 @@
     floats: [],
     pointer: { x: 0, y: 0 },
     dragging: false,
+    noDragT: 0,
+    showDragHint: false,
     bumped: 0,
     need: 5,
     bumpCd: 0,
@@ -491,6 +493,8 @@
     G.particles = [];
     G.floats = [];
     G.dragging = false;
+    G.noDragT = 0;
+    G.showDragHint = false;
 
     G.boxes = [];
     layoutBoxes();
@@ -555,6 +559,8 @@
     G.hiddenBox = box;
     G.phase = 'guard';
     G.phaseT = 0;
+    G.noDragT = 0;
+    G.showDragHint = false;
 
     const c = G.candy;
     c.mode = 'toBox';
@@ -732,6 +738,28 @@
     if (d < G.player.r + a.r * 1.05) doBump();
   }
 
+  /* 첫 요정 접근 후 ~3초 드래그 없으면 끌어가는 힌트 표시 */
+  function updateDragHint(dt) {
+    if (G.phase !== 'guard' || !G.ai || G.bumped > 0) {
+      G.noDragT = 0;
+      G.showDragHint = false;
+      return;
+    }
+    const approaching = G.ai.state === 'approach' || G.ai.state === 'peek';
+    if (!approaching) {
+      G.noDragT = 0;
+      G.showDragHint = false;
+      return;
+    }
+    if (G.dragging) {
+      G.noDragT = 0;
+      G.showDragHint = false;
+      return;
+    }
+    G.noDragT += dt;
+    if (G.noDragT >= 3) G.showDragHint = true;
+  }
+
   function doBump() {
     const a = G.ai;
     const p = G.player;
@@ -818,6 +846,7 @@
     updateCandy(dt);
     updateBoxes(dt);
     checkBump();
+    updateDragHint(dt);
 
     if (G.winTimer > 0) {
       G.winTimer -= dt;
@@ -1292,24 +1321,53 @@
       }
     }
 
-    if (G.phase === 'guard' && G.ai && G.bumped === 0 && G.phaseT > 1 && G.phaseT < 6) {
+    if (G.showDragHint && G.ai && G.phase === 'guard') {
       const p = G.player;
       const a = G.ai;
-      const alpha = clamp((6 - G.phaseT) / 2, 0, 1) * 0.8;
+      const x0 = p.x;
+      const y0 = p.y - p.r * 1.55;
+      const x1 = a.x;
+      const y1 = a.y - a.r * 1.35;
+      const dx = x1 - x0;
+      const dy = y1 - y0;
+      const len = Math.hypot(dx, dy) || 1;
+      const ux = dx / len;
+      const uy = dy / len;
+      const pulse = REDUCED ? 1 : 0.82 + 0.18 * (0.5 + 0.5 * Math.sin(G.time * 6.5));
+      const mid = 0.42 + (REDUCED ? 0 : 0.12 * Math.sin(G.time * 5.2));
+      const fx = x0 + dx * mid;
+      const fy = y0 + dy * mid;
+
       ctx.save();
-      ctx.globalAlpha = alpha;
+      ctx.globalAlpha = 0.92;
       ctx.strokeStyle = '#ffffff';
-      ctx.lineWidth = 4;
-      ctx.setLineDash([9, 9]);
+      ctx.lineWidth = 7 * pulse;
+      ctx.lineCap = 'round';
+      ctx.setLineDash([14, 10]);
       ctx.beginPath();
-      ctx.moveTo(p.x, p.y - p.r * 1.6);
-      ctx.lineTo(a.x, a.y - a.r * 1.4);
+      ctx.moveTo(x0, y0);
+      ctx.lineTo(x1, y1);
       ctx.stroke();
       ctx.setLineDash([]);
-      ctx.font = Math.round(G.baseR * 1.05) + 'px serif';
+
+      // 요정 쪽 큰 화살촉
+      const tip = 18 * pulse;
+      ctx.fillStyle = '#ffffff';
+      ctx.beginPath();
+      ctx.moveTo(x1, y1);
+      ctx.lineTo(x1 - ux * tip - uy * tip * 0.7, y1 - uy * tip + ux * tip * 0.7);
+      ctx.lineTo(x1 - ux * tip + uy * tip * 0.7, y1 - uy * tip - ux * tip * 0.7);
+      ctx.closePath();
+      ctx.fill();
+
+      // 아이 → 요정 쪽으로 끌어가는 큰 손가락 펄스
+      const finger = Math.round(G.baseR * (1.55 * pulse));
+      ctx.font = finger + 'px serif';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
-      ctx.fillText('👆', p.x, p.y - p.r * 2.4);
+      ctx.shadowColor = 'rgba(255, 120, 170, 0.55)';
+      ctx.shadowBlur = 12;
+      ctx.fillText('👆', fx, fy);
       ctx.restore();
     }
   }
@@ -1421,6 +1479,8 @@
       }
 
       G.dragging = true;
+      G.noDragT = 0;
+      G.showDragHint = false;
       G.pointer = p;
       try {
         els.canvas.setPointerCapture(e.pointerId);

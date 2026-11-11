@@ -40,7 +40,7 @@
     ready: false,
     selected: -1,
     drop: { active: false, t: 0, from: null, to: null },
-    tray: { candy: -1, door: 0, open: false, flash: 0 },
+    tray: { candy: -1, door: 0, open: false, flash: 0, shake: 0 },
     btnPos: [],
     candyCell: [],
     slotPos: { x: 0, y: 0 },
@@ -420,6 +420,7 @@
     G.tray.door = 0;
     G.tray.open = false;
     G.tray.flash = 0;
+    G.tray.shake = 0;
     G.current = -1;
     G.remaining = 1;
     G.biteHurt = false;
@@ -523,10 +524,6 @@
     }, 900);
   }
 
-  function brushAt(p) {
-    return Math.hypot(p.x - G.mouth.x, p.y - G.mouth.y) < G.mouth.w * 0.6;
-  }
-
   function scrubBrush() {
     const headX = G.brush.x;
     const headY = G.brush.y - 26;
@@ -568,9 +565,13 @@
       if (G.ready && G.drop.active === false) {
         for (let i = 0; i < G.btnPos.length; i += 1) {
           if (inCircle(p, G.btnPos[i], 8)) {
+            // 트레이에 사탕이 있으면 재선택 잠금 — 트레이 사탕만 살짝 흔들림
+            if (G.tray.candy >= 0) {
+              G.tray.shake = 1;
+              return;
+            }
             G.selected = i;
             Sound.button();
-            const candy = CANDIES[i];
             G.drop.active = true;
             G.drop.t = 0;
             G.drop.from = { x: G.candyCell[i].x, y: G.candyCell[i].y };
@@ -890,8 +891,23 @@
 
     for (let i = 0; i < CANDIES.length; i += 1) {
       const cell = G.candyCell[i];
-      if (i === G.selected && G.drop.active && G.drop.t > 0.4) continue;
+      if (i === G.selected && G.drop.active) continue;
       drawCandyShape(ctx, cell.x, cell.y, cell.r, CANDIES[i], 1, false);
+    }
+
+    // 진열 → 트레이 낙하 스프라이트 (이징·살짝 회전)
+    if (G.drop.active && G.drop.from && G.drop.to && G.selected >= 0) {
+      const dur = 0.45;
+      const t = clamp(G.drop.t / dur, 0, 1);
+      const ease = t * t * (3 - 2 * t);
+      const dx = G.drop.from.x + (G.drop.to.x - G.drop.from.x) * ease;
+      const dy = G.drop.from.y + (G.drop.to.y - G.drop.from.y) * ease;
+      const cellR = G.candyCell[G.selected] ? G.candyCell[G.selected].r : 18;
+      ctx.save();
+      ctx.translate(dx, dy);
+      ctx.rotate(ease * 0.55);
+      drawCandyShape(ctx, 0, 0, cellR, CANDIES[G.selected], 1, false);
+      ctx.restore();
     }
 
     // buttons
@@ -953,13 +969,15 @@
       ctx.fill();
       ctx.restore();
       if (G.tray.candy >= 0) {
-        const cx2 = tx + tw / 2;
+        const shake = G.tray.shake > 0 && !REDUCED ? Math.sin(G.time * 42) * 5 * G.tray.shake : 0;
+        const cx2 = tx + tw / 2 + shake;
         const cy2 = ty + th * 0.2;
         const bob = REDUCED ? 0 : Math.sin(G.time * 3) * 3;
         drawCandyShape(ctx, cx2, cy2 + bob, th * 0.42, CANDIES[G.tray.candy], 1, false);
       }
     } else if (G.tray.candy >= 0) {
-      const cx2 = tx + tw / 2;
+      const shake = G.tray.shake > 0 && !REDUCED ? Math.sin(G.time * 42) * 5 * G.tray.shake : 0;
+      const cx2 = tx + tw / 2 + shake;
       const cy2 = ty + th * 0.5;
       drawCandyShape(ctx, cx2, cy2, th * 0.3, CANDIES[G.tray.candy], 1, false);
     }
@@ -1428,6 +1446,7 @@
       }
       if (G.tray.flash > 0) G.tray.flash = Math.max(0, G.tray.flash - dt);
       if (G.tray.door > 0) G.tray.door = Math.max(0, G.tray.door - dt * 3);
+      if (G.tray.shake > 0) G.tray.shake = Math.max(0, G.tray.shake - dt * 2.4);
     }
 
     if (G.phase === 'unwrap') {

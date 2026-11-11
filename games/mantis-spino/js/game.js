@@ -809,7 +809,16 @@
   }
 
   function again() {
+    // 내 친구는 유지, 상대만 현재와 다른 종으로 랜덤 교체
+    const others = MS_CHARS.filter((c) => c.id !== G.enemyId);
+    const next = pick(others);
+    G.enemyId = next.id;
+    G.enemy = next;
+    markSelected(els.enemyRow, G.enemyId);
+
     G.rounds = 0;
+    G.playerAttack = null;
+    G.enemyAttack = null;
     resetFx();
     els.ending.classList.remove('is-on');
     setState('faceOff');

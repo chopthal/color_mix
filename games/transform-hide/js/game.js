@@ -48,6 +48,7 @@
     friendObject: null,
     foundObject: null,
     hideT: 0,
+    hideNudgeCd: 0,
     giggleCd: 0,
     nearLatch: false,
     giveupT: 0,
@@ -477,6 +478,7 @@
     G.kid.visible = false;
     G.kid.target = null;
     G.hideT = 0;
+    G.hideNudgeCd = 0;
     G.giggleCd = 0;
     G.nearLatch = false;
     G.giveupT = 0;
@@ -671,6 +673,16 @@
     TH_SOUND.play('clue');
   }
 
+  /* 숨기 중 탭: 진행/타이밍은 그대로, 변신 물건만 씰룩 + 짧은 효과음 */
+  function nudgeHidden() {
+    if (G.phase !== 'hide') return;
+    const h = G.hiddenObject;
+    if (!h || G.hideNudgeCd > 0) return;
+    h.wiggle = 1;
+    G.hideNudgeCd = 0.28;
+    TH_SOUND.play('tap');
+  }
+
   function updateObjects(dt) {
     for (let i = 0; i < G.objects.length; i += 1) {
       const o = G.objects[i];
@@ -694,6 +706,7 @@
       G.pickT += dt;
     } else if (G.phase === 'hide') {
       G.hideT += dt;
+      G.hideNudgeCd = Math.max(0, G.hideNudgeCd - dt);
       G.giggleCd = Math.max(0, G.giggleCd - dt);
       checkNear();
       if (G.hideT >= 6.5) giveUp();
@@ -1409,6 +1422,11 @@
       if (G.state !== 'play') return;
       e.preventDefault();
       TH_SOUND.unlock();
+
+      if (G.phase === 'hide') {
+        nudgeHidden();
+        return;
+      }
 
       const obj = hitObject(toStage(e));
       if (!obj) return;

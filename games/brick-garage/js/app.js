@@ -719,7 +719,7 @@
     el.driveActions.hidden = true;
     el.driveCar.classList.remove('is-driving');
 
-    el.rock.classList.remove('is-hint', 'is-breaking', 'is-broken');
+    el.rock.classList.remove('is-hint', 'is-breaking', 'is-broken', 'is-crack-1', 'is-crack-2', 'is-chip');
     el.rock.style.display = mission === 'rock' ? '' : 'none';
     el.missionLayer.innerHTML = '';
 
@@ -727,6 +727,7 @@
 
     if (mission === 'rock') {
       renderRock();
+      state.drive.remaining = 3;
       state.drive.hintEl = el.rock;
     } else if (mission === 'water') {
       renderWaterMission();
@@ -844,7 +845,8 @@
     const palette = ['#cbd5e1', '#94a3b8', '#a8b3c2', '#f9a826', '#60a5fa', '#ef4444', '#4ade80'];
 
     el.rock.innerHTML = '';
-    el.rock.classList.remove('is-broken', 'is-breaking', 'is-hint');
+    el.rock.className = 'rock';
+    el.rock.classList.remove('is-broken', 'is-breaking', 'is-hint', 'is-crack-1', 'is-crack-2');
 
     layout.forEach((pos, i) => {
       const piece = document.createElement('span');
@@ -858,17 +860,41 @@
       piece.style.setProperty('--brick-color', palette[i % palette.length]);
       el.rock.appendChild(piece);
     });
+
+    // 금(crack) 오버레이 — 탭마다 단계적으로 드러남
+    const crack = document.createElement('span');
+    crack.className = 'rock__crack';
+    crack.setAttribute('aria-hidden', 'true');
+    el.rock.appendChild(crack);
   }
 
   function breakRock() {
     if (!state.drive || state.drive.mission !== 'rock' || state.drive.done) return;
+    if (el.rock.classList.contains('is-breaking')) return;
 
     clearTimeout(timers.driveHint);
     el.driveHint.classList.remove('is-on');
     el.rock.classList.remove('is-hint');
-    el.rock.classList.add('is-breaking');
 
     BrickSound.play('smash');
+
+    const hitsLeft = state.drive.remaining;
+    // 3탭 중 1·2탭: 금이 가고 살짝 흔들림 (장애물 유지)
+    if (hitsLeft > 1) {
+      state.drive.remaining = hitsLeft - 1;
+      const crackStage = 3 - state.drive.remaining; // 1 → 2
+      el.rock.classList.remove('is-crack-1', 'is-crack-2');
+      el.rock.classList.add('is-crack-' + crackStage);
+      el.rock.classList.remove('is-chip');
+      void el.rock.offsetWidth;
+      el.rock.classList.add('is-chip');
+      setTimeout(() => el.rock.classList.remove('is-chip'), 280);
+      return;
+    }
+
+    // 3번째 탭: 완전히 부서짐
+    state.drive.remaining = 0;
+    el.rock.classList.add('is-breaking');
 
     const pieces = el.rock.querySelectorAll('.rock__piece');
     pieces.forEach((piece) => {
