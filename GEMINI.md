@@ -1,6 +1,6 @@
 # color_mix — Antigravity / T3 Code 지침 (SSOT: `AGENTS.md`)
 
-> 세션 시작 시 읽는 진입점. **이 레포의 게이트가 플랫폼 기본 자율완결(Auto-PR/Commit)보다 우선.**
+> 세션 시작 시 읽는 진입점. Gemini/Antigravity는 **사용자가 지명할 때만** 쓰는 명시 전용 워커. **이 레포의 게이트가 플랫폼 기본 자율완결(Auto-PR/Commit)보다 우선.**
 > 상세 규칙·검증·작업 루프·커밋 규격은 [`AGENTS.md`](AGENTS.md). 역할·워커 배정표는 [`docs/workflow.md`](docs/workflow.md) §1~§2(여기 중복 기재 금지).
 
 ## 0. 워커 모드 (오케스트레이터에게 위임받은 경우 — 기본)

@@ -8,13 +8,15 @@
 | 역할 | 담당 | 하는 일 |
 | :--- | :--- | :--- |
 | **오케스트레이터** | Claude Opus 5.5 (effort medium) — 모든 세션 시작점 | 요구 정리 → 읽기 조사 → 작업 분해·워커 배정안(착수 게이트) → 브리프 작성·`delegate_task` 위임 → 감사(diff 직접 리뷰 + 검증 재실행) → 사용자 테스트 시나리오 → 지시 시 커밋·PR |
-| **1순위 워커** | antigravity · gemini-3.8-flash (thinking_level low/medium/high) | 브리프 범위 구현 |
-| **상위 워커** | antigravity · gemini-4-argon | Flash로 위험하거나 감사 불통 시 |
-| **Claude 워커** | Opus 5.5 / Fable 5.2 | 착수 게이트에 `참고: <모델>(<effort>) — 이유`로 제안 → 사용자 승인 시만 투입 (특수 티어는 기본 제안) |
-| **명시 전용** | Cursor, OpenCode·DeepSeek(deepseek-v4-pro, deepseek-v4.1-flash) | 사용자가 워커로 지명할 때만 |
+| **주력 워커** | cursor · auto | 브리프 범위 구현 (하~상 기본) |
+| **보조 워커** | Claude Haiku 5.5 / Sonnet 5.5 | 사용량 여유에 따라 착수 게이트에 `참고: <모델>(<effort>) — 이유`로 보조 추천 → 사용자 승인 시만 투입 |
+| **상위 Claude 워커** | Opus 5.5 / Fable 5.2 | 특수 티어 기본·에스컬레이션 (그 외엔 `참고:`로만 제안) |
+| **명시 전용** | Gemini(antigravity), OpenCode·DeepSeek(deepseek-v4-pro, deepseek-v4.1-flash) | 사용자가 대화에서 워커로 지명할 때만 (기본 제안 금지) |
 
 **Claude 워커 effort 기준** (max·Opus low 미사용, Fable 단가 ≈ Opus의 2배)
 
+- Haiku: 하 티어(문서·문구·CSS 값) 단순 반영
+- Sonnet medium/high: 중·상 티어 명세 분명한 구현
 - Opus medium: 명세 분명한 구현·감사
 - Opus high: 권한·보안·여러 파일 정합성
 - Opus xhigh: high로 못 풀었을 때만
@@ -25,16 +27,17 @@
 
 ## 2. 워커 배정표 (SSOT)
 
-착수 게이트 형식: **`[난이도 / 워커: <제공자·모델(레벨)>]` + 이유 1줄** (Claude 워커는 `참고:`로 병기)
+착수 게이트 형식: **`[난이도 / 워커: <제공자·모델(레벨)>]` + 이유 1줄** (Claude 보조 워커는 `참고:`로 병기)
 
-| 티어 | 기준 (이 레포 맥락) | 기본 워커 | 참고 (Claude, 승인 시) |
+| 티어 | 기준 (이 레포 맥락) | 기본 워커 | 참고 (Claude 보조, 사용량 보고 승인 시) |
 | :--- | :--- | :--- | :--- |
-| **하** | 문서·문구·CSS·오탈자 | Flash low | — |
-| **중** | 명세 분명한 단일 게임 인터랙션·사운드 합성·CSS 모션 | Flash medium | — |
-| **상** | 다수 게임 결합·캔버스 물리·상태머신 전면 개편 | Flash high (위험하면 Argon high) | Opus 5.5(medium) |
-| **특수** | 권한·보안·원인 불명 버그·계약 파괴 위험 (파일 수 무관 격상) | **Claude Opus 5.5(high)** | 대안: Argon high / 막히면 Fable 5.2(high) |
+| **하** | 문서·문구·CSS·오탈자 | Cursor Auto | Haiku 5.5 |
+| **중** | 명세 분명한 단일 게임 인터랙션·사운드 합성·CSS 모션 | Cursor Auto | Sonnet 5.5(medium) |
+| **상** | 다수 게임 결합·캔버스 물리·상태머신 전면 개편 | Cursor Auto | Sonnet 5.5(high) / Opus 5.5(medium) |
+| **특수** | 권한·보안·원인 불명 버그·계약 파괴 위험 (파일 수 무관 격상) | **Claude Opus 5.5(high)** | 막히면 Fable 5.2(high) |
 
 - 티어 = 범위·모호성·위험도 (모델 서열 아님)
+- Gemini 계열은 기본 제안·배정에서 제외. 사용자가 대화에서 명시할 때만 투입
 
 ## 3. 작업 모드 (가벼운 모드 기본)
 
@@ -55,7 +58,7 @@
 - 워커의 PASS 보고를 믿지 않는다. 오케스트레이터가 `git diff`를 직접 읽고 §7 검증을 **다시 실행**한다.
 - 감사 항목: 범위 이탈·파일 경계 / 요구 누락 / 임시·미사용 코드 / 만 4세 가드레일(§6) 위반.
 - 감사 1~3줄 수정은 오케스트레이터가 직접, 그보다 크면 같은 워커에 재위임.
-- **같은 작업이 감사를 2회 통과 못 하면** 상위 워커(Flash → Argon high → Claude 참고 Opus high / Fable high)를 사용자에게 제안한다.
+- **같은 작업이 감사를 2회 통과 못 하면** 상위 워커(Cursor Auto → Sonnet 5.5(high) / Opus 5.5(high) → Fable 5.2(high))를 사용자에게 제안한다.
 
 ## 5. 워커 모드 조항
 
