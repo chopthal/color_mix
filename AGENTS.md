@@ -1,6 +1,6 @@
 # color_mix — Agent 작업 헌법 (SSOT)
 
-> Claude Code(오케스트레이터), Antigravity/T3 Code(워커), Cursor·OpenCode(지명 시) — 모든 에이전트가 동일한 리듬·원칙으로 작업하기 위한 단일 헌법.
+> Claude Code(오케스트레이터), Cursor Auto(주력 워커), Claude Haiku·Sonnet(보조 워커), Gemini·OpenCode(지명 시) — 모든 에이전트가 동일한 리듬·원칙으로 작업하기 위한 단일 헌법.
 > 구조·도메인·제품 계약은 [`docs/PROJECT.md`](docs/PROJECT.md), 에이전트 노하우는 `docs/` 하위 문서.
 
 ## 0. 2대 절대 게이트
@@ -17,7 +17,7 @@
 ## 1. 역할 (상세: `docs/workflow.md` §1)
 
 - **오케스트레이터:** Claude Opus 5.5(medium). 모든 세션 시작점. 조사·분해·배정·브리프 위임·감사(diff 리뷰 + 검증 재실행)·테스트 시나리오.
-- **워커:** 1순위 Gemini 3.8 Flash, 상위 Gemini 4 Argon. Claude 워커는 착수 게이트에 `참고:`로 제안 후 승인 시 투입. Cursor·OpenCode는 사용자 지명 시만.
+- **워커:** 주력 Cursor Auto. Claude Haiku·Sonnet은 사용량을 보아 착수 게이트에 `참고:`로 보조 추천 후 승인 시 투입(특수 티어는 Opus 기본). Gemini·OpenCode는 사용자가 대화에서 지명할 때만.
 - 브리프 형식: `docs/agent-prompt-templates.md` D / D-lite.
 
 ## 2. 작업 루프

@@ -6,7 +6,7 @@ alwaysApply: true
 # 핵심 작업 규칙 (SSOT: `AGENTS.md`)
 
 상세 운영·도메인 규칙은 [`AGENTS.md`](../../AGENTS.md), 역할·워커 배정표는 [`docs/workflow.md`](../../docs/workflow.md)(여기 중복 기재 금지).
-Cursor는 **사용자가 워커로 지명할 때만** 쓰는 명시 전용 워커다.
+Cursor(Auto)는 이 레포의 **주력 워커**다.
 
 ## 1. 워커 모드 (오케스트레이터에게 위임받은 경우)
 - **브리프가 곧 착수 승인** — 컨펌 대기 없이 범위 안만 구현. 범위 밖은 보고만.
