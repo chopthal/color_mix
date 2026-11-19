@@ -535,3 +535,34 @@
     haptic: haptic,
   };
 })(typeof window !== 'undefined' ? window : globalThis);
+
+/* ---------- PWA service worker 등록 (루트 sw.js, 스코프 루트) ---------- */
+(function (w) {
+  if (!w || !w.navigator || !('serviceWorker' in w.navigator)) return;
+  if (w.location && w.location.protocol === 'file:') return;
+
+  var root;
+  try {
+    // kit.js는 games/_shared/kit.js에 있으므로 루트는 2단계 위
+    var cur = w.document && w.document.currentScript;
+    root = new w.URL('../../', (cur && cur.src) || w.location.href).href;
+  } catch (e) {
+    root = new w.URL('../../', w.location.href).href;
+  }
+
+  var register = function () {
+    try {
+      w.navigator.serviceWorker.register(root + 'sw.js', { scope: root }).catch(function () {
+        /* 등록 실패는 무시 */
+      });
+    } catch (e) {
+      /* ignore */
+    }
+  };
+
+  if (w.document && w.document.readyState === 'complete') {
+    register();
+  } else if (w.addEventListener) {
+    w.addEventListener('load', register);
+  }
+})(typeof window !== 'undefined' ? window : globalThis);
