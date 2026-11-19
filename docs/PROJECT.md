@@ -20,6 +20,7 @@
 • **배포:** 사용자만 (Vercel 흔적: `.vercel` gitignore). 에이전트는 배포 실행 금지
 • **주 클라이언트:** 모바일 웹 (스마트폰·태블릿). Safari/WebKit·Safe Area·오디오 제스처 정책 고려
 • **스택:** 정적 HTML/CSS/JS. `package.json`·번들러·백엔드·DB 없음
+• **PWA:** 정적 파일(코드·에셋 전부)을 추가/변경하면 배포 전 `node tools/pwa/build-precache.mjs`로 `sw-precache.js`를 재생성해야 오프라인 캐시가 갱신된다.
 
 ## 3. 권한·공개 경로
 
