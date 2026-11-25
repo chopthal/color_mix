@@ -608,6 +608,81 @@
       box-shadow: 0 2px 0 #d6336c;
     }
 
+    /* 카드: 아이스크림 가게 */
+    .card-icecream {
+      border-color: #bfe6f5;
+      color: #1c7fa8;
+    }
+    .card-icecream:hover {
+      border-color: #4cb8e0;
+    }
+    .card-icecream .card-icon-wrap {
+      background: radial-gradient(circle, #f0fbff 0%, #dcf3fc 100%);
+      border: 4px solid #bfe6f5;
+    }
+    .card-icecream .card-icon-wrap span {
+      animation: bounce 2.4s infinite ease-in-out;
+    }
+    .card-icecream .play-btn {
+      background: #4cb8e0;
+      color: #ffffff;
+      box-shadow: 0 5px 0 #1c7fa8;
+    }
+    .card-icecream .play-btn:active {
+      transform: translateY(3px);
+      box-shadow: 0 2px 0 #1c7fa8;
+    }
+
+    /* 카드: 텃밭 */
+    .card-veggie {
+      border-color: #f5d9a8;
+      color: #a8661c;
+    }
+    .card-veggie:hover {
+      border-color: #e8963a;
+    }
+    .card-veggie .card-icon-wrap {
+      background: radial-gradient(circle, #fffaf0 0%, #fdf0d8 100%);
+      border: 4px solid #f5d9a8;
+    }
+    .card-veggie .card-icon-wrap span {
+      animation: wiggle 2.6s infinite ease-in-out;
+    }
+    .card-veggie .play-btn {
+      background: #e8963a;
+      color: #ffffff;
+      box-shadow: 0 5px 0 #a8661c;
+    }
+    .card-veggie .play-btn:active {
+      transform: translateY(3px);
+      box-shadow: 0 2px 0 #a8661c;
+    }
+
+    /* 카드: 블록 놀이방 */
+    .card-blocks {
+      border-color: #d6c8f5;
+      color: #6a4fc4;
+    }
+    .card-blocks:hover {
+      border-color: #8b6ee8;
+    }
+    .card-blocks .card-icon-wrap {
+      background: radial-gradient(circle, #f7f3ff 0%, #ece5fd 100%);
+      border: 4px solid #d6c8f5;
+    }
+    .card-blocks .card-icon-wrap span {
+      animation: bounce 2.2s infinite ease-in-out;
+    }
+    .card-blocks .play-btn {
+      background: #8b6ee8;
+      color: #ffffff;
+      box-shadow: 0 5px 0 #6a4fc4;
+    }
+    .card-blocks .play-btn:active {
+      transform: translateY(3px);
+      box-shadow: 0 2px 0 #6a4fc4;
+    }
+
     /* 카드: 커밍순 */
     .card-coming {
       border-color: #e9ecef;
@@ -975,6 +1050,45 @@
         <p class="card-desc">동전 짤랑 넣고 사탕을 뽑아<br>쪽쪽 녹여 먹고 치카치카 양치해요</p>
         <button class="play-btn" type="button" tabindex="-1">
           <span>뽑으러 가기!</span> <span>🍭</span>
+        </button>
+      </a>
+
+      <!-- 17. 하나둘셋 아이스크림 가게 -->
+      <a href="games/ice-cream-shop/index.html" class="game-card card-icecream" id="cardIceCream">
+        <span class="card-badge badge-new">새 놀이</span>
+        <div class="card-icon-wrap">
+          <span>🍦</span>
+        </div>
+        <h2 class="card-title">하나둘셋 아이스크림 가게</h2>
+        <p class="card-desc">손님이 말한 만큼<br>하나, 둘, 셋 쌓아 줘요</p>
+        <button class="play-btn" type="button" tabindex="-1">
+          <span>가게 열기!</span> <span>🍨</span>
+        </button>
+      </a>
+
+      <!-- 18. 꼬물꼬물 텃밭 -->
+      <a href="games/veggie-garden/index.html" class="game-card card-veggie" id="cardVeggieGarden">
+        <span class="card-badge badge-new">새 놀이</span>
+        <div class="card-icon-wrap">
+          <span>🥕</span>
+        </div>
+        <h2 class="card-title">꼬물꼬물 텃밭</h2>
+        <p class="card-desc">심고 물 주고 쑥! 뽑아서<br>요리해 친구랑 냠냠</p>
+        <button class="play-btn" type="button" tabindex="-1">
+          <span>텃밭 가기!</span> <span>🌱</span>
+        </button>
+      </a>
+
+      <!-- 19. 차곡차곡 블록 놀이방 -->
+      <a href="games/block-room/index.html" class="game-card card-blocks" id="cardBlockRoom">
+        <span class="card-badge badge-new">새 놀이</span>
+        <div class="card-icon-wrap">
+          <span>🧱</span>
+        </div>
+        <h2 class="card-title">차곡차곡 블록 놀이방</h2>
+        <p class="card-desc">딸깍 브릭·컵·와플 블록을<br>쌓고 끼우고 와르르!</p>
+        <button class="play-btn" type="button" tabindex="-1">
+          <span>쌓으러 가기!</span> <span>🏗️</span>
         </button>
       </a>
     </main>

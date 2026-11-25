@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="아이스크림 가게">
+  <title>🍦 하나둘셋 아이스크림 가게</title>
+  <link rel="manifest" href="../../manifest.webmanifest">
+  <meta name="theme-color" content="#ffe8f0">
+  <link rel="apple-touch-icon" href="../../icons/icon-192.png">
+  <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+
+  <script>
+    (function () {
+      if (location.protocol === 'file:') return;
+      var p = location.pathname;
+      if (/\/$/.test(p) || /\.html?$/.test(p)) return;
+      location.replace(p + '/' + location.search + location.hash);
+    })();
+  </script>
+
+  <link rel="stylesheet" href="../../fonts/fonts.css">
+  <link rel="stylesheet" href="../_shared/kit.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="top-bar">
+    <a class="nav-home" href="../../index.html" aria-label="놀이터로 돌아가기">
+      <span>🏠</span>
+      <span>놀이터</span>
+    </a>
+    <h1 class="app-title"><span>🍦</span> 아이스크림 가게</h1>
+    <button class="btn-icon" id="btnSound" type="button" aria-label="소리 켜기/끄기">🔊</button>
+  </header>
+
+  <main class="stage" id="stage">
+    <div class="shop-bg" aria-hidden="true">
+      <div class="stripe stripe-a"></div>
+      <div class="stripe stripe-b"></div>
+      <div class="stripe stripe-c"></div>
+      <div class="awning"></div>
+    </div>
+
+    <section class="guest-area" id="guestArea" aria-live="polite">
+      <div class="guest-spot" id="guestSpot">
+        <div class="speech-bubble" id="speechBubble" hidden>
+          <div class="bubble-icons" id="bubbleIcons"></div>
+          <p class="bubble-text" id="bubbleText"></p>
+        </div>
+        <div class="guest-figure" id="guestFigure" aria-hidden="true"></div>
+      </div>
+      <div class="guest-trail" id="guestTrail" aria-label="오늘 손님"></div>
+    </section>
+
+    <section class="counter" id="counter">
+      <div class="cone-zone" id="coneZone">
+        <div class="count-dots" id="countDots" aria-hidden="true"></div>
+        <div class="cone-stack" id="coneStack">
+          <div class="scoops" id="scoops"></div>
+          <div class="cone" id="cone" aria-label="아이스크림 콘">
+            <svg viewBox="0 0 80 100" width="72" height="90" aria-hidden="true">
+              <path d="M12 8 L40 96 L68 8 Z" fill="#f0c27a" stroke="#d4a05a" stroke-width="3" stroke-linejoin="round"/>
+              <path d="M20 28 L60 28 M24 48 L56 48 M30 68 L50 68" stroke="#d4a05a" stroke-width="2.5" stroke-linecap="round" opacity="0.7"/>
+            </svg>
+          </div>
+        </div>
+        <button class="btn-serve" id="btnServe" type="button" aria-label="건네기" hidden>
+          <span class="serve-hand" aria-hidden="true">🖐️</span>
+          <span class="serve-label">건네기</span>
+          <span class="serve-hint" aria-hidden="true">👆</span>
+        </button>
+      </div>
+    </section>
+
+    <section class="tubs" id="tubs" aria-label="맛 통"></section>
+
+    <div class="shutter" id="shutter" aria-hidden="true">
+      <div class="shutter-panel"></div>
+      <div class="window-guests" id="windowGuests"></div>
+    </div>
+
+    <div class="fx-layer" id="fxLayer" aria-hidden="true"></div>
+  </main>
+
+  <script src="../_shared/kit.js"></script>
+  <script src="js/game.js"></script>
+</body>
+</html>

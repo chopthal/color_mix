@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="차곡차곡 블록 놀이방">
+  <title>차곡차곡 블록 놀이방</title>
+  <link rel="manifest" href="../../manifest.webmanifest">
+  <meta name="theme-color" content="#f3e2c4">
+  <link rel="apple-touch-icon" href="../../icons/icon-192.png">
+  <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+
+  <script>
+    (function () {
+      if (location.protocol === 'file:') return;
+      var p = location.pathname;
+      if (/\/$/.test(p) || /\.html?$/.test(p)) return;
+      location.replace(p + '/' + location.search + location.hash);
+    })();
+  </script>
+
+  <link rel="stylesheet" href="../../fonts/fonts.css">
+  <link rel="stylesheet" href="../_shared/kit.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="top-bar">
+    <a class="nav-home" href="../../index.html" aria-label="놀이터로 돌아가기">
+      <span>🏠</span>
+      <span>놀이터</span>
+    </a>
+    <h1 class="app-title" id="appTitle">차곡차곡 블록</h1>
+    <button class="btn-icon" id="btnSound" type="button" aria-label="소리 켜기/끄기">🔊</button>
+  </header>
+
+  <main class="stage" id="stage">
+
+    <!-- 방 고르기 -->
+    <section class="screen" id="screenPicker" hidden>
+      <p class="picker-lead" id="pickerLead">방</p>
+      <div class="room-grid" id="roomGrid" role="list">
+        <button class="room-card" type="button" data-room="brick" role="listitem" aria-label="딸깍 브릭">
+          <span class="room-card__art" aria-hidden="true">
+            <svg viewBox="0 0 80 64" width="72" height="58">
+              <rect x="8" y="28" width="64" height="24" rx="4" fill="#e85d4c"/>
+              <rect x="14" y="20" width="14" height="10" rx="3" fill="#e85d4c"/>
+              <rect x="36" y="20" width="14" height="10" rx="3" fill="#e85d4c"/>
+              <rect x="58" y="20" width="14" height="10" rx="3" fill="#e85d4c"/>
+            </svg>
+          </span>
+          <span class="room-card__name">딸깍 브릭</span>
+        </button>
+        <button class="room-card" type="button" data-room="cup" role="listitem" aria-label="컵 쌓기">
+          <span class="room-card__art" aria-hidden="true">
+            <svg viewBox="0 0 80 64" width="72" height="58">
+              <path d="M28 12 L36 48 H44 L52 12 Z" fill="#5bb8e8"/>
+              <path d="M18 28 L26 52 H34 L42 28 Z" fill="#ffb347"/>
+              <path d="M38 28 L46 52 H54 L62 28 Z" fill="#7bc67e"/>
+            </svg>
+          </span>
+          <span class="room-card__name">컵 쌓기</span>
+        </button>
+        <button class="room-card" type="button" data-room="waffle" role="listitem" aria-label="와플 블록">
+          <span class="room-card__art" aria-hidden="true">
+            <svg viewBox="0 0 80 64" width="72" height="58">
+              <rect x="16" y="12" width="48" height="48" rx="6" fill="#f0c14a"/>
+              <path d="M16 28 H64 M16 44 H64 M32 12 V60 M48 12 V60" stroke="#d4a017" stroke-width="3"/>
+            </svg>
+          </span>
+          <span class="room-card__name">와플 블록</span>
+        </button>
+      </div>
+      <div class="shelf-mini" id="shelfMini" aria-label="작품 선반" hidden>
+        <span class="shelf-mini__label">작품 선반</span>
+        <div class="shelf-mini__row" id="shelfRow"></div>
+      </div>
+    </section>
+
+    <!-- 놀이 -->
+    <section class="screen is-active" id="screenPlay" hidden>
+      <div class="play-head">
+        <button class="btn-round" id="btnBack" type="button" aria-label="방">←</button>
+        <div class="goal-strip" id="goalStrip" role="tablist" aria-label="목표"></div>
+        <button class="btn-round btn-tumble" id="btnTumble" type="button">와르르</button>
+      </div>
+
+      <div class="play-board-wrap">
+        <div class="hint-bubble" id="hintBubble" hidden>
+          <span id="hintText"></span>
+        </div>
+        <div class="board" id="board" aria-label="놀이판">
+          <div class="board__grid" id="boardGrid"></div>
+          <div class="board__pieces" id="boardPieces"></div>
+          <div class="board__fx" id="boardFx" aria-hidden="true"></div>
+          <div class="hint-hand" id="hintHand" aria-hidden="true">👆</div>
+        </div>
+        <button class="btn-ball" id="btnBall" type="button" hidden>공 굴리기</button>
+      </div>
+
+      <div class="tray" id="tray" aria-label="블록"></div>
+    </section>
+
+    <!-- 정리 놀이 -->
+    <section class="screen" id="screenCleanup" hidden>
+      <h2 class="cleanup-title">블록 정리하자!</h2>
+      <div class="cleanup-area" id="cleanupArea">
+        <div class="cleanup-bits" id="cleanupBits"></div>
+        <button class="cleanup-box" id="cleanupBox" type="button" aria-label="상자 흔들기">
+          <span class="cleanup-box__lid" id="boxLid"></span>
+          <span class="cleanup-box__body"></span>
+          <span class="cleanup-box__label">상자 흔들기</span>
+        </button>
+      </div>
+      <p class="cleanup-done" id="cleanupDone" hidden>오늘도 멋지게 만들었어. 다음에 또 쌓자!</p>
+    </section>
+
+    <div class="fx-layer" id="fxLayer" aria-hidden="true"></div>
+  </main>
+
+  <script src="../_shared/kit.js"></script>
+  <script src="js/game.js"></script>
+</body>
+</html>
