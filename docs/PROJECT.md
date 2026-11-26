@@ -17,7 +17,7 @@
 ## 2. 실행·배포
 
 • **로컬 실행:** 루트에서 `npx --yes serve . -p 4173` 후 브라우저로 `http://localhost:4173` (워크트리는 4174…)
-• **배포:** 사용자만 (Vercel 흔적: `.vercel` gitignore). 에이전트는 배포 실행 금지
+• **배포:** Netlify — `main` 머지 시 자동 배포(머지 = 배포). 에이전트는 배포 명령을 직접 실행하지 않는다. (`.vercel` gitignore·GitHub의 Vercel 배포 기록은 과거 흔적)
 • **주 클라이언트:** 모바일 웹 (스마트폰·태블릿). Safari/WebKit·Safe Area·오디오 제스처 정책 고려
 • **스택:** 정적 HTML/CSS/JS. `package.json`·번들러·백엔드·DB 없음
 • **PWA:** 정적 파일(코드·에셋 전부)을 추가/변경하면 배포 전 `node tools/pwa/build-precache.mjs`로 `sw-precache.js`를 재생성해야 오프라인 캐시가 갱신된다.
