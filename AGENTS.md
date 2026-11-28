@@ -33,7 +33,7 @@
 | 목적 | 명령 |
 |------|------|
 | 타입·테스트·린트 | 해당 없음 (정적 HTML/JS, 빌드·패키지 없음) |
-| 문법 | 변경한 JS 전부 `node --check <파일>` + 콘솔 오류 0건 |
+| 문법 | 변경한 JS 전부 `node --check <파일>` + 콘솔 오류 0건. ES module(`import`)은 `node --input-type=module --check < <파일>` (plain `--check`는 오탐 실패) |
 | UI 확인 (1순위) | T3 내장 `preview_*` (모바일 폭 preset) |
 | UI 확인 (대안) | `npx --yes serve . -p 4173` + 브라우저 모바일 에뮬레이션 |
 
