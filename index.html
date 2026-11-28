@@ -633,6 +633,31 @@
       box-shadow: 0 2px 0 #1c7fa8;
     }
 
+    /* 카드: 부릉부릉 드라이브 */
+    .card-drive {
+      border-color: #ffd2bf;
+      color: #d0543c;
+    }
+    .card-drive:hover {
+      border-color: #ff8a6e;
+    }
+    .card-drive .card-icon-wrap {
+      background: radial-gradient(circle, #fff6f0 0%, #ffe6da 100%);
+      border: 4px solid #ffd2bf;
+    }
+    .card-drive .card-icon-wrap span {
+      animation: bounce 2.4s infinite ease-in-out;
+    }
+    .card-drive .play-btn {
+      background: #ff8a6e;
+      color: #ffffff;
+      box-shadow: 0 5px 0 #d0543c;
+    }
+    .card-drive .play-btn:active {
+      transform: translateY(3px);
+      box-shadow: 0 2px 0 #d0543c;
+    }
+
     /* 카드: 텃밭 */
     .card-veggie {
       border-color: #f5d9a8;
@@ -1089,6 +1114,19 @@
         <p class="card-desc">딸깍 브릭·컵·와플 블록을<br>쌓고 끼우고 와르르!</p>
         <button class="play-btn" type="button" tabindex="-1">
           <span>쌓으러 가기!</span> <span>🏗️</span>
+        </button>
+      </a>
+
+      <!-- 20. 부릉부릉 드라이브 -->
+      <a href="games/drive-trip/index.html" class="game-card card-drive" id="cardDrive">
+        <span class="card-badge badge-new">새 놀이</span>
+        <div class="card-icon-wrap">
+          <span>🚗</span>
+        </div>
+        <h2 class="card-title">부릉부릉 드라이브</h2>
+        <p class="card-desc">핸들 돌려 부릉부릉<br>신호등도 지켜요</p>
+        <button class="play-btn" type="button" tabindex="-1">
+          <span>출발!</span> <span>🚦</span>
         </button>
       </a>
     </main>
